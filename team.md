@@ -6,4 +6,5 @@
 | App         |                  |                            |
 | Renderer    |                  |                            |
 | Persistency |                  |                            |
+| Recorder    |                  |                            |
 | Fuzz        |                  |                            |
