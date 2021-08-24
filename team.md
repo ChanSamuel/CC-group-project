@@ -2,7 +2,7 @@
 
 | Module      | Team Member Name | Team Member gitlab account |
 |-------------|------------------|----------------------------|
-| Domain      |                  |                            |
+| Domain      | Ben Sanson       | @sansonbenj & BudgiePanic  |
 | App         |                  |                            |
 | Renderer    |                  |                            |
 | Persistency |                  |                            |
