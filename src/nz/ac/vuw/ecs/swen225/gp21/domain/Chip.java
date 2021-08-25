@@ -24,7 +24,7 @@ class Chip extends GameObject {
 
 	@Override
 	protected void update(double elapsedTime) {
-		return; //Chip only responds to player inputs
+		c.update(elapsedTime);
 	}
 
 	@Override
