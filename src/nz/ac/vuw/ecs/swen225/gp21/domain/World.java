@@ -31,6 +31,14 @@ public class World {
 		
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 	}
+	/**
+	 * Remove the top element player commands queue
+	 * @return the oldest player command in the queue, or null if there are no commands
+	 */
+	Command poll() {
+		return playerCommands.poll();
+	}
+	
 //==========================================================
 	/**
 	 * Moves the specified game object up if possible
