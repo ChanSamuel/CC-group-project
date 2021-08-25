@@ -18,8 +18,8 @@ public class World {
 	
 	/**
 	 * The big method, calling this will simulate the world and its behaviors for one tick
-	 * We have made a decision that this should occur about ever 200 milliseconds
-	 * Resource: http://gameprogrammingpatterns.com/game-loop.html, may change this to fixed time step updates
+	 * We have made a decision that this should occur about ever 200 milliseconds for ~ 10 FPS gameplay
+	 * Resource: http://gameprogrammingpatterns.com/game-loop.html, may change this to fixed time step updates later
 	 * @param elapsedTime the time since this method was last called, calculated by the caller
 	 */
 	public void update(double elapsedTime) {

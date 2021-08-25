@@ -39,7 +39,4 @@ class Chip extends GameObject {
 	protected String getName() {
 		return getClass().getName();
 	}
-	
-	
-
 }
