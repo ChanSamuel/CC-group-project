@@ -6,7 +6,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-class PlayerController implements MovementController {
+final class PlayerController implements MovementController {
 	/**
 	 * A reference back to the world 
 	 * Used by the controller to cause movements to occur
