@@ -10,7 +10,7 @@ class Chip extends GameObject {
 	
 	@Override
 	protected boolean canEntityGoOnTile(GameObject entity) {
-		//monsters are allowed to enter the square that chip is on
+		//monsters are allowed to enter the square that chip is on TODO
 		// if (entity instanceof monster) { return true } else { return false }
 		return false;
 	}
@@ -18,7 +18,7 @@ class Chip extends GameObject {
 	@Override
 	protected void entityEnteredTile(GameObject entity) {
 		// a monster stepped on the same square as chip, so the player lost
-		//if(entity instanceof monster) w.gameOver() 
+		//if(entity instanceof monster) w.gameOver()  TODO
 		// else doNothing.
 	}
 
