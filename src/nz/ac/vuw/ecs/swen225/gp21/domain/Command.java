@@ -1,6 +1,4 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain.command;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 /**
  * Command encapsulates an instruction that can be sent from an outside source
@@ -8,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * @author Benjamin
  *
  */
-public interface Command {
+interface Command {
 	/**
 	 * Complete this action
 	 * @param w

@@ -1,12 +1,11 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain.command;
+package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 /**
  * Encapsulates an instruction to move Chip up one tile
  * @author Benjamin
  *
  */
-public class MoveUp implements Command {
+class MoveUp implements Command {
 	/**
 	 * Create a new move up command
 	 */
