@@ -13,17 +13,20 @@ abstract class GameObject {
 	 * Since the world is what moves the objects [ for now :^/ ], if an object needs to move itself
 	 * it needs a reference back up to the top.
 	 */
-	private final World w;
+	protected final World w;
 	/**
 	 * The logic that GameObjects use to choose how to move is encapsulated away into a movement controller
 	 */
-	private MovementController c;
+	protected MovementController c;
 	/**
 	 * Create a new GameObject
-	 * @param w
+	 * NOTE: 	Changed visibility to package-private, might need to be changed later?
+	 * 			how will persistence module load in new GameObjects? 
+	 * @param w A reference to the world, so the object can tell the game to move it on the board {not sure how we can get the object to move itself?}
+	 * @param c The movement controller component that controls this object 
 	 */
-	public GameObject(World w) {
-		this.w = w;
+	GameObject(World w, MovementController c) {
+		this.w = w; this.c = c;
 	}
 	/**
 	 * GameObjects must state whether an entity can enter onto the same tile as them
