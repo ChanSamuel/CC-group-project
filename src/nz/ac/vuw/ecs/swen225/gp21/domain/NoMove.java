@@ -5,7 +5,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-public class NoMove implements Command {
+class NoMove implements Command {
 
 	@Override
 	public void execute(World w) {
