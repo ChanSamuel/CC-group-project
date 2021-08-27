@@ -26,4 +26,7 @@ public class Treasure extends Terrain {
 		player.collectedChip();
 	}
 
+	@Override
+	public char boardChar() { return 'c'; }
+
 }
