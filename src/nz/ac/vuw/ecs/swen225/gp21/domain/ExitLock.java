@@ -15,4 +15,7 @@ public class ExitLock extends Terrain {
 	@Override
 	public boolean canEntityGoOn(GameObject o) { return false; } //no objects can enter this type of tile
 
+	@Override
+	public char boardChar() { return 'X'; }
+
 }
