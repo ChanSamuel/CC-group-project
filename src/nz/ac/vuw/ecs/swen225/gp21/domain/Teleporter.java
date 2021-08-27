@@ -27,6 +27,9 @@ public class Teleporter extends Terrain {
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) { return true; }//any entity can go through the teleporter
+
+	@Override
+	public char boardChar() { return 'O'; }
 	
 
 }
