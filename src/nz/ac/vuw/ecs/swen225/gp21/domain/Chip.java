@@ -7,11 +7,16 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  */
 class Chip extends GameObject {
 	/**
+	 * The number of treasure Chip has collected
+	 */
+	public int treasureCollected;
+	/**
 	 * Create a new Chip
 	 * @param w the game world that chip exists in.
 	 */
 	protected Chip(World w) {
 		super(w, new PlayerController(w));
+		treasureCollected = 0;
 	}
 	
 	@Override
@@ -34,7 +39,13 @@ class Chip extends GameObject {
 		//or {currently} send a command back up to the top level class to move the object for us?
 		c.update(elapsedTime).execute(w);
 	}
-
+	/**
+	 * This method is called when Chip collects a treasure chip
+	 */
+	void collectedChip() {
+		w.collectedAChip();
+	}
+	
 	@Override
 	protected String getName() {
 		return getClass().getName();
