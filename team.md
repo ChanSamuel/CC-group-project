@@ -6,5 +6,5 @@
 | App         |                  |                            |
 | Renderer    |                  |                            |
 | Persistency |                  |                            |
-| Recorder    |                  |                            |
+| Recorder    | Peter Liley      | @lileypete                 |
 | Fuzz        |                  |                            |
