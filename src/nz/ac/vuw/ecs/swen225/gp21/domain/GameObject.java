@@ -47,7 +47,6 @@ abstract class GameObject {
 	 * GameObjects must state whether an entity can enter onto the same tile as them
 	 * For instance, a bug can enter the same tile as Chip, but a bug cannot enter the same tile as a block
 	 * @param entity the entity trying to move onto the same tile as 'this'
-	 * @param d The direction the entity is coming from
 	 * @return Whether or not the entity can enter the tile 'this' object is on, according to the game logic
 	 */
 	protected abstract boolean canEntityGoOnTile(GameObject entity);
@@ -82,7 +81,17 @@ abstract class GameObject {
 	 * @param tile the new tile this object is on
 	 */
 	protected void setTile(Tile tile) {
-		this.currentTile.removeOccupier();
+		if(currentTile != null) this.currentTile.removeOccupier();
 		this.currentTile = tile;
+	}
+	/**
+	 * Get the char that represents this terrain type in the board toString, for debugging
+	 * @return the char that represents this terrain type in the board toString
+	 */
+	public abstract char boardChar();
+	
+	@Override
+	public String toString() {
+		return "GameObject: "+getClass().getSimpleName()+" facing->"+dir+" at->"+currentTile.location;
 	}
 }
