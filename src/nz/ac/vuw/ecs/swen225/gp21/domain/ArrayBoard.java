@@ -125,7 +125,7 @@ public class ArrayBoard implements Board {
 
 	@Override
 	public void openExit() {
-		for(int row = 0; rows < rows; row++)
+		for(int row = 0; row < rows; row++)
 			for(int col = 0; col < columns; col++) 
 				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(new Free());
 	}
