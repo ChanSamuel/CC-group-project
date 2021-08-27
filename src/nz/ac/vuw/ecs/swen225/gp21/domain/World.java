@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class World {
 	//NOTE: the recording of game ticks can be in a linked list, we dont need to store these in contiguous storage
@@ -19,6 +18,19 @@ public class World {
 	private List<GameObject> allEntities;
 	
 	private Board board;
+//===========================================================
+	/**
+	 * Create a new test world using a test board
+	 * and a default player placement of 0,0
+	 */
+	public World() {
+		playerCommands = new ArrayDeque<Command>();
+		board = new ArrayBoard();
+		playerEntity = new Chip(this);
+		allEntities = new ArrayList<GameObject>();
+		board.addObject(playerEntity, new Coord(0,0));
+		//board.validate() ?
+	}
 //===========================================================
 	/**
 	 * The big method, calling this will simulate the world and its behaviors for one tick
