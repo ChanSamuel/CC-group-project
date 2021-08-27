@@ -8,7 +8,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
 public class ExitTile extends Terrain {
 
 	@Override
-	public Terrain nextType(GameObject o) { return null; }
+	public Terrain nextType(GameObject o) { return this; }
 
 	@Override
 	public void entityEntered(GameObject o) {
@@ -20,5 +20,8 @@ public class ExitTile extends Terrain {
 		if(o instanceof Chip) return true;
 		return false;
 	}
+
+	@Override
+	public char boardChar() { return 'e'; }
 
 }
