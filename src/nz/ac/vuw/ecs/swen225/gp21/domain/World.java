@@ -14,8 +14,12 @@ public class World {
 	
 	private Chip playerEntity;
 	
+	private State worldState;
+	
 	private List<GameObject> allEntities;
 	
+	private Board board;
+//===========================================================
 	/**
 	 * The big method, calling this will simulate the world and its behaviors for one tick
 	 * We have made a decision that this should occur about ever 200 milliseconds for ~ 10 FPS gameplay
@@ -31,6 +35,7 @@ public class World {
 		
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 	}
+//==========================================================
 	/**
 	 * Remove the top element player commands queue
 	 * @return the oldest player command in the queue, or null if there are no commands
@@ -41,33 +46,37 @@ public class World {
 	
 //==========================================================
 	/**
+	 * Move an object directly, helper for teleporter
+	 * @param o the object being moved
+	 * @param destination where it is being moved to
+	 */
+	void moveObject(GameObject o, Coord destination) {
+		board.moveObject(o, destination);
+	}
+	/**
 	 * Moves the specified game object up if possible
 	 * @param o the object being moved
 	 */
 	void moveUp(GameObject o) {
-		//TODO implement this method
+		o.updateDirection(Direction.NORTH);
+		board.moveUp(o);
+		//notify?
 	}
 	/**
 	 * Moves the specified game object down if possible
 	 * @param o the object being moved
 	 */
-	void moveDown(GameObject o) {
-		//TODO implement this method
-	}
+	void moveDown(GameObject o) { o.updateDirection(Direction.SOUTH); board.moveDown(o); }
 	/**
 	 * Moves the specified game object left if possible
 	 * @param o the object being moved
 	 */
-	void moveLeft(GameObject o) {
-		//TODO implement this method
-	}
+	void moveLeft(GameObject o) { o.updateDirection(Direction.WEST); board.moveLeft(o); }
 	/**
 	 * Moves the specified game object right if possible
 	 * @param o the object being moved
 	 */
-	void moveRight(GameObject o) {
-		//TODO implement this method
-	}
+	void moveRight(GameObject o) { o.updateDirection(Direction.EAST); board.moveRight(o); }
 //==================================================================================
 	/**
 	 * Enqueues a move up command for the playerEntity into the movement queue
@@ -94,4 +103,17 @@ public class World {
 		playerCommands.add(new MoveRight(playerEntity));
 	}
 //====================================================================================
+	/**
+	 * This method is called when chip collects a treasure
+	 */
+	public void collectedAChip() {
+		playerEntity.treasureCollected++;
+		if(board.getRemainingChips() == 0) board.openExit();
+	}
+	/**
+	 * This method is called when chip enters the exit square
+	 */
+	public void enteredExit() {
+//		worldState = new GameOver(); //TODO
+	}
 }
