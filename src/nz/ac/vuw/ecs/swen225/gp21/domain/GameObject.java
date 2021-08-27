@@ -21,6 +21,10 @@ abstract class GameObject {
 	 */
 	protected Direction dir;
 	/**
+	 * The tile that this GameObject is currently on
+	 */
+	protected Tile currentTile;
+	/**
 	 * Create a new GameObject, defaults to no direction
 	 * NOTE: 	Changed visibility to package-private, might need to be changed later?
 	 * 			how will persistence module load in new GameObjects? 
@@ -43,6 +47,7 @@ abstract class GameObject {
 	 * GameObjects must state whether an entity can enter onto the same tile as them
 	 * For instance, a bug can enter the same tile as Chip, but a bug cannot enter the same tile as a block
 	 * @param entity the entity trying to move onto the same tile as 'this'
+	 * @param d The direction the entity is coming from
 	 * @return Whether or not the entity can enter the tile 'this' object is on, according to the game logic
 	 */
 	protected abstract boolean canEntityGoOnTile(GameObject entity);
@@ -64,4 +69,20 @@ abstract class GameObject {
 	 * @return the name of this entity
 	 */
 	protected abstract String getName();
+	/**
+	 * Update the direction of the GameObject, provided it has one.
+	 * @param d the new direction
+	 */
+	protected void updateDirection(Direction d) {
+		if(dir != Direction.NONE) this.dir = d;
+	}
+	/**
+	 * Updates the old tile reference to have no occupier
+	 * Updates this GameObject's tile reference
+	 * @param tile the new tile this object is on
+	 */
+	protected void setTile(Tile tile) {
+		this.currentTile.removeOccupier();
+		this.currentTile = tile;
+	}
 }
