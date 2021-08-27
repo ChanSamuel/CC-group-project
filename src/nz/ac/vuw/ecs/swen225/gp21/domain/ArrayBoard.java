@@ -24,13 +24,13 @@ public class ArrayBoard implements Board {
 	public ArrayBoard() {
 		this.rows = 10; this.columns = 10;
 		board = new Tile[rows][columns];
-		for(int row = 0; rows < rows; row++) {
+		for(int row = 0; row < rows; row++) {
 			for(int col = 0; col < columns; col++) {
 				board[row][col] = new Tile(new Coord(row, col));
 				board[row][col].setTerrain(new Free());
 			}
 		}
-		board[9][9].setTerrain(new ExitTile());
+		board[rows-1][columns-1].setTerrain(new ExitTile());
 	}
 	
 	@Override
@@ -129,5 +129,22 @@ public class ArrayBoard implements Board {
 			for(int col = 0; col < columns; col++) 
 				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(new Free());
 	}
-
+	@Override
+	public String toString() {
+		StringBuilder ans = new StringBuilder();
+		for(int row = 0; row < rows; row++) {
+			ans.append(row+"|");
+			for(int col = 0; col < columns; col++) {
+				Tile t = coordToTile(new Coord(row, col));
+				if(t.isTileOccupied()) {
+					ans.append(t.getOccupier().boardChar());
+				} else {
+					ans.append(t.getTerrain().boardChar());
+				}
+				ans.append("|");
+			}
+			ans.append("\n");
+		}
+		return ans.toString();
+	}
 }
