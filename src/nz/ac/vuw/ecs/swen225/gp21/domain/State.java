@@ -7,5 +7,5 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  */
 public interface State {
 	public void update(World w);
-	
+	//TODO add more stuff here
 }
