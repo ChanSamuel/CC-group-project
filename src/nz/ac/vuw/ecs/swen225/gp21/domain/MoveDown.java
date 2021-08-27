@@ -17,5 +17,8 @@ class MoveDown extends GameObjectMove{
 
 	@Override
 	public void undo(World w) { w.moveUp(moved); }
+	
+	@Override
+	public String toString() { return super.toString()+"DOWN"; }
 
 }

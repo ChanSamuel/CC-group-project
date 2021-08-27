@@ -18,4 +18,6 @@ class MoveRight extends GameObjectMove{
 	@Override
 	public void undo(World w) { w.moveLeft(moved); }
 
+	@Override
+	public String toString() { return super.toString()+"RIGHT"; }
 }
