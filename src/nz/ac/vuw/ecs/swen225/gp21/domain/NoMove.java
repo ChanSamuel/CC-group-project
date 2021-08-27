@@ -16,5 +16,9 @@ class NoMove implements Command {
 	public void undo(World w) {
 		return;
 	}
-
+	
+	@Override 
+	public String toString() {
+		return "NO MOVE";
+	}
 }
