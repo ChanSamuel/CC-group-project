@@ -6,5 +6,5 @@
 | App         |                  |                            |
 | Renderer    | Meng Li          | @limeng7  &  dreamsjtu     |
 | Persistency |                  |                            |
-| Recorder    |                  |                            |
+| Recorder    | Peter Liley      | @lileypete                 |
 | Fuzz        |                  |                            |
