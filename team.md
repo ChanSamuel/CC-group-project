@@ -4,7 +4,7 @@
 |-------------|------------------|----------------------------|
 | Domain      | Ben Sanson       | @sansonbenj & BudgiePanic  |
 | App         |                  |                            |
-| Renderer    |                  |                            |
+| Renderer    | Meng Li          | @limeng7  &  dreamsjtu     |
 | Persistency |                  |                            |
 | Recorder    |                  |                            |
 | Fuzz        |                  |                            |
