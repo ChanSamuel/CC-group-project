@@ -15,7 +15,7 @@ class Chip extends GameObject {
 	 * @param w the game world that chip exists in.
 	 */
 	protected Chip(World w) {
-		super(w, new PlayerController(w));
+		super(w, new PlayerController(w), Direction.NORTH);
 		treasureCollected = 0;
 	}
 	
@@ -48,6 +48,9 @@ class Chip extends GameObject {
 	
 	@Override
 	protected String getName() {
-		return getClass().getName();
+		return super.toString()+" "+getClass().getName();
 	}
+
+	@Override
+	public char boardChar() {return 'C';}
 }
