@@ -17,14 +17,27 @@ abstract class GameObject {
 	 */
 	protected MovementController c;
 	/**
-	 * Create a new GameObject
+	 * The direction this object is facing
+	 */
+	protected Direction dir;
+	/**
+	 * Create a new GameObject, defaults to no direction
 	 * NOTE: 	Changed visibility to package-private, might need to be changed later?
 	 * 			how will persistence module load in new GameObjects? 
 	 * @param w A reference to the world, so the object can tell the game to move it on the board {not sure how we can get the object to move itself?}
 	 * @param c The movement controller component that controls this object 
 	 */
 	GameObject(World w, MovementController c) {
-		this.w = w; this.c = c;
+		this.w = w; this.c = c; dir = Direction.NONE;
+	}
+	/**
+	 * Create a new GameObject with a direction
+	 * @param w A reference to the world
+	 * @param c The movement controller component that controls this object 
+	 * @param d The direction this object has
+	 */
+	GameObject(World w, MovementController c, Direction d) {
+		this.w = w; this.c = c; dir = d;
 	}
 	/**
 	 * GameObjects must state whether an entity can enter onto the same tile as them
