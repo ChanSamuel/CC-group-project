@@ -40,7 +40,7 @@ final class Tile {
 	 * @param o 
 	 */
 	void setOccupier(GameObject o) {
-		occupier.entityEnteredTile(o);
+		if(isTileOccupied()) occupier.entityEnteredTile(o);
 		o.setTile(this);
 		occupier = o;
 	}
