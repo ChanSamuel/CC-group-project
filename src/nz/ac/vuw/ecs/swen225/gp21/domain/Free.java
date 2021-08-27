@@ -16,4 +16,7 @@ public class Free extends Terrain {
 	@Override
 	public boolean canEntityGoOn(GameObject o) { return true; } //any object can go on a free tile type
 
+	@Override
+	public char boardChar() { return '_'; }
+
 }
