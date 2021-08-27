@@ -23,5 +23,10 @@ abstract class GameObjectMove implements Command {
 
 	@Override
 	public abstract void undo(World w);
+	
+	@Override
+	public String toString() {
+		return "MOVE: ["+moved+"] ";
+	}
 
 }
