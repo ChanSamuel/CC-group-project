@@ -87,6 +87,7 @@ public class ArrayBoard implements Board {
 	}
 	/**
 	 * Perform a full object move for a one square move
+	 * Checks the occupier AND the terrain type before the move
 	 * Assumes caller already did a bounds check
 	 * @param dest the location the object is moving to
 	 * @param o the object being moved
@@ -147,4 +148,15 @@ public class ArrayBoard implements Board {
 		}
 		return ans.toString();
 	}
+
+	@Override
+	public Tile getTileAt(Coord location) {
+		return coordToTile(location);
+	}
+
+	@Override
+	public int getWidth() { return columns;	}
+
+	@Override
+	public int getHeight() { return rows; }
 }
