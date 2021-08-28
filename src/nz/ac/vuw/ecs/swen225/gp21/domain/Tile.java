@@ -84,4 +84,21 @@ final class Tile {
 		if(this.terrain == null) throw new IllegalStateException("This tile has not been given a terrain type! "+this.location);
 		return this.terrain;
 	}
+	/**
+	 * Determine if an object can enter this tile
+	 * based on if the terrain will allow the object on it
+	 * and if the occupier will allow the object on top of it 
+	 * @param o the object trying to move onto this tile
+	 * @return whether object o can enter this tile
+	 */
+	public boolean canEntityGoOnTile(GameObject o) {
+		if(getTerrain().canEntityGoOn(o)) { //check the terrain first
+			if(isTileOccupied()) { //if there is an occupier, ask them next
+				return getOccupier().canEntityGoOnTile(o);
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
 }
