@@ -30,6 +30,7 @@ public class World {
 	 * and a default player placement of 0,0
 	 */
 	public World() {
+		worldState = new Loading();
 		playerCommands = new ArrayDeque<Command>();
 		board = new ArrayBoard();
 		allEntities = new ArrayList<GameObject>();
@@ -40,6 +41,7 @@ public class World {
 		addObject(new Block(this), new Coord(1, 2));
 		isGameOver = false;
 		//board.validate() ?
+		worldState = new Running();
 	}
 //===========================================================
 	/**
@@ -49,12 +51,8 @@ public class World {
 	 * @param elapsedTime the time since this method was last called, calculated by the caller
 	 */
 	public void update(double elapsedTime) {
-		//Process one player input { ? should we defer this to the 'player movement controller', or do it here, explicitly ? }
-		
-		//update all game objects
-		for(GameObject e : allEntities) e.update(elapsedTime); 
-		//check game state (i.e. is the game over?)
-		if(isGameOver) System.out.println("Game is over"); //do something?
+		worldState.update(this, elapsedTime);
+		if(isGameOver) System.out.println("Game is over"); //TODO temp check here, do something?
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 		//TODO
 	}
@@ -71,14 +69,14 @@ public class World {
 	 * @return the number of columns
 	 */
 	public int getBoardWidth() {
-		return board.getWidth();
+		return worldState.getBoardWidth(this);
 	}
 	/**
 	 * Get the number of rows the board has
 	 * @return the number of rows 
 	 */
 	public int getBoardHeight() {
-		return board.getHeight();
+		return worldState.getBoardHeight(this);
 	}
 	/**
 	 * Determine if a coordinate is valid on the board
@@ -86,7 +84,7 @@ public class World {
 	 * @return if it is valid on the board
 	 */
 	public boolean isCoordValid(Coord c) {
-		return board.isCoordValid(c);
+		return worldState.isCoordValid(this, c);
 	}
 	/**
 	 * Add a new game object to the world
@@ -96,10 +94,7 @@ public class World {
 	 * @return true if the addition succeeded
 	 */
 	public boolean addObject(GameObject e, Coord c) {
-		if(e == null || c == null) throw new IllegalArgumentException("Cannot add null to the game!");
-		allEntities.add(e);
-		board.addObject(e, c); //if this method fails it throws a runtime exception
-		return true;
+		return worldState.addObject(this, e, c);
 	}
 	
 //==========================================================
@@ -119,10 +114,41 @@ public class World {
 	Tile getTileAt(Coord location) {
 		return board.getTileAt(location);
 	}
+	/**
+	 * Get the list of all entities
+	 * @return the list of all entities
+	 */
+	List<GameObject> getEntities(){
+		return this.allEntities;
+	}
+	/**
+	 * Get the command queue
+	 * @return the command queue
+	 */
+	Deque<Command> getCommandQueue(){
+		return this.playerCommands;
+	}
+	/**
+	 * Get the board for this world
+	 * @return the board this world is using
+	 */
+	Board getBoard() {
+		return this.board;
+	}
+	/**
+	 * Get the player entity object
+	 * @return the player entity
+	 */
+	Chip getPlayer() {
+		return this.playerEntity;
+	}
 	
 //==========================================================
 	/**
 	 * Move an object directly, helper for teleporter
+	 * Does not perform a terrain check when placing the object 
+	 * {this can be changed easily if needed}
+	 * Only asks the occupier if the object can be moved
 	 * @param o the object being moved
 	 * @param destination where it is being moved to
 	 */
@@ -157,27 +183,19 @@ public class World {
 	/**
 	 * Enqueues a move up command for the playerEntity into the movement queue
 	 */
-	public void moveChipUp() {
-		playerCommands.add(new MoveUp(playerEntity));
-	}
+	public void moveChipUp() {worldState.moveChipUp(this);}
 	/**
 	 * Enqueues a move down command for the playerEntity into the movement queue
 	 */
-	public void moveChipDown() {
-		playerCommands.add(new MoveDown(playerEntity));
-	}
+	public void moveChipDown() {worldState.moveChipDown(this);}
 	/**
 	 * Enqueues a move left command for the playerEntity into the movement queue
 	 */
-	public void moveChipLeft() {
-		playerCommands.add(new MoveLeft(playerEntity));
-	}
+	public void moveChipLeft() {worldState.moveChipLeft(this);}
 	/**
 	 * Enqueues a move right command for the playerEntity into the movement queue
 	 */
-	public void moveChipRight() {
-		playerCommands.add(new MoveRight(playerEntity));
-	}
+	public void moveChipRight() {worldState.moveChipRight(this);}
 //====================================================================================
 	/**
 	 * This method is called when chip collects a treasure
