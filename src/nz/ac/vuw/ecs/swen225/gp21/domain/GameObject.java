@@ -5,7 +5,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-abstract class GameObject {
+public abstract class GameObject {
 	/**
 	 * This entities reference back to the world.
 	 * Since the world is what moves the objects [ for now :^/ ], if an object needs to move itself
