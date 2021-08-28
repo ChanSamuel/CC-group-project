@@ -17,10 +17,13 @@ final class Block extends GameObject {
 	protected boolean canEntityGoOnTile(GameObject entity) {
 		if(entity instanceof Chip) { //Only chip can enter the tile the block is on
 			Coord dest = getNextLocation(entity);
-			if(dest.getCol() < 0 || dest.getCol() >= w.getBoardWidth() || dest.getRow() < 0 || dest.getRow() >= w.getBoardHeight()) return false;
+			if(!w.isCoordValid(dest)) return false;
 			Tile t = w.getTileAt(dest);
 			//provided the block itself can move in the direction Chip is trying to push it
-			return t.isTileOccupied() ? t.getOccupier().canEntityGoOnTile(this) : true; 
+			this.dir = entity.dir; //borrow the direction from entity, incase the terrain type needs to know where we are going
+			boolean answer = t.canEntityGoOnTile(this); 
+			this.dir = Direction.NONE;
+			return answer;
 		}
 		return false;
 	}
@@ -28,22 +31,24 @@ final class Block extends GameObject {
 	@Override
 	protected void entityEnteredTile(GameObject entity) {
 		//chip entered the tile, move the block to the next square
-		switch(entity.dir) {
+		this.dir = entity.dir;
+		switch(dir) {
 		case NORTH:
 			w.moveUp(this);
-			return;
+			break;
 		case EAST:
 			w.moveRight(this);
-			return;
+			break;
 		case SOUTH:
 			w.moveDown(this);
-			return;
+			break;
 		case WEST:
 			w.moveLeft(this);
-			return;
+			break;
 		default:
 			throw new RuntimeException("Unknown direction for block: "+entity.dir+" | "+entity.toString());
 		}
+		this.dir = Direction.NONE;
 	}
 
 	@Override
