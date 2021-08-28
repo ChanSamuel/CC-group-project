@@ -48,9 +48,14 @@ class Chip extends GameObject {
 	
 	@Override
 	protected String getName() {
-		return super.toString()+" "+getClass().getName();
+		return getClass().getSimpleName();
 	}
 
 	@Override
 	public char boardChar() {return 'C';}
+	
+	@Override 
+	public String toString() {
+		return super.toString()+" "+getClass().getName();
+	}
 }
