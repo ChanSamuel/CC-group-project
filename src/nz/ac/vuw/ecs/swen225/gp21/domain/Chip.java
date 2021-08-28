@@ -1,4 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Chip is the GameObject that the player will control
  * He can collect items in his inventory
@@ -7,9 +11,17 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  */
 class Chip extends GameObject {
 	/**
+	 * The number of items chip can fit in their inventory
+	 */
+	public static int INVETORY_SIZE = 8;
+	/**
 	 * The number of treasure Chip has collected
 	 */
 	public int treasureCollected;
+	/**
+	 * The items in Chips inventory
+	 */
+	List<Item> invetory;
 	/**
 	 * Create a new Chip
 	 * @param w the game world that chip exists in.
@@ -17,6 +29,7 @@ class Chip extends GameObject {
 	protected Chip(World w) {
 		super(w, new PlayerController(w), Direction.NORTH);
 		treasureCollected = 0;
+		invetory = new ArrayList<Item>(INVETORY_SIZE);
 	}
 	
 	@Override
@@ -45,6 +58,13 @@ class Chip extends GameObject {
 	void collectedChip() {
 		w.collectedAChip();
 	}
+	/**
+	 * This method is called when Chip picks up an item
+	 * @param keyItem
+	 */
+	void addItem(Item keyItem) {
+		
+	}
 	
 	@Override
 	protected String getName() {
@@ -56,6 +76,17 @@ class Chip extends GameObject {
 	
 	@Override 
 	public String toString() {
-		return super.toString()+" "+getClass().getName();
+		return super.toString()+" "+getClass().getSimpleName()+printInvetory();
+	}
+	/**
+	 * Print the items Chip's Inventory
+	 * @return a summary of Chips inventory
+	 */
+	private String printInvetory() {
+		StringBuilder answer = new StringBuilder();
+		answer.append("Chip's Invetory: [");
+		for(Item i : invetory) answer.append(i+", ");
+		answer.append("]");
+		return answer.toString();
 	}
 }
