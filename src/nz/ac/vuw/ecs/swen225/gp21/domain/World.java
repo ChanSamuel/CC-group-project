@@ -78,6 +78,14 @@ public class World {
 	public int getBoardHeight() {
 		return board.getHeight();
 	}
+	/**
+	 * Determine if a coordinate is valid on the board
+	 * @param c the coordinate
+	 * @return if it is valid on the board
+	 */
+	public boolean isCoordValid(Coord c) {
+		return board.isCoordValid(c);
+	}
 	
 //==========================================================
 	/**

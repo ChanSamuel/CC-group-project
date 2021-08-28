@@ -65,4 +65,10 @@ public interface Board {
 	 * @return the number of rows
 	 */
 	public int getHeight();
+	/**
+	 * Determine if a coordinate is valid within the board (i.e. it won't lead to a broken program state)
+	 * @param c the coordinate
+	 * @return if it is valid in the board
+	 */
+	public boolean isCoordValid(Coord c);
 }
