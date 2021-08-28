@@ -1,7 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import java.util.*;
-
+/**
+ * The world provides the main interface of the domain package, for other modules to interact with.
+ * @author Benjamin
+ *
+ */
 public class World {
 	//NOTE: the recording of game ticks can be in a linked list, we dont need to store these in contiguous storage
 	//NOTE: to define entities (like the bug and block) I'm going to hard code them as classes for now
@@ -60,6 +64,20 @@ public class World {
 	public boolean isGameComplete() {
 		return this.isGameOver;
 	}
+	/**
+	 * Get the number of columns the board has
+	 * @return the number of columns
+	 */
+	public int getBoardWidth() {
+		return board.getWidth();
+	}
+	/**
+	 * Get the number of rows the board has
+	 * @return the number of rows 
+	 */
+	public int getBoardHeight() {
+		return board.getHeight();
+	}
 	
 //==========================================================
 	/**
@@ -68,6 +86,15 @@ public class World {
 	 */
 	Command poll() {
 		return playerCommands.poll();
+	}
+	/**
+	 * Get the tile at a location
+	 * Can be used by game objects to make decisions
+	 * @param location the location of the tile of interest
+	 * @return the tile at the location
+	 */
+	Tile getTileAt(Coord location) {
+		return board.getTileAt(location);
 	}
 	
 //==========================================================
