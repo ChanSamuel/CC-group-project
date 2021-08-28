@@ -48,4 +48,21 @@ public interface Board {
 	 * @param destination
 	 */
 	public void moveObject(GameObject o, Coord destination);
+	/**
+	 * Get the tile at a location
+	 * Can be used by game objects if they need that information to make a decision
+	 * @param location the location of tile being seeked
+	 * @return the tile at the location
+	 */
+	public Tile getTileAt(Coord location);
+	/**
+	 * Returns the number of columns the board has
+	 * @return the number of columns
+	 */
+	public int getWidth();
+	/**
+	 * Returns the number of rows the board has
+	 * @return the number of rows
+	 */
+	public int getHeight();
 }
