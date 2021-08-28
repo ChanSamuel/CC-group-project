@@ -69,13 +69,13 @@ final class Block extends GameObject {
 	private Coord getNextLocation(GameObject o) {
 		switch(o.dir) {
 		case NORTH:
-			return o.currentTile.location.up();
+			return currentTile.location.up();
 		case EAST:
-			return o.currentTile.location.right();
+			return currentTile.location.right();
 		case WEST:
-			return o.currentTile.location.left();
+			return currentTile.location.left();
 		case SOUTH:
-			return o.currentTile.location.down();
+			return currentTile.location.down();
 		default:
 			throw new RuntimeException("Entity facing unknow direction for block: ["+o.dir+"] e: ["+o.toString()+"]");
 		}
