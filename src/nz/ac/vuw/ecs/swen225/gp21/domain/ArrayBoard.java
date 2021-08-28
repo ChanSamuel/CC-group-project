@@ -80,10 +80,7 @@ public class ArrayBoard implements Board {
 	@Override
 	public void moveObject(GameObject o, Coord destination) {
 		Tile t = coordToTile(destination);
-		if(t.getTerrain().canEntityGoOn(o)) {
-			if(t.isTileOccupied() && !t.getOccupier().canEntityGoOnTile(o)) return;
-			t.setOccupier(o);
-		}
+		if(t.canEntityGoOnTile(o)) t.setOccupier(o);
 	}
 	/**
 	 * Perform a full object move for a one square move
@@ -94,10 +91,7 @@ public class ArrayBoard implements Board {
 	 */
 	private void moveObject(Coord dest, GameObject o) {
 		Tile t = coordToTile(dest);
-		if(t.getTerrain().canEntityGoOn(o)) {
-			if(t.isTileOccupied() && !t.getOccupier().canEntityGoOnTile(o)) return;
-			t.addOccupier(o);
-		}
+		if(t.canEntityGoOnTile(o)) t.addOccupier(o);
 	}
 	
 	@Override
@@ -159,4 +153,7 @@ public class ArrayBoard implements Board {
 
 	@Override
 	public int getHeight() { return rows; }
+
+	@Override
+	public boolean isCoordValid(Coord c) { return this.coordInBoard(c); }
 }
