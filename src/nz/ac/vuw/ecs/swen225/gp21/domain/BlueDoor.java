@@ -17,7 +17,7 @@ public final class BlueDoor extends Door {
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {
-		if(o instanceof Chip) ((Chip)o).invetory.contains(new KeyItem("Blue"));
+		if(o instanceof Chip) return ((Chip)o).invetory.contains(new KeyItem("Blue"));
 		return false;
 	}
 	@Override
