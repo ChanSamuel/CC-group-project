@@ -211,6 +211,14 @@ public class World {
 		isGameOver = true;
 //		worldState = new GameOver(); //TODO
 	}
+	/**
+	 * Called when an entity enters an info tile
+	 * @param msg the message the info tile contained
+	 */
+	void enteredInfo(String msg) {
+		//TODO - do something useful here
+		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
+	}
 //====================================================================================
 	@Override
 	public String toString() {
@@ -231,5 +239,4 @@ public class World {
 		ans.append("Board: \n"+board);
 		return ans.toString();
 	}
-	
 }
