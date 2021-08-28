@@ -136,4 +136,49 @@ class DomainTests {
 		assertFalse(exception);
 		System.out.println("\ntest six complete\n");
 	}
+	/**
+	 * Try to push a block down
+	 * Test must consume all player actions
+	 * No exceptions should occur
+	 */
+	@Test
+	void tryToMoveBlock() {
+		boolean exception = false;
+		try {
+			World w = new World();
+			w.moveChipRight();
+			w.moveChipRight();
+			w.moveChipDown();
+			w.update(200);
+			w.update(200);
+			w.update(200);
+			w.update(200);
+			System.out.println(w);
+			//the block is at (1,2)
+			String expected = "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 2 nz.ac.vuw.ecs.swen225.gp21.domain.Chip\n"
+					+ "GameObject: Block facing->NONE at->Row: 2 Columns: 2 nz.ac.vuw.ecs.swen225.gp21.domain.Block\n"
+					+ "\n"
+					+ "Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|C|_|_|_|_|_|_|_|\n"
+					+ "2|_|_|B|_|_|_|_|_|_|_|\n"
+					+ "3|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "4|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "8|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "9|_|_|_|_|_|_|_|_|_|e|\n";
+			assertEquals(w.toString(), expected);
+		} catch (Exception e) {
+			e.printStackTrace();
+			exception = true;
+		}
+		assertFalse(exception);
+		System.out.println("\ntest seven complete\n");
+	}
 }
