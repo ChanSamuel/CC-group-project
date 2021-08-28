@@ -26,16 +26,18 @@ public class World {
 	private boolean isGameOver;
 //===========================================================
 	/**
-	 * Create a new test world using a test board
+	 * Create a new test world. Initializes a test board of 10*10 dimension
 	 * and a default player placement of 0,0
 	 */
 	public World() {
 		playerCommands = new ArrayDeque<Command>();
 		board = new ArrayBoard();
-		playerEntity = new Chip(this);
 		allEntities = new ArrayList<GameObject>();
-		allEntities.add(playerEntity); //always update the player entity first
-		board.addObject(playerEntity, new Coord(0,0));
+		
+		playerEntity = new Chip(this);
+		//always add the player entity first, to ensure it is the first thing updated
+		addObject(playerEntity, new Coord(0,0));
+		addObject(new Block(this), new Coord(1, 2));
 		isGameOver = false;
 		//board.validate() ?
 	}
@@ -85,6 +87,19 @@ public class World {
 	 */
 	public boolean isCoordValid(Coord c) {
 		return board.isCoordValid(c);
+	}
+	/**
+	 * Add a new game object to the world
+	 * TODO currently only works during initialization
+	 * @param e the entity being added
+	 * @param c The location on the board this entity should be placed
+	 * @return true if the addition succeeded
+	 */
+	public boolean addObject(GameObject e, Coord c) {
+		if(e == null || c == null) throw new IllegalArgumentException("Cannot add null to the game!");
+		allEntities.add(e);
+		board.addObject(e, c); //if this method fails it throws a runtime exception
+		return true;
 	}
 	
 //==========================================================
