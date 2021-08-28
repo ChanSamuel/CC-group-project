@@ -84,7 +84,7 @@ class Chip extends GameObject {
 	 */
 	private String printInvetory() {
 		StringBuilder answer = new StringBuilder();
-		answer.append("Chip's Invetory: [");
+		answer.append(" Chip's Invetory: [");
 		for(Item i : invetory) answer.append(i+", ");
 		answer.append("]");
 		return answer.toString();

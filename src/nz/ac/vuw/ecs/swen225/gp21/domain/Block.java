@@ -83,6 +83,6 @@ final class Block extends GameObject {
 
 	@Override
 	public String toString() {
-		return super.toString()+" "+getClass().getName();
+		return super.toString()+" "+getClass().getSimpleName();
 	}
 }
