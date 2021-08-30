@@ -32,13 +32,14 @@ public class Teleporter extends Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {
-		Coord destination = getDestinationCoord(o);
+		Coord destination = getDestinationCoord(o.currentTile.location, o.dir);
 		o.w.moveObject(o, destination);
 	}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) { 
-		Coord destination = getDestinationCoord(o);
+		Coord locationOfTeleport = o.dir.next(o.currentTile.location); //we are one tile away from the teleporter at this point
+		Coord destination = getDestinationCoord(locationOfTeleport, o.dir);
 		if(!o.w.isCoordValid(destination)) return false;
 		return o.w.getTileAt(destination).canEntityGoOnTile(o);
 	}
@@ -48,24 +49,14 @@ public class Teleporter extends Terrain {
 	/**
 	 * Gets the coordinate of the tile the teleporter will try to move the GameObject to
 	 * Based on the direction the GameObject is facing
-	 * @param o The Object moving onto the teleporter
+	 * @param c - the location of the teleporter being moved into
+	 * @param dir - the direction the teleporter is being moved through
 	 * @return the coordinate of the tile the teleporter will move the object to
 	 */
-	private Coord getDestinationCoord(GameObject o) {
-		Coord destination = links.get(o.currentTile.location); //if the teleport tile has no link the level was not initialized properly
-		if(destination == null) throw new IllegalStateException("Teleporter at "+o.currentTile.location+" has no link!");
-		switch(o.dir) {
-		case EAST:
-			return destination.right();
-		case NORTH:
-			return destination.up();
-		case SOUTH:
-			return destination.down();
-		case WEST:
-			return destination.left();
-		default: 
-			throw new RuntimeException("Objects moving into teleporter must have a direction to signal where they are going! ->"+o.toString());
-		}
+	private Coord getDestinationCoord(Coord c, Direction dir) {
+		Coord destination = links.get(c); //if the teleport tile has no link the level was not initialized properly
+		if(destination == null) throw new IllegalStateException("Teleporter at "+c+" has no link!");
+		return dir.next(destination);
 	}
 	
 
