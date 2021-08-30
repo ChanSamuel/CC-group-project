@@ -10,6 +10,7 @@ public class Treasure extends Terrain {
 
 	@Override
 	public Terrain nextType(GameObject o) {
+		//may need to call something here to signify one less treasure
 		return new Free();
 	}
 
@@ -22,6 +23,7 @@ public class Treasure extends Terrain {
 	
 	@Override
 	public void entityEntered(GameObject o) {
+		if(!(o instanceof Chip)) throw new RuntimeException("Non-chip entity entered treasure tile! ->"+o);
 		Chip player = (Chip) o;
 		player.collectedChip();
 	}
