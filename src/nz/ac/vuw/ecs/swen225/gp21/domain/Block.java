@@ -67,18 +67,8 @@ final class Block extends GameObject {
 	 * @return the location of the tile the block would move to
 	 */
 	private Coord getNextLocation(GameObject o) {
-		switch(o.dir) {
-		case NORTH:
-			return currentTile.location.up();
-		case EAST:
-			return currentTile.location.right();
-		case WEST:
-			return currentTile.location.left();
-		case SOUTH:
-			return currentTile.location.down();
-		default:
-			throw new RuntimeException("Entity facing unknow direction for block: ["+o.dir+"] e: ["+o.toString()+"]");
-		}
+		if(o.dir == Direction.NONE) throw new RuntimeException("Entity: e["+o.toString()+"] facing NONE direction, cannot move block:["+o.dir+"] in NONE direction");
+		return o.dir.next(currentTile.location);
 	}
 
 	@Override
