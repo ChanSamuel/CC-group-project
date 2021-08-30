@@ -23,8 +23,6 @@ public class World {
 	
 	private Board board;
 	
-	private boolean isGameOver;
-	
 	private final int totalTreasure;
 //===========================================================
 	/**
@@ -41,7 +39,6 @@ public class World {
 		//always add the player entity first, to ensure it is the first thing updated
 		addObject(playerEntity, new Coord(0,0));
 		addObject(new Block(this), new Coord(1, 2));
-		isGameOver = false;
 		//board.validate() ?
 		totalTreasure = board.getRemainingChips();
 		assert(totalTreasure >= 0);
@@ -56,8 +53,9 @@ public class World {
 	 */
 	public void update(double elapsedTime) {
 		worldState.update(this, elapsedTime);
-		if(isGameOver) System.out.println("Game is over"); //TODO temp check here, do something?
+		if(isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
 		assert(totalTreasure == board.getRemainingChips()+playerEntity.treasureCollected);
+		//TODO notify observers here?
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 		//TODO
 	}
@@ -67,7 +65,7 @@ public class World {
 	 * @return true if the game is in a complete state
 	 */
 	public boolean isGameComplete() {
-		return this.isGameOver;
+		return worldState instanceof GameOver;
 	}
 	/**
 	 * Get the number of columns the board has
@@ -101,7 +99,14 @@ public class World {
 	public boolean addObject(GameObject e, Coord c) {
 		return worldState.addObject(this, e, c);
 	}
-	
+	/**
+	 * Get the state of the world
+	 * Any package can ask for this
+	 * @return the state the world is in
+	 */
+	public State getWorldState() {
+		return this.worldState;
+	}
 //==========================================================
 	/**
 	 * Remove the top element player commands queue
@@ -213,8 +218,7 @@ public class World {
 	 * This method is called when chip enters the exit square
 	 */
 	void enteredExit() {
-		isGameOver = true;
-//		worldState = new GameOver(); //TODO
+		worldState = new GameOver(); 
 	}
 	/**
 	 * Called when an entity enters an info tile
@@ -229,7 +233,7 @@ public class World {
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
 		//add board state
-		ans.append("Is game over? -> "+isGameOver+"\n");
+		ans.append("Is game over? -> "+isGameComplete()+"\n");
 		//add player inventory
 		//add queue
 		ans.append("PlayerQueue: \n");
