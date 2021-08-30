@@ -7,19 +7,19 @@ import static java.util.Map.entry;
  * It contains all the information needed to initialize the world to play a level. 
  * It does not contain the active state of the world i.e. it can't be used to record a game
  * TODO NOTE: currently cannot add external GameObjects via subclass. They must by added via world.addEntitiy after world initialization :(
- * @see https://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way
+ * @see "https://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way"
  * @author Benjamin
  *
  */
-public abstract class Level {
+public final class Level {
 	/**
 	 * Mapping of characters to terrain types
 	 */
-	public Map<String, Terrain> charToTerrain; 
+	private Map<String, Terrain> charToTerrain; 
 	/**
 	 * Mapping of characters to names of GameObjects
 	 */
-	public Map<String, String> charToGameObjName;
+	private Map<String, String> charToGameObjName;
 	/**
 	 * The height of the level in tiles
 	 */
@@ -32,12 +32,12 @@ public abstract class Level {
 	 * A string representing the location of terrain types
 	 * in the tiles as a 1D array in Row-Major format
 	 */
-	final String terrainLayout;
+	private final String terrainLayout;
 	/**
 	 * A string representing spawn locations of entities in the level
 	 * as a 1D array in Row-Major format
 	 */
-	final String entityLayout;
+	private final String entityLayout;
 	/** 
 	 * @param rows the height of the leve
 	 * @param columns the width of the level
@@ -59,6 +59,7 @@ public abstract class Level {
 			entry("b", new BlueKey()), //TODO add yellow door, yellow key etc etc
 			entry("i", new Info(info))
 		);
+		//TODO this isn't ideal, preferably we just give the object directly in the map
 		charToGameObjName = Map.ofEntries(
 				entry("C", "Chip"),
 				entry("B", "Block")
@@ -68,14 +69,14 @@ public abstract class Level {
 		this.columns = columns;
 		this.terrainLayout = validateLevelLayout(terrainLayout);
 		this.entityLayout = entityLayout;
-		Teleporter.links = makeTeleportLinks();
+//		Teleporter.links = makeTeleportLinks(); //NOTE moved this into board initialization
 	}
 	/**
 	 * Analyze the terrain layout string to make
 	 * the teleporter coordinate pairs.
 	 * @return A record of one way teleporter links via tile coordiantes
 	 */
-	private Map<Coord, Coord> makeTeleportLinks() {
+	public Map<Coord, Coord> makeTeleportLinks() {
 		Map<Coord, Coord> links = new HashMap<>();
 		//record the location of the first nodes of the teleporters
 		Map<Integer, Coord> initialLinkLocation = new HashMap<>();
@@ -83,8 +84,7 @@ public abstract class Level {
 			for(int col = 0; col < columns; col++) {
 				int index = twoDtoOneD(row, col);
 				try {
-					Character terrain = Character.valueOf(terrainLayout.charAt(index)); //TODO needs testing
-					Integer linkNumber = Integer.parseInt(terrain.toString());
+					Integer linkNumber = Integer.parseInt(Character.toString(terrainLayout.charAt(index)));
 					if(initialLinkLocation.containsKey(linkNumber)) {
 						//full pair
 						links.put(initialLinkLocation.get(linkNumber), new Coord(row, col));
@@ -107,7 +107,7 @@ public abstract class Level {
 	 * @param col
 	 * @return position of this element in a one d array
 	 */
-	public int twoDtoOneD(int row, int col) {
+	private int twoDtoOneD(int row, int col) {
 		return col + (row * columns); //TODO formula needs testing
 	}
 	/**
@@ -121,7 +121,28 @@ public abstract class Level {
 		//NOTE: default -> approves all levels
 		return layout;
 	}
-
+	/**
+	 * Get the name of the GameObject type at a position
+	 * @param c the location in the level of interest
+	 * @return null if there is no entity at this position
+	 */
+	public String entityNameAt(Coord c) {
+		int index = twoDtoOneD(c.getRow(), c.getCol());
+		String objectChar = Character.toString(entityLayout.charAt(index));
+		return charToGameObjName.get(objectChar);
+		
+	}
+	/**
+	 * Get the terrain at a location in the level
+	 * @param c the location
+	 * @return the terrain at this location
+	 */
+	public Terrain terrainAt(Coord c) {
+		int index = twoDtoOneD(c.getRow(), c.getCol());
+		String terrainChar = Character.toString(terrainLayout.charAt(index));
+		return this.charToTerrain.get(terrainChar);
+	}
+	
 	/**
 	 * Add a new terrain type to the map to be used
 	 * in the levels
