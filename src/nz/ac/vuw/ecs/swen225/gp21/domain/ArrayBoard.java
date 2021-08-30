@@ -31,6 +31,14 @@ public class ArrayBoard implements Board {
 			}
 		}
 		board[rows-1][columns-1].setTerrain(new ExitTile());
+		//create a teleporter pair @ (r: 4, c: 6) && (r: 7, c: 6)
+		board[4][6].setTerrain(new Teleporter()); board[7][6].setTerrain(new Teleporter());
+		Teleporter.links.put(new Coord(4,6), new Coord(7,6));
+		Teleporter.links.put(new Coord(7,6), new Coord(4,6));
+		//create 2 treasure @ (r: 0, c: 5) && (r: 2, c: 5)
+		board[0][5].setTerrain(new Treasure()); board[2][5].setTerrain(new Treasure());
+		//create exit tile @ (r: 8, c: 9)
+		board[8][9].setTerrain(new ExitLock());
 	}
 	
 	@Override
@@ -80,7 +88,8 @@ public class ArrayBoard implements Board {
 	@Override
 	public void moveObject(GameObject o, Coord destination) {
 		Tile t = coordToTile(destination);
-		if(t.canEntityGoOnTile(o)) t.setOccupier(o);
+		if(t.canEntityGoOnTile(o)) t.addOccupier(o); //NOTE: changed to add 
+		//changed because the teleporter no longer places object on the receiver tile
 	}
 	/**
 	 * Perform a full object move for a one square move
