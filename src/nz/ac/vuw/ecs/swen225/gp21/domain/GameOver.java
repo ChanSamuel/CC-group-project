@@ -52,4 +52,9 @@ public final class GameOver implements State {
 		throw new IllegalStateException("World is in game over state! Cannot enqueue any more moves");
 	}
 
+	@Override
+	public void loadLevel(World world, Level level) {
+		throw new IllegalStateException("Cannot load level when game is not in loading state!");
+	}
+
 }
