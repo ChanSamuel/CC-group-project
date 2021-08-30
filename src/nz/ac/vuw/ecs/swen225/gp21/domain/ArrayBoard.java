@@ -21,7 +21,7 @@ public class ArrayBoard implements Board {
 	 * Creates a default test level. Simple 10*10 level 
 	 * Exit in the corner
 	 */
-	public ArrayBoard() {
+	ArrayBoard() {
 		this.rows = 10; this.columns = 10;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
@@ -39,6 +39,23 @@ public class ArrayBoard implements Board {
 		board[0][5].setTerrain(new Treasure()); board[2][5].setTerrain(new Treasure());
 		//create exit tile @ (r: 8, c: 9)
 		board[8][9].setTerrain(new ExitLock());
+	}
+	/**
+	 * Create an array board from a level object
+	 * only initializes the terrain fields
+	 * @param level object that contains the information needed to build the board
+	 */
+	ArrayBoard(Level level) {
+		this.rows = level.rows; this.columns = level.columns;
+		board = new Tile[rows][columns];
+		for(int row = 0; row < rows; row++) {
+			for(int col = 0; col < columns; col++) {
+				Coord c = new Coord(row, col);
+				board[row][col] = new Tile(c);
+				board[row][col].setTerrain(level.terrainAt(c));
+			}
+		}
+		Teleporter.links = level.makeTeleportLinks();
 	}
 	
 	@Override
