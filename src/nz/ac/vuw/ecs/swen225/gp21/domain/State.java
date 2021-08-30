@@ -10,8 +10,15 @@ public interface State {
 	/**
 	 * Simulate the world for one tick
 	 * @param w
+	 * @param elapsedTime 
 	 */
 	public void update(World w, double elapsedTime);
+	/**
+	 * Initialize the world from a level object
+	 * @param world the world being initialized
+	 * @param level the information it is being initialized with
+	 */
+	public void loadLevel(World world, Level level);
 	/**
 	 * Get the width of board
 	 * @param w 
@@ -26,13 +33,16 @@ public interface State {
 	public int getBoardHeight(World w);
 	/**
 	 * Determine if a Coordinate is valid
-	 * @param w
+	 * @param w the world the coordinate is being checked with
+	 * @param c the coordinate being checked
 	 * @return true if the coordinate is valid in the world
 	 */
 	public boolean isCoordValid(World w, Coord c);
 	/**
 	 * Add a new Object to the world
-	 * @param w
+	 * @param w the world the object is being added to
+	 * @param e the object being added
+	 * @param c the location the object is being added at
 	 * @return if the object was added successfully
 	 */
 	public boolean addObject(World w, GameObject e, Coord c);
@@ -56,4 +66,5 @@ public interface State {
 	 * @param w
 	 */
 	public void moveChipRight(World w);
+	
 }

@@ -69,4 +69,9 @@ public final class Running implements State{
 		w.getCommandQueue().add(new MoveRight(w.getPlayer()));
 	}
 
+	@Override
+	public void loadLevel(World world, Level level) {
+		throw new IllegalStateException("Cannot load level while game is running!");
+	}
+
 }

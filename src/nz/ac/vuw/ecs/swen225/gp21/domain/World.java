@@ -26,7 +26,7 @@ public class World {
 	private final int totalTreasure;
 //===========================================================
 	/**
-	 * Create a new test world. Initializes a test board of 10*10 dimension
+	 * Create a new test world. Initializes a default test board of 10*10 dimension
 	 * and a default player placement of 0,0
 	 */
 	public World() {
@@ -34,7 +34,6 @@ public class World {
 		playerCommands = new ArrayDeque<Command>();
 		board = new ArrayBoard();
 		allEntities = new ArrayList<GameObject>();
-		
 		playerEntity = new Chip(this);
 		//always add the player entity first, to ensure it is the first thing updated
 		addObject(playerEntity, new Coord(0,0));
@@ -44,6 +43,20 @@ public class World {
 		assert(totalTreasure >= 0);
 		worldState = new Running();
 	}
+	/**
+	 * Create a world initialized with level data
+	 * @param level the level data
+	 */
+	public World(Level level) {
+		worldState = new Loading();
+		playerCommands = new ArrayDeque<Command>();
+		allEntities = new ArrayList<GameObject>();
+		this.loadLevel(level);
+		this.totalTreasure = board.getRemainingChips();
+		assert(totalTreasure >= 0);
+	}
+	
+	
 //===========================================================
 	/**
 	 * The big method, calling this will simulate the world and its behaviors for one tick
@@ -58,6 +71,23 @@ public class World {
 		//TODO notify observers here?
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 		//TODO
+	}
+	/**
+	 * Initialize the world with data from the level object
+	 * @param level the level information
+	 */
+	public void loadLevel(Level level) {
+		worldState.loadLevel(this, level);
+	}
+	/**
+	 * External package entity should call this when 
+	 * all the external objects have been added 
+	 * to the world via addObject(...)
+	 */
+	public void doneLoading() {
+		this.worldState = new Running();
+		//TODO this should probably be a temp method?
+		//Theres gotta be a better way to load in external entities
 	}
 	/**
 	 * Return the isGameOver flag
@@ -107,6 +137,7 @@ public class World {
 	public State getWorldState() {
 		return this.worldState;
 	}
+	//TODO add external state setters?
 //==========================================================
 	/**
 	 * Remove the top element player commands queue
@@ -146,11 +177,26 @@ public class World {
 		return this.board;
 	}
 	/**
+	 * Set the board for this world
+	 * @param b the board this world will use
+	 */
+	void setBoard(Board b) {
+		this.board = b;
+	}
+	/**
 	 * Get the player entity object
 	 * @return the player entity
 	 */
 	Chip getPlayer() {
 		return this.playerEntity;
+	}
+	/**
+	 * Set the player entity
+	 * for this world
+	 * @param c the player entity this world will use
+	 */
+	void setPlayer(Chip c) {
+		this.playerEntity = c;
 	}
 	
 //==========================================================
