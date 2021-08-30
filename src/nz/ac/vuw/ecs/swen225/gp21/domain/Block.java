@@ -60,7 +60,7 @@ final class Block extends GameObject {
 	protected String getName() { return getClass().getSimpleName(); }
 
 	@Override
-	public char boardChar() { return 'B'; }
+	public char boardChar() { return '='; }
 	/**
 	 * Helper method to get the tile the block will move to if it is pushed by an entity
 	 * @param o the object that will push the block
