@@ -57,7 +57,7 @@ public class World {
 	public void update(double elapsedTime) {
 		worldState.update(this, elapsedTime);
 		if(isGameOver) System.out.println("Game is over"); //TODO temp check here, do something?
-		assert(totalTreasure == board.getRemainingChips());
+		assert(totalTreasure == board.getRemainingChips()+playerEntity.treasureCollected);
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
 		//TODO
 	}
@@ -208,9 +208,6 @@ public class World {
 	 */
 	void collectedAChip() {
 		playerEntity.treasureCollected++;
-		if(board.getRemainingChips() == 0) board.openExit();
-		//					minus one because the board hasn't replaced the treasure tile yet
-		assert((playerEntity.treasureCollected + board.getRemainingChips() - 1) == (totalTreasure));
 	}
 	/**
 	 * This method is called when chip enters the exit square
