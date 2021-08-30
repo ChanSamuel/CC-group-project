@@ -7,21 +7,47 @@ public enum Direction {
 	/**
 	 * Object is facing north
 	 */
-	NORTH,
+	NORTH {
+		public Coord next(Coord location) {
+			return location.down();
+		}
+	},
 	/**
 	 * Object is facing south
 	 */
-	SOUTH,
+	SOUTH {
+		public Coord next(Coord location) {
+			return location.down();
+		}
+	},
 	/**
 	 * Object is facing east
 	 */
-	EAST,
+	EAST{
+		public Coord next(Coord location) {
+			return location.right();
+		}
+	},
 	/**
 	 * Object is facing west
 	 */
-	WEST,
+	WEST {
+		public Coord next(Coord location) {
+			return location.left();
+		}
+	},
 	/**
 	 * Object has no direction
 	 */
-	NONE
+	NONE {
+		public Coord next(Coord location) {
+			return location;
+		}
+	};
+	/**
+	 * What would the next location be for a given direction
+	 * @param location a location
+	 * @return the next location along in that direction
+	 */
+	public abstract Coord next(Coord location);
 }
