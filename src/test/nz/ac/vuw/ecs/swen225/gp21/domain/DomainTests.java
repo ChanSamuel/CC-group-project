@@ -189,15 +189,11 @@ class DomainTests {
 	void tryCollectTreasure() {
 		boolean exception = false;
 		try {
-			//move right 5 times TODO
-			//move down twice
-			//check game is over
 			World w = new World();
 			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
 			System.out.println(w);
 			for(int d = 0; d < 2; d++) {w.moveChipDown(); w.update(200);}
 			System.out.println(w);
-			//the block is at (1,2)
 			String expected = "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
@@ -224,9 +220,137 @@ class DomainTests {
 		assertFalse(exception);
 		System.out.println("\ntest eight complete\n");
 	}
+	
+	/**
+	 * Attempt to move chip through the teleporter tile
+	 * No exceptions should occur
+	 */
+	@Test
+	void tryTeleportChip() {
+		boolean exception = false;
+		try {
+			World w = new World(); //
+			for(int r = 0; r < 6; r++) {w.moveChipRight(); w.update(200);}
+			System.out.println(w);
+			for(int d = 0; d < 4; d++) {w.moveChipDown(); w.update(200);}
+			System.out.println(w);
+			String expected = "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 8 Columns: 6 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 1 Columns: 2 Block\n"
+					+ "\n"
+					+"Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|B|_|_|_|_|_|_|_|\n"
+					+ "2|_|_|_|_|_|c|_|_|_|_|\n"
+					+ "3|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "4|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "8|_|_|_|_|_|_|C|_|_|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|_|e|\n";
+			assertEquals(w.toString(), expected);
+		} catch (Exception e) {
+			e.printStackTrace();
+			exception = true;
+		}
+		assertFalse(exception);
+		System.out.println("\ntest nine complete\n");
+	}
+	
+	/**
+	 * Attempt to move the block through the teleporter tile
+	 * No exceptions should occur
+	 */
+	@Test
+	void tryTeleportBlock() {
+		boolean exception = false;
+		try {
+			World w = new World();
+			w.moveChipDown(); w.update(200);
+			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
+			System.out.println(w);
+			w.moveChipUp(); w.update(200);
+			w.moveChipRight(); w.update(200);
+			System.out.println(w);
+			for(int d = 0; d < 3; d++) {w.moveChipDown(); w.update(200);}
+			System.out.println(w);
+			String expected = "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 3 Columns: 6 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 8 Columns: 6 Block\n"
+					+ "\n"
+					+"Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "2|_|_|_|_|_|c|_|_|_|_|\n"
+					+ "3|_|_|_|_|_|_|C|_|_|_|\n"
+					+ "4|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "8|_|_|_|_|_|_|B|_|_|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|_|e|\n";
+			assertEquals(w.toString(), expected);
+		} catch (Exception e) {
+			e.printStackTrace();
+			exception = true;
+		}
+		assertFalse(exception);
+		System.out.println("\ntest ten complete\n");
+	}
+	
+	/**
+	 * Attempt to cause a chain of movement events via the teleporter 
+	 * No exceptions should occur
+	 */
+	@Test
+	void tryMovementChain() {
+		boolean exception = false;
+		try {
+			World w = new World();
+			w.moveChipDown(); w.update(200);
+			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
+			System.out.println(w);
+			w.moveChipUp(); w.update(200);
+			w.moveChipRight(); w.update(200);
+			System.out.println(w);
+			for(int d = 0; d < 4; d++) {w.moveChipDown(); w.update(200);}
+			System.out.println(w);
+			String expected = "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 8 Columns: 6 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 9 Columns: 6 Block\n"
+					+ "\n"
+					+"Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "2|_|_|_|_|_|c|_|_|_|_|\n"
+					+ "3|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "4|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|O|_|_|_|\n"
+					+ "8|_|_|_|_|_|_|C|_|_|X|\n"
+					+ "9|_|_|_|_|_|_|B|_|_|e|\n";
+			assertEquals(w.toString(), expected);
+		} catch (Exception e) {
+			e.printStackTrace();
+			exception = true;
+		}
+		assertFalse(exception);
+		System.out.println("\ntest eleven complete\n");
+	}
 }
 //default board toString
-//"Board: \n"
+//+"Board: \n"
 //+ "0|C|_|_|_|_|c|_|_|_|_|\n"
 //+ "1|_|_|B|_|_|_|_|_|_|_|\n"
 //+ "2|_|_|_|_|_|c|_|_|_|_|\n"
@@ -236,4 +360,4 @@ class DomainTests {
 //+ "6|_|_|_|_|_|_|_|_|_|_|\n"
 //+ "7|_|_|_|_|_|_|O|_|_|_|\n"
 //+ "8|_|_|_|_|_|_|_|_|_|X|\n"
-//+ "9|_|_|_|_|_|_|_|_|_|e|\n"
+//+ "9|_|_|_|_|_|_|_|_|_|e|\n";
