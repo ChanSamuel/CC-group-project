@@ -11,6 +11,7 @@ public final class Running implements State{
 	public void update(World w, double elapsedTime) {
 		//update all game objects
 		for(GameObject e : w.getEntities()) e.update(elapsedTime);
+		if(w.getBoard().getRemainingChips() == 0) w.getBoard().openExit();
 	}
 
 	@Override
