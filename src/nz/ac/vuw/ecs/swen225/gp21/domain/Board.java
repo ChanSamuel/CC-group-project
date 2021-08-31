@@ -47,7 +47,7 @@ public interface Board {
 	 * @param o
 	 * @param destination
 	 */
-	public void moveObject(GameObject o, Coord destination);
+	public void moveObject(Coord destination, GameObject o);
 	/**
 	 * Get the tile at a location
 	 * Can be used by game objects if they need that information to make a decision
