@@ -12,6 +12,7 @@ public class Loading implements State {
 	
 	@Override
 	public void loadLevel(World w, Level level) {
+		w.updates = 0;
 		w.setBoard(new ArrayBoard(level));
 		for(int row = 0; row < level.rows; row++) {
 			for(int col = 0; col < level.columns; col++) {

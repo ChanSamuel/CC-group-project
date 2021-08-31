@@ -12,6 +12,7 @@ public class World {
 	//		this resource: http://gameprogrammingpatterns.com/type-object.html
 	//		explains how to do this as data in a config file, although, this still needs to be determined
 	//		Somehow, the persistence module needs to feed in new entities
+	protected int updates;
 	
 	private Deque<Command> playerCommands;
 	
@@ -30,6 +31,7 @@ public class World {
 	 * and a default player placement of 0,0
 	 */
 	public World() {
+		updates = 0;
 		worldState = new Loading();
 		playerCommands = new ArrayDeque<Command>();
 		board = new ArrayBoard();
@@ -209,7 +211,7 @@ public class World {
 	 * @param destination where it is being moved to
 	 */
 	void moveObject(GameObject o, Coord destination) {
-		board.moveObject(o, destination);
+		board.moveObject(destination, o);
 	}
 	/**
 	 * Moves the specified game object up if possible

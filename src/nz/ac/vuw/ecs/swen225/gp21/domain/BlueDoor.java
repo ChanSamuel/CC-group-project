@@ -22,6 +22,6 @@ public final class BlueDoor extends Door {
 	}
 	@Override
 	public String toString() {
-		return "["+super.toString()+" Blue]";
+		return super.toString()+" Blue";
 	}
 }

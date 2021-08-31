@@ -57,7 +57,11 @@ public final class Level {
 			entry("E", new ExitTile()),
 			entry("B", new BlueDoor()),
 			entry("b", new BlueKey()), //TODO add yellow door, yellow key etc etc
-			entry("i", new Info(info))
+			entry("i", new Info(info)),
+			entry("^", new OneWayNorth()),
+			entry("<", new OneWayWest()),
+			entry(">", new OneWayEast()),
+			entry("v", new OneWaySouth())
 		);
 		//TODO this isn't ideal, preferably we just give the object directly in the map
 		charToGameObjName = Map.ofEntries(

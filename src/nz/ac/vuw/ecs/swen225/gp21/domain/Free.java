@@ -18,5 +18,8 @@ public class Free extends Terrain {
 
 	@Override
 	public char boardChar() { return '_'; }
+	
+	@Override
+	public String toString() {return super.toString()+"Free";}
 
 }

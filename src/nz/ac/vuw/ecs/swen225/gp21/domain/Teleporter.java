@@ -59,5 +59,7 @@ public class Teleporter extends Terrain {
 		return dir.next(destination);
 	}
 	
+	@Override
+	public String toString() { return super.toString()+"Teleporter"; }
 
 }
