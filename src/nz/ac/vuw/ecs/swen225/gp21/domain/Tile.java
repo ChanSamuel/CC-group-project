@@ -86,12 +86,14 @@ final class Tile {
 	}
 	/**
 	 * Determine if an object can enter this tile
-	 * based on if the terrain will allow the object on it
+	 * based on if the previous terrain will allow the object to leave
+	 * and if the next terrain will allow the object on it
 	 * and if the occupier will allow the object on top of it 
 	 * @param o the object trying to move onto this tile
 	 * @return whether object o can enter this tile
 	 */
 	public boolean canEntityGoOnTile(GameObject o) {
+		if(!o.currentTile.getTerrain().canEntityLeave(o)) return false;
 		if(getTerrain().canEntityGoOn(o)) { //check the terrain first
 			if(isTileOccupied()) { //if there is an occupier, ask them next
 				return getOccupier().canEntityGoOnTile(o);
@@ -100,5 +102,18 @@ final class Tile {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Determine the String that should represent this tile in the boards toString method.
+	 * @return the string that should represent this tile in the boards toString
+	 */
+	public String boardString() { 
+		return Character.toString(isTileOccupied() ? getOccupier().boardChar() : getTerrain().boardChar());
+	}
+	
+	@Override
+	public String toString() { 
+		return "Tile Location: "+location.toString()+"\nOccupier: " + (isTileOccupied() ? occupier.toString() : "Empty") + "\nTerrain: "+getTerrain().toString();
 	}
 }
