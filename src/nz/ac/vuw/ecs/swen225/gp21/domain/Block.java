@@ -20,7 +20,7 @@ final class Block extends GameObject {
 			if(!w.isCoordValid(dest)) return false;
 			Tile t = w.getTileAt(dest);
 			//provided the block itself can move in the direction Chip is trying to push it
-			this.dir = entity.dir; //borrow the direction from entity, incase the terrain type needs to know where we are going
+			this.dir = entity.dir; //borrow the direction from entity, incase the terrain type needs to know where we are going (it usually does)
 			boolean answer = t.canEntityGoOnTile(this); 
 			this.dir = Direction.NONE;
 			return answer;
