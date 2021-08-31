@@ -30,5 +30,8 @@ public class Treasure extends Terrain {
 
 	@Override
 	public char boardChar() { return 'c'; }
+	
+	@Override
+	public String toString() { return super.toString()+"Treasure"; }
 
 }

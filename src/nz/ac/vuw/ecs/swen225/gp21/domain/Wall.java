@@ -19,5 +19,8 @@ public final class Wall extends Terrain {
 
 	@Override
 	public char boardChar() {return '#';}
+	
+	@Override
+	public String toString() { return super.toString()+"Wall"; }
 
 }
