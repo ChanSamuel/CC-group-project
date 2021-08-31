@@ -19,7 +19,7 @@ public class Loading implements State {
 				Coord c = new Coord(row, col);
 				String entityNameAtIndex = level.entityNameAt(c);
 				if(entityNameAtIndex == null) continue;
-				w.addObject(nameToGameObject(w, entityNameAtIndex), c);
+				boolean added = w.addObject(nameToGameObject(w, entityNameAtIndex), c);
 			}
 		}
 //		w.doneLoading();
@@ -66,6 +66,7 @@ public class Loading implements State {
 	@Override
 	public boolean addObject(World w, GameObject e, Coord c) {
 		if(e == null || c == null) throw new IllegalArgumentException("Cannot add null to the game!");
+		if(e instanceof Chip) w.setPlayer((Chip)e);
 		w.getEntities().add(e);
 		w.getBoard().addObject(e, c); //this method will throw an exception if it fails
 		return true;
