@@ -1,6 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 /**
- * All one way tiles will share these common attributes
+ * All one way tiles restrict object movement.
+ * They all share these common attributes
+ * 	You can enter a one way tile as long as you are not facing
+ * 	its direction.
+ * 	You can only leave a one way tile if you are facing its direction.
+ * Note: Be careful of pushing blocks onto one way tiles, they will probably get stuck.
  * @author Benjamin
  *
  */
@@ -25,7 +30,7 @@ abstract class OneWay extends Terrain {
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {
-		return o.dir == d;
+		return o.dir != d.opposite();
 	}
 	
 	@Override
