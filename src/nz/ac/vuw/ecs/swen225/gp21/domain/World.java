@@ -203,10 +203,8 @@ public class World {
 	
 //==========================================================
 	/**
-	 * Move an object directly, helper for teleporter
-	 * Does not perform a terrain check when placing the object 
-	 * {this can be changed easily if needed}
-	 * Only asks the occupier if the object can be moved
+	 * Move an object to a destination
+	 * Moving an object can cause a cascade of further events to occur
 	 * @param o the object being moved
 	 * @param destination where it is being moved to
 	 */
@@ -276,6 +274,13 @@ public class World {
 		//TODO - do something useful here
 		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
 	}
+	/**
+	 * Called when the player looses
+	 */
+	public void playerLost() {
+		System.out.println("Player lost");//TODO temporary operation
+	}
+	
 //====================================================================================
 	@Override
 	public String toString() {
