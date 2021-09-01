@@ -1,4 +1,11 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.state;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.State;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+
 /**
  * The running state represents a world that has completed its gameplay simulation 
  * and is in a finished state.
