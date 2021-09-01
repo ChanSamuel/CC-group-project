@@ -1,4 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
  * Encapsulates an instruction to an object up one tile
@@ -6,12 +9,12 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-class MoveUp extends GameObjectMove{
+public class MoveUp extends GameObjectMove{
 	/**
 	 * Create a new move up command
 	 * @param o the object being moved by this command
 	 */
-	MoveUp(GameObject o) { super(o); }
+	public MoveUp(GameObject o) { super(o); }
 	//TODO 	should the command store a reference to the world which it receives from the app?
 	//		Or should it get the reference when the World executes the command?
 	@Override

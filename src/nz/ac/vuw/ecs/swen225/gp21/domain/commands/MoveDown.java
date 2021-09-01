@@ -1,16 +1,19 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
  * Encapsulates an instruction to move an object down one tile
  * @author Benjamin
  *
  */
-class MoveDown extends GameObjectMove{
+public class MoveDown extends GameObjectMove{
 	/**
 	 * Create a new move down command
 	 * @param o the object being moved by this command
 	 */
-	MoveDown(GameObject o){ super(o); }
+	public MoveDown(GameObject o){ super(o); }
 	
 	@Override
 	public void execute(World w) { w.moveDown(moved); }

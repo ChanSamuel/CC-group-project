@@ -1,11 +1,16 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+
 /**
  * This type defines the fields that a command that moves a game object needs
  * I believe it has package-private visibility
  * @author Benjamin
  *
  */
-abstract class GameObjectMove implements Command {
+public abstract class GameObjectMove implements Command {
 	/**
 	 * The object being moved by this command
 	 */

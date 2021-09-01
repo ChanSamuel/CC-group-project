@@ -1,16 +1,19 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
  * Encapsulates an instruction to move an object right one tile
  * @author Benjamin
  *
  */
-class MoveRight extends GameObjectMove{
+public class MoveRight extends GameObjectMove{
 	/**
 	 * Create a new move right command
 	 * @param o the object being moved by this command
 	 */
-	MoveRight(GameObject o){ super(o); }
+	public MoveRight(GameObject o){ super(o); }
 	
 	@Override
 	public void execute(World w) { w.moveRight(moved); }
