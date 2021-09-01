@@ -1,4 +1,13 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.movementController;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveDown;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
 
 /**
  * This movement controller makes the GameObjects that use it move in random
@@ -8,7 +17,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-final class RandomMovement implements MovementController {
+public final class RandomMovement implements MovementController {
 	/**
 	 * The object this movement controller moves oops, now each entity needs its own
 	 * seperate controller. I don't think this is what I was aiming for
