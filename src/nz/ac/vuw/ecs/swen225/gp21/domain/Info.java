@@ -16,6 +16,7 @@ public final class Info extends Terrain {
 	 * @param message
 	 */
 	Info(String message){
+		if(message == null) throw new IllegalArgumentException("Message string must not be null!");
 		this.message = message;
 	}
 	
@@ -35,5 +36,8 @@ public final class Info extends Terrain {
 
 	@Override
 	public char boardChar() {return '?';}
+	
+	@Override
+	public String toString() { return super.toString()+"Info tile: "+message; }
 
 }

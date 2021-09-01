@@ -12,13 +12,14 @@ public class Loading implements State {
 	
 	@Override
 	public void loadLevel(World w, Level level) {
+		w.updates = 0;
 		w.setBoard(new ArrayBoard(level));
 		for(int row = 0; row < level.rows; row++) {
 			for(int col = 0; col < level.columns; col++) {
 				Coord c = new Coord(row, col);
 				String entityNameAtIndex = level.entityNameAt(c);
 				if(entityNameAtIndex == null) continue;
-				w.addObject(nameToGameObject(w, entityNameAtIndex), c);
+				boolean added = w.addObject(nameToGameObject(w, entityNameAtIndex), c);
 			}
 		}
 //		w.doneLoading();
@@ -65,6 +66,7 @@ public class Loading implements State {
 	@Override
 	public boolean addObject(World w, GameObject e, Coord c) {
 		if(e == null || c == null) throw new IllegalArgumentException("Cannot add null to the game!");
+		if(e instanceof Chip) w.setPlayer((Chip)e);
 		w.getEntities().add(e);
 		w.getBoard().addObject(e, c); //this method will throw an exception if it fails
 		return true;

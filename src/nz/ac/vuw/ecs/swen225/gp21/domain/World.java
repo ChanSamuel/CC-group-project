@@ -12,6 +12,7 @@ public class World {
 	//		this resource: http://gameprogrammingpatterns.com/type-object.html
 	//		explains how to do this as data in a config file, although, this still needs to be determined
 	//		Somehow, the persistence module needs to feed in new entities
+	protected int updates;
 	
 	private Deque<Command> playerCommands;
 	
@@ -30,6 +31,7 @@ public class World {
 	 * and a default player placement of 0,0
 	 */
 	public World() {
+		updates = 0;
 		worldState = new Loading();
 		playerCommands = new ArrayDeque<Command>();
 		board = new ArrayBoard();
@@ -201,15 +203,13 @@ public class World {
 	
 //==========================================================
 	/**
-	 * Move an object directly, helper for teleporter
-	 * Does not perform a terrain check when placing the object 
-	 * {this can be changed easily if needed}
-	 * Only asks the occupier if the object can be moved
+	 * Move an object to a destination
+	 * Moving an object can cause a cascade of further events to occur
 	 * @param o the object being moved
 	 * @param destination where it is being moved to
 	 */
 	void moveObject(GameObject o, Coord destination) {
-		board.moveObject(o, destination);
+		board.moveObject(destination, o);
 	}
 	/**
 	 * Moves the specified game object up if possible
@@ -274,6 +274,13 @@ public class World {
 		//TODO - do something useful here
 		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
 	}
+	/**
+	 * Called when the player looses
+	 */
+	public void playerLost() {
+		System.out.println("Player lost");//TODO temporary operation
+	}
+	
 //====================================================================================
 	@Override
 	public String toString() {

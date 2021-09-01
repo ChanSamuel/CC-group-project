@@ -9,8 +9,9 @@ public enum Direction {
 	 */
 	NORTH {
 		public Coord next(Coord location) {
-			return location.down();
+			return location.up();
 		}
+		protected Direction opposite() { return SOUTH; }
 	},
 	/**
 	 * Object is facing south
@@ -19,6 +20,7 @@ public enum Direction {
 		public Coord next(Coord location) {
 			return location.down();
 		}
+		protected Direction opposite() { return NORTH; }
 	},
 	/**
 	 * Object is facing east
@@ -27,6 +29,7 @@ public enum Direction {
 		public Coord next(Coord location) {
 			return location.right();
 		}
+		protected Direction opposite() { return WEST; }
 	},
 	/**
 	 * Object is facing west
@@ -35,6 +38,7 @@ public enum Direction {
 		public Coord next(Coord location) {
 			return location.left();
 		}
+		protected Direction opposite() { return EAST; }
 	},
 	/**
 	 * Object has no direction
@@ -43,6 +47,7 @@ public enum Direction {
 		public Coord next(Coord location) {
 			return location;
 		}
+		protected Direction opposite() { return NONE; }
 	};
 	/**
 	 * What would the next location be for a given direction
@@ -50,4 +55,9 @@ public enum Direction {
 	 * @return the next location along in that direction
 	 */
 	public abstract Coord next(Coord location);
+	/**
+	 * Return the direction that is opposite this direction
+	 * @return the direction that is opposite this direction
+	 */
+	protected abstract Direction opposite();
 }

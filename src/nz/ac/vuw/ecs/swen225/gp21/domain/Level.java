@@ -57,7 +57,14 @@ public final class Level {
 			entry("E", new ExitTile()),
 			entry("B", new BlueDoor()),
 			entry("b", new BlueKey()), //TODO add yellow door, yellow key etc etc
-			entry("i", new Info(info))
+			entry("g", new GoldKey()),
+			entry("G", new GoldDoor()),
+			entry("i", new Info(info)),
+			entry("^", new OneWayNorth()),
+			entry("<", new OneWayWest()),
+			entry(">", new OneWayEast()),
+			entry("v", new OneWaySouth()),
+			entry("teleport", new Teleporter())
 		);
 		//TODO this isn't ideal, preferably we just give the object directly in the map
 		charToGameObjName = Map.ofEntries(
@@ -128,7 +135,7 @@ public final class Level {
 	 */
 	public String entityNameAt(Coord c) {
 		int index = twoDtoOneD(c.getRow(), c.getCol());
-		String objectChar = Character.toString(entityLayout.charAt(index));
+		String objectChar = Character.toString(entityLayout.charAt(index)); 
 		return charToGameObjName.get(objectChar);
 		
 	}
@@ -139,8 +146,10 @@ public final class Level {
 	 */
 	public Terrain terrainAt(Coord c) {
 		int index = twoDtoOneD(c.getRow(), c.getCol());
-		String terrainChar = Character.toString(terrainLayout.charAt(index));
-		return this.charToTerrain.get(terrainChar);
+		Character terrainChar = terrainLayout.charAt(index);
+		String terrainString = Character.toString(terrainChar);
+		if(Character.isDigit(terrainChar)) terrainString = "teleport";
+		return this.charToTerrain.get(terrainString);
 	}
 	
 	/**

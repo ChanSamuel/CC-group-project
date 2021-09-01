@@ -27,6 +27,15 @@ public abstract class Terrain {
 	 * @return whether or not this object is allowed to enter the tile
 	 */
 	public abstract boolean canEntityGoOn(GameObject o);
+	/**
+	 * Determine if a given GameObject would be allowed to 
+	 * leave a tile with this terrain type
+	 * @param o the object leaving a tile with this terrain type
+	 * @return default approve. If you need to have conditional leaving of tiles you should override this method.
+	 */
+	public boolean canEntityLeave(GameObject o) {
+		return true;
+	}
 	
 	public String toString() {
 		return "TerrainType: ";

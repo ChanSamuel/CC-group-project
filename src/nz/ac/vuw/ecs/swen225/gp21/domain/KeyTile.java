@@ -23,5 +23,8 @@ abstract class KeyTile extends Terrain {
 
 	@Override
 	public char boardChar() {return 'k';}
+	
+	@Override
+	public String toString() { return super.toString()+"Key tile"; }
 
 }

@@ -17,5 +17,8 @@ public class ExitLock extends Terrain {
 
 	@Override
 	public char boardChar() { return 'X'; }
+	
+	@Override
+	public String toString() { return super.toString()+"Exit Lock"; }
 
 }

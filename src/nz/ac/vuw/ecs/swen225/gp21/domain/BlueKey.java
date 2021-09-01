@@ -12,5 +12,8 @@ public final class BlueKey extends KeyTile {
 			((Chip)o).addItem(new KeyItem("Blue"));
 		}
 	}
+	
+	@Override
+	public String toString() { return super.toString()+"Blue"; }
 
 }

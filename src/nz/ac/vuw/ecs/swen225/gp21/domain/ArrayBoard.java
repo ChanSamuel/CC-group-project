@@ -102,12 +102,6 @@ public class ArrayBoard implements Board {
 		}
 		return answer;
 	}
-	@Override
-	public void moveObject(GameObject o, Coord destination) {
-		Tile t = coordToTile(destination);
-		if(t.canEntityGoOnTile(o)) t.addOccupier(o); //NOTE: changed to add 
-		//changed because the teleporter no longer places object on the receiver tile
-	}
 	/**
 	 * Perform a full object move for a one square move
 	 * Checks the occupier AND the terrain type before the move
@@ -115,7 +109,7 @@ public class ArrayBoard implements Board {
 	 * @param dest the location the object is moving to
 	 * @param o the object being moved
 	 */
-	private void moveObject(Coord dest, GameObject o) {
+	public void moveObject(Coord dest, GameObject o) {
 		Tile t = coordToTile(dest);
 		if(t.canEntityGoOnTile(o)) t.addOccupier(o);
 	}
@@ -157,11 +151,7 @@ public class ArrayBoard implements Board {
 			ans.append(row+"|");
 			for(int col = 0; col < columns; col++) {
 				Tile t = coordToTile(new Coord(row, col));
-				if(t.isTileOccupied()) {
-					ans.append(t.getOccupier().boardChar());
-				} else {
-					ans.append(t.getTerrain().boardChar());
-				}
+				ans.append(t.boardString());
 				ans.append("|");
 			}
 			ans.append("\n");

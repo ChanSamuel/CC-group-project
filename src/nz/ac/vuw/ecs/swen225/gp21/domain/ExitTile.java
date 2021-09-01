@@ -23,5 +23,8 @@ public class ExitTile extends Terrain {
 
 	@Override
 	public char boardChar() { return 'e'; }
+	
+	@Override
+	public String toString() { return super.toString()+"Exit"; }
 
 }
