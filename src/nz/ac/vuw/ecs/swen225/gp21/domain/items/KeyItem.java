@@ -1,6 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.items;
 
 import java.util.Objects;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 
 /**
  * The key item can be placed in Chip's Inventory
@@ -8,16 +10,16 @@ import java.util.Objects;
  * @author Benjamin
  *
  */
-final class KeyItem implements Item {
+public final class KeyItem implements Item {
 	/**
 	 * The color of this key
 	 */
-	String color;
+	final String color;
 	/**
 	 * Create a new key item
 	 * @param c the color of the door this key unlocks
 	 */
-	KeyItem(String c){
+	public KeyItem(String c){
 		if(c == null || c.isEmpty()) throw new IllegalArgumentException("Key must have a color!");
 		this.color = c;
 	}
