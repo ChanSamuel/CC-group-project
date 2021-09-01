@@ -18,7 +18,7 @@ public final class GoldDoor extends Door {
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {
-		if(o instanceof Chip) return ((Chip)o).invetory.contains(new KeyItem("Gold"));
+		if(o instanceof Chip) return ((Chip)o).hasItem(new KeyItem("Gold"));
 		return false;
 	}
 
