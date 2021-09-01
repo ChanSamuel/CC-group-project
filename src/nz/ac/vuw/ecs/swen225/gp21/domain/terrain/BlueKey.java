@@ -1,4 +1,9 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+
 /**
  * Gives Chip a blue key when entered
  * @author Benjamin

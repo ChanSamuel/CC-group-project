@@ -1,4 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+
 /**
  * The exit tile is the final goal tile
  * If Chip enters a tile of this type, they win!

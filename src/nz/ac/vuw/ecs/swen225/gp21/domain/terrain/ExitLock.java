@@ -1,4 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+
 /**
  * The exit lock terrain type blocks the player from reaching the exit until all treasure has been collected
  * @author Benjamin

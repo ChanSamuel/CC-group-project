@@ -1,4 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+
 /**
  * One way tiles can only be traversed in a single direction
  * So they can only be entered of the object is facing the right direction

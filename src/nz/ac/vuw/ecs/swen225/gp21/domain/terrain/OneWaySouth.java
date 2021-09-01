@@ -1,4 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+
 /**
  * The one way south terrain can only be travesed in a downwards
  * direction of travel.

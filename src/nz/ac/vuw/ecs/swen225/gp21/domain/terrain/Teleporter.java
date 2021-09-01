@@ -1,7 +1,11 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 /**
  * The teleporter is a special tile that will move an entity to the tile one after the link tile in the direction the GameObject was moving. 
  * when it is entered. The board loader must ensure the teleporter links (map entries) have been created
@@ -32,13 +36,13 @@ public class Teleporter extends Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {
-		Coord destination = getDestinationCoord(o.currentTile.location, o.dir);
+		Coord destination = getDestinationCoord(o.getTile().location, o.dir);
 		o.w.moveObject(o, destination);
 	}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) { 
-		Coord locationOfTeleport = o.dir.next(o.currentTile.location); //we are one tile away from the teleporter at this point
+		Coord locationOfTeleport = o.dir.next(o.getTile().location); //we are one tile away from the teleporter at this point
 		Coord destination = getDestinationCoord(locationOfTeleport, o.dir);
 		if(!o.w.isCoordValid(destination)) return false;
 		return o.w.getTileAt(destination).canEntityGoOnTile(o);

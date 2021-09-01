@@ -1,4 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+
 /**
  * The treasure tile terrain type represents a tile with treasure on it
  * chip must collect all the treasure to unlock the exit lock (step on all tiles with this terrain type)

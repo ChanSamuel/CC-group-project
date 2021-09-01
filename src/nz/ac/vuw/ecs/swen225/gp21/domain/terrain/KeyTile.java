@@ -1,10 +1,14 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+
 /**
  * Base class for the various key tiles to derive from
  * @author Benjamin
  *
  */
-abstract class KeyTile extends Terrain {
+public abstract class KeyTile extends Terrain {
 
 	@Override
 	public Terrain nextType(GameObject o) {

@@ -1,4 +1,7 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+
 /**
  * Door tile is the base class the colored doors derive from
  * @author Benjamin

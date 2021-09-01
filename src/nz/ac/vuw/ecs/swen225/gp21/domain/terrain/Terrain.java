@@ -1,4 +1,6 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 
 /**
  * Terrain defines the 'floor' of a tile, that GameObjects rest upon.

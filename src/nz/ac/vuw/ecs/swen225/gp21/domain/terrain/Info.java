@@ -1,4 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+
 /**
  * The information tile contains a help message.
  * When chip enters the info tile, it attempts to fire an event to the
@@ -15,7 +19,7 @@ public final class Info extends Terrain {
 	 * Create a new Info terrain type
 	 * @param message
 	 */
-	Info(String message){
+	public Info(String message){
 		if(message == null) throw new IllegalArgumentException("Message string must not be null!");
 		this.message = message;
 	}

@@ -1,4 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+
 /**
  * All one way tiles restrict object movement.
  * They all share these common attributes
