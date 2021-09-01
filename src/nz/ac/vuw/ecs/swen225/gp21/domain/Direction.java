@@ -9,7 +9,7 @@ public enum Direction {
 	 */
 	NORTH {
 		public Coord next(Coord location) {
-			return location.down();
+			return location.up();
 		}
 		protected Direction opposite() { return SOUTH; }
 	},
