@@ -1,16 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+
 /**
  * The game world is comprised of tiles
  * Tiles contain a location, possible game object, and Terrain type
  * @author Benjamin
  *
  */
-final class Tile {
+public final class Tile {
 	/**
 	 * The location of this tile on the board
 	 */
-	final Coord location;
+	public final Coord location;
 	/**
 	 * Reference to the object that is on this tile
 	 */

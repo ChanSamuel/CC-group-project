@@ -1,4 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+
 /**
  * 
  * @author Benjamin
@@ -21,7 +28,7 @@ public class ArrayBoard implements Board {
 	 * Creates a default test level. Simple 10*10 level 
 	 * Exit in the corner
 	 */
-	ArrayBoard() {
+	public ArrayBoard() {
 		this.rows = 10; this.columns = 10;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
@@ -45,7 +52,7 @@ public class ArrayBoard implements Board {
 	 * only initializes the terrain fields
 	 * @param level object that contains the information needed to build the board
 	 */
-	ArrayBoard(Level level) {
+	public ArrayBoard(Level level) {
 		this.rows = level.rows; this.columns = level.columns;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
