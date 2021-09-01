@@ -26,6 +26,8 @@ public abstract class Monster extends GameObject {
 	@Override
 	protected void entityEnteredTile(GameObject entity) {
 		if(!(entity instanceof Chip)) throw new RuntimeException("Non-chip entity entered tile occupied by monster! at: "+currentTile.location+" ->"+entity);
+		//Chip walked onto the same tile as a monster, oops
+		w.playerLost();
 	}
 
 	@Override
