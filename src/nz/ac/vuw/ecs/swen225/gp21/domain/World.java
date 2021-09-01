@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import java.util.*;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
@@ -19,6 +20,10 @@ public class World {
 	//		explains how to do this as data in a config file, although, this still needs to be determined
 	//		Somehow, the persistence module needs to feed in new entities
 	public int updates;
+	
+	public MultiMove event;
+	
+	private List<Tick> ticks;
 	
 	private Deque<Command> playerCommands;
 	
@@ -79,8 +84,9 @@ public class World {
 		if(isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
 		assert(totalTreasure == board.getRemainingChips()+playerEntity.treasureCollected);
 		//TODO notify observers here?
-		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
-		//TODO
+	}
+	public void saveTick(Tick tick) {
+		
 	}
 	/**
 	 * Initialize the world with data from the level object
@@ -262,39 +268,65 @@ public class World {
 //==========================================================
 //MOVEMENT METHODS - these methods talk to the board to move stuff
 // I'm open to criticism on why we have this extra layer of indirection GameObject/Tile -> world -> Board -> world information needed to make a decision	
+//
+//TODO 	How to stop this from getting out of control when playing a replay! :(
+// 		Could off-load it to state, only do this while running.
+//		While in replaying state: just move stuff, don't generate events. TODO
+//	
 	/**
-	 * Move an object to a destination
+	 * Try Move an object to a destination
 	 * Moving an object can cause a cascade of further events to occur
 	 * @param o the object being moved
-	 * @param destination where it is being moved to
+	 * @param destination where the object is being moved to
+	 * @return true if the move succeeded
 	 */
-	public void moveObject(GameObject o, Coord destination) {
-		board.moveObject(destination, o);
+	public boolean moveObject(GameObject o, Coord destination) {
+		return board.tryMoveObject(destination, o);
 	}
 	/**
-	 * Moves the specified game object up if possible
+	 * Try to move the specified game object up.
+	 * If the move succeeds, it is recorded.
 	 * @param o the object being moved
 	 */
 	public void moveUp(GameObject o) {
+		//TODO 	you could off-load this to worldState, would make life easier, then there 
+		//		won't be crazy issues when you call these same methods to do a replay. "event" is already public
+		//		(making a move in a replay should not generate an event to be recorded in a replay)
 		o.updateDirection(Direction.NORTH);
-		board.moveUp(o);
-		//notify?
+		boolean moved = moveObject(o, o.dir.next(o.currentTile.location));
+		if(moved) event.saveEvent(new MoveUp(o));
+		//notify observers?
 	}
 	/**
-	 * Moves the specified game object down if possible
+	 * Try to move the specified game object down.
+	 * If the move succeeds, it is recorded.
 	 * @param o the object being moved
 	 */
-	public void moveDown(GameObject o) { o.updateDirection(Direction.SOUTH); board.moveDown(o); }
+	public void moveDown(GameObject o) { 
+		o.updateDirection(Direction.SOUTH); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveDown(o));
+	}
 	/**
-	 * Moves the specified game object left if possible
+	 * Try to move the specified game object left.
+	 * If the move succeeds, it is recorded.
 	 * @param o the object being moved
 	 */
-	public void moveLeft(GameObject o) { o.updateDirection(Direction.WEST); board.moveLeft(o); }
+	public void moveLeft(GameObject o) { 
+		o.updateDirection(Direction.WEST); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveLeft(o));
+	}
 	/**
-	 * Moves the specified game object right if possible
+	 * Try to move the specified game object right.
+	 * If the move succeeds, it is recorded.
 	 * @param o the object being moved
 	 */
-	public void moveRight(GameObject o) { o.updateDirection(Direction.EAST); board.moveRight(o); }	
+	public void moveRight(GameObject o) { 
+		o.updateDirection(Direction.EAST); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveRight(o));
+	}	
 //====================================================================================
 //TO-STRING
 	@Override
