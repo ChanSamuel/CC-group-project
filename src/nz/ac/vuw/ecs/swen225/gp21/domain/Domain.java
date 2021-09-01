@@ -19,6 +19,12 @@ public interface Domain extends Subject{
 	 */
 	public State getDomainState();
 	/**
+	 * When in the loading state, call this method to insert a new GameObject into the world.
+	 * @param o The object being added
+	 * @param c the location it is being added to
+	 */
+	public void addGameObject(GameObject o, Coord c);
+	/**
 	 * Load a level into the world.
 	 * Calling this method assumes a new game is being started.
 	 * A new list of ticks will be generated as past of level initialization. 
@@ -40,15 +46,22 @@ public interface Domain extends Subject{
 	 */
 	public void update(double elapsedTime);
 	/**
-	 * Re-applies the events in the next tick
+	 * Re-applies the events in the next tick.
+	 * Moves the current tick forward one.
 	 * Does nothing if the game is already at the latest update. TODO change to exception? return boolean if it worked?
 	 */
 	public void replayTick();
 	/**
 	 * Undoes the updates in the last update/tick that occurred
+	 * Moves the current tick back one.
 	 * Does nothing if the game is at the first update (initial game conditions) TODO change to exception? return boolean if it worked?
 	 */
 	public void undoTick();
+	/**
+	 * Fast forward or rewind through the ticks until you reach the specified tick.
+	 * @param index the location of the tick
+	 */
+	public void goToTick(int index);
 	/**
 	 * Get all the ticks that have occurred so far in this game
 	 * A tick represents all the events that occurred in one game update
