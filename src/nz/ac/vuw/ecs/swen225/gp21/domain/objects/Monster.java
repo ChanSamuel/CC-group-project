@@ -1,4 +1,10 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.objects;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+
 /**
  * Monster objects are considered hostile 
  * to the player entity, chip.
@@ -17,21 +23,21 @@ public abstract class Monster extends GameObject {
 	}
 	
 	@Override
-	protected boolean canEntityGoOnTile(GameObject entity) {
+	public boolean canEntityGoOnTile(GameObject entity) {
 		//Chip can walk onto tiles that monsters are one, although this will result in a game over :P
 		if(entity instanceof Chip) return true;
 		return false;
 	}
 
 	@Override
-	protected void entityEnteredTile(GameObject entity) {
+	public void entityEnteredTile(GameObject entity) {
 		if(!(entity instanceof Chip)) throw new RuntimeException("Non-chip entity entered tile occupied by monster! at: "+currentTile.location+" ->"+entity);
 		//Chip walked onto the same tile as a monster, oops
 		w.playerLost();
 	}
 
 	@Override
-	protected void update(double elapsedTime) {
+	public void update(double elapsedTime) {
 		c.update(elapsedTime).execute(w); //TODO w.recordExecutedCommand(c.update().execute())  
 		//doing (w.enqueueCommandToExecuteLater(c.update())) creates a weird concurrency issue if multiple 
 		//things want to move into the same tile
@@ -52,7 +58,7 @@ public abstract class Monster extends GameObject {
 	}
 
 	@Override
-	protected String getName() {
+	public String getName() {
 		return getClass().getSimpleName();
 	}
 

@@ -1,7 +1,13 @@
-package nz.ac.vuw.ecs.swen225.gp21.domain;
+package nz.ac.vuw.ecs.swen225.gp21.domain.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.movementController.PlayerController;
 
 /**
  * Chip is the GameObject that the player will control
@@ -9,7 +15,7 @@ import java.util.List;
  * @author Benjamin
  *
  */
-class Chip extends GameObject {
+public class Chip extends GameObject {
 	/**
 	 * The number of items chip can fit in their inventory
 	 */
@@ -26,28 +32,28 @@ class Chip extends GameObject {
 	 * Create a new Chip
 	 * @param w the game world that chip exists in.
 	 */
-	protected Chip(World w) {
+	public Chip(World w) {
 		super(w, new PlayerController(w), Direction.NORTH);
 		treasureCollected = 0;
 		invetory = new ArrayList<Item>(INVETORY_SIZE);
 	}
 	
 	@Override
-	protected boolean canEntityGoOnTile(GameObject entity) {
+	public boolean canEntityGoOnTile(GameObject entity) {
 		//monsters are allowed to enter the square that chip is on
 		if (entity instanceof Monster) return true;
 		return false;
 	}
 
 	@Override
-	protected void entityEnteredTile(GameObject entity) {
+	public void entityEnteredTile(GameObject entity) {
 		// a monster stepped on the same square as chip, so the player lost
 		if(!(entity instanceof Monster)) throw new RuntimeException("Non Monster entered the same tile as chip! at:"+currentTile.location+" ->"+entity);
 		w.playerLost();
 	}
 
 	@Override
-	protected void update(double elapsedTime) {
+	public void update(double elapsedTime) {
 		//I'm not sure if we should be getting the lower level objects to move themselves?
 		//or {currently} send a command back up to the top level class to move the object for us?
 		c.update(elapsedTime).execute(w);
@@ -55,14 +61,14 @@ class Chip extends GameObject {
 	/**
 	 * This method is called when Chip collects a treasure chip
 	 */
-	void collectedChip() {
+	public void collectedChip() {
 		w.collectedAChip();
 	}
 	/**
 	 * This method is called when Chip picks up an item
 	 * @param item the item chip picked up
 	 */
-	void addItem(Item item) {
+	public void addItem(Item item) {
 		this.invetory.add(item);
 	}
 	/**
@@ -70,12 +76,19 @@ class Chip extends GameObject {
 	 * @param item the item being checked
 	 * @return true if the item is in Chip's inventory
 	 */
-	boolean hasItem(Item item) {
+	public boolean hasItem(Item item) {
 		return this.invetory.contains(item);
+	}
+	/**
+	 * Remove an item from chip's inventory
+	 * @param item
+	 */
+	public void removeItem(Item item) {
+		this.invetory.remove(item);
 	}
 	
 	@Override
-	protected String getName() {
+	public String getName() {
 		return getClass().getSimpleName();
 	}
 
@@ -97,4 +110,5 @@ class Chip extends GameObject {
 		answer.append("]");
 		return answer.toString();
 	}
+
 }
