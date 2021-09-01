@@ -34,16 +34,16 @@ class Chip extends GameObject {
 	
 	@Override
 	protected boolean canEntityGoOnTile(GameObject entity) {
-		//monsters are allowed to enter the square that chip is on TODO
-		// if (entity instanceof monster) { return true } else { return false }
+		//monsters are allowed to enter the square that chip is on
+		if (entity instanceof Monster) return true;
 		return false;
 	}
 
 	@Override
 	protected void entityEnteredTile(GameObject entity) {
 		// a monster stepped on the same square as chip, so the player lost
-		//if(entity instanceof monster) w.gameOver()  TODO
-		// else doNothing.
+		if(!(entity instanceof Monster)) throw new RuntimeException("Non Monster entered the same tile as chip! at:"+currentTile.location+" ->"+entity);
+		w.playerLost();
 	}
 
 	@Override
@@ -60,10 +60,18 @@ class Chip extends GameObject {
 	}
 	/**
 	 * This method is called when Chip picks up an item
-	 * @param keyItem
+	 * @param item the item chip picked up
 	 */
-	void addItem(Item keyItem) {
-		
+	void addItem(Item item) {
+		this.invetory.add(item);
+	}
+	/**
+	 * Determine if chip is holding a certain item
+	 * @param item the item being checked
+	 * @return true if the item is in Chip's inventory
+	 */
+	boolean hasItem(Item item) {
+		return this.invetory.contains(item);
 	}
 	
 	@Override
