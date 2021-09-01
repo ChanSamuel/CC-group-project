@@ -31,6 +31,17 @@ public final class Tile {
 		occupier = null;
 	}
 	/**
+	 * Helper method for replays
+	 * Force an object onto this tile.
+	 * Don't notify the terrain
+	 * @param o object being moved onto this tile
+	 */
+	public void forcePlace(GameObject o) {
+		o.setTile(this);
+		occupier = o;
+	}
+	
+	/**
 	 * Remove the GameObject reference for this tile
 	 */
 	void removeOccupier() {
@@ -44,8 +55,7 @@ public final class Tile {
 	 */
 	void setOccupier(GameObject o) {
 		if(isTileOccupied()) occupier.entityEnteredTile(o);
-		o.setTile(this);
-		occupier = o;
+		forcePlace(o);
 	}
 	/**
 	 * Follow the complete move procedure
