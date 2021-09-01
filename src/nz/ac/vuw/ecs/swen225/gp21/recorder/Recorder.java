@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
+import java.util.List;
+
 /**
  * The primary class for the recording package.
  * Represents a 'recording' of a game, containing all the states in the game, 
@@ -8,7 +10,7 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
  * @author Peter Liley 2021
  */
 public class Recorder {
-    GameState[] gameStates;
+    List<GameTick> gameStates;
     int statePointer;
     private boolean autoReplayRunning = false;
     private float autoReplaySpeed;
@@ -23,7 +25,7 @@ public class Recorder {
      * 
      * return: True if save successful
      */
-    public boolean save(GameState[] statesToSave){
+    public boolean save(List<GameTick> statesToSave){
 
     }
 
@@ -31,7 +33,7 @@ public class Recorder {
      * Parses an xml file into a list of game states
      * @return A list of all game states in loaded recording
      */
-    public GameState[] load(File xmlToLoad){
+    public List<GameTick> load(File xmlToLoad){
 
     }
 
