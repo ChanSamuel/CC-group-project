@@ -1,14 +1,14 @@
 Adding an entity to the board needs to be registered In the tick to cover 
-for the scenario where a player spawns on a collectible item.
+for the scenario where a player spawns on a collectible item. //TODO
 
-Everytime an actual physical move occurs
+Before we call object.update() on the next object, we need to make a new currentEvent MultiMove
+to start appending to
+
+Everytime an actual physical move occurs //TODO
 We need to append it to the currentEvent MultiMove Command
 
 After an object has finished updating [object.update() returns], we need to save
 the currentEvent command to the current Tick's list of event commands
-
-Before we call object.update() on the next object, we need to make a new currentEvent MultiMove
-to start appending to
 
 TO DO -> how to handle terrain updates?
 >> I think we need to save the terrain that we are moving to each time along with 'us'
