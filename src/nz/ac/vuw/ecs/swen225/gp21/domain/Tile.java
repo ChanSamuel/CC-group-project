@@ -36,7 +36,8 @@ final class Tile {
 	}
 	/**
 	 * Called when manually moving an object around the board
-	 * for example, when an object teleports
+	 * for example, when an object teleports.
+	 * Doesn't ask the terrain for permission
 	 * @param o 
 	 */
 	void setOccupier(GameObject o) {
