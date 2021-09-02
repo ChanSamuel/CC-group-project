@@ -62,21 +62,29 @@ public class Recorder {
 
     /**
      * Returns the next tick in the tick list if playback mode is auto
-     * Returns the next *relevant* tick in the list if playback mode is manual
-     * @return
+     * Returns the next *meaningful* tick in the list if playback mode is manual
+     *  - a 'meaningful' tick is one in which any actor moves
+     * @return next (meaningful*) GameTick object
      */
     public GameTick nextTick(){
-        return null;
+        if(autoReplayRunning) return next();
+        else return nextMeaningful();
+    }
+
+
+    public GameTick prevTick(){
+        if(autoReplayRunning) return prev();
+        else return prevMeaningful();
     }
 
     // PRIVATE METHODS ===============
 
     /**
      * Returns the next tick in the list of ticks by incrementing the pointer.
-     * @return Next game state index in the list (or current state if no prev state)
+     * @return Next game state index in the list (or current tick if no next tick)
      */
     private GameTick next() {
-        if(tickPointer < ticks.size()) tickPointer++;
+        if(tickPointer < ticks.size()-1) tickPointer++;
         return ticks.get(tickPointer);
     }
 
@@ -87,6 +95,32 @@ public class Recorder {
     private GameTick prev() {
         if(tickPointer > 0) tickPointer--;
         return ticks.get(tickPointer);
+    }
+
+    /**
+     * Returns the next 'meaningful' tick, or current tick if no next tick
+     *  - - a 'meaningful' tick is one in which any actor moves
+     * @return
+     */
+    private GameTick nextMeaningful() {
+        while(tickPointer < ticks.size()-1){
+            tickPointer++;
+            if(ticks.get(tickPointer).isMeaningful()) return ticks.get(tickPointer);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the next 'meaningful' tick, or current tick if no next tick
+     *  - - a 'meaningful' tick is one in which any actor moves
+     * @return
+     */
+    private GameTick prevMeaningful() {
+        while(tickPointer > 0){
+            tickPointer--;
+            if(ticks.get(tickPointer).isMeaningful()) return ticks.get(tickPointer);
+        }
+        return null;
     }
 
         /**

@@ -7,7 +7,7 @@ public class GameTick {
      * and returns false if the tick contains no movement by any actor.
      * @return
      */
-    public boolean tickIsMeaningful() {
+    public boolean isMeaningful() {
         return false;
     }
 
