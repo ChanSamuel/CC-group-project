@@ -7,9 +7,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
  * @author mengli
  *
  */
-public class doorJComponent extends GameObjectJComponent{
+public class DoorJComponent extends GameObjectJComponent{
 
-	doorJComponent(Coord coord, int width, int height, String filename) {
+	DoorJComponent(Coord coord, int width, int height, String filename) {
 		super(coord, width, height, filename);
 		
 	}

@@ -19,8 +19,8 @@ public class ChapJComponent extends GameObjectJComponent{
 	}
 	/**
 	 * Update chap when moving
-	 * @param x x coordinate
-	 * @param y y coordinate
+	 * @param x x coordinate of chap
+	 * @param y y coordinate of chap
 	 */
 	void updateChap(int x,int y) {
 		//create a new chapMoving thread for the animation

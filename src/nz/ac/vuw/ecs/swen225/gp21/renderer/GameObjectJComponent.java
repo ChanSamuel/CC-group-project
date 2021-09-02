@@ -21,7 +21,7 @@ public abstract class GameObjectJComponent extends JComponent{
 		//TODO
 	}
 	/**
-	 * override paintComponent method,draw chap
+	 * override paintComponent method,draw game objects
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
