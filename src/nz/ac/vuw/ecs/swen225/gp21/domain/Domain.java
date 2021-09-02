@@ -18,6 +18,17 @@ public interface Domain extends Subject{
 	 * @return The state of the domain
 	 */
 	public State getDomainState();
+//==============
+//HELPERS FOR RENDERING INTERFACE
+	/**
+	 * Return a reference to the board
+	 * which can be queried for the information needed
+	 * to display the game
+	 * @return A reference to the game board
+	 */
+	public Board getBoard();
+//==============
+//LOADING METHODS
 	/**
 	 * When in the loading state, call this method to insert a new GameObject into the world.
 	 * @param o The object being added
@@ -39,24 +50,33 @@ public interface Domain extends Subject{
 	 * @param updates List of updates leading to the state the game was in
 	 */
 	public void restoreGame(Level level, List<Tick> updates);
+	//OR!!! <Generate a deep copy>
+	public void restoreDomain(Domain d);
+	public Domain getDomain(Domain d);
+//why not both?
+//==============
+	
+//=============
+//INFORMATION GENERATION
 	/**
 	 * Simulate the game for one time interval, generates a new tick
 	 * TODO should persistence module receive the tick?
 	 * @param elapsedTime the amount of time since the last update
 	 */
 	public void update(double elapsedTime);
+//	public Tick update(double elapsedTime); //??? how about this?
 	/**
 	 * Re-applies the events in the next tick.
 	 * Moves the current tick forward one.
 	 * Does nothing if the game is already at the latest update. TODO change to exception? return boolean if it worked?
 	 */
-	public void replayTick();
+	public void forwardTick();
 	/**
 	 * Undoes the updates in the last update/tick that occurred
 	 * Moves the current tick back one.
 	 * Does nothing if the game is at the first update (initial game conditions) TODO change to exception? return boolean if it worked?
 	 */
-	public void undoTick();
+	public void backTick();
 	/**
 	 * Fast forward or rewind through the ticks until you reach the specified tick.
 	 * @param index the location of the tick
@@ -74,6 +94,10 @@ public interface Domain extends Subject{
 	 * @return the current tick
 	 */
 	public Tick getCurrentTick();
+//===================
+	
+//===================
+//API 
 	/**
 	 * Attempt to move chip up on the next update
 	 */
@@ -90,4 +114,5 @@ public interface Domain extends Subject{
 	 * Attempt to move chip to the right next update
 	 */
 	public void moveChipRight();
+//=======================
 }
