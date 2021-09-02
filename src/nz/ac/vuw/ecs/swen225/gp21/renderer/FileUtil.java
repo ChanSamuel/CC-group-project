@@ -1,13 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * This is a utility class used for load files, such as images and musics
@@ -15,6 +15,12 @@ import javax.imageio.ImageIO;
  *
  */
 public class FileUtil {
+	/**
+	 * A method for returning an InputStream from a filepath
+	 * @param type which type of file, image or sound
+	 * @param path the filepath of this file
+	 * @return the inputstream
+	 */
 	public static InputStream getInputStream(String type,String path) {
 		//NOTE ref: https://stackoverflow.com/questions/25635636/eclipse-exported-runnable-jar-not-showing-images
 		//URLClassLoader.getSystemClassLoader() similar to getClass().getClassLoader()
@@ -26,6 +32,12 @@ public class FileUtil {
 //		return URLClassLoader.getSystemClassLoader().getResourceAsStream(s);
 		return FileUtil.class.getResourceAsStream(filepath);
 	}
+	/**
+	 * A method for returning a buffered image.
+	 * @param path the image file path
+	 * @return the buffered image
+	 * @throws IOException if couldn't get input stream
+	 */
 	public static BufferedImage getBufferedImage(String path) throws IOException {
 		//get the inputStream of this image
 		InputStream inputStream = getInputStream("images",path);
@@ -33,5 +45,25 @@ public class FileUtil {
 		if(inputStream==null) throw new RuntimeException("couldn't find image inputSteam");
 		//otherwise use Toolkit return the image.
 		return ImageIO.read(inputStream);
+	}
+	/**
+	 * A method for returning an AudioStream from given path
+	 * @param path the audio file path
+	 * @return the audioInputStream
+	 * @throws IOException if couldn't get input stream or audio file not support
+	 */
+	public static AudioInputStream getAudioStream(String path) throws IOException {
+		//get the inputStream of this image
+		InputStream inputStream = getInputStream("sounds",path);
+		//if inputStream is null, throw exception.
+		if(inputStream==null) throw new RuntimeException("couldn't find sounds inputSteam");
+		//otherwise use Toolkit return the image.
+		try {
+			return AudioSystem.getAudioInputStream(inputStream);
+		} catch (UnsupportedAudioFileException | IOException e) {
+			System.out.println("Unsupport audio file");
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
