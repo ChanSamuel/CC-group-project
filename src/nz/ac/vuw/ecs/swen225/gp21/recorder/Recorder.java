@@ -11,15 +11,28 @@ import java.util.List;
  * @author Peter Liley 2021
  */
 public class Recorder {
-    List<GameTick> ticks;
-    int tickPointer;
+    private List<GameTick> ticks;
+    private int tickPointer;
     private boolean autoReplayRunning = false;
-    private float autoReplaySpeed;
 
     public Recorder(){
         this.tickPointer = 0;
-        this.autoReplaySpeed = 1.0f;
     }
+
+    /**
+     * Returns whether or not the current mode is automatic or manual replay
+     * @return
+     */
+    public boolean getAutoReplayRunning(){
+        return autoReplayRunning;
+    }
+
+    /**
+    * Sets whether or not auto-replay is runnning.
+    */
+    public void setAutoReplayRunning(boolean running){
+        autoReplayRunning = running;
+    } 
 
     /**
      * Saves the given list of game states to an xml file
@@ -34,8 +47,8 @@ public class Recorder {
      * Parses an xml file into a list of game states
      * @return A list of all game states in loaded recording
      */
-    public List<GameTick> load(File xmlToLoad){
-        return LoadRecording.load(xmlToLoad);
+    public void load(File xmlToLoad){
+        ticks = LoadRecording.load(xmlToLoad);
     }
 
     /**
@@ -48,23 +61,15 @@ public class Recorder {
     }
 
     /**
-     * Returns true if the tick is valid
+     * Returns the next tick in the tick list if playback mode is auto
+     * Returns the next *relevant* tick in the list if playback mode is manual
+     * @return
      */
-    private boolean tickValid(GameTick tick) {
-        if(tick == null) return false;
-        return true;
+    public GameTick nextTick(){
+        return null;
     }
 
-    /**
-     * Returns the next game state in which an actor moves
-     * @return The next meaningful game state
-     */
-    public GameTick playOneStep(){
-        while(!ticks.get(tickPointer).tickIsMeaningful()){
-            tickPointer++;
-        }
-        return ticks.get(tickPointer);
-    }
+    // PRIVATE METHODS ===============
 
     /**
      * Returns the next tick in the list of ticks by incrementing the pointer.
@@ -84,20 +89,12 @@ public class Recorder {
         return ticks.get(tickPointer);
     }
 
-    /**
-     * Sets whether or not auto-replay is runnning.
+        /**
+     * Returns true if the tick is valid
      */
-    public void setAutoReplayRunning(boolean running){
-         autoReplayRunning = running;
-    } 
-
-    /**
-     * Sets auto replay speed 
-     * (1 = normal speed, 2 = double speed, 0.5 = 50% speed, etc)
-     * @param speed Replay speed, with 1 being 'normal' (i.e. 'input') speed.
-     */
-    public void setAutoReplaySpeed(float speed){
-        autoReplaySpeed = speed;
+    private boolean tickValid(GameTick tick) {
+        if(tick == null) return false;
+        return true;
     }
 
 }
