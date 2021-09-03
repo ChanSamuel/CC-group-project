@@ -4,9 +4,9 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * The game world is comprised of tiles
  * Tiles contain a location, possible game object, and Terrain type
  * @author Benjamin
- *
+ * TODO TEMP MODIFY FROM DEFAULT TO PUBLIC
  */
-final class Tile {
+public final class Tile {
 	/**
 	 * The location of this tile on the board
 	 */
@@ -84,6 +84,13 @@ final class Tile {
 	public Terrain getTerrain() {
 		if(this.terrain == null) throw new IllegalStateException("This tile has not been given a terrain type! "+this.location);
 		return this.terrain;
+	}
+	/**
+	 * Get the location of this tile
+	 * TODO temp
+	 */
+	public Coord getCoord() {
+		return this.location;
 	}
 	/**
 	 * Determine if an object can enter this tile
