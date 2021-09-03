@@ -44,6 +44,9 @@ public class Loading implements State {
 	private GameObject nameToGameObject(World w, String name) {
 		//TODO ouch! not sure how we can make this better :(
 		//Marco would be displeased
+		//This system CANNOT cope with external entities being added to the game
+		//currently hacking around the issue by offering addEntity(GameObject o) method
+		//but I think its far from ideal.
 		switch(name) {
 		case "Chip":
 			return new Chip(w);
