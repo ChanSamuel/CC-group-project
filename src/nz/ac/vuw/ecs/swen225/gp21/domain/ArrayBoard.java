@@ -127,8 +127,8 @@ public class ArrayBoard implements Board {
 	/**
 	 * Don't perform any checks, forcefully move an object to a location
 	 * We need this method because some moves can't be undone normally, due to one way tile restrictions
-	 * @param dest
-	 * @param o
+	 * @param dest Location the object is being moved back to
+	 * @param o the object being moved
 	 */
 	public void undoMoveObject(Coord dest, GameObject o) {
 		Tile t = coordToTile(dest);
