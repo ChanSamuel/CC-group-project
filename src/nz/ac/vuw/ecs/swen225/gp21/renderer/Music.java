@@ -13,7 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
  * @author mengli
  *
  */
-public class Music {
+class Music {
 	/**
 	 * The audio input stream
 	 */
@@ -26,7 +26,7 @@ public class Music {
 	 * Constructor
 	 * @param ais the audio input stream.
 	 */
-	public Music(AudioInputStream ais) {
+	Music(AudioInputStream ais) {
 		this.ais = ais;
 		init();
 	}
@@ -51,7 +51,7 @@ public class Music {
 	/**
 	 * Start the music
 	 */
-	public void start() {
+	void start() {
         clip.start();
 	}
 	

@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  * @author mengli
  *
  */
-public class ChapJComponent extends GameObjectJComponent{
+class ChapJComponent extends GameObjectJComponent{
 	/**
 	 * Chap's image face left
 	 */

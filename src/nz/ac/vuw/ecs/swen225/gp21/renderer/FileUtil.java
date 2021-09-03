@@ -24,7 +24,7 @@ public class FileUtil {
 	 * @param path the filepath of this file
 	 * @return the inputstream
 	 */
-	public static InputStream getInputStream(String type,String path) {
+	static InputStream getInputStream(String type,String path) {
 		//NOTE ref: https://stackoverflow.com/questions/25635636/eclipse-exported-runnable-jar-not-showing-images
 		//URLClassLoader.getSystemClassLoader() similar to getClass().getClassLoader()
 		//go to the root folder of current class, and get the url of given type and path, 
@@ -43,7 +43,7 @@ public class FileUtil {
 	 * @return an URL
 	 * 
 	 */
-	public static URL getURL(String type,String path) {
+	static URL getURL(String type,String path) {
 		String filepath = "/"+type+"/"+path;
 		return FileUtil.class.getResource(filepath);
 	}
@@ -54,7 +54,7 @@ public class FileUtil {
 	 * @return the buffered image
 	 * @throws IOException if couldn't get input stream
 	 */
-	public static BufferedImage getBufferedImage(String path) throws IOException {
+	static BufferedImage getBufferedImage(String path) throws IOException {
 		//get the inputStream of this image
 		InputStream inputStream = getInputStream("images",path);
 		//if inputStream is null, throw exception.
@@ -65,7 +65,7 @@ public class FileUtil {
 	/**
 	 * A method for returning a gif.
 	 */
-	public static Image getGIF(String path) {
+	static Image getGIF(String path) {
 		URL url = getURL("images",path);
 		Image img = Toolkit.getDefaultToolkit().createImage(url);
 		return img;
@@ -76,7 +76,7 @@ public class FileUtil {
 	 * @return the audioInputStream
 	 * @throws IOException if couldn't get input stream or audio file not support
 	 */
-	public static AudioInputStream getAudioStream(String path) throws IOException {
+	static AudioInputStream getAudioStream(String path) throws IOException {
 		//get the inputStream of this image
 		InputStream inputStream = getInputStream("sounds",path);
 		//if inputStream is null, throw exception.

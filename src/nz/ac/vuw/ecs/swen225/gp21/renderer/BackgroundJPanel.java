@@ -10,7 +10,7 @@ import javax.swing.JPanel;
  * @author mengli
  *
  */
-public class BackgroundJPanel extends JPanel{
+class BackgroundJPanel extends JPanel{
 	/**
 	 * The constructor
 	 * Take the board list as parameter to create the backgound.
