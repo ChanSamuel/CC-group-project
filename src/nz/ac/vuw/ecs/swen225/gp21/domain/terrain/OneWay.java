@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-abstract class OneWay extends Terrain {
+abstract class OneWay implements Terrain {
 	/**
 	 * The direction the tile can be traversed across
 	 */

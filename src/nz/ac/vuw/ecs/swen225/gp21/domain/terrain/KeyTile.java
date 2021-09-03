@@ -8,12 +8,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public abstract class KeyTile extends Terrain {
+public abstract class KeyTile implements Terrain {
 
 	@Override
 	public Terrain nextType(GameObject o) {
 		if(o instanceof Chip) {
-			return new Free();
+			return Free.getInstance();
 		} else {
 			return this;
 		}

@@ -25,11 +25,17 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public class Teleporter extends Terrain {
+public class Teleporter implements Terrain {
 	/**
 	 * Record of one-way teleporter links
 	 */
 	public static Map<Coord, Coord> links = new HashMap<>();
+	
+	private static Teleporter instance = new Teleporter();
+	
+	public static Teleporter getInstance() { return instance; }
+	
+	private Teleporter() {}
 	
 	@Override
 	public Terrain nextType(GameObject o) { return this; }

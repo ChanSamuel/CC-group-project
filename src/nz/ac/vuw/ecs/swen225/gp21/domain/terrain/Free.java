@@ -8,7 +8,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public class Free extends Terrain {
+public class Free implements Terrain {
+	
+	private static Free instance = new Free();
+	
+	public static Free getInstance() { return instance; }
+	
+	private Free() {}
 
 	@Override
 	public Terrain nextType(GameObject o) { return this; }

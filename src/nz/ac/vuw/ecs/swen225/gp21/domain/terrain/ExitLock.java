@@ -7,10 +7,16 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public class ExitLock extends Terrain {
+public class ExitLock implements Terrain {
+	
+	private static ExitLock instance = new ExitLock();
+	
+	public static ExitLock getInstance() { return instance; }
+	
+	private ExitLock() {}
 
 	@Override
-	public Terrain nextType(GameObject o) { return new Free(); }
+	public Terrain nextType(GameObject o) { return Free.getInstance(); }
 
 	@Override
 	public void entityEntered(GameObject o) { throw new RuntimeException("Entity "+o+" entered the exit lock tile");	}

@@ -11,6 +11,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public final class GoldDoor extends Door {
+	
+	private static GoldDoor instance = new GoldDoor();
+	
+	public static GoldDoor getInstance() { return instance; }
+	
+	private GoldDoor() {}
 
 	@Override
 	public void entityEntered(GameObject o) {

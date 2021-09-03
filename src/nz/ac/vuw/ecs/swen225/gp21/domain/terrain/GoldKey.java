@@ -10,6 +10,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public final class GoldKey extends KeyTile {
+	
+	private static GoldKey instance = new GoldKey();
+	
+	public static GoldKey getInstance() { return instance; }
+	
+	private GoldKey() {}
 
 	@Override
 	public void entityEntered(GameObject o) {

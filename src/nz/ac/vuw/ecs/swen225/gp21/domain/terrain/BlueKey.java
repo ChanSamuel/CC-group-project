@@ -10,7 +10,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public final class BlueKey extends KeyTile {
+	
+	private static BlueKey instance = new BlueKey();
+	
+	public static BlueKey getInstance() { return instance; }
 
+	private BlueKey() {}
+	
 	@Override
 	public void entityEntered(GameObject o) {
 		if(o instanceof Chip) {

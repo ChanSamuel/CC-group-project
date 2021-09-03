@@ -8,10 +8,15 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  *
  */
 public final class OneWayEast extends OneWay {
+	
+	private static OneWayEast instance = new OneWayEast();
+	
+	public static OneWayEast getInstance() { return instance; }
+
 	/**
 	 * TODO
 	 */
-	public OneWayEast() {
+	private OneWayEast() {
 		super(Direction.EAST);
 	}
 	

@@ -7,10 +7,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-abstract class Door extends Terrain {
+abstract class Door implements Terrain {
 
 	@Override
-	public Terrain nextType(GameObject o) {return new Free();}
+	public Terrain nextType(GameObject o) {return Free.getInstance();}
 
 	@Override
 	public abstract void entityEntered(GameObject o);

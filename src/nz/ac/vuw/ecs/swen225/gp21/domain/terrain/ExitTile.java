@@ -9,7 +9,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public class ExitTile extends Terrain {
+public class ExitTile implements Terrain {
+	
+	private static ExitTile instance = new ExitTile();
+	
+	public static ExitTile getInstance() { return instance; }
+	
+	private ExitTile() {}
 
 	@Override
 	public Terrain nextType(GameObject o) { return this; }

@@ -10,18 +10,27 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public final class Info extends Terrain {
+public final class Info implements Terrain {
+	
+	private static Info instance = new Info("No message");
+	
+	public static Info getInstance() { return instance; }
+	
+	private Info(String message) {
+		if(message == null) throw new IllegalArgumentException("Message must not be null");
+		this.message = message;
+	}
+	
 	/**
 	 * The message that is displayed by this tile.
 	 */
-	private String message;
+	private final String message;
 	/**
 	 * Create a new Info terrain type
 	 * @param message
 	 */
-	public Info(String message){
-		if(message == null) throw new IllegalArgumentException("Message string must not be null!");
-		this.message = message;
+	public static void setInfoText(String message){
+		instance = new Info(message);
 	}
 	
 	@Override

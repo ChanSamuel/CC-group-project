@@ -7,7 +7,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public final class Wall extends Terrain {
+public final class Wall implements Terrain {
+	
+	private static Wall instance = new Wall();
+	
+	public static Wall getInstance() { return instance; }
+	
+	private Wall() {}
 
 	@Override
 	public Terrain nextType(GameObject o) {return this;}
@@ -24,6 +30,6 @@ public final class Wall extends Terrain {
 	public char boardChar() {return '#';}
 	
 	@Override
-	public String toString() { return super.toString()+"Wall"; }
+	public String toString() { return "Wall"; }
 
 }

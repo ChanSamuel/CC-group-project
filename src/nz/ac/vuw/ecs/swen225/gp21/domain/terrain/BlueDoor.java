@@ -10,6 +10,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public final class BlueDoor extends Door {
+	
+	private static BlueDoor instance = new BlueDoor();
+	
+	public static BlueDoor getInstance() { return instance; }
+	
+	private BlueDoor() {}
 
 	@Override
 	public void entityEntered(GameObject o) {

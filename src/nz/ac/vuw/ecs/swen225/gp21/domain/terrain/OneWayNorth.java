@@ -10,10 +10,15 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  *
  */
 public final class OneWayNorth extends OneWay {
+	
+	private static OneWayNorth instance = new OneWayNorth();
+	
+	public static OneWayNorth getInstance() { return instance; }
+	
 	/**
 	 * Create a new One way North terrain
 	 */
-	public OneWayNorth() {
+	private OneWayNorth() {
 		super(Direction.NORTH);
 	}
 

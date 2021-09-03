@@ -10,12 +10,18 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public class Treasure extends Terrain {
+public class Treasure implements Terrain {
+	
+	private static Treasure instance = new Treasure();
+	
+	public static Treasure getInstance() { return instance; }
+	
+	private Treasure() {}
 
 	@Override
 	public Terrain nextType(GameObject o) {
 		//may need to call something here to signify one less treasure
-		return new Free();
+		return Free.getInstance();
 	}
 
 	@Override
