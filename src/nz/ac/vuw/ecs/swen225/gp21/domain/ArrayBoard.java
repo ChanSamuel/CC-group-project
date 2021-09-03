@@ -131,7 +131,8 @@ public class ArrayBoard implements Board {
 	 * @param o
 	 */
 	public void undoMoveObject(Coord dest, GameObject o) {
-		
+		Tile t = coordToTile(dest);
+		t.forcePlace(o);
 	}
 	
 	@Override
