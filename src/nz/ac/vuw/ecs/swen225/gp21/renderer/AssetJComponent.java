@@ -1,15 +1,16 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 /**
  * The assert JComponent,such as key and chip(the treasure), update when picked up
  * @author mengli
  *
  */
-public class AssertJComponent extends GameObjectJComponent{
+public class AssetJComponent extends GameObjectJComponent{
 
-	AssertJComponent(Coord coord, int width, int height, String filename) {
-		super(coord, width, height, filename);
+	AssetJComponent(Coord coord,Direction dir) {
+		super(coord,dir);
 	}
 	/**
 	 * start the key animation when key picked up
