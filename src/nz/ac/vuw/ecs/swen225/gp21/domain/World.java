@@ -35,7 +35,7 @@ public class World {
 	
 	private Board board;
 	
-	private final int totalTreasure;
+	public int totalTreasure;
 //===========================================================
 //WORLD INITIALIZATION METHODS
 	/**
@@ -78,23 +78,21 @@ public class World {
 	 * We have made a decision that this should occur about ever 200 milliseconds for ~ 10 FPS gameplay
 	 * Resource: http://gameprogrammingpatterns.com/game-loop.html, may change this to fixed time step updates later
 	 * @param elapsedTime the time since this method was last called, calculated by the caller
+	 * @return A record of all the changes that happened during the update
 	 */
-	public void update(double elapsedTime) {
-		worldState.update(this, elapsedTime);
-		if(isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
-		assert(totalTreasure == board.getRemainingChips()+playerEntity.treasureCollected);
-		//TODO notify observers here?
-	}
+	public Tick update(double elapsedTime) { return worldState.update(this, elapsedTime); }
+	/**
+	 * Move a tick into the world to be played forwards, or replayed
+	 * @param tick
+	 */
 	public void saveTick(Tick tick) {
-		
+		//TODO
 	}
 	/**
 	 * Initialize the world with data from the level object
 	 * @param level the level information
 	 */
-	public void loadLevel(Level level) {
-		worldState.loadLevel(this, level);
-	}
+	public void loadLevel(Level level) { worldState.loadLevel(this, level); }
 	/**
 	 * External package entity should call this when 
 	 * all the external objects have been added 
@@ -154,6 +152,8 @@ public class World {
 		return this.worldState;
 	}
 	//TODO add external state setters?
+	// i.e. if the user is done watching replay and wants to go back to playing
+	//      how will those state changes happen?
 //==========================================================
 //EVEN MORE PUBLIC API METHODS
 		/**
