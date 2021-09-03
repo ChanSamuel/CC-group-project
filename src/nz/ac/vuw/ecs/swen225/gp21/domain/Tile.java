@@ -39,6 +39,10 @@ public final class Tile {
 	public void forcePlace(GameObject o) {
 		o.setTile(this);
 		occupier = o;
+		getTerrain().entityEntered(o); 
+		//if ticks were a little more sophisticated we could move objects directly to their destination
+		//instead of making the board move them back, but then ticks would have to store 
+		//{ beforePos, afterPos, before terrain (after terrain can be inferred easily) }
 	}
 	
 	/**
@@ -53,9 +57,10 @@ public final class Tile {
 	 * Doesn't ask the terrain for permission
 	 * @param o 
 	 */
-	void setOccupier(GameObject o) {
+	private void setOccupier(GameObject o) {
 		if(isTileOccupied()) occupier.entityEnteredTile(o);
-		forcePlace(o);
+		o.setTile(this);
+		occupier = o;
 	}
 	/**
 	 * Follow the complete move procedure
