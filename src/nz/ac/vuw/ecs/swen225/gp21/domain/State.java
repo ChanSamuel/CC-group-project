@@ -11,8 +11,9 @@ public interface State {
 	 * Simulate the world for one tick
 	 * @param w
 	 * @param elapsedTime 
+	 * @return an object encapsulating all the events that happened during the update
 	 */
-	public void update(World w, double elapsedTime);
+	public Tick update(World w, double elapsedTime);
 	/**
 	 * Initialize the world from a level object
 	 * @param world the world being initialized

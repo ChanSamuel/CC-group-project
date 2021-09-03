@@ -5,6 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
@@ -54,7 +55,7 @@ public class Loading implements State {
 	}
 	
 	@Override
-	public void update(World w, double elapsedTime) {
+	public Tick update(World w, double elapsedTime) {
 		throw new IllegalStateException("Cannot simulate world while world is loading!");
 	}
 

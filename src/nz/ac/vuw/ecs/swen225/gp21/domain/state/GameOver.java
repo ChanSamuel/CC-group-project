@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
@@ -15,7 +16,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 public final class GameOver implements State {
 
 	@Override
-	public void update(World w, double elapsedTime) {
+	public Tick update(World w, double elapsedTime) {
 		throw new IllegalStateException("World is in game over state! No more updates can be made!");
 	}
 
