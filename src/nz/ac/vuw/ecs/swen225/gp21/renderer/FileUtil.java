@@ -1,8 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -28,10 +31,23 @@ public class FileUtil {
 		//doesn't matter using absolute url or relative url here because this is the root folder
 		//here use the relative url.
 		String filepath = "/"+type+"/"+path;
+		System.out.println(filepath);
 		//NOTE couldn't get systemClassLoader working in this case
 //		return URLClassLoader.getSystemClassLoader().getResourceAsStream(s);
 		return FileUtil.class.getResourceAsStream(filepath);
 	}
+	/**
+	 * A method for returning an url from a filepath
+	 * @param type is it an image or music
+	 * @param path the filepath
+	 * @return an URL
+	 * 
+	 */
+	public static URL getURL(String type,String path) {
+		String filepath = "/"+type+"/"+path;
+		return FileUtil.class.getResource(filepath);
+	}
+	
 	/**
 	 * A method for returning a buffered image.
 	 * @param path the image file path
@@ -45,6 +61,14 @@ public class FileUtil {
 		if(inputStream==null) throw new RuntimeException("couldn't find image inputSteam");
 		//otherwise use Toolkit return the image.
 		return ImageIO.read(inputStream);
+	}
+	/**
+	 * A method for returning a gif.
+	 */
+	public static Image getGIF(String path) {
+		URL url = getURL("images",path);
+		Image img = Toolkit.getDefaultToolkit().createImage(url);
+		return img;
 	}
 	/**
 	 * A method for returning an AudioStream from given path
