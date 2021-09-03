@@ -11,7 +11,7 @@ public abstract class GameObject {
 	 * Since the world is what moves the objects [ for now :^/ ], if an object needs to move itself
 	 * it needs a reference back up to the top.
 	 */
-	protected final World w;
+	public final World w;
 	/**
 	 * The logic that GameObjects use to choose how to move is encapsulated away into a movement controller
 	 */
@@ -19,7 +19,7 @@ public abstract class GameObject {
 	/**
 	 * The direction this object is facing
 	 */
-	protected Direction dir;
+	public Direction dir;
 	/**
 	 * The tile that this GameObject is currently on
 	 */
@@ -31,7 +31,7 @@ public abstract class GameObject {
 	 * @param w A reference to the world, so the object can tell the game to move it on the board {not sure how we can get the object to move itself?}
 	 * @param c The movement controller component that controls this object 
 	 */
-	GameObject(World w, MovementController c) {
+	protected GameObject(World w, MovementController c) {
 		this.w = w; this.c = c; dir = Direction.NONE;
 	}
 	/**
@@ -40,7 +40,7 @@ public abstract class GameObject {
 	 * @param c The movement controller component that controls this object 
 	 * @param d The direction this object has
 	 */
-	GameObject(World w, MovementController c, Direction d) {
+	protected GameObject(World w, MovementController c, Direction d) {
 		this.w = w; this.c = c; dir = d;
 	}
 	/**
@@ -49,30 +49,30 @@ public abstract class GameObject {
 	 * @param entity the entity trying to move onto the same tile as 'this'
 	 * @return Whether or not the entity can enter the tile 'this' object is on, according to the game logic
 	 */
-	protected abstract boolean canEntityGoOnTile(GameObject entity);
+	public abstract boolean canEntityGoOnTile(GameObject entity);
 	/**
 	 * Execute this object's behavior when another GameObject enters the same tile it is on.
 	 * For example, if Chip enters the same tile as a movable block, the block moves itself { w.moveUp(this) }
 	 * @param entity the entity that just entered the tile 'this' object is on
 	 */
-	protected abstract void entityEnteredTile(GameObject entity);
+	public abstract void entityEnteredTile(GameObject entity);
 	/**
 	 * Perform this objects behavior for one game simulation tick  { for example, the bug type moves in a random direction each second }
 	 * @param elapsedTime time in milliseconds since the last update
 	 */
-	protected abstract void update(double elapsedTime);
+	public abstract void update(double elapsedTime);
 	/**
 	 * Get the name of this object type.
 	 * For example, the player controlled entity will return "Chip"
 	 * 				the bug entity will return "Bug"
 	 * @return the name of this entity
 	 */
-	protected abstract String getName();
+	public abstract String getName();
 	/**
 	 * Update the direction of the GameObject, provided it has one.
 	 * @param d the new direction
 	 */
-	protected void updateDirection(Direction d) {
+	public void updateDirection(Direction d) {
 		if(dir != Direction.NONE) this.dir = d;
 	}
 	/**
@@ -80,9 +80,16 @@ public abstract class GameObject {
 	 * Updates this GameObject's tile reference
 	 * @param tile the new tile this object is on
 	 */
-	protected void setTile(Tile tile) {
+	public void setTile(Tile tile) {
 		if(currentTile != null) this.currentTile.removeOccupier();
 		this.currentTile = tile;
+	}
+	/**
+	 * Get the tile this gameObject is currently inside of
+	 * @return the tile this object is on
+	 */
+	public Tile getTile() {
+		return this.currentTile;
 	}
 	/**
 	 * Get the char that represents this terrain type in the board toString, for debugging

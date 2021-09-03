@@ -6,7 +6,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-interface Command {
+public interface Command {
 	/**
 	 * Complete this action
 	 * @param w

@@ -1,16 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+
 /**
  * The game world is comprised of tiles
  * Tiles contain a location, possible game object, and Terrain type
  * @author Benjamin
  *
  */
-final class Tile {
+public final class Tile {
 	/**
 	 * The location of this tile on the board
 	 */
-	final Coord location;
+	public final Coord location;
 	/**
 	 * Reference to the object that is on this tile
 	 */
@@ -29,6 +31,17 @@ final class Tile {
 		occupier = null;
 	}
 	/**
+	 * Helper method for replays
+	 * Force an object onto this tile.
+	 * Don't notify the terrain
+	 * @param o object being moved onto this tile
+	 */
+	public void forcePlace(GameObject o) {
+		o.setTile(this);
+		occupier = o;
+	}
+	
+	/**
 	 * Remove the GameObject reference for this tile
 	 */
 	void removeOccupier() {
@@ -42,8 +55,7 @@ final class Tile {
 	 */
 	void setOccupier(GameObject o) {
 		if(isTileOccupied()) occupier.entityEnteredTile(o);
-		o.setTile(this);
-		occupier = o;
+		forcePlace(o);
 	}
 	/**
 	 * Follow the complete move procedure

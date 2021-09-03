@@ -1,4 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+
 /**
  * 
  * @author Benjamin
@@ -21,7 +28,7 @@ public class ArrayBoard implements Board {
 	 * Creates a default test level. Simple 10*10 level 
 	 * Exit in the corner
 	 */
-	ArrayBoard() {
+	public ArrayBoard() {
 		this.rows = 10; this.columns = 10;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
@@ -45,7 +52,7 @@ public class ArrayBoard implements Board {
 	 * only initializes the terrain fields
 	 * @param level object that contains the information needed to build the board
 	 */
-	ArrayBoard(Level level) {
+	public ArrayBoard(Level level) {
 		this.rows = level.rows; this.columns = level.columns;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
@@ -109,35 +116,24 @@ public class ArrayBoard implements Board {
 	 * @param dest the location the object is moving to
 	 * @param o the object being moved
 	 */
-	public void moveObject(Coord dest, GameObject o) {
+	@Override
+	public boolean tryMoveObject(Coord dest, GameObject o) {
 		Tile t = coordToTile(dest);
-		if(t.canEntityGoOnTile(o)) t.addOccupier(o);
+		if(!t.canEntityGoOnTile(o)) return false;
+		t.addOccupier(o); 
+		return true; 
+	}
+
+	/**
+	 * Don't perform any checks, forcefully move an object to a location
+	 * We need this method because some moves can't be undone normally, due to one way tile restrictions
+	 * @param dest
+	 * @param o
+	 */
+	public void undoMoveObject(Coord dest, GameObject o) {
+		
 	}
 	
-	@Override
-	public void moveUp(GameObject o) {
-		Coord dest = o.currentTile.location.up();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveDown(GameObject o) {
-		Coord dest = o.currentTile.location.down();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveLeft(GameObject o) {
-		Coord dest = o.currentTile.location.left();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveRight(GameObject o) {
-		Coord dest = o.currentTile.location.right();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
 	@Override
 	public void openExit() {
 		for(int row = 0; row < rows; row++)
@@ -172,4 +168,11 @@ public class ArrayBoard implements Board {
 
 	@Override
 	public boolean isCoordValid(Coord c) { return this.coordInBoard(c); }
+	
+	/**
+	 * Create a clone of the board
+	 */
+//	public Board clone() {
+//		return new ArrayBoard(this);
+//	} //how is this gonna work?
 }

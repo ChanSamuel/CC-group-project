@@ -1,5 +1,23 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 import java.util.*;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Info;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayEast;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayNorth;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWaySouth;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayWest;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
+
 import static java.util.Map.entry;
 
 /**
@@ -23,11 +41,11 @@ public final class Level {
 	/**
 	 * The height of the level in tiles
 	 */
-	final int rows;
+	public final int rows;
 	/**
 	 * The width of the level in tiles
 	 */
-	final int columns;
+	public final int columns;
 	/**
 	 * A string representing the location of terrain types
 	 * in the tiles as a 1D array in Row-Major format
