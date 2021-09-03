@@ -174,8 +174,9 @@ public class World {
 	/**
 	 * Get the board for this world
 	 * @return the board this world is using
+	 * TODO TEMP make board public
 	 */
-	Board getBoard() {
+	public Board getBoard() {
 		return this.board;
 	}
 	/**
@@ -188,10 +189,12 @@ public class World {
 	/**
 	 * Get the player entity object
 	 * @return the player entity
+	 * TODO temp make chip public
 	 */
-	Chip getPlayer() {
+	public Chip getPlayer() {
 		return this.playerEntity;
 	}
+	
 	/**
 	 * Set the player entity
 	 * for this world
