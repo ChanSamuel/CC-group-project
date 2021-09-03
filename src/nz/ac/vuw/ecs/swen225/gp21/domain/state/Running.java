@@ -38,7 +38,6 @@ public final class Running implements State{
 			tick.addEvent(w.event);
 		}
 		if(w.getBoard().getRemainingChips() == 0) w.getBoard().openExit(); //Should we do this check somewhere else?
-		w.saveTick(tick);
 		w.updates++;
 		if(w.isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
 		assert(w.totalTreasure == w.getBoard().getRemainingChips()+w.getPlayer().treasureCollected);
