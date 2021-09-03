@@ -1,6 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import java.util.*;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 /**
  * The world provides the main interface of the domain package, for other modules to interact with.
  * @author Benjamin
@@ -12,7 +19,11 @@ public class World {
 	//		this resource: http://gameprogrammingpatterns.com/type-object.html
 	//		explains how to do this as data in a config file, although, this still needs to be determined
 	//		Somehow, the persistence module needs to feed in new entities
-	protected int updates;
+	public int updates;
+	
+	public MultiMove event;
+	
+	private List<Tick> ticks;
 	
 	private Deque<Command> playerCommands;
 	
@@ -26,6 +37,7 @@ public class World {
 	
 	private final int totalTreasure;
 //===========================================================
+//WORLD INITIALIZATION METHODS
 	/**
 	 * Create a new test world. Initializes a default test board of 10*10 dimension
 	 * and a default player placement of 0,0
@@ -60,6 +72,7 @@ public class World {
 	
 	
 //===========================================================
+//PUBLIC API METHODS FOR OTHER MODULES TO TALK TO
 	/**
 	 * The big method, calling this will simulate the world and its behaviors for one tick
 	 * We have made a decision that this should occur about ever 200 milliseconds for ~ 10 FPS gameplay
@@ -71,8 +84,9 @@ public class World {
 		if(isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
 		assert(totalTreasure == board.getRemainingChips()+playerEntity.treasureCollected);
 		//TODO notify observers here?
-		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick
-		//TODO
+	}
+	public void saveTick(Tick tick) {
+		
 	}
 	/**
 	 * Initialize the world with data from the level object
@@ -141,11 +155,31 @@ public class World {
 	}
 	//TODO add external state setters?
 //==========================================================
+//EVEN MORE PUBLIC API METHODS
+		/**
+		 * Enqueues a move up command for the playerEntity into the movement queue
+		 */
+		public void moveChipUp() {worldState.moveChipUp(this);}
+		/**
+		 * Enqueues a move down command for the playerEntity into the movement queue
+		 */
+		public void moveChipDown() {worldState.moveChipDown(this);}
+		/**
+		 * Enqueues a move left command for the playerEntity into the movement queue
+		 */
+		public void moveChipLeft() {worldState.moveChipLeft(this);}
+		/**
+		 * Enqueues a move right command for the playerEntity into the movement queue
+		 */
+		public void moveChipRight() {worldState.moveChipRight(this);}	
+	
+//==========================================================
+//INTERNAL GAME GETTERS AND SETTERS - these methods are needed so worldState.load(...) can set fields
 	/**
 	 * Remove the top element player commands queue
 	 * @return the oldest player command in the queue, or null if there are no commands
 	 */
-	Command poll() {
+	public Command poll() {
 		return playerCommands.poll();
 	}
 	/**
@@ -154,42 +188,43 @@ public class World {
 	 * @param location the location of the tile of interest
 	 * @return the tile at the location
 	 */
-	Tile getTileAt(Coord location) {
+	public Tile getTileAt(Coord location) {
 		return board.getTileAt(location);
 	}
 	/**
 	 * Get the list of all entities
 	 * @return the list of all entities
 	 */
-	List<GameObject> getEntities(){
+	public List<GameObject> getEntities(){
 		return this.allEntities;
 	}
 	/**
 	 * Get the command queue
 	 * @return the command queue
 	 */
-	Deque<Command> getCommandQueue(){
+	public Deque<Command> getCommandQueue(){
 		return this.playerCommands;
 	}
 	/**
 	 * Get the board for this world
 	 * @return the board this world is using
 	 */
-	Board getBoard() {
+	public Board getBoard() {
 		return this.board;
 	}
 	/**
 	 * Set the board for this world
+	 * Caution, GameEntities will still have board references
 	 * @param b the board this world will use
 	 */
-	void setBoard(Board b) {
+	public void setBoard(Board b) {
 		this.board = b;
 	}
 	/**
 	 * Get the player entity object
 	 * @return the player entity
 	 */
-	Chip getPlayer() {
+	public Chip getPlayer() {
 		return this.playerEntity;
 	}
 	/**
@@ -197,80 +232,30 @@ public class World {
 	 * for this world
 	 * @param c the player entity this world will use
 	 */
-	void setPlayer(Chip c) {
+	public void setPlayer(Chip c) {
 		this.playerEntity = c;
 	}
-	
-//==========================================================
-	/**
-	 * Move an object to a destination
-	 * Moving an object can cause a cascade of further events to occur
-	 * @param o the object being moved
-	 * @param destination where it is being moved to
-	 */
-	void moveObject(GameObject o, Coord destination) {
-		board.moveObject(destination, o);
-	}
-	/**
-	 * Moves the specified game object up if possible
-	 * @param o the object being moved
-	 */
-	void moveUp(GameObject o) {
-		o.updateDirection(Direction.NORTH);
-		board.moveUp(o);
-		//notify?
-	}
-	/**
-	 * Moves the specified game object down if possible
-	 * @param o the object being moved
-	 */
-	void moveDown(GameObject o) { o.updateDirection(Direction.SOUTH); board.moveDown(o); }
-	/**
-	 * Moves the specified game object left if possible
-	 * @param o the object being moved
-	 */
-	void moveLeft(GameObject o) { o.updateDirection(Direction.WEST); board.moveLeft(o); }
-	/**
-	 * Moves the specified game object right if possible
-	 * @param o the object being moved
-	 */
-	void moveRight(GameObject o) { o.updateDirection(Direction.EAST); board.moveRight(o); }
-//==================================================================================
-	/**
-	 * Enqueues a move up command for the playerEntity into the movement queue
-	 */
-	public void moveChipUp() {worldState.moveChipUp(this);}
-	/**
-	 * Enqueues a move down command for the playerEntity into the movement queue
-	 */
-	public void moveChipDown() {worldState.moveChipDown(this);}
-	/**
-	 * Enqueues a move left command for the playerEntity into the movement queue
-	 */
-	public void moveChipLeft() {worldState.moveChipLeft(this);}
-	/**
-	 * Enqueues a move right command for the playerEntity into the movement queue
-	 */
-	public void moveChipRight() {worldState.moveChipRight(this);}
 //====================================================================================
+//INTERNAL GAME EVENT METHODS - These methods are invoked when the relevant event occurs
 	/**
 	 * This method is called when chip enters a treasure tile
 	 * But before the treasure type is replaced with a 'free' type
 	 */
-	void collectedAChip() {
+	public void collectedAChip() {
 		playerEntity.treasureCollected++;
+		//notify?
 	}
 	/**
 	 * This method is called when chip enters the exit square
 	 */
-	void enteredExit() {
+	public void enteredExit() {
 		worldState = new GameOver(); 
 	}
 	/**
 	 * Called when an entity enters an info tile
 	 * @param msg the message the info tile contained
 	 */
-	void enteredInfo(String msg) {
+	public void enteredInfo(String msg) {
 		//TODO - do something useful here
 		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
 	}
@@ -280,8 +265,70 @@ public class World {
 	public void playerLost() {
 		System.out.println("Player lost");//TODO temporary operation
 	}
-	
+//==========================================================
+//MOVEMENT METHODS - these methods talk to the board to move stuff
+// I'm open to criticism on why we have this extra layer of indirection GameObject/Tile -> world -> Board -> world information needed to make a decision	
+//
+//TODO 	How to stop this from getting out of control when playing a replay! :(
+// 		Could off-load it to state, only do this while running.
+//		While in replaying state: just move stuff, don't generate events. TODO
+//	
+	/**
+	 * Try Move an object to a destination
+	 * Moving an object can cause a cascade of further events to occur
+	 * @param o the object being moved
+	 * @param destination where the object is being moved to
+	 * @return true if the move succeeded
+	 */
+	public boolean moveObject(GameObject o, Coord destination) {
+		return board.tryMoveObject(destination, o);
+	}
+	/**
+	 * Try to move the specified game object up.
+	 * If the move succeeds, it is recorded.
+	 * @param o the object being moved
+	 */
+	public void moveUp(GameObject o) {
+		//TODO 	you could off-load this to worldState, would make life easier, then there 
+		//		won't be crazy issues when you call these same methods to do a replay. "event" is already public
+		//		(making a move in a replay should not generate an event to be recorded in a replay)
+		o.updateDirection(Direction.NORTH);
+		boolean moved = moveObject(o, o.dir.next(o.currentTile.location));
+		if(moved) event.saveEvent(new MoveUp(o));
+		//notify observers?
+	}
+	/**
+	 * Try to move the specified game object down.
+	 * If the move succeeds, it is recorded.
+	 * @param o the object being moved
+	 */
+	public void moveDown(GameObject o) { 
+		o.updateDirection(Direction.SOUTH); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveDown(o));
+	}
+	/**
+	 * Try to move the specified game object left.
+	 * If the move succeeds, it is recorded.
+	 * @param o the object being moved
+	 */
+	public void moveLeft(GameObject o) { 
+		o.updateDirection(Direction.WEST); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveLeft(o));
+	}
+	/**
+	 * Try to move the specified game object right.
+	 * If the move succeeds, it is recorded.
+	 * @param o the object being moved
+	 */
+	public void moveRight(GameObject o) { 
+		o.updateDirection(Direction.EAST); 
+		Coord destination = o.dir.next(o.currentTile.location);
+		if(moveObject(o, destination)) event.saveEvent(new MoveRight(o));
+	}	
 //====================================================================================
+//TO-STRING
 	@Override
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
