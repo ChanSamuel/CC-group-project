@@ -7,9 +7,9 @@ import java.util.List;
  * Chip is the GameObject that the player will control
  * He can collect items in his inventory
  * @author Benjamin
- *
+ *	TODO TEMP change from default to public
  */
-class Chip extends GameObject {
+public class Chip extends GameObject {
 	/**
 	 * The number of items chip can fit in their inventory
 	 */
@@ -31,7 +31,14 @@ class Chip extends GameObject {
 		treasureCollected = 0;
 		invetory = new ArrayList<Item>(INVETORY_SIZE);
 	}
-	
+	//TODO temp current tile
+	public Tile getCurrentTile() {
+		return this.currentTile;
+	}
+	//TODO temp
+	public Direction getDir() {
+		return this.dir;
+	}
 	@Override
 	protected boolean canEntityGoOnTile(GameObject entity) {
 		//monsters are allowed to enter the square that chip is on
