@@ -2,22 +2,28 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 /**
- * The hero chap's JComponent
+ * The hero chap's JPanel
  * @author mengli
  *
  */
-class ChapJComponent extends GameObjectJComponent{
+//NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 
+//the JPanel it location on will also update, that's not ideal here because 
+//chap is a gif, so chap will keep updating which lead to its parent JPanel keep repaint().
+class ChapJPanel extends JPanel{
 	/**
 	 * Chap's image face left
 	 */
-	private final Image chapImageLeft = FileUtil.getGIF("chap-3-left.gif") ;
+	private BufferedImage chapImageLeft;
 	/**
 	 * Chap's image face right
 	 */
-	private final Image chapImageRight = FileUtil.getGIF("chap-3-right.gif") ;
+	private BufferedImage chapImageRight;
 	/**
 	 * Chap's current image
 	 */
@@ -33,14 +39,30 @@ class ChapJComponent extends GameObjectJComponent{
 	/**
 	 * Constructor for chap
 	 */
-	ChapJComponent(Coord coord,Direction dir) {
-		super(coord,dir);
+	ChapJPanel(Coord coord,Direction dir) {
 		this.coord = coord;
 		this.dir = dir;
+		init();
 		//default direction set as left.
 		chapImage = chapImageLeft;
 		setBounds(coord.getCol()*WorldJPanel.TILE_WIDTH,coord.getRow()*WorldJPanel.TILE_HEIGHT,WorldJPanel.TILE_WIDTH,WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
+		setOpaque(false);
+	}
+	/**
+	 * initialize the image
+	 */
+	void init() {
+		try {
+			//use gif and set background transparent will make the parent panel keep repaint()
+			//so use image here instead
+			chapImageLeft = FileUtil.getBufferedImage("chap-3-left.gif") ;
+			chapImageRight = FileUtil.getBufferedImage("chap-3-right.gif") ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	/**
 	 * Update chap when moving
@@ -50,26 +72,26 @@ class ChapJComponent extends GameObjectJComponent{
 	void updateChap(Coord coord, Direction dir) {
 		this.coord = coord;
 		this.dir = dir;
-		//update the location of this JComponent.
+		//update the location of this JPanel.
 		setBounds(coord.getCol()*WorldJPanel.TILE_WIDTH,coord.getRow()*WorldJPanel.TILE_HEIGHT,WorldJPanel.TILE_WIDTH,WorldJPanel.TILE_HEIGHT);
 		//create a new chapMoving thread for the animation
 		this.repaint();
 		//TODO create a new thread ChapMoving for animation
 		ChapMoving cm = new ChapMoving();
-		
 	}
 	/**
 	 * Override the paint method of chap
 	 */
 	@Override
-	public void paint(Graphics g) {
-		//NOTE the last parameter couldn't be null, otherwise gif won't move.
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		//if chap's direction change to WEST OR EAST, change the current chapImage, otherwise dont' change.
 		if(dir==Direction.WEST) {
 			chapImage = chapImageLeft;
 		}else if(dir==Direction.EAST){
 			chapImage = chapImageRight;
 		}
+		//NOTE the last parameter couldn't be null, otherwise gif won't move.
 		g.drawImage(chapImage,0,0,WorldJPanel.TILE_WIDTH,WorldJPanel.TILE_HEIGHT,this);
 		}
 }
