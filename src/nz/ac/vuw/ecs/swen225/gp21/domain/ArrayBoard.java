@@ -22,7 +22,7 @@ public class ArrayBoard implements Board {
 	 * Exit in the corner
 	 */
 	ArrayBoard() {
-		this.rows = 10; this.columns = 10;
+		this.rows = 9; this.columns = 9;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
 			for(int col = 0; col < columns; col++) {
@@ -38,7 +38,7 @@ public class ArrayBoard implements Board {
 		//create 2 treasure @ (r: 0, c: 5) && (r: 2, c: 5)
 		board[0][5].setTerrain(new Treasure()); board[2][5].setTerrain(new Treasure());
 		//create exit tile @ (r: 8, c: 9)
-		board[8][9].setTerrain(new ExitLock());
+		board[7][8].setTerrain(new ExitLock());
 	}
 	/**
 	 * Create an array board from a level object
