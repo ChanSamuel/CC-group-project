@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.ArrayBoard;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
@@ -20,6 +21,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public class Loading implements State {
+	//TODO 	problem: 	If you restore the game from a saved state
+	//					how will the recorder know what to do with the ticks?
+	//					It can't just start making a new list of Ticks because the chain
+	//					of ticks won't lead back to the starting state of the game.
+	//					It could load saved ticks from the last session, the one that 
+	//					lead to this game state.
 	
 	@Override
 	public void loadLevel(World w, Level level) {
@@ -104,5 +111,9 @@ public class Loading implements State {
 	@Override
 	public void moveChipRight(World w) {
 		throw new IllegalStateException("Cannot move chip while world is loading!");
+	}
+	@Override
+	public void makeMove(World w, GameObject o, Direction d) {
+		throw new IllegalStateException("Cannot move objects while world is loading!");
 	}
 }
