@@ -47,8 +47,8 @@ class ChapJPanel extends JPanel {
 	 */
 	ChapJPanel(WorldJPanel worldJPanel) {
 		// -------------Set the coord and dir-----------------------------
-		this.coord = worldJPanel.getChap().getCurrentTile().getCoord();
-		this.dir = worldJPanel.getChap().getDir();
+		this.coord = worldJPanel.getChap().getTile().location;
+		this.dir = worldJPanel.getChap().dir;
 		this.worldJPanel = worldJPanel;
 		// -------------Set the properties of this JPanel----------------
 		setBounds(0, 0,WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
@@ -99,8 +99,8 @@ class ChapJPanel extends JPanel {
 		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		//update the coord and dir.
-		this.coord = worldJPanel.getChap().getCurrentTile().getCoord();
-		this.dir = worldJPanel.getChap().getDir();
+		this.coord = worldJPanel.getChap().getTile().location;
+		this.dir = worldJPanel.getChap().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {
@@ -109,17 +109,15 @@ class ChapJPanel extends JPanel {
 			chapImage = chapImageRight;
 		}
 		// NOTE the last parameter couldn't be null, if using gif, if just image, then that's doesn't matter.
-		System.out.println("Current col: "+coord.getCol());
-		System.out.println("Current row: "+coord.getRow());
+		System.out.println("Chap's current col: "+coord.getCol());
+		System.out.println("Chap's current row: "+coord.getRow());
 		g.drawImage(chapImage, coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
 }
 
 /**
  * a subClass extends thread handling the chap moving animation
- * 
  * @author mengli
- *
  */
 //TODO
 class ChapMoving extends Thread {

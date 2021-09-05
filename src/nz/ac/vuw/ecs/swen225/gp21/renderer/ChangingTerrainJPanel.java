@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 
 /**
@@ -61,7 +62,9 @@ class ChangingTerrainJPanel extends JPanel {
 	 * Override the paint method.
 	 */
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
+		//NOTE add below would result in strange behavior.
+//		super.paintComponent(g);
 		System.out.println("Draw the changingTerrain JPanel");
 		//iterating through the board, draw image based on Tile's terrain type.
 		for (int i = 0; i < board.getWidth(); i++) {

@@ -7,8 +7,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Chip;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -39,6 +41,10 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 */
 	private Chip chap;
 	/**
+	 * Chap's current coord
+	 */
+	Coord coord;
+	/**
 	 * The chap JPanel
 	 */
 	private ChapJPanel ChapJPanel;
@@ -56,6 +62,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		this.w = w;
 		this.board = w.getBoard();
 		this.chap = w.getPlayer();
+		this.coord = w.getPlayer().getTile().location;
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -81,6 +88,9 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		lp.setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
+		//create a new thread keep checking if chap's location has changed, if changed, call updateJPanel()
+		CheckUpdate checkUpdate = new CheckUpdate(this);
+		checkUpdate.start();
 	}
 
 	/**
@@ -95,7 +105,6 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		this.ChapJPanel.updateChap();
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
-		
 		this.repaint();
 	}
 
@@ -104,8 +113,8 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 */
 	void updateFocusArea() {
 		// calculate the offset of chap's coord from center of the board.
-		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - chap.getCurrentTile().getCoord().getCol());
-		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - chap.getCurrentTile().getCoord().getRow());
+		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - chap.getTile().location.getCol());
+		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - chap.getTile().location.getRow());
 		// change the location of panel to place chap in the center.
 		setBounds(diffX, diffY, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
 	}
@@ -124,6 +133,12 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	Chip getChap() {
 		return this.chap;
 	}
+	/**
+	 * Get chap's current location
+	 */
+	Coord getCoord() {
+		return chap.getTile().location;
+	}
 
 	// -------------------The Key listeners------------------------------
 	@Override
@@ -141,42 +156,67 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode();
+		w.update(20);
 		switch (code) {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
 			w.moveChipUp();
-			w.update(200);
 			System.out.println("move chap up");
-			System.out.println("chap's location is: "+w.getPlayer().getCurrentTile().getCoord());
-			this.updateJPanel();
+			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			w.moveChipDown();
-			w.update(200);
+//			w.update(200);
 			System.out.println("move chap down");
-			System.out.println("chap's location is: "+w.getPlayer().getCurrentTile().getCoord());
-			this.updateJPanel();
+			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			w.moveChipLeft();
-			w.update(200);
+//			w.update(200);
 			System.out.println("move chap left");
-			System.out.println("chap's location is: "+w.getPlayer().getCurrentTile().getCoord());
-			this.updateJPanel();
+			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			w.moveChipRight();
-			w.update(200);
+//			w.update(200);
 			System.out.println("move chap right");
-			System.out.println("chap's location is: "+w.getPlayer().getCurrentTile().getCoord());
-			this.updateJPanel();
+			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+//			this.updateJPanel();
 			break;
 		default:
 			break;
 		}
-
 	}
 }
+
+class CheckUpdate extends Thread{
+	/**
+	 * The parent JPanel
+	 * @param worldJPanel
+	 */
+	private WorldJPanel worldJPanel;
+	public CheckUpdate(WorldJPanel worldJPanel) {
+		this.worldJPanel = worldJPanel;
+	}
+	@Override
+	public void run() {
+		while(true) {
+			if(worldJPanel.coord.getCol()!=worldJPanel.getChap().getTile().location.getCol()||worldJPanel.coord.getRow()!=worldJPanel.getChap().getTile().location.getRow()) {
+				worldJPanel.coord = worldJPanel.getChap().getTile().location;
+				worldJPanel.updateJPanel();
+			}
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+}
+}
+

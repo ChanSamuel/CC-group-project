@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Teleporter;
-import nz.ac.vuw.ecs.swen225.gp21.domain.ExitLock;
-import nz.ac.vuw.ecs.swen225.gp21.domain.ExitTile;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Terrain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Wall;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
 
 /**
  * This is the backgound JPanel which draws the tiles and walls, exit tiles,
@@ -46,7 +46,7 @@ class BackgroundJPanel extends JPanel {
 	/**
 	 * The parent JPanel
 	 */
-	private JPanel parentJPanel;
+	private WorldJPanel worldJPanel;
 
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
@@ -82,12 +82,13 @@ class BackgroundJPanel extends JPanel {
 	 * Override the paint method, for drawing the board.
 	 */
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 		// iterating through the board, draw image based on Tile's terrain type.
+		super.paintComponent(g);
 		System.out.println("Draw the background JPanel");
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
 				// draw the grass tile.
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
@@ -113,5 +114,4 @@ class BackgroundJPanel extends JPanel {
 			}
 		}
 	}
-
 }
