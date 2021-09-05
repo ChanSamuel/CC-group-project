@@ -73,7 +73,7 @@ public abstract class GameObject {
 	 * @param d the new direction
 	 */
 	public void updateDirection(Direction d) {
-		if(dir != Direction.NONE) this.dir = d;
+		this.dir = d;
 	}
 	/**
 	 * Updates the old tile reference to have no occupier
@@ -92,6 +92,12 @@ public abstract class GameObject {
 		return this.currentTile;
 	}
 	/**
+	 * Execute any behavior needed after the object exits a tile.
+	 * Default does nothing.
+	 * If your game object needs to perform behavior after moving, override this method.
+	 */
+	public void doneMoving() {}
+	/**
 	 * Get the char that represents this terrain type in the board toString, for debugging
 	 * @return the char that represents this terrain type in the board toString
 	 */
@@ -101,4 +107,5 @@ public abstract class GameObject {
 	public String toString() {
 		return "GameObject: "+getClass().getSimpleName()+" facing->"+dir+" at->"+currentTile.location;
 	}
+
 }
