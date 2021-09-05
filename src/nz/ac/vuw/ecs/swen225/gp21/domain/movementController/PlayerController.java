@@ -13,21 +13,15 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
  *
  */
 public final class PlayerController implements MovementController {
-	/**
-	 * A reference back to the world 
-	 * Used by the controller to cause movements to occur
-	 */
-	private final World w;
-	/**
-	 * Create a new Player controller.
-	 * @param w the world which the entities this controller may move exists in 
-	 */
-	public PlayerController(World w){ this.w = w; }
-	
+
 	@Override
-	public Command update(double elapsedTime) {
+	public Command update(World w, double elapsedTime) {
 		Command c = w.poll();
-		return c != null ? c : new NoMove();
+		if(c == null) {
+			c = new NoMove();
+			w.event.saveEvent(c);
+		}
+		return c;
 	}
 
 }

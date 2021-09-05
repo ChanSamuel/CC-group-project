@@ -29,6 +29,6 @@ public abstract class KeyTile implements Terrain {
 	public char boardChar() {return 'k';}
 	
 	@Override
-	public String toString() { return super.toString()+"Key tile"; }
+	public String toString() { return "Key tile"; }
 
 }

@@ -23,6 +23,6 @@ abstract class Door implements Terrain {
 	
 	@Override
 	public String toString() {
-		return super.toString()+"Door ";
+		return "Door ";
 	}
 }

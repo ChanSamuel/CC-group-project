@@ -39,8 +39,7 @@ public final class Block extends GameObject {
 	@Override
 	public void entityEnteredTile(GameObject entity) {
 		//chip entered the tile, move the block to the next square
-		this.dir = entity.dir;
-		switch(dir) {
+		switch(entity.dir) {
 		case NORTH:
 			w.moveUp(this);
 			break;
@@ -56,12 +55,16 @@ public final class Block extends GameObject {
 		default:
 			throw new RuntimeException("Unknown direction for block: "+entity.dir+" | "+entity.toString());
 		}
-		this.dir = Direction.NONE;
 	}
 
 	@Override
 	public void update(double elapsedTime) {
-		this.c.update(elapsedTime).execute(w);
+		this.c.update(w, elapsedTime).execute(w);
+	}
+	
+	@Override
+	public void doneMoving(){
+		this.dir = Direction.NONE;
 	}
 
 	@Override

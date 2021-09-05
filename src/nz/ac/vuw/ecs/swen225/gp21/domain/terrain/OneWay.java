@@ -50,6 +50,6 @@ abstract class OneWay implements Terrain {
 
 	@Override 
 	public String toString() {
-		return super.toString()+"One way tile: "+d;
+		return "One way tile: "+d;
 	}
 }

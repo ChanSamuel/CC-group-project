@@ -47,6 +47,6 @@ public class ExitTile implements Terrain {
 	public char boardChar() { return 'e'; }
 	
 	@Override
-	public String toString() { return super.toString()+"Exit"; }
+	public String toString() { return "Exit"; }
 	
 }

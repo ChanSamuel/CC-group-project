@@ -63,6 +63,6 @@ public final class Info implements Terrain {
 	public char boardChar() {return '?';}
 	
 	@Override
-	public String toString() { return super.toString()+"Info tile: "+message; }
+	public String toString() { return "Info tile: "+message; }
 	
 }

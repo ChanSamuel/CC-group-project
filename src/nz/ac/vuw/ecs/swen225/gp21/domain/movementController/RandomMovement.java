@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.movementController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveDown;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
@@ -80,7 +81,7 @@ public final class RandomMovement implements MovementController {
 	}
 
 	@Override
-	public Command update(double elapsedTime) {
+	public Command update(World w, double elapsedTime) {
 		if (timeToNextMove > 0.0) {
 			// do some calculation to bring the time down TODO needs testing
 			timeToNextMove -= elapsedTime;
@@ -90,7 +91,9 @@ public final class RandomMovement implements MovementController {
 				return randomMove();
 			}
 		} //No, it was not time to move yet
-		return new NoMove();
+		Command response = new NoMove();
+		w.event.saveEvent(response);
+		return response;
 	}
 
 	/**

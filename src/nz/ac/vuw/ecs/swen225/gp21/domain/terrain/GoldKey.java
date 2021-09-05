@@ -35,6 +35,6 @@ public final class GoldKey extends KeyTile {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "Gold";
+		return super.toString() + " Gold";
 	}
 }

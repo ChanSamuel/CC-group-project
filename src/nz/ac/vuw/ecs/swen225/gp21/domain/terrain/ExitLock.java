@@ -38,6 +38,6 @@ public class ExitLock implements Terrain {
 	public char boardChar() { return 'X'; }
 	
 	@Override
-	public String toString() { return super.toString()+"Exit Lock"; }
+	public String toString() { return "Exit Lock"; }
 	
 }
