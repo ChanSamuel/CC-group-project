@@ -43,16 +43,24 @@ class BackgroundJPanel extends JPanel {
 	 * The exit tile image
 	 */
 	private BufferedImage exitTileImage;
+	/**
+	 * The parent JPanel
+	 */
+	private JPanel parentJPanel;
 
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
+	 * 
 	 * @param board the board.
 	 */
-	BackgroundJPanel(Board board) {
+	BackgroundJPanel(WorldJPanel worldJPanel) {
+		// ----------------Set the board.------------------------------------
+		this.board = worldJPanel.getBoard();
+		// ---------------Set the properties of this JPanel------------------
 		setLayout(null);
 		setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
 		setVisible(true);
-		this.board = board;
+		// ---------------Initialize images----------------------------------
 		initImages();
 	}
 
@@ -63,7 +71,7 @@ class BackgroundJPanel extends JPanel {
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
 			this.telePorterImage = FileUtil.getBufferedImage("teleporter.png");
-			this.exitLockImage = FileUtil.getBufferedImage("exitLock.png");
+			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
 			this.exitTileImage = FileUtil.getBufferedImage("exitTile.png");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -81,25 +89,25 @@ class BackgroundJPanel extends JPanel {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
-				//draw the grass tile.
+				// draw the grass tile.
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 						WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 383, 30, 383 + 62, 30 + 62, this);
-				//draw the wall
+				// draw the wall
 				if (terrain instanceof Wall) {
 					g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 320, 30, 320 + 62, 30 + 62, this);
 				} else if (terrain instanceof Teleporter) {
-				//draw the teleporter
+					// draw the teleporter
 					g.drawImage(this.telePorterImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 				} else if (terrain instanceof ExitTile) {
-				//draw the exit tile
+					// draw the exit tile
 					g.drawImage(this.exitTileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 				} else if (terrain instanceof ExitLock) {
-				//draw the exit lock
+					// draw the exit lock
 					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 				}
