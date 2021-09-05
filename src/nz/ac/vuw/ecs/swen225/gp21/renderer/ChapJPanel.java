@@ -10,7 +10,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * The hero chap's JPanel
- * 
  * @author mengli
  *
  */

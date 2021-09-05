@@ -101,10 +101,10 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		// -------------Update all the changed JPanels---------------------
 		chap = w.getPlayer();
 		updateFocusArea();
-		// update chap's location
-		this.ChapJPanel.updateChap();
-		// repaint the changingTerrainJPanel.
-		this.changingTerrainJPanel.repaint();
+//		// update chap's location
+//		this.ChapJPanel.updateChap();
+//		// repaint the changingTerrainJPanel.
+//		this.changingTerrainJPanel.repaint();
 		this.repaint();
 	}
 
@@ -156,11 +156,11 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode();
-		w.update(20);
 		switch (code) {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
 			w.moveChipUp();
+			w.update(200);
 			System.out.println("move chap up");
 			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
 //			this.updateJPanel();
@@ -168,26 +168,23 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			w.moveChipDown();
-//			w.update(200);
+			w.update(200);
 			System.out.println("move chap down");
 			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
-//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			w.moveChipLeft();
-//			w.update(200);
+			w.update(200);
 			System.out.println("move chap left");
 			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
-//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			w.moveChipRight();
-//			w.update(200);
+			w.update(200);
 			System.out.println("move chap right");
 			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
-//			this.updateJPanel();
 			break;
 		default:
 			break;
