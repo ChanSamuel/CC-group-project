@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
 
 /**
@@ -58,7 +58,7 @@ class BackgroundJPanel extends JPanel {
 		this.board = worldJPanel.getBoard();
 		// ---------------Set the properties of this JPanel------------------
 		setLayout(null);
-		setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
+		setBounds(0, 0, this.board.getWidth()*WorldJPanel.TILE_WIDTH, this.board.getHeight()*WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		// ---------------Initialize images----------------------------------
 		initImages();
@@ -88,7 +88,9 @@ class BackgroundJPanel extends JPanel {
 		System.out.println("Draw the background JPanel");
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				System.out.println("i:"+i);
+				System.out.println("j:"+j);
+				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
 				// draw the grass tile.
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,

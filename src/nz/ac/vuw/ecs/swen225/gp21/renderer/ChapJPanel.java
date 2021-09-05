@@ -51,7 +51,7 @@ class ChapJPanel extends JPanel {
 		this.dir = worldJPanel.getChap().dir;
 		this.worldJPanel = worldJPanel;
 		// -------------Set the properties of this JPanel----------------
-		setBounds(0, 0,WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
+		setBounds(0, 0,this.worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		setOpaque(false);
 		// -------------Initialize the images-----------------------------

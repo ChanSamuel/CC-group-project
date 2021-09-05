@@ -85,7 +85,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
-		lp.setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
+		lp.setBounds(0, 0, this.board.getWidth()*TILE_WIDTH, this.board.getHeight()*TILE_HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
 		//create a new thread keep checking if chap's location has changed, if changed, call updateJPanel()
@@ -116,7 +116,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - chap.getTile().location.getCol());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - chap.getTile().location.getRow());
 		// change the location of panel to place chap in the center.
-		setBounds(diffX, diffY, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
+		setBounds(diffX, diffY, this.board.getWidth()*TILE_WIDTH, this.board.getHeight()*TILE_HEIGHT);
 	}
 
 	// -----------------The getters-------------------------------------
@@ -194,7 +194,13 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		}
 	}
 }
-
+/**
+ * This is a sub class extends thread to keep check if there is chap moves.
+ * Because when chap moves is unpredictable, so trying to check movement frequently and
+ * refresh view.
+ * @author mengli
+ *
+ */
 class CheckUpdate extends Thread{
 	/**
 	 * The parent JPanel
@@ -212,7 +218,7 @@ class CheckUpdate extends Thread{
 				worldJPanel.updateJPanel();
 			}
 			try {
-				Thread.sleep(200);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
