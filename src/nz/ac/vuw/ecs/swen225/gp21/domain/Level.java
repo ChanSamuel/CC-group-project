@@ -55,8 +55,8 @@ public final class Level {
 			entry("#", new Wall()),
 			entry("X", new ExitLock()),
 			entry("E", new ExitTile()),
-			entry("B", new BlueDoor()),
-			entry("b", new BlueKey()), //TODO add yellow door, yellow key etc etc
+			entry("B", new GreenDoor()),
+			entry("b", new GreenKey()), //TODO add yellow door, yellow key etc etc
 			entry("g", new GoldKey()),
 			entry("G", new GoldDoor()),
 			entry("i", new Info(info)),
