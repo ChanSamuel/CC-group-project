@@ -9,11 +9,18 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  *
  */
 public class Free implements Terrain {
-	
+	/**
+	 * Store the instance of free terrain here.
+	 */
 	private static Free instance = new Free();
-	
+	/**
+	 * Get an instance of free terrain
+	 * @return instance of free terrain
+	 */
 	public static Free getInstance() { return instance; }
-	
+	/**
+	 * Create free terrain
+	 */
 	private Free() {}
 
 	@Override
@@ -21,6 +28,9 @@ public class Free implements Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {} //simple behavior for free tiles 
+	
+	@Override
+	public void undoEntityActions(GameObject o) {}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) { return true; } //any object can go on a free tile type
@@ -30,5 +40,4 @@ public class Free implements Terrain {
 	
 	@Override
 	public String toString() {return super.toString()+"Free";}
-
 }

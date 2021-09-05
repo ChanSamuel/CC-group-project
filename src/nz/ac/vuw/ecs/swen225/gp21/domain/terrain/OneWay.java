@@ -31,6 +31,9 @@ abstract class OneWay implements Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {}
+	
+	@Override 
+	public void undoEntityActions(GameObject o) {}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {
