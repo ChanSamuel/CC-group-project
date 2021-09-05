@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Chip;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
