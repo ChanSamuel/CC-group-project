@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-public final class BlueKey extends KeyTile {
+public final class GreenKey extends KeyTile {
 
 	@Override
 	public void entityEntered(GameObject o) {

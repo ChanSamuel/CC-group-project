@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author Benjamin
  *
  */
-public final class BlueDoor extends Door {
+public final class GreenDoor extends Door {
 
 	@Override
 	public void entityEntered(GameObject o) {
