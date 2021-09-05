@@ -42,11 +42,7 @@ public interface Terrain {
 	 */
 	default boolean canEntityLeave(GameObject o) {
 		return true;
-	}
-	
-	//public String toString() {
-	//	return "TerrainType: ";
-	//}
+	}	
 	/**
 	 * Get the char that represents this terrain type in the board toString, for debugging
 	 * @return the char that represents this terrain type in the board toString

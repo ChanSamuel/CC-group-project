@@ -39,5 +39,5 @@ public class Free implements Terrain {
 	public char boardChar() { return '_'; }
 	
 	@Override
-	public String toString() {return super.toString()+"Free";}
+	public String toString() {return "Free";}
 }

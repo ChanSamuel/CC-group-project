@@ -82,6 +82,6 @@ public class Teleporter implements Terrain {
 	}
 	
 	@Override
-	public String toString() { return super.toString()+"Teleporter"; }
+	public String toString() { return "Teleporter"; }
 
 }

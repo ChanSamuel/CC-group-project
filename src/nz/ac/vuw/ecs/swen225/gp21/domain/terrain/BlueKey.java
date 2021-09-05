@@ -34,5 +34,5 @@ public final class BlueKey extends KeyTile {
 	}
 	
 	@Override
-	public String toString() { return super.toString()+"Blue"; }
+	public String toString() { return super.toString()+" Blue"; }
 }

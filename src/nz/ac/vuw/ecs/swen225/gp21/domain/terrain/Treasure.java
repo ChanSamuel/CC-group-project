@@ -56,6 +56,6 @@ public class Treasure implements Terrain {
 	public char boardChar() { return 'c'; }
 	
 	@Override
-	public String toString() { return super.toString()+"Treasure"; }
+	public String toString() { return "Treasure"; }
 
 }
