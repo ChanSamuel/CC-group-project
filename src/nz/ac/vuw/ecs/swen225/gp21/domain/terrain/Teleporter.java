@@ -75,6 +75,7 @@ public class Teleporter implements Terrain {
 	 * @return the coordinate of the tile the teleporter will move the object to
 	 */
 	private Coord getDestinationCoord(Coord c, Direction dir) {
+		if(dir == Direction.NONE) throw new RuntimeException("Cannot teleport object facing NONE direction. Cannot deduce which square to send object to!");
 		Coord destination = links.get(c); //if the teleport tile has no link the level was not initialized properly
 		if(destination == null) throw new IllegalStateException("Teleporter at "+c+" has no link!");
 		return dir.next(destination);
