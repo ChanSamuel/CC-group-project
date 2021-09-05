@@ -38,7 +38,7 @@ public abstract class Monster extends GameObject {
 
 	@Override
 	public void update(double elapsedTime) {
-		c.update(elapsedTime).execute(w); //TODO w.recordExecutedCommand(c.update().execute())  
+		c.update(w, elapsedTime).execute(w); //TODO w.recordExecutedCommand(c.update().execute())  
 		//doing (w.enqueueCommandToExecuteLater(c.update())) creates a weird concurrency issue if multiple 
 		//things want to move into the same tile
 		//the commands moving them into the tile will still be there, but only one of them will actually move into the tile

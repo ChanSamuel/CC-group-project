@@ -33,7 +33,7 @@ public class Chip extends GameObject {
 	 * @param w the game world that chip exists in.
 	 */
 	public Chip(World w) {
-		super(w, new PlayerController(w), Direction.NORTH);
+		super(w, new PlayerController(), Direction.NORTH);
 		treasureCollected = 0;
 		invetory = new ArrayList<Item>(INVETORY_SIZE);
 	}
@@ -56,7 +56,7 @@ public class Chip extends GameObject {
 	public void update(double elapsedTime) {
 		//I'm not sure if we should be getting the lower level objects to move themselves?
 		//or {currently} send a command back up to the top level class to move the object for us?
-		c.update(elapsedTime).execute(w);
+		c.update(w, elapsedTime).execute(w);
 	}
 	/**
 	 * This method is called when Chip collects a treasure chip

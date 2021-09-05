@@ -61,7 +61,7 @@ public final class Block extends GameObject {
 
 	@Override
 	public void update(double elapsedTime) {
-		this.c.update(elapsedTime).execute(w);
+		this.c.update(w, elapsedTime).execute(w);
 	}
 
 	@Override
