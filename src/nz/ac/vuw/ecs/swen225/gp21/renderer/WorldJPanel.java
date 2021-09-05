@@ -139,7 +139,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	Coord getCoord() {
 		return chap.getTile().location;
 	}
-
+	//TODO Those are TEMP key listeners just for testing GUI.
 	// -------------------The Key listeners------------------------------
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -152,7 +152,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode();
