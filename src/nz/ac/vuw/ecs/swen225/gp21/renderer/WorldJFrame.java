@@ -17,11 +17,15 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 public class WorldJFrame extends JFrame{
 	public static final int FOCUS_AREA_ROWS = 9;
 	public static final int FOCUS_AREA_COLS = 9;
+	public static final int MIDDLE_ROWS = FOCUS_AREA_ROWS/2;
+	public static final int MIDDLE_COLS = FOCUS_AREA_COLS/2;
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
 	public WorldJFrame(World world) {
 		WorldJPanel worldJPanel = new WorldJPanel(world);
 		add(worldJPanel);
+		worldJPanel.addKeyListener(worldJPanel);
+		worldJPanel.setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen  = tk.getScreenSize();
 		int x = screen.width/2-WIDTH/2;
@@ -30,7 +34,5 @@ public class WorldJFrame extends JFrame{
 		setBounds(x,y,WIDTH,HEIGHT);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//update world JPanel
-		worldJPanel.updateJPanel();
 	}
 }
