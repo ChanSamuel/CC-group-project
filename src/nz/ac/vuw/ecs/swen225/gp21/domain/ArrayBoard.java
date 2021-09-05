@@ -114,6 +114,7 @@ public class ArrayBoard implements Board {
 	 */
 	@Override
 	public boolean tryMoveObject(Coord dest, GameObject o) {
+		if(!coordInBoard(dest)) return false;
 		Tile t = coordToTile(dest);
 		if(!t.canEntityGoOnTile(o)) return false;
 		t.addOccupier(o); 

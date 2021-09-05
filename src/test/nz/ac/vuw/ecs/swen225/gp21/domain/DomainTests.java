@@ -104,6 +104,7 @@ class DomainTests {
 			w.update(200);
 			System.out.println(w.toString());
 		} catch (Exception e) {
+			e.printStackTrace();
 			exception = true;
 		}
 		assertFalse(exception);
