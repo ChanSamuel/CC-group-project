@@ -31,18 +31,24 @@ public final class Tile {
 		occupier = null;
 	}
 	/**
-	 * Helper method for replays
-	 * Force an object onto this tile.
-	 * Don't notify the terrain
-	 * @param o object being moved onto this tile
+	 * Helper for replays
+	 * Just set the occupier reference.
+	 * This is called on the tile at beforePos
+	 * @param o object being moved back
 	 */
 	public void forcePlace(GameObject o) {
 		o.setTile(this);
 		occupier = o;
-		getTerrain().entityEntered(o); 
-		//if ticks were a little more sophisticated we could move objects directly to their destination
-		//instead of making the board move them back, but then ticks would have to store 
-		//{ beforePos, afterPos, before terrain (after terrain can be inferred easily) }
+	}
+	/**
+	 * Helper method for replays
+	 * Reset the terrain at afterPos.
+	 * @param o object that was moved away from this tile.
+	 * @param before the terrain this tile is being changed back to.
+	 */
+	public void resetTerrain(GameObject o, Terrain before) {
+		setTerrain(before);
+		getTerrain().undoEntityActions(o);
 	}
 	
 	/**
