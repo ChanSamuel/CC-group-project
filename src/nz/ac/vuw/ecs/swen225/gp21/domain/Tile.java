@@ -69,14 +69,15 @@ public final class Tile {
 		occupier = o;
 	}
 	/**
-	 * Follow the complete move procedure
-	 * Update the occupier and the terrain type
+	 * Follow the complete move procedure.
+	 * Notify terrain, then the occupier
 	 * @param o
 	 */
 	void addOccupier(GameObject o){
 		setOccupier(o);
 		terrain.entityEntered(o);
 		setTerrain(terrain.nextType(o));
+		o.doneMoving();
 	}
 	/**
 	 * Gets the GameObject on this tile
