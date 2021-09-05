@@ -7,4 +7,4 @@
 | Renderer    | Meng Li          | @limeng7  &  dreamsjtu     |
 | Persistency |                  |                            |
 | Recorder    | Peter Liley      | @lileypete                 |
-| Fuzz        |                  |                            |
+| Fuzz        | Marcus Buckland  | @bucklamarc                |
