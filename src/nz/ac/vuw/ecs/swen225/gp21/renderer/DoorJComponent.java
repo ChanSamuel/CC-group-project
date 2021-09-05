@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * This is the door Jcomponent, update when door unlocked.
@@ -9,8 +10,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
  */
 public class DoorJComponent extends GameObjectJComponent{
 
-	DoorJComponent(Coord coord, int width, int height, String filename) {
-		super(coord, width, height, filename);
+	DoorJComponent(Coord coord,Direction dir) {
+		super(coord,dir);
 		
 	}
 	/**
