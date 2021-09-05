@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
- * A temp main function for play with maze.
+ * TODO This is a temp main method created for testing GUI.
  * 
  * @author mengli
  *
