@@ -38,7 +38,10 @@ class ChapJPanel extends JPanel {
 	 * Chap's direction
 	 */
 	private Direction dir;
-
+	/**
+	 * The worldJPanel
+	 */
+	private WorldJPanel worldJPanel;
 	/**
 	 * Constructor for chap
 	 */
@@ -46,9 +49,9 @@ class ChapJPanel extends JPanel {
 		// -------------Set the coord and dir-----------------------------
 		this.coord = worldJPanel.getChap().getCurrentTile().getCoord();
 		this.dir = worldJPanel.getChap().getDir();
+		this.worldJPanel = worldJPanel;
 		// -------------Set the properties of this JPanel----------------
-		setBounds(coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0,WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
 		setVisible(true);
 		setOpaque(false);
 		// -------------Initialize the images-----------------------------
@@ -80,8 +83,8 @@ class ChapJPanel extends JPanel {
 	 */
 	void updateChap() {
 		// update the location of this JPanel.
-		setBounds(coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT);
+//		setBounds(coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
+//				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT);
 		// create a new chapMoving thread for the animation
 		this.repaint();
 		// TODO create a new thread ChapMoving for animation
@@ -93,7 +96,11 @@ class ChapJPanel extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
+		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
+		//update the coord and dir.
+		this.coord = worldJPanel.getChap().getCurrentTile().getCoord();
+		this.dir = worldJPanel.getChap().getDir();
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {
@@ -102,7 +109,9 @@ class ChapJPanel extends JPanel {
 			chapImage = chapImageRight;
 		}
 		// NOTE the last parameter couldn't be null, if using gif, if just image, then that's doesn't matter.
-		g.drawImage(chapImage, 0, 0, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
+		System.out.println("Current col: "+coord.getCol());
+		System.out.println("Current row: "+coord.getRow());
+		g.drawImage(chapImage, coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
 }
 
