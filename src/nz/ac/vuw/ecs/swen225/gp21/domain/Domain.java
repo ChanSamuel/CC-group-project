@@ -28,6 +28,12 @@ public interface Domain extends Subject{
 	 * @return A reference to the game board
 	 */
 	public Board getBoard();
+	/**
+	 * Returns the row / column of the GameObject the player is Controlling.
+	 * Can be used in conjunction with getBoard() to get the player Object. 
+	 * @return the board location of the object the player is controlling.
+	 */
+	public Coord getPlayerLocation();
 //==============
 //LOADING METHODS
 	/**
