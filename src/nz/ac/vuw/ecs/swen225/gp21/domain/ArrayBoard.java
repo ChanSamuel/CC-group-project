@@ -1,4 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
+
 /**
  * 
  * @author Benjamin
@@ -21,31 +24,31 @@ public class ArrayBoard implements Board {
 	 * Creates a default test level. Simple 10*10 level 
 	 * Exit in the corner
 	 */
-	ArrayBoard() {
-		this.rows = 9; this.columns = 9;
+	public ArrayBoard() {
+		this.rows = 10; this.columns = 10;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
 			for(int col = 0; col < columns; col++) {
 				board[row][col] = new Tile(new Coord(row, col));
-				board[row][col].setTerrain(new Free());
+				board[row][col].setTerrain(Free.getInstance());
 			}
 		}
-		board[rows-1][columns-1].setTerrain(new ExitTile());
+		board[rows-1][columns-1].setTerrain(ExitTile.getInstance());
 		//create a teleporter pair @ (r: 4, c: 6) && (r: 7, c: 6)
-		board[4][6].setTerrain(new Teleporter()); board[7][6].setTerrain(new Teleporter());
+		board[4][6].setTerrain(Teleporter.getInstance()); board[7][6].setTerrain(Teleporter.getInstance());
 		Teleporter.links.put(new Coord(4,6), new Coord(7,6));
 		Teleporter.links.put(new Coord(7,6), new Coord(4,6));
 		//create 2 treasure @ (r: 0, c: 5) && (r: 2, c: 5)
-		board[0][5].setTerrain(new Treasure()); board[2][5].setTerrain(new Treasure());
+		board[0][5].setTerrain(Treasure.getInstance()); board[2][5].setTerrain(Treasure.getInstance());
 		//create exit tile @ (r: 8, c: 9)
-		board[7][8].setTerrain(new ExitLock());
+		board[8][9].setTerrain(ExitLock.getInstance());
 	}
 	/**
 	 * Create an array board from a level object
 	 * only initializes the terrain fields
 	 * @param level object that contains the information needed to build the board
 	 */
-	ArrayBoard(Level level) {
+	public ArrayBoard(Level level) {
 		this.rows = level.rows; this.columns = level.columns;
 		board = new Tile[rows][columns];
 		for(int row = 0; row < rows; row++) {
@@ -60,7 +63,7 @@ public class ArrayBoard implements Board {
 	
 	@Override
 	public void addObject(GameObject o, Coord location) {
-		boundsCheck(location);
+		boundsCheck(location); //NOTE: method for loading
 		Tile t = coordToTile(location);
 		if(t.isTileOccupied()) throw new RuntimeException("Cannot spawn one entity on an occupied tile: "+location+" Object: "+o);
 		t.addOccupier(o);
@@ -109,40 +112,32 @@ public class ArrayBoard implements Board {
 	 * @param dest the location the object is moving to
 	 * @param o the object being moved
 	 */
-	public void moveObject(Coord dest, GameObject o) {
+	@Override
+	public boolean tryMoveObject(Coord dest, GameObject o) {
+		if(!coordInBoard(dest)) return false;
 		Tile t = coordToTile(dest);
-		if(t.canEntityGoOnTile(o)) t.addOccupier(o);
+		if(!t.canEntityGoOnTile(o)) return false;
+		t.addOccupier(o); 
+		return true; 
+	}
+
+	/**
+	 * Don't perform any checks, forcefully move an object to a location
+	 * We need this method because some moves can't be undone normally, due to one way tile restrictions
+	 * @param beforePos Location the object is being moved back to
+	 * @param o the object being moved
+	 */
+	public void moveObjectBack(Coord beforePos, GameObject o) {
+		Tile t = coordToTile(beforePos);
+		t.forcePlace(o); 
+		//When this method returns we will go to afterPos and call t.resetTerrainChange(...)
 	}
 	
-	@Override
-	public void moveUp(GameObject o) {
-		Coord dest = o.currentTile.location.up();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveDown(GameObject o) {
-		Coord dest = o.currentTile.location.down();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveLeft(GameObject o) {
-		Coord dest = o.currentTile.location.left();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
-	@Override
-	public void moveRight(GameObject o) {
-		Coord dest = o.currentTile.location.right();
-		if(coordInBoard(dest)) moveObject(dest, o);
-	}
-
 	@Override
 	public void openExit() {
 		for(int row = 0; row < rows; row++)
 			for(int col = 0; col < columns; col++) 
-				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(new Free());
+				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(Free.getInstance());
 	}
 	@Override
 	public String toString() {
@@ -172,4 +167,11 @@ public class ArrayBoard implements Board {
 
 	@Override
 	public boolean isCoordValid(Coord c) { return this.coordInBoard(c); }
+	
+	/**
+	 * Create a clone of the board
+	 */
+//	public Board clone() {
+//		return new ArrayBoard(this);
+//	} //how is this gonna work?
 }

@@ -1,5 +1,23 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 import java.util.*;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Info;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayEast;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayNorth;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWaySouth;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.OneWayWest;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
+
 import static java.util.Map.entry;
 
 /**
@@ -23,11 +41,11 @@ public final class Level {
 	/**
 	 * The height of the level in tiles
 	 */
-	final int rows;
+	public final int rows;
 	/**
 	 * The width of the level in tiles
 	 */
-	final int columns;
+	public final int columns;
 	/**
 	 * A string representing the location of terrain types
 	 * in the tiles as a 1D array in Row-Major format
@@ -39,7 +57,7 @@ public final class Level {
 	 */
 	private final String entityLayout;
 	/** 
-	 * @param rows the height of the leve
+	 * @param rows the height of the level
 	 * @param columns the width of the level
 	 * @param terrainLayout the locations of the terrain types in the level
 	 * @param entityLayout the locations of entities in the level
@@ -49,22 +67,27 @@ public final class Level {
 		if(rows < 1 || columns < 1) throw new IllegalArgumentException("Level dimensions are invalid!");
 		if((terrainLayout.length() != entityLayout.length()) || (terrainLayout.length() != rows*columns)) throw new IllegalArgumentException("Level data is inconsistent!");
 		if(terrainLayout.isBlank() || entityLayout.isBlank()) throw new IllegalArgumentException("Level data cannot be blank!");
+		Info.setInfoText(info); // TODO make this a setter in the level type, issue: current approach only allows one message per level. Cannot have two info tiles that provide different messages :( 
+		//Note:
+		//I would love to have something like:
+		//Tiles.getFree() ... Tiles.getWall() ... some kind of factory class that provides all the tiles, and within it, only keeps one of each tile
+		//But I don't know how to do this, and I don't know how to make that system support new tile additions
 		charToTerrain = Map.ofEntries(
-			entry(".", new Free()),
-			entry("c", new Treasure()),
-			entry("#", new Wall()),
-			entry("X", new ExitLock()),
-			entry("E", new ExitTile()),
-			entry("B", new GreenDoor()),
-			entry("b", new GreenKey()), //TODO add yellow door, yellow key etc etc
-			entry("g", new GoldKey()),
-			entry("G", new GoldDoor()),
-			entry("i", new Info(info)),
-			entry("^", new OneWayNorth()),
-			entry("<", new OneWayWest()),
-			entry(">", new OneWayEast()),
-			entry("v", new OneWaySouth()),
-			entry("teleport", new Teleporter())
+			entry(".", Free.getInstance()),
+			entry("c", Treasure.getInstance()),
+			entry("#", Wall.getInstance()),
+			entry("X", ExitLock.getInstance()),
+			entry("E", ExitTile.getInstance()),
+			entry("B", BlueDoor.getInstance()),
+			entry("b", BlueKey.getInstance()), //TODO add yellow door, yellow key etc etc
+			entry("g", GoldKey.getInstance()),
+			entry("G", GoldDoor.getInstance()),
+			entry("i", Info.getInstance()),
+			entry("^", OneWayNorth.getInstance()),
+			entry("<", OneWayWest.getInstance()),
+			entry(">", OneWayEast.getInstance()),
+			entry("v", OneWaySouth.getInstance()),
+			entry("teleport", Teleporter.getInstance())
 		);
 		//TODO this isn't ideal, preferably we just give the object directly in the map
 		charToGameObjName = Map.ofEntries(

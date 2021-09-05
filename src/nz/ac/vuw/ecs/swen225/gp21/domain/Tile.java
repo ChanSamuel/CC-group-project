@@ -1,16 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+
 /**
  * The game world is comprised of tiles
  * Tiles contain a location, possible game object, and Terrain type
  * @author Benjamin
- * TODO TEMP MODIFY FROM DEFAULT TO PUBLIC
+ *
  */
 public final class Tile {
 	/**
 	 * The location of this tile on the board
 	 */
-	final Coord location;
+	public final Coord location;
 	/**
 	 * Reference to the object that is on this tile
 	 */
@@ -29,6 +31,27 @@ public final class Tile {
 		occupier = null;
 	}
 	/**
+	 * Helper for replays
+	 * Just set the occupier reference.
+	 * This is called on the tile at beforePos
+	 * @param o object being moved back
+	 */
+	public void forcePlace(GameObject o) {
+		o.setTile(this);
+		occupier = o;
+	}
+	/**
+	 * Helper method for replays
+	 * Reset the terrain at afterPos.
+	 * @param o object that was moved away from this tile.
+	 * @param before the terrain this tile is being changed back to.
+	 */
+	public void resetTerrain(GameObject o, Terrain before) {
+		setTerrain(before);
+		getTerrain().undoEntityActions(o);
+	}
+	
+	/**
 	 * Remove the GameObject reference for this tile
 	 */
 	void removeOccupier() {
@@ -40,7 +63,7 @@ public final class Tile {
 	 * Doesn't ask the terrain for permission
 	 * @param o 
 	 */
-	void setOccupier(GameObject o) {
+	private void setOccupier(GameObject o) {
 		if(isTileOccupied()) occupier.entityEnteredTile(o);
 		o.setTile(this);
 		occupier = o;
@@ -84,13 +107,6 @@ public final class Tile {
 	public Terrain getTerrain() {
 		if(this.terrain == null) throw new IllegalStateException("This tile has not been given a terrain type! "+this.location);
 		return this.terrain;
-	}
-	/**
-	 * Get the location of this tile
-	 * TODO temp
-	 */
-	public Coord getCoord() {
-		return this.location;
 	}
 	/**
 	 * Determine if an object can enter this tile

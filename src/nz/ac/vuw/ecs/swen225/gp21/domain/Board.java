@@ -18,36 +18,22 @@ public interface Board {
 	 */
 	int getRemainingChips();
 	/**
-	 * Attempt to move a GameObject up one tile
-	 * @param o the object the board will try to move
-	 */
-	void moveUp(GameObject o);
-	/**
-	 * Attempt to move a GameObject up one tile
-	 * @param o the object the board will try to move
-	 */
-	void moveDown(GameObject o);
-	/**
-	 * Attempt to move a GameObject up one tile
-	 * @param o the object the board will try to move
-	 */
-	void moveLeft(GameObject o);
-	/**
-	 * Attempt to move a GameObject up one tile
-	 * @param o the object the board will try to move
-	 */
-	void moveRight(GameObject o);
-	/**
 	 * Open the exit tile
 	 */
 	public void openExit();
 	/**
-	 * Move an object straight to a destination tile. 
-	 * Doesn't notify the terrain type of the destination
-	 * @param o
-	 * @param destination
+	 * Try to move an object to the destination
+	 * @param o the object being moved
+	 * @param destination the location it is trying to move to
+	 * @return true if the move was carried out
 	 */
-	public void moveObject(Coord destination, GameObject o);
+	public boolean tryMoveObject(Coord destination, GameObject o);
+	/**
+	 * Perform the actions needed to undo a move
+	 * @param beforeDest the location the object is being moved back to
+	 * @param o the object being moved
+	 */
+	public void moveObjectBack(Coord beforeDest, GameObject o);
 	/**
 	 * Get the tile at a location
 	 * Can be used by game objects if they need that information to make a decision
