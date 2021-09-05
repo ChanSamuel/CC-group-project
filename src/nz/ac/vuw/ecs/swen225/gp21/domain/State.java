@@ -48,6 +48,16 @@ public interface State {
 	 */
 	public boolean addObject(World w, GameObject e, Coord c);
 	/**
+	 * Try to move an object in a direction. 
+	 * When the world is running:
+	 *   If the move succeeds, it is appended to the end of the world's current event.
+	 *   This event is then saved to the update's tick after the object's update method returns.
+	 * @param w the world the move is being made in
+	 * @param o the object that is being moved
+	 * @param d the direction it is being moved in.
+	 */
+	public void makeMove(World w, GameObject o, Direction d);
+	/**
 	 * Enqueue a move left command for chip
 	 * @param w
 	 */
