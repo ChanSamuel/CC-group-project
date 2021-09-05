@@ -1,10 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 /**
  * 
@@ -67,7 +63,7 @@ public class ArrayBoard implements Board {
 	
 	@Override
 	public void addObject(GameObject o, Coord location) {
-		boundsCheck(location);
+		boundsCheck(location); //NOTE: method for loading
 		Tile t = coordToTile(location);
 		if(t.isTileOccupied()) throw new RuntimeException("Cannot spawn one entity on an occupied tile: "+location+" Object: "+o);
 		t.addOccupier(o);
@@ -127,12 +123,13 @@ public class ArrayBoard implements Board {
 	/**
 	 * Don't perform any checks, forcefully move an object to a location
 	 * We need this method because some moves can't be undone normally, due to one way tile restrictions
-	 * @param dest Location the object is being moved back to
+	 * @param beforePos Location the object is being moved back to
 	 * @param o the object being moved
 	 */
-	public void undoMoveObject(Coord dest, GameObject o) {
-		Tile t = coordToTile(dest);
-		t.forcePlace(o);
+	public void moveObjectBack(Coord beforePos, GameObject o) {
+		Tile t = coordToTile(beforePos);
+		t.forcePlace(o); 
+		//When this method returns we will go to afterPos and call t.resetTerrainChange(...)
 	}
 	
 	@Override
