@@ -23,6 +23,11 @@ public interface Terrain {
 	 */
 	public void entityEntered(GameObject o);
 	/**
+	 * Undo the activities that were performed in the entityEntered method.
+	 * @param o the object that was reset from a tile with this terrain type.
+	 */
+	public void undoEntityActions(GameObject o);
+	/**
 	 * Determines if a given GameObject is allowed to enter a tile 
 	 * with this terrain type
 	 * @param o the object trying to enter a tile with this terrain type
