@@ -30,7 +30,7 @@ public class WorldJFrame extends JFrame{
 		setBounds(x,y,WIDTH,HEIGHT);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//TODO temp
-		worldJPanel.updateJPanel(new Coord(4,2), Direction.EAST);
+		//update world JPanel
+		worldJPanel.updateJPanel();
 	}
 }
