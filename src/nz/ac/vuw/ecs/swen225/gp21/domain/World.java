@@ -32,12 +32,6 @@ public class World {
 	 */
 	public MultiMove event;
 	/**
-	 * The tick currently being replayed.
-	 * Only used when replaying.
-	 * At all times: (this.updates == tick.index) should be true.
-	 */
-	private Tick replayTick; 
-	/**
 	 * Store the movement requests that have been made by the controller.
 	 * (and by extension, the user.)
 	 */
@@ -302,6 +296,7 @@ public class World {
 	/**
 	 * Try Move an object to a destination
 	 * Moving an object can cause a cascade of further events to occur
+	 * This method does not save moves into a tick, makeMove(...) does
 	 * @param o the object being moved
 	 * @param destination where the object is being moved to
 	 * @return true if the move succeeded
@@ -310,52 +305,34 @@ public class World {
 		return board.tryMoveObject(destination, o);
 	}
 	/**
-	 * Try to move the specified game object up.
+	 * Try to move an object in a direction. 
+	 * Defers the movement to worldState.
 	 * If the move succeeds, it is recorded.
-	 * @param o the object being moved
+	 * @param o object that is moving
+	 * @param d the direction the object is moving in.
 	 */
-	public void moveUp(GameObject o) {
-		//TODO 	you could off-load this to worldState, would make life easier, then there 
-		//		won't be crazy issues when you call these same methods to do a replay. "event" is already public
-		//		(making a move in a replay should not generate an event to be recorded in a replay)
-		o.updateDirection(Direction.NORTH);
-		boolean moved = moveObject(o, o.dir.next(o.currentTile.location));
-		if(moved) event.saveEvent(new MoveUp(o)); else event.saveEvent(new NoMove());
-		//notify observers?
-	}
+	public void makeMove(GameObject o, Direction d) { worldState.makeMove(this, o, d); }
+	
+	/**
+	 * Try to move the specified game object up.
+	 * @param o the object being moved up
+	 */
+	public void moveUp(GameObject o) { makeMove(o, Direction.NORTH); }
 	/**
 	 * Try to move the specified game object down.
-	 * If the move succeeds, it is recorded.
-	 * @param o the object being moved
+	 * @param o the object being moved down
 	 */
-	public void moveDown(GameObject o) { 
-		o.updateDirection(Direction.SOUTH); 
-		Coord destination = o.dir.next(o.currentTile.location);
-		if(moveObject(o, destination)) event.saveEvent(new MoveDown(o)); 
-		else event.saveEvent(new NoMove());
-	}
+	public void moveDown(GameObject o) { makeMove(o, Direction.SOUTH); }
 	/**
 	 * Try to move the specified game object left.
-	 * If the move succeeds, it is recorded.
-	 * @param o the object being moved
+	 * @param o the object being moved left
 	 */
-	public void moveLeft(GameObject o) { 
-		o.updateDirection(Direction.WEST); 
-		Coord destination = o.dir.next(o.currentTile.location);
-		if(moveObject(o, destination)) event.saveEvent(new MoveLeft(o));
-		else event.saveEvent(new NoMove());
-	}
+	public void moveLeft(GameObject o) { makeMove(o, Direction.WEST); }
 	/**
 	 * Try to move the specified game object right.
-	 * If the move succeeds, it is recorded.
-	 * @param o the object being moved
+	 * @param o the object being moved right
 	 */
-	public void moveRight(GameObject o) { 
-		o.updateDirection(Direction.EAST); 
-		Coord destination = o.dir.next(o.currentTile.location);
-		if(moveObject(o, destination)) event.saveEvent(new MoveRight(o));
-		else event.saveEvent(new NoMove());
-	}	
+	public void moveRight(GameObject o) { makeMove(o, Direction.EAST); }	
 //====================================================================================
 //TO-STRING
 	@Override
