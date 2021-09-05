@@ -7,7 +7,20 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public final class Wall extends Terrain {
+public final class Wall implements Terrain {
+	/**
+	 * Hold the sole instance of wall, to save memory.
+	 */
+	private static Wall instance = new Wall();
+	/**
+	 * Get the instance of the wall terrain
+	 * @return instance of wall terrain
+	 */
+	public static Wall getInstance() { return instance; }
+	/**
+	 * wall doesn't need any initialization
+	 */
+	private Wall() {}
 
 	@Override
 	public Terrain nextType(GameObject o) {return this;}
@@ -15,6 +28,11 @@ public final class Wall extends Terrain {
 	@Override
 	public void entityEntered(GameObject o) {
 		throw new RuntimeException("Entity: ["+o+"] entered a wall tile!");
+	}
+	
+	@Override
+	public void undoEntityActions(GameObject o) {
+		throw new RuntimeException("Entity: ["+o+"] was in a wall tile!");	
 	}
 
 	@Override
@@ -24,6 +42,5 @@ public final class Wall extends Terrain {
 	public char boardChar() {return '#';}
 	
 	@Override
-	public String toString() { return super.toString()+"Wall"; }
-
+	public String toString() { return "Wall"; }
 }

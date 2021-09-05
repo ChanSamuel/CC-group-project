@@ -31,14 +31,24 @@ public final class Tile {
 		occupier = null;
 	}
 	/**
-	 * Helper method for replays
-	 * Force an object onto this tile.
-	 * Don't notify the terrain
-	 * @param o object being moved onto this tile
+	 * Helper for replays
+	 * Just set the occupier reference.
+	 * This is called on the tile at beforePos
+	 * @param o object being moved back
 	 */
 	public void forcePlace(GameObject o) {
 		o.setTile(this);
 		occupier = o;
+	}
+	/**
+	 * Helper method for replays
+	 * Reset the terrain at afterPos.
+	 * @param o object that was moved away from this tile.
+	 * @param before the terrain this tile is being changed back to.
+	 */
+	public void resetTerrain(GameObject o, Terrain before) {
+		setTerrain(before);
+		getTerrain().undoEntityActions(o);
 	}
 	
 	/**
@@ -53,9 +63,10 @@ public final class Tile {
 	 * Doesn't ask the terrain for permission
 	 * @param o 
 	 */
-	void setOccupier(GameObject o) {
+	private void setOccupier(GameObject o) {
 		if(isTileOccupied()) occupier.entityEnteredTile(o);
-		forcePlace(o);
+		o.setTile(this);
+		occupier = o;
 	}
 	/**
 	 * Follow the complete move procedure

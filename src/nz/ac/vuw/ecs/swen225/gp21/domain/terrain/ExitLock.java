@@ -7,14 +7,30 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public class ExitLock extends Terrain {
+public class ExitLock implements Terrain {
+	/**
+	 * Store the instance of exit lock terrain here
+	 */
+	private static ExitLock instance = new ExitLock();
+	/**
+	 * Get an instance of the exit lock terrain type
+	 * @return instance of exit lock terrain
+	 */
+	public static ExitLock getInstance() { return instance; }
+	/**
+	 * Create exit lock terrain
+	 */
+	private ExitLock() {}
 
 	@Override
-	public Terrain nextType(GameObject o) { return new Free(); }
+	public Terrain nextType(GameObject o) { return Free.getInstance(); }
 
 	@Override
-	public void entityEntered(GameObject o) { throw new RuntimeException("Entity "+o+" entered the exit lock tile");	}
-
+	public void entityEntered(GameObject o) { throw new RuntimeException("Entity "+o+" entered the exit lock tile"); }
+	
+	@Override
+	public void undoEntityActions(GameObject o) {throw new RuntimeException("Entity "+o+" was on the exit lock tile");}
+	
 	@Override
 	public boolean canEntityGoOn(GameObject o) { return false; } //no objects can enter this type of tile
 
@@ -23,5 +39,5 @@ public class ExitLock extends Terrain {
 	
 	@Override
 	public String toString() { return super.toString()+"Exit Lock"; }
-
+	
 }

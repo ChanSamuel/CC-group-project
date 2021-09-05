@@ -25,8 +25,11 @@ public final class Tick {
 	final List<Command> events;
 	/**
 	 * Remember the status of the tick
+	 * replayed ticks enter the world when it is 
+	 * in a state where the tick's events
+	 * have not been applied
 	 */
-	private boolean undone = false;
+	private boolean undone = true;
 	/**
 	 * Create a new tick to store all the events that occur in an update.
 	 * @param index the tick ID.

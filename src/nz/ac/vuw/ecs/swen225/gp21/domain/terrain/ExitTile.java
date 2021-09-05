@@ -9,14 +9,32 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public class ExitTile extends Terrain {
+public class ExitTile implements Terrain {
+	/**
+	 * Store instance of exit tile here
+	 */
+	private static ExitTile instance = new ExitTile();
+	/**
+	 * Get an instance of exit tile terrain
+	 * @return instance of exit tile terrain
+	 */
+	public static ExitTile getInstance() { return instance; }
+	/**
+	 * Create exit tile terrain type
+	 */
+	private ExitTile() {}
 
 	@Override
 	public Terrain nextType(GameObject o) { return this; }
 
 	@Override
 	public void entityEntered(GameObject o) {
-		o.w.enteredExit();
+		o.w.enteredExit();//TODO might need to defer this state?
+	}
+	
+	@Override
+	public void undoEntityActions(GameObject o) {
+		// TODO not sure what the true consequences of entering the exit are at this time
 	}
 
 	@Override
@@ -30,5 +48,5 @@ public class ExitTile extends Terrain {
 	
 	@Override
 	public String toString() { return super.toString()+"Exit"; }
-
+	
 }

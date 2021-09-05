@@ -21,9 +21,10 @@ public interface Domain extends Subject{
 //==============
 //HELPERS FOR RENDERING INTERFACE
 	/**
-	 * Return a reference to the board
-	 * which can be queried for the information needed
-	 * to display the game
+	 * Return a reference to the board.
+	 * Board can be queried for the information needed
+	 * to display the game.
+	 * TODO reject request if in loading state?
 	 * @return A reference to the game board
 	 */
 	public Board getBoard();
@@ -60,58 +61,51 @@ public interface Domain extends Subject{
 //INFORMATION GENERATION
 	/**
 	 * Simulate the game for one time interval, generates a new tick
-	 * TODO should persistence module receive the tick?
 	 * @param elapsedTime the amount of time since the last update
+	 * @return A record of the events that occured during the update
 	 */
-	public void update(double elapsedTime);
-//	public Tick update(double elapsedTime); //??? how about this?
+	public Tick update(double elapsedTime); 
+
+//===================
+//REPLAYING TICK HELPERS
+//NOTE: to replay -> 	load initial level conditions.
+//						forwardTick(1st tick);
+//						forwardTick(2nd tick); etc etc
+	
+//NOTE: to rewind ->	forwardTick(Nth tick);
+//						backTick(Nth tick);
+//						backTick(Nth-1 tick);
 	/**
-	 * Re-applies the events in the next tick.
-	 * Moves the current tick forward one.
-	 * Does nothing if the game is already at the latest update. TODO change to exception? return boolean if it worked?
+	 * Applies the events stored in the loaded tick.
+	 * Does nothing if the events have already been applied. TODO change to exception? return boolean if it worked?
 	 */
-	public void forwardTick();
+	public void forwardTick(Tick t);
 	/**
-	 * Undoes the updates in the last update/tick that occurred
-	 * Moves the current tick back one.
+	 * Undoes the events in the loaded tick.
+	 * Changes the next expected tick to (t.index - 1)
 	 * Does nothing if the game is at the first update (initial game conditions) TODO change to exception? return boolean if it worked?
 	 */
-	public void backTick();
-	/**
-	 * Fast forward or rewind through the ticks until you reach the specified tick.
-	 * @param index the location of the tick
-	 */
-	public void goToTick(int index);
-	/**
-	 * Get all the ticks that have occurred so far in this game
-	 * A tick represents all the events that occurred in one game update
-	 * TODO should persistence module store these?
-	 * @return All the ticks that occurred since the session started
-	 */
-	public List<Tick> getAllTicks();
-	/**
-	 * Get the tick the Domain is currently at
-	 * @return the current tick
-	 */
-	public Tick getCurrentTick();
-//===================
-	
+	public void backTick(Tick t);
 //===================
 //API 
 	/**
 	 * Attempt to move chip up on the next update
+	 * Only accepted when in running state.
 	 */
 	public void moveChipUp();
 	/**
 	 * Attempt to move chip down on the next update
+	 * Only accepted when in running state.
 	 */
 	public void moveChipDown();
 	/**
 	 * Attempt to move chip to the left next update
+	 * Only accepted when in running state.
 	 */
 	public void moveChipLeft();
 	/**
 	 * Attempt to move chip to the right next update
+	 * Only accepted when in running state.
 	 */
 	public void moveChipRight();
 //=======================

@@ -10,6 +10,19 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  *
  */
 public final class BlueDoor extends Door {
+	/**
+	 * Store the instance of blue door terrain here
+	 */
+	private static BlueDoor instance = new BlueDoor();
+	/**
+	 * Get an instance of blue door terrain
+	 * @return instance of blue door terrain
+	 */
+	public static BlueDoor getInstance() { return instance; }
+	/**
+	 * Create blue door terrain
+	 */
+	private BlueDoor() {}
 
 	@Override
 	public void entityEntered(GameObject o) {
@@ -18,6 +31,14 @@ public final class BlueDoor extends Door {
 		} else {
 			throw new RuntimeException("Non Chip object entered locked door! ->"+this+" & "+o);
 		}
+	}
+	@Override
+	public void undoEntityActions(GameObject o) {
+		if(o instanceof Chip) {
+			((Chip)o).addItem(new KeyItem("Blue"));
+		} else {
+			throw new RuntimeException("Non Chip object was on locked door! ->"+this+" & "+o);
+		}	
 	}
 
 	@Override

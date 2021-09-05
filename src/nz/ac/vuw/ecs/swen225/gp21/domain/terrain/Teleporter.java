@@ -25,11 +25,24 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-public class Teleporter extends Terrain {
+public class Teleporter implements Terrain {
 	/**
 	 * Record of one-way teleporter links
 	 */
 	public static Map<Coord, Coord> links = new HashMap<>();
+	/**
+	 * Hold the only instance of the teleporter terrain
+	 */
+	private static Teleporter instance = new Teleporter();
+	/**
+	 * Get an instance of the teleporter terrain type
+	 * @return instance of teleporter terrain
+	 */
+	public static Teleporter getInstance() { return instance; }
+	/**
+	 * Teleporter terrain constructor
+	 */
+	private Teleporter() {}
 	
 	@Override
 	public Terrain nextType(GameObject o) { return this; }
@@ -38,6 +51,10 @@ public class Teleporter extends Terrain {
 	public void entityEntered(GameObject o) {
 		Coord destination = getDestinationCoord(o.getTile().location, o.dir);
 		o.w.moveObject(o, destination);
+	}
+	@Override
+	public void undoEntityActions(GameObject o) {
+		//TODO currently doing nothing, I think directMove handles this.	
 	}
 
 	@Override

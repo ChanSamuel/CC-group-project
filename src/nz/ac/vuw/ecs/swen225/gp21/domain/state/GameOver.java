@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
@@ -15,7 +17,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 public final class GameOver implements State {
 
 	@Override
-	public void update(World w, double elapsedTime) {
+	public Tick update(World w, double elapsedTime) {
 		throw new IllegalStateException("World is in game over state! No more updates can be made!");
 	}
 
@@ -62,6 +64,11 @@ public final class GameOver implements State {
 	@Override
 	public void loadLevel(World world, Level level) {
 		throw new IllegalStateException("Cannot load level when game is not in loading state!");
+	}
+
+	@Override
+	public void makeMove(World w, GameObject o, Direction d) {
+		throw new IllegalStateException("Cannot move objects when game is over!");
 	}
 
 }

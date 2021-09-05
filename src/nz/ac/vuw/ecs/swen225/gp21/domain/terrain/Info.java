@@ -10,18 +10,36 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * @author Benjamin
  *
  */
-public final class Info extends Terrain {
+public final class Info implements Terrain {
+	/**
+	 * Store the only instance of info tile here.
+	 * Save memory. Currently this means levels can only have one Info tile :\
+	 */
+	private static Info instance = new Info("No message");
+	/**
+	 * Get an instance of the info tile
+	 * @return instance of info tile
+	 */
+	public static Info getInstance() { return instance; }
+	/**
+	 * make an info tile.
+	 * @param message message this tile provides to the player.
+	 */
+	private Info(String message) {
+		if(message == null) throw new IllegalArgumentException("Message must not be null");
+		this.message = message;
+	}
+	
 	/**
 	 * The message that is displayed by this tile.
 	 */
-	private String message;
+	private final String message;
 	/**
-	 * Create a new Info terrain type
-	 * @param message
+	 * Change the Info terrain instance
+	 * @param message message displayed to player
 	 */
-	public Info(String message){
-		if(message == null) throw new IllegalArgumentException("Message string must not be null!");
-		this.message = message;
+	public static void setInfoText(String message){
+		instance = new Info(message);
 	}
 	
 	@Override
@@ -30,7 +48,10 @@ public final class Info extends Terrain {
 	@Override
 	public void entityEntered(GameObject o) {
 		o.w.enteredInfo(this.message);
+		//TODO app needs to know when the info tile is left, so it can stop displaying the info message
 	}
+	@Override
+	public void undoEntityActions(GameObject o) {}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {
@@ -43,5 +64,5 @@ public final class Info extends Terrain {
 	
 	@Override
 	public String toString() { return super.toString()+"Info tile: "+message; }
-
+	
 }

@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author Benjamin
  *
  */
-abstract class OneWay extends Terrain {
+abstract class OneWay implements Terrain {
 	/**
 	 * The direction the tile can be traversed across
 	 */
@@ -31,6 +31,9 @@ abstract class OneWay extends Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {}
+	
+	@Override 
+	public void undoEntityActions(GameObject o) {}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) {

@@ -1,16 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.DirectMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveDown;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * The running state represents a world that has been initialized 
@@ -28,7 +32,7 @@ public final class Running implements State{
 	}
 
 	@Override
-	public void update(World w, double elapsedTime) {
+	public Tick update(World w, double elapsedTime) {
 		worldCheck(w);
 		Tick tick = new Tick(w.updates, w);
 		//update all game objects
@@ -38,9 +42,23 @@ public final class Running implements State{
 			tick.addEvent(w.event);
 		}
 		if(w.getBoard().getRemainingChips() == 0) w.getBoard().openExit(); //Should we do this check somewhere else?
-		w.saveTick(tick);
 		w.updates++;
+		if(w.isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
+		assert(w.totalTreasure == w.getBoard().getRemainingChips()+w.getPlayer().treasureCollected);
 		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick TODO
+		return tick;
+	}
+	
+	@Override
+	public void makeMove(World w, GameObject o, Direction d) {
+		Direction beforeD = o.dir;
+		Coord beforeC = o.getTile().location;
+		Terrain beforeT = o.getTile().getTerrain();
+		
+		o.updateDirection(d); 
+		Coord destination = o.dir.next(o.getTile().location);
+		if(w.moveObject(o, destination)) w.event.saveEvent(new DirectMove(beforeD, beforeC, beforeT, o)); 
+		else w.event.saveEvent(new NoMove());
 	}
 
 	@Override
@@ -94,5 +112,4 @@ public final class Running implements State{
 	public void loadLevel(World world, Level level) {
 		throw new IllegalStateException("Cannot load level while game is running!");
 	}
-
 }

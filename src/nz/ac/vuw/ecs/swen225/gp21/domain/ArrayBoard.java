@@ -1,10 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 /**
  * 
@@ -34,18 +30,18 @@ public class ArrayBoard implements Board {
 		for(int row = 0; row < rows; row++) {
 			for(int col = 0; col < columns; col++) {
 				board[row][col] = new Tile(new Coord(row, col));
-				board[row][col].setTerrain(new Free());
+				board[row][col].setTerrain(Free.getInstance());
 			}
 		}
-		board[rows-1][columns-1].setTerrain(new ExitTile());
+		board[rows-1][columns-1].setTerrain(ExitTile.getInstance());
 		//create a teleporter pair @ (r: 4, c: 6) && (r: 7, c: 6)
-		board[4][6].setTerrain(new Teleporter()); board[7][6].setTerrain(new Teleporter());
+		board[4][6].setTerrain(Teleporter.getInstance()); board[7][6].setTerrain(Teleporter.getInstance());
 		Teleporter.links.put(new Coord(4,6), new Coord(7,6));
 		Teleporter.links.put(new Coord(7,6), new Coord(4,6));
 		//create 2 treasure @ (r: 0, c: 5) && (r: 2, c: 5)
-		board[0][5].setTerrain(new Treasure()); board[2][5].setTerrain(new Treasure());
+		board[0][5].setTerrain(Treasure.getInstance()); board[2][5].setTerrain(Treasure.getInstance());
 		//create exit tile @ (r: 8, c: 9)
-		board[8][9].setTerrain(new ExitLock());
+		board[8][9].setTerrain(ExitLock.getInstance());
 	}
 	/**
 	 * Create an array board from a level object
@@ -67,7 +63,7 @@ public class ArrayBoard implements Board {
 	
 	@Override
 	public void addObject(GameObject o, Coord location) {
-		boundsCheck(location);
+		boundsCheck(location); //NOTE: method for loading
 		Tile t = coordToTile(location);
 		if(t.isTileOccupied()) throw new RuntimeException("Cannot spawn one entity on an occupied tile: "+location+" Object: "+o);
 		t.addOccupier(o);
@@ -127,18 +123,20 @@ public class ArrayBoard implements Board {
 	/**
 	 * Don't perform any checks, forcefully move an object to a location
 	 * We need this method because some moves can't be undone normally, due to one way tile restrictions
-	 * @param dest
-	 * @param o
+	 * @param beforePos Location the object is being moved back to
+	 * @param o the object being moved
 	 */
-	public void undoMoveObject(Coord dest, GameObject o) {
-		
+	public void moveObjectBack(Coord beforePos, GameObject o) {
+		Tile t = coordToTile(beforePos);
+		t.forcePlace(o); 
+		//When this method returns we will go to afterPos and call t.resetTerrainChange(...)
 	}
 	
 	@Override
 	public void openExit() {
 		for(int row = 0; row < rows; row++)
 			for(int col = 0; col < columns; col++) 
-				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(new Free());
+				if(board[row][col].getTerrain() instanceof ExitLock) board[row][col].setTerrain(Free.getInstance());
 	}
 	@Override
 	public String toString() {

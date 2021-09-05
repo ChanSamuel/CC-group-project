@@ -29,6 +29,12 @@ public interface Board {
 	 */
 	public boolean tryMoveObject(Coord destination, GameObject o);
 	/**
+	 * Perform the actions needed to undo a move
+	 * @param beforeDest the location the object is being moved back to
+	 * @param o the object being moved
+	 */
+	public void moveObjectBack(Coord beforeDest, GameObject o);
+	/**
 	 * Get the tile at a location
 	 * Can be used by game objects if they need that information to make a decision
 	 * @param location the location of tile being seeked
