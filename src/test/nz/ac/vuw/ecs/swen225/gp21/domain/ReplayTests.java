@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.*;
 /**
  * Test that the domain can undo & redo ticks
  * Test that the domain produces good ticks
@@ -12,7 +13,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
  *
  */
 class ReplayTests {
-	
+	/**
+	 * The level the tests will use
+	 */
 	Level testLevel;
 	{
 		int rows = 10;
@@ -90,6 +93,76 @@ class ReplayTests {
 					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
 					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
 			assertEquals(expected, w.toString());
+		} catch (Exception s) {
+			s.printStackTrace();
+			passed = false;
+		}
+		assertTrue(passed);
+	}
+	
+	/**
+	 * Try recording some moves.
+	 */
+	@Test
+	void testTickReplay() {
+		boolean passed = true;
+		try {
+			List<Tick> ticks = new LinkedList<>();
+			World w = new World(testLevel);
+			w.doneLoading();
+			ticks.add(w.update(200));
+			w.moveChipDown();
+			ticks.add(w.update(200));
+			
+			String expected = "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 5 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 5 Columns: 5 Block\n"
+					+ "\n"
+					+ "Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|C|_|_|_|_|\n"
+					+ "2|_|_|c|_|_|O|_|_|_|_|\n"
+					+ "3|#|#|#|#|#|#|#|#|#|#|\n"
+					+ "4|_|_|_|_|_|O|_|_|_|_|\n"
+					+ "5|_|_|_|_|_|=|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
+			assertEquals(expected, w.toString());
+			
+			w.setState(new Replaying());
+			w.backTick(ticks.get(1));
+			w.backTick(ticks.get(0));
+			
+			String expectedTwo = 	"Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->NORTH at->Row: 0 Columns: 5 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 1 Columns: 5 Block\n"
+					+ "\n"
+					+ "Board: \n"
+					+ "0|_|_|_|_|_|C|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|=|_|_|_|_|\n"
+					+ "2|_|_|c|_|_|O|_|_|_|_|\n"
+					+ "3|#|#|#|#|#|#|#|#|#|#|\n"
+					+ "4|_|_|_|_|_|O|_|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
+			assertEquals(expectedTwo, w.toString());
+			
+			w.forwardTick(ticks.get(0));
+			w.forwardTick(ticks.get(1));
+			
+			assertEquals(expected, w.toString());
+			
 		} catch (Exception s) {
 			s.printStackTrace();
 			passed = false;
