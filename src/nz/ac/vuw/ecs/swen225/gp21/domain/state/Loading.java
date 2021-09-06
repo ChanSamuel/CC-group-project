@@ -116,4 +116,16 @@ public class Loading implements State {
 	public void makeMove(World w, GameObject o, Direction d) {
 		throw new IllegalStateException("Cannot move objects while world is loading!");
 	}
+	@Override
+	public Coord getPlayerLocation(World w) {
+		throw new IllegalStateException("Cannot determine player location while loading!");
+	}
+	@Override
+	public void forwardTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick while game is loading!");
+	}
+	@Override
+	public void backTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick while game is loading!");
+	}
 }

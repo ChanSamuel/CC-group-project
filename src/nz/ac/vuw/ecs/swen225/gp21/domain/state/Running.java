@@ -112,4 +112,17 @@ public final class Running implements State{
 	public void loadLevel(World world, Level level) {
 		throw new IllegalStateException("Cannot load level while game is running!");
 	}
+
+	@Override
+	public Coord getPlayerLocation(World w) { return w.getPlayer().getTile().location; }
+
+	@Override
+	public void forwardTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick when game is running! World should be in replaying state!");
+	}
+
+	@Override
+	public void backTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick when game is running! World should be in replaying state!");
+	}
 }
