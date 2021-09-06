@@ -123,15 +123,10 @@ public class World implements Domain{
 	public Domain getDomain(Domain d) {return null;} //not sure if we need this one	
 	
 	@Override
-	public void forwardTick(Tick t) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void forwardTick(Tick t) { worldState.forwardTick(this, t);}
+	
 	@Override
-	public void backTick(Tick t) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void backTick(Tick t) { worldState.backTick(this, t); }
 	
 	@Override
 	public State getDomainState() {	return worldState; }
@@ -177,15 +172,8 @@ public class World implements Domain{
 	}
 	@Override
 	public Coord getPlayerLocation() {
-		return worldState.getPlayerLocation();
+		return worldState.getPlayerLocation(this);
 	}
-	/**
-	 * Add a new game object to the world
-	 * TODO currently only works during initialization
-	 * @param e the entity being added
-	 * @param c The location on the board this entity should be placed
-	 * @return true if the addition succeeded
-	 */
 	@Override
 	public void addGameObject(GameObject e, Coord c) {
 		worldState.addObject(this, e, c);
