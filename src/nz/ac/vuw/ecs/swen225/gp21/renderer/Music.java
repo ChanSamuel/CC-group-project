@@ -41,19 +41,33 @@ class Music {
 			e.printStackTrace();
 		}
 		try {
+			if(ais!=null)
 			clip.open(ais);
 		} catch (LineUnavailableException | IOException e) {
 			System.out.println("open audio file stream failed");
 			e.printStackTrace();
 		}
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	/**
+	 * Loop the music
+	 */
+	void loop() {
+		if(clip!=null)
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	/**
 	 * Start the music
 	 */
 	void start() {
+		if(clip!=null)
         clip.start();
 	}
-	
+	/**
+	 * Stop the music
+	 */
+	void stop() {
+		if(clip!=null)
+        clip.stop();
+	}
 }
 
