@@ -13,11 +13,11 @@ public final class Tick {
 	/**
 	 * reference to the world that generated this tick
 	 */
-	final World w;
+	public final World w;
 	/**
 	 * this number specifies which update generated this tick
 	 */
-	final int index;
+	public final int index;
 	/**
 	 * List of all the events that were performed in the update
 	 * that this tick was generated in.
@@ -33,6 +33,7 @@ public final class Tick {
 	/**
 	 * Create a new tick to store all the events that occur in an update.
 	 * @param index the tick ID.
+	 * @param w the world that generated this tick
 	 */
 	public Tick(int index, World w) {
 		this.w = w;
@@ -47,8 +48,7 @@ public final class Tick {
 	public void addEvent(MultiMove event) { events.add(event); }
 	
 	/**
-	 * Redo all the actions that occurred during this tick
-	 * @param w the world that generated this tick
+	 * Redo all the actions that occurred during this tick.
 	 */
 	public void redoTick() {
 		if(!undone) return; //throw exception? redo commands that have already been applied
@@ -58,7 +58,7 @@ public final class Tick {
 		undone = false;
 	}
 	/**
-	 * Undo all the actions that occurred during this tick
+	 * Undo all the actions that occurred during this tick.
 	 */
 	public void undoTick() {
 		if(undone) return; //throw exception? Can't undo commands that were already undone
@@ -66,7 +66,7 @@ public final class Tick {
 		undone = true;
 	}
 	/**
-	 * Get all the events that happened during this tick
+	 * Get all the events that happened during this tick.
 	 * @return the list of events that happened during this update
 	 */
 	public List<Command> getEvents(){
