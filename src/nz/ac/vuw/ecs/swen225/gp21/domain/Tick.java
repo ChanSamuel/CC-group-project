@@ -13,26 +13,27 @@ public final class Tick {
 	/**
 	 * reference to the world that generated this tick
 	 */
-	final World w;
+	public final World w;
 	/**
 	 * this number specifies which update generated this tick
 	 */
-	final int index;
+	public final int index;
 	/**
 	 * List of all the events that were performed in the update
 	 * that this tick was generated in.
 	 */
 	final List<Command> events;
 	/**
-	 * Remember the status of the tick
-	 * replayed ticks enter the world when it is 
-	 * in a state where the tick's events
-	 * have not been applied
+	 * Is this tick the final tick in the replay stream?.
+	 * NOTE: This MUST be set by an external monitor of the game-play.
+	 * The domain has no way of knowing which update will be the last
+	 * because the game could be ended at anypoint in time.
 	 */
-	private boolean undone = true;
+	public boolean isFinalTick = false;
 	/**
 	 * Create a new tick to store all the events that occur in an update.
 	 * @param index the tick ID.
+	 * @param w the world that generated this tick
 	 */
 	public Tick(int index, World w) {
 		this.w = w;
@@ -47,26 +48,21 @@ public final class Tick {
 	public void addEvent(MultiMove event) { events.add(event); }
 	
 	/**
-	 * Redo all the actions that occurred during this tick
-	 * @param w the world that generated this tick
+	 * Redo all the actions that occurred during this tick.
 	 */
 	public void redoTick() {
-		if(!undone) return; //throw exception? redo commands that have already been applied
 		Collections.reverse(events);
 		for(Command c : events) c.execute(w);
 		Collections.reverse(events);
-		undone = false;
 	}
 	/**
-	 * Undo all the actions that occurred during this tick
+	 * Undo all the actions that occurred during this tick.
 	 */
 	public void undoTick() {
-		if(undone) return; //throw exception? Can't undo commands that were already undone
 		for(Command c : events) c.undo(w);
-		undone = true;
 	}
 	/**
-	 * Get all the events that happened during this tick
+	 * Get all the events that happened during this tick.
 	 * @return the list of events that happened during this update
 	 */
 	public List<Command> getEvents(){

@@ -8,39 +8,39 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  */
 public interface State {
 	/**
-	 * Simulate the world for one tick
+	 * Simulate the world for one tick.
 	 * @param w
 	 * @param elapsedTime 
 	 * @return an object encapsulating all the events that happened during the update
 	 */
 	public Tick update(World w, double elapsedTime);
 	/**
-	 * Initialize the world from a level object
+	 * Initialize the world from a level object.
 	 * @param world the world being initialized
 	 * @param level the information it is being initialized with
 	 */
 	public void loadLevel(World world, Level level);
 	/**
-	 * Get the width of board
+	 * Get the width of board.
 	 * @param w 
 	 * @return the height of the world
 	 */
 	public int getBoardWidth(World w);
 	/**
-	 * Get the height of the board
+	 * Get the height of the board.
 	 * @param w
 	 * @return the height of the board
 	 */
 	public int getBoardHeight(World w);
 	/**
-	 * Determine if a Coordinate is valid
+	 * Determine if a Coordinate is valid.
 	 * @param w the world the coordinate is being checked with
 	 * @param c the coordinate being checked
 	 * @return true if the coordinate is valid in the world
 	 */
 	public boolean isCoordValid(World w, Coord c);
 	/**
-	 * Add a new Object to the world
+	 * Add a new Object to the world.
 	 * @param w the world the object is being added to
 	 * @param e the object being added
 	 * @param c the location the object is being added at
@@ -58,24 +58,42 @@ public interface State {
 	 */
 	public void makeMove(World w, GameObject o, Direction d);
 	/**
-	 * Enqueue a move left command for chip
+	 * Enqueue a move left command for chip.
 	 * @param w
 	 */
 	public void moveChipLeft(World w);
 	/**
-	 * Enqueue a move up command for chip
+	 * Enqueue a move up command for chip.
 	 * @param w
 	 */
 	public void moveChipUp(World w);
 	/**
-	 * Enqueue a move down command for chip
+	 * Enqueue a move down command for chip.
 	 * @param w
 	 */
 	public void moveChipDown(World w);
 	/**
-	 * Enqueue a move right command for chip
+	 * Enqueue a move right command for chip.
 	 * @param w
 	 */
 	public void moveChipRight(World w);
+	/**
+	 * Get the coord of the tile that the player controlled object is on.
+	 * @param w the world that chip is in
+	 * @return coord of Chip
+	 */
+	public Coord getPlayerLocation(World w);
+	/**
+	 * Apply the actions stored in a tick to the world.
+	 * @param w the world the tick is being applied to
+	 * @param t the tick being played
+	 */
+	public void forwardTick(World w, Tick t);
+	/**
+	 * Undo the actions stored in the tick.
+	 * @param w the world the tick is being applied to
+	 * @param t the tick being undone
+	 */
+	public void backTick(World w, Tick t);
 	
 }

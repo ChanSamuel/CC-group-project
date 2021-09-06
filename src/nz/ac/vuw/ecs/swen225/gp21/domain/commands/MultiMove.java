@@ -25,12 +25,14 @@ public final class MultiMove implements Command {
 	
 	@Override
 	public void execute(World w) {
-		//TODO check notes for what these should do
+		for(Command c : events) c.execute(w);
 	}
 
 	@Override
 	public void undo(World w) {
-		
+		Collections.reverse(events); //TODO needs testing!
+		for(Command c : events) c.undo(w);
+		Collections.reverse(events);
 	}
 
 }

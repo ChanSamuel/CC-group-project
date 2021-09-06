@@ -18,6 +18,15 @@ public interface Domain extends Subject{
 	 * @return The state of the domain
 	 */
 	public State getDomainState();
+	/**
+	 * Set the state of the domain.
+	 * Not sure if we need this one.
+	 * But it allows the App to tell us if we are:
+	 * 	loading
+	 * 	replaying
+	 * @param s the new domain state
+	 */
+	public void setState(State s);
 //==============
 //HELPERS FOR RENDERING INTERFACE
 	/**
@@ -48,7 +57,7 @@ public interface Domain extends Subject{
 	 * A new list of ticks will be generated as past of level initialization. 
 	 * @param level the level data.
 	 */
-	public void LoadLevelData(Level level);
+	public void loadLevelData(Level level);
 	/**
 	 * Restore the world to some previous state.
 	 * Works by loading the level then fast forwarding through the ticks to get to 
@@ -84,12 +93,14 @@ public interface Domain extends Subject{
 	/**
 	 * Applies the events stored in the loaded tick.
 	 * Does nothing if the events have already been applied. TODO change to exception? return boolean if it worked?
+	 * @param t the next tick in the replay stream
 	 */
 	public void forwardTick(Tick t);
 	/**
 	 * Undoes the events in the loaded tick.
 	 * Changes the next expected tick to (t.index - 1)
 	 * Does nothing if the game is at the first update (initial game conditions) TODO change to exception? return boolean if it worked?
+	 * @param t the last applied tick in the replay stream
 	 */
 	public void backTick(Tick t);
 //===================

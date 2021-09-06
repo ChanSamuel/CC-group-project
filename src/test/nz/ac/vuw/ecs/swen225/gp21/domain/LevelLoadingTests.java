@@ -108,7 +108,7 @@ class LevelLoadingTests {
 	@Test
 	void testLoadThree() {
 		World w = new World(testLevel);
-		w.addObject(new Block(w), new Coord(1,1));
+		w.addGameObject(new Block(w), new Coord(1,1));
 		w.doneLoading();
 		w.moveChipRight(); w.moveChipRight();
 		w.moveChipDown();

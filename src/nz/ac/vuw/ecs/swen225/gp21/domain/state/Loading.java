@@ -31,15 +31,20 @@ public class Loading implements State {
 	@Override
 	public void loadLevel(World w, Level level) {
 		w.updates = 0;
+		w.getCommandQueue().clear();
+		w.getEntities().clear();
+		w.setBoard(null);
+		System.gc();
 		w.setBoard(new ArrayBoard(level));
 		for(int row = 0; row < level.rows; row++) {
 			for(int col = 0; col < level.columns; col++) {
 				Coord c = new Coord(row, col);
 				String entityNameAtIndex = level.entityNameAt(c);
 				if(entityNameAtIndex == null) continue;
-				boolean added = w.addObject(nameToGameObject(w, entityNameAtIndex), c);
+				w.addGameObject(nameToGameObject(w, entityNameAtIndex), c);
 			}
 		}
+		w.totalTreasure = w.getBoard().getRemainingChips();
 //		w.doneLoading();
 	}
 	/**
@@ -115,5 +120,17 @@ public class Loading implements State {
 	@Override
 	public void makeMove(World w, GameObject o, Direction d) {
 		throw new IllegalStateException("Cannot move objects while world is loading!");
+	}
+	@Override
+	public Coord getPlayerLocation(World w) {
+		throw new IllegalStateException("Cannot determine player location while loading!");
+	}
+	@Override
+	public void forwardTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick while game is loading!");
+	}
+	@Override
+	public void backTick(World w, Tick t) {
+		throw new IllegalStateException("Cannot apply tick while game is loading!");
 	}
 }

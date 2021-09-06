@@ -71,4 +71,13 @@ public final class GameOver implements State {
 		throw new IllegalStateException("Cannot move objects when game is over!");
 	}
 
+	@Override
+	public Coord getPlayerLocation(World w) { return w.getPlayer().getTile().location; }
+
+	@Override
+	public void forwardTick(World w, Tick t) { throw new IllegalStateException("Cannot apply tick when in game over state!"); }
+
+	@Override
+	public void backTick(World w, Tick t) { throw new IllegalStateException("Cannot undo tick while in game over state!"); }
+
 }
