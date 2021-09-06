@@ -69,7 +69,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		this.coord = w.getPlayer().getTile().location;
 		//-----------Add music---------------------------
 		try {
-			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level2.wav"));
+			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
 		} catch (IOException e) {
 			System.out.println("Music loading failed");
 			e.printStackTrace();
