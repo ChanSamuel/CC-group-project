@@ -37,7 +37,7 @@ public class Loading implements State {
 				Coord c = new Coord(row, col);
 				String entityNameAtIndex = level.entityNameAt(c);
 				if(entityNameAtIndex == null) continue;
-				boolean added = w.addObject(nameToGameObject(w, entityNameAtIndex), c);
+				w.addGameObject(nameToGameObject(w, entityNameAtIndex), c);
 			}
 		}
 //		w.doneLoading();
