@@ -77,5 +77,10 @@ public interface State {
 	 * @param w
 	 */
 	public void moveChipRight(World w);
+	/**
+	 * Get the coord of the tile that the player controlled object is on
+	 * @return coord of Chip
+	 */
+	public Coord getPlayerLocation();
 	
 }
