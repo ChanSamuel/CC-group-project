@@ -31,6 +31,10 @@ public class Loading implements State {
 	@Override
 	public void loadLevel(World w, Level level) {
 		w.updates = 0;
+		w.getCommandQueue().clear();
+		w.getEntities().clear();
+		w.setBoard(null);
+		System.gc();
 		w.setBoard(new ArrayBoard(level));
 		for(int row = 0; row < level.rows; row++) {
 			for(int col = 0; col < level.columns; col++) {
@@ -40,6 +44,7 @@ public class Loading implements State {
 				w.addGameObject(nameToGameObject(w, entityNameAtIndex), c);
 			}
 		}
+		w.totalTreasure = w.getBoard().getRemainingChips();
 //		w.doneLoading();
 	}
 	/**
