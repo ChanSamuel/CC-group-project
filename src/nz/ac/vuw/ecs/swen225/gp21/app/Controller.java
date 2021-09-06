@@ -1,6 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.io.File;
+import java.util.ArrayDeque;
+import java.util.Optional;
+import java.util.Queue;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.RenderingPanel;
 
 /**
  * A Controller interface which provides implemented methods for interacting with the game.
@@ -17,13 +24,67 @@ import java.io.File;
 public abstract class Controller {
 	
 	/**
+	 * Contains a queue of the actions issued by the Controller. This queue is polled every tick.
+	 */
+	private Queue<Action> actions;
+	
+	/**
+	 * The last issued Action which was not valid.
+	 */
+	private Action failedAction = null;
+	
+	/**
+	 * The entrypoint into the Domain module of the game.
+	 */
+	private Domain domain;
+	
+	/**
+	 * The entrypoint into the rendering module.
+	 */
+	private RenderingPanel renderer;
+	
+	/**
 	 * Constructs the Controller by initialising the the main game loop of this Controller by opening 
 	 * a new Swing worker thread.
 	 * After construction, the Controller can be used to make requests to the game by calling this object's
 	 * methods.
 	 */
 	public Controller() {
-		// TODO: First, construct all the objects, then open the new thread.
+		// First, construct all the objects, then open the new thread.
+		domain = new World();
+		actions = new ArrayDeque<Action>();
+		renderer = new RenderingPanel();
+		
+		// Open the thread and start it.
+		GameLoop g = new GameLoop(actions, this);
+		new Thread(g).start();
+		
+	}
+	
+	/**
+	 * Run the event loop.
+	 * Some implementations like GUI may run their own event loop, in which case this method should do nothing.
+	 */
+	abstract void run();
+	
+	/**
+	 * Issue an Action to the game by adding it to the Action queue.
+	 * The Action may not be proccessed immediately.
+	 * Actions can be moves, or requests to pause the game.
+	 * @param a : the Action that should be issued.
+	 * 
+	 */
+	public void issue(Action a) {
+		this.actions.add(a);
+	}
+	
+	/**
+	 * Returns the last failing Action that was issued.
+	 * This is an Action which was issued, processed, then failed due to it being invalid some way.
+	 * @return last failing action
+	 */
+	public Action getLastFailedAction() {
+		return this.failedAction;
 	}
 	
 	/**
@@ -112,6 +173,16 @@ public abstract class Controller {
 	 */
 	public void resumeGame() {
 		
+	}
+	
+	/**
+	 * Sets the last failed action to the given Action.
+	 * This method is only used internally by classes like GameLoop (hence package visiblity).
+	 * This method should be used whenever an action fails.
+	 * @param a
+	 */
+	void setFailedAction(Action a) {
+		this.failedAction = a;
 	}
 	
 }

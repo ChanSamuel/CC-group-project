@@ -4,5 +4,5 @@ import java.util.Optional;
 
 public interface Action {
 	
-	public Optional<Boolean> execute();
+	public Optional<Boolean> execute(Controller control);
 }
