@@ -74,6 +74,8 @@ public class WorldJPanel extends JPanel implements KeyListener {
 			System.out.println("Music loading failed");
 			e.printStackTrace();
 		}
+		//modify volumn, positive means increase, negative means decrease.
+		this.backgroundMusic.modifyVolumn(-5);
 		this.backgroundMusic.start();
 		this.backgroundMusic.loop();
 		// -------- Set the properties of this JPanel------
