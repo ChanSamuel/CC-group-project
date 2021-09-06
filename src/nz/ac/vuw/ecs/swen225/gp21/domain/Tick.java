@@ -24,12 +24,12 @@ public final class Tick {
 	 */
 	final List<Command> events;
 	/**
-	 * Remember the status of the tick
-	 * replayed ticks enter the world when it is 
-	 * in a state where the tick's events
-	 * have not been applied
+	 * Is this tick the final tick in the replay stream?.
+	 * NOTE: This MUST be set by an external monitor of the game-play.
+	 * The domain has no way of knowing which update will be the last
+	 * because the game could be ended at anypoint in time.
 	 */
-	private boolean undone = true;
+	public boolean isFinalTick = false;
 	/**
 	 * Create a new tick to store all the events that occur in an update.
 	 * @param index the tick ID.
@@ -51,19 +51,15 @@ public final class Tick {
 	 * Redo all the actions that occurred during this tick.
 	 */
 	public void redoTick() {
-		if(!undone) return; //throw exception? redo commands that have already been applied
 		Collections.reverse(events);
 		for(Command c : events) c.execute(w);
 		Collections.reverse(events);
-		undone = false;
 	}
 	/**
 	 * Undo all the actions that occurred during this tick.
 	 */
 	public void undoTick() {
-		if(undone) return; //throw exception? Can't undo commands that were already undone
 		for(Command c : events) c.undo(w);
-		undone = true;
 	}
 	/**
 	 * Get all the events that happened during this tick.
