@@ -3,7 +3,7 @@
 | Module      | Team Member Name | Team Member gitlab account |
 |-------------|------------------|----------------------------|
 | Domain      | Ben Sanson       | @sansonbenj & BudgiePanic  |
-| App         |                  |                            |
+| App         | Samuel Chan      | @chansamu1                 |
 | Renderer    | Meng Li          | @limeng7  &  dreamsjtu     |
 | Persistency |                  |                            |
 | Recorder    | Peter Liley      | @lileypete                 |
