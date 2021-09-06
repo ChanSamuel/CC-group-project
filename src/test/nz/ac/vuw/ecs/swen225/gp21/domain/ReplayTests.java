@@ -114,6 +114,20 @@ class ReplayTests {
 			w.moveChipDown();
 			ticks.add(w.update(200));
 			
+			//END OF PLAYER INPUTS
+			//There are no more ticks coming. <- 	this 100% should be the replay
+			//										modules job of managing			
+			
+			ticks.get(ticks.size()-1).isFinalTick = true;
+			//NOTE: This raises an interesting question:
+			//		Should I be able to save and exit the game,
+			//		then replay that partially completed game?
+			//		OR should you only be able to replay games that
+			//		   have been completed? (either lost, or won)?
+			//		I think this also implies that if you loose, and
+			//		restart a level, a new recording will start being
+			//		generated.
+			
 			String expected = "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
@@ -132,12 +146,7 @@ class ReplayTests {
 					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
 					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
 					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
-			assertEquals(expected, w.toString());
-			
-			w.setState(new Replaying());
-			w.backTick(ticks.get(1));
-			w.backTick(ticks.get(0));
-			
+
 			String expectedTwo = 	"Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
@@ -156,13 +165,26 @@ class ReplayTests {
 					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
 					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
 					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
-			assertEquals(expectedTwo, w.toString());
+			assertEquals(expected, w.toString());
+			//try to roll the replay back
+			w.setState(new Replaying());//TODO 	this assumes the state 
+										//		of the world is the same
+										//		as the state of the last tick.
 			
+										//This is not good enough, because our plan
+										//was to load the initial level conditions
+										//the go forward through the ticks.
+			w.backTick(ticks.get(1));
+			w.backTick(ticks.get(0));
+			assertEquals(expectedTwo, w.toString());
+			//try to roll the replay forward
 			w.forwardTick(ticks.get(0));
 			w.forwardTick(ticks.get(1));
-			
 			assertEquals(expected, w.toString());
-			
+			//and run it back one last time
+			w.backTick(ticks.get(1));
+			w.backTick(ticks.get(0));
+			assertEquals(expectedTwo, w.toString());
 		} catch (Exception s) {
 			s.printStackTrace();
 			passed = false;
