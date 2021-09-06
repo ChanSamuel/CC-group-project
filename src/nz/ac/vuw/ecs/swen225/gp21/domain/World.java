@@ -91,7 +91,6 @@ public class World implements Domain{
 		playerCommands = new ArrayDeque<Command>();
 		allEntities = new ArrayList<GameObject>();
 		this.loadLevelData(level);
-		this.totalTreasure = board.getRemainingChips();
 		assert(totalTreasure >= 0);
 	}
 	//in the future this needs to change:
