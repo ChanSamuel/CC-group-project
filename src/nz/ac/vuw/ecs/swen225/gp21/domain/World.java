@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
  * @author Benjamin
  *
  */
-public class World {
+public class World implements Domain{
 	/**
 	 * The state of the world.
 	 * This dictates what actions the world can perform.
@@ -75,8 +75,8 @@ public class World {
 		allEntities = new ArrayList<GameObject>();
 		playerEntity = new Chip(this);
 		//always add the player entity first, to ensure it is the first thing updated
-		addObject(playerEntity, new Coord(0,0));
-		addObject(new Block(this), new Coord(1, 2));
+		addGameObject(playerEntity, new Coord(0,0));
+		addGameObject(new Block(this), new Coord(1, 2));
 		//board.validate() ?
 		totalTreasure = board.getRemainingChips();
 		assert(totalTreasure >= 0);
@@ -90,7 +90,7 @@ public class World {
 		worldState = new Loading();
 		playerCommands = new ArrayDeque<Command>();
 		allEntities = new ArrayList<GameObject>();
-		this.loadLevel(level);
+		this.loadLevelData(level);
 		this.totalTreasure = board.getRemainingChips();
 		assert(totalTreasure >= 0);
 	}
@@ -112,17 +112,39 @@ public class World {
 	 * Initialize the world with data from the level object
 	 * @param level the level information
 	 */
-	public void loadLevel(Level level) { worldState.loadLevel(this, level); }
+	@Override //call when starting a new game
+	public void loadLevelData(Level level) { worldState.loadLevel(this, level); }
+	
+	@Override
+	public void restoreGame(Level level, List<Tick> updates) {} // nost sure if we want this one
+	@Override
+	public void restoreDomain(Domain d) {} //not sure if we need this one
+	@Override
+	public Domain getDomain(Domain d) {return null;} //not sure if we need this one	
+	
+	@Override
+	public void forwardTick(Tick t) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void backTick(Tick t) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public State getDomainState() {	return worldState; }
+	
+	@Override
+	public void setState(State s) { this.worldState = s; }
+	
 	/**
 	 * External package entity should call this when 
 	 * all the external objects have been added 
 	 * to the world via addObject(...)
 	 */
-	public void doneLoading() {
-		this.worldState = new Running();
-		//TODO this should probably be a temp method?
-		//Theres gotta be a better way to load in external entities
-	}
+	public void doneLoading() { this.worldState = new Running();} //TODO this should probably be a temp method? Theres gotta be a better way to load in external entities
 	/**
 	 * Return the isGameOver flag
 	 * Will be replaced in the future by the state variable
@@ -153,6 +175,10 @@ public class World {
 	public boolean isCoordValid(Coord c) {
 		return worldState.isCoordValid(this, c);
 	}
+	@Override
+	public Coord getPlayerLocation() {
+		return worldState.getPlayerLocation();
+	}
 	/**
 	 * Add a new game object to the world
 	 * TODO currently only works during initialization
@@ -160,17 +186,11 @@ public class World {
 	 * @param c The location on the board this entity should be placed
 	 * @return true if the addition succeeded
 	 */
-	public boolean addObject(GameObject e, Coord c) {
-		return worldState.addObject(this, e, c);
+	@Override
+	public void addGameObject(GameObject e, Coord c) {
+		worldState.addObject(this, e, c);
 	}
-	/**
-	 * Get the state of the world
-	 * Any package can ask for this
-	 * @return the state the world is in
-	 */
-	public State getWorldState() {
-		return this.worldState;
-	}
+	
 	//TODO add external state setters?
 	// i.e. if the user is done watching replay and wants to go back to playing
 	//      how will those state changes happen?
@@ -199,62 +219,46 @@ public class World {
 	 * Remove the top element player commands queue
 	 * @return the oldest player command in the queue, or null if there are no commands
 	 */
-	public Command poll() {
-		return playerCommands.poll();
-	}
+	public Command poll() { return playerCommands.poll(); }
 	/**
 	 * Get the tile at a location
 	 * Can be used by game objects to make decisions
 	 * @param location the location of the tile of interest
 	 * @return the tile at the location
 	 */
-	public Tile getTileAt(Coord location) {
-		return board.getTileAt(location);
-	}
+	public Tile getTileAt(Coord location) { return board.getTileAt(location); }
 	/**
 	 * Get the list of all entities
 	 * @return the list of all entities
 	 */
-	public List<GameObject> getEntities(){
-		return this.allEntities;
-	}
+	public List<GameObject> getEntities(){ return this.allEntities; }
 	/**
 	 * Get the command queue
 	 * @return the command queue
 	 */
-	public Deque<Command> getCommandQueue(){
-		return this.playerCommands;
-	}
+	public Deque<Command> getCommandQueue(){ return this.playerCommands; }
 	/**
 	 * Get the board for this world
 	 * @return the board this world is using
 	 */
-	public Board getBoard() {
-		return this.board;
-	}
+	public Board getBoard() { return this.board; }
 	/**
 	 * Set the board for this world
 	 * Caution, GameEntities will still have board references
 	 * @param b the board this world will use
 	 */
-	public void setBoard(Board b) {
-		this.board = b;
-	}
+	public void setBoard(Board b) { this.board = b; }
 	/**
 	 * Get the player entity object
 	 * @return the player entity
 	 */
-	public Chip getPlayer() {
-		return this.playerEntity;
-	}
+	public Chip getPlayer() { return this.playerEntity; }
 	/**
 	 * Set the player entity
 	 * for this world
 	 * @param c the player entity this world will use
 	 */
-	public void setPlayer(Chip c) {
-		this.playerEntity = c;
-	}
+	public void setPlayer(Chip c) {	this.playerEntity = c;	}
 //====================================================================================
 //INTERNAL GAME EVENT METHODS - These methods are invoked when the relevant event occurs
 	/**
@@ -279,6 +283,7 @@ public class World {
 		//TODO - do something useful here
 		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
 	}
+	//TODO leftInfo() called when leaving info tile
 	/**
 	 * Called when the player looses
 	 */
