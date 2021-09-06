@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -53,7 +54,10 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 * types.
 	 */
 	private ChangingTerrainJPanel changingTerrainJPanel;
-
+	/**
+	 * The music
+	 */
+	private Music backgroundMusic;
 	/**
 	 * Constructor
 	 */
@@ -63,6 +67,15 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		this.board = w.getBoard();
 		this.chap = w.getPlayer();
 		this.coord = w.getPlayer().getTile().location;
+		//-----------Add music---------------------------
+		try {
+			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level2.wav"));
+		} catch (IOException e) {
+			System.out.println("Music loading failed");
+			e.printStackTrace();
+		}
+		this.backgroundMusic.start();
+		this.backgroundMusic.loop();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -97,7 +110,6 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 * update the panel, once chap moves
 	 */
 	void updateJPanel() {
-		
 		// -------------Update all the changed JPanels---------------------
 		chap = w.getPlayer();
 		updateFocusArea();

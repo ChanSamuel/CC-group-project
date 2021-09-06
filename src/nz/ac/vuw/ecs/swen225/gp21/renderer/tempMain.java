@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * @author mengli
  *
  */
-public class tempMain {
+public class TempMain {
 	public static void main(String arg[]) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

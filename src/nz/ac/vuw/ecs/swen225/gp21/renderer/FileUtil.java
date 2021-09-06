@@ -78,7 +78,7 @@ public class FileUtil {
 	 */
 	static AudioInputStream getAudioStream(String path) throws IOException {
 		//get the inputStream of this image
-		InputStream inputStream = getInputStream("sounds",path);
+		InputStream inputStream = getInputStream("musics",path);
 		//if inputStream is null, throw exception.
 		if(inputStream==null) throw new RuntimeException("couldn't find sounds inputSteam");
 		//otherwise use Toolkit return the image.
