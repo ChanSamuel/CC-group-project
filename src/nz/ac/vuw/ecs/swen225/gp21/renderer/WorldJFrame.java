@@ -22,7 +22,8 @@ public class WorldJFrame extends JFrame{
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
 	public WorldJFrame(World world) {
-		WorldJPanel worldJPanel = new WorldJPanel(world);
+		WorldJPanel worldJPanel = new WorldJPanel();
+		worldJPanel.setWorld(world);
 		add(worldJPanel);
 		worldJPanel.addKeyListener(worldJPanel);
 		worldJPanel.setFocusable(true);

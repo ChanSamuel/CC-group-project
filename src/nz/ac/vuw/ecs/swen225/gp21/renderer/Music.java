@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 
 /**
@@ -69,5 +70,16 @@ class Music {
 		if(clip!=null)
         clip.stop();
 	}
+	/**
+	 * Modify the volumn
+	 */
+	void modifyVolumn(int value) {
+		//make sure value within range
+		if(value>6) value = 6;
+		FloatControl gainControl = 
+			    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(value); 
+	}
+	
 }
 
