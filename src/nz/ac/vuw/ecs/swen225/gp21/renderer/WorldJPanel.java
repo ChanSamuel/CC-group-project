@@ -10,8 +10,9 @@ import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -20,7 +21,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * @author mengli
  *
  */
-public class WorldJPanel extends JPanel implements KeyListener {
+public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * tile width
 	 */
@@ -58,32 +59,38 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 * The music
 	 */
 	private Music backgroundMusic;
+
 	/**
 	 * Constructor
 	 */
-	public WorldJPanel(World w) {
+	public WorldJPanel() {
+	}
+	
+	@Override
+	public void setWorld(World w) {
+		this.w = w;
 		// -------- Set the world,board and chap----------
 		this.w = w;
 		this.board = w.getBoard();
 		this.chap = w.getPlayer();
 		this.coord = w.getPlayer().getTile().location;
-		//-----------Add music---------------------------
+		// -----------Add music---------------------------
 		try {
 			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
 		} catch (IOException e) {
 			System.out.println("Music loading failed");
 			e.printStackTrace();
 		}
-		//modify volumn, positive means increase, negative means decrease.
+		// modify volumn, positive means increase, negative means decrease.
 		this.backgroundMusic.modifyVolumn(-5);
 		this.backgroundMusic.start();
 		this.backgroundMusic.loop();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
-		//place chap in center of the view.
+		// place chap in center of the view.
 		updateFocusArea();
-		
+
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
@@ -100,10 +107,11 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
-		lp.setBounds(0, 0, this.board.getWidth()*TILE_WIDTH, this.board.getHeight()*TILE_HEIGHT);
+		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
-		//create a new thread keep checking if chap's location has changed, if changed, call updateJPanel()
+		// create a new thread keep checking if chap's location has changed, if changed,
+		// call updateJPanel()
 		CheckUpdate checkUpdate = new CheckUpdate(this);
 		checkUpdate.start();
 	}
@@ -112,6 +120,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 * update the panel, once chap moves
 	 */
 	void updateJPanel() {
+		if(w==null) return;
 		// -------------Update all the changed JPanels---------------------
 		chap = w.getPlayer();
 		updateFocusArea();
@@ -126,11 +135,12 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	 * Update focus area, place chap in the middle
 	 */
 	void updateFocusArea() {
+		if(w==null) return;
 		// calculate the offset of chap's coord from center of the board.
 		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - chap.getTile().location.getCol());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - chap.getTile().location.getRow());
 		// change the location of panel to place chap in the center.
-		setBounds(diffX, diffY, this.board.getWidth()*TILE_WIDTH, this.board.getHeight()*TILE_HEIGHT);
+		setBounds(diffX, diffY, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 	}
 
 	// -----------------The getters-------------------------------------
@@ -147,13 +157,15 @@ public class WorldJPanel extends JPanel implements KeyListener {
 	Chip getChap() {
 		return this.chap;
 	}
+
 	/**
 	 * Get chap's current location
 	 */
 	Coord getCoord() {
 		return chap.getTile().location;
 	}
-	//TODO Those are TEMP key listeners just for testing GUI.
+
+	// TODO Those are TEMP key listeners just for testing GUI.
 	// -------------------The Key listeners------------------------------
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -166,9 +178,10 @@ public class WorldJPanel extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if(w==null) return;
 		int code = e.getKeyCode();
 		switch (code) {
 		case KeyEvent.VK_W:
@@ -176,7 +189,7 @@ public class WorldJPanel extends JPanel implements KeyListener {
 			w.moveChipUp();
 			w.update(200);
 			System.out.println("move chap up");
-			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+			System.out.println("chap's location is: " + w.getPlayer().getTile().location);
 //			this.updateJPanel();
 			break;
 		case KeyEvent.VK_S:
@@ -184,47 +197,73 @@ public class WorldJPanel extends JPanel implements KeyListener {
 			w.moveChipDown();
 			w.update(200);
 			System.out.println("move chap down");
-			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+			System.out.println("chap's location is: " + w.getPlayer().getTile().location);
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			w.moveChipLeft();
 			w.update(200);
 			System.out.println("move chap left");
-			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+			System.out.println("chap's location is: " + w.getPlayer().getTile().location);
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			w.moveChipRight();
 			w.update(200);
 			System.out.println("move chap right");
-			System.out.println("chap's location is: "+w.getPlayer().getTile().location);
+			System.out.println("chap's location is: " + w.getPlayer().getTile().location);
 			break;
 		default:
 			break;
 		}
 	}
+//--------------------Methods inherit from Renderer--------
+	//NOTE not sure how to use those.
+	@Override
+	public void drawLevel(Level level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawUpdateApplied(Tick t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawUpdateUndone(Tick t) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+
 /**
  * This is a sub class extends thread to keep check if there is chap moves.
- * Because when chap moves is unpredictable, so trying to check movement frequently and
- * refresh view.
+ * Because when chap moves is unpredictable, so trying to check movement
+ * frequently and refresh view.
+ * 
  * @author mengli
  *
  */
-class CheckUpdate extends Thread{
+class CheckUpdate extends Thread {
 	/**
 	 * The parent JPanel
+	 * 
 	 * @param worldJPanel
 	 */
 	private WorldJPanel worldJPanel;
+
 	public CheckUpdate(WorldJPanel worldJPanel) {
 		this.worldJPanel = worldJPanel;
 	}
+
 	@Override
 	public void run() {
-		while(true) {
-			if(worldJPanel.coord.getCol()!=worldJPanel.getChap().getTile().location.getCol()||worldJPanel.coord.getRow()!=worldJPanel.getChap().getTile().location.getRow()) {
+		if(this.worldJPanel.getChap()==null) return;
+		while (true) {
+			if (worldJPanel.coord.getCol() != worldJPanel.getChap().getTile().location.getCol()
+					|| worldJPanel.coord.getRow() != worldJPanel.getChap().getTile().location.getRow()) {
 				worldJPanel.coord = worldJPanel.getChap().getTile().location;
 				worldJPanel.updateJPanel();
 			}
@@ -234,6 +273,5 @@ class CheckUpdate extends Thread{
 				e.printStackTrace();
 			}
 		}
+	}
 }
-}
-
