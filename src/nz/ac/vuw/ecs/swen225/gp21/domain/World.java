@@ -178,9 +178,8 @@ public class World implements Domain{
 		worldState.addObject(this, e, c);
 	}
 	
-	//TODO add external state setters?
-	// i.e. if the user is done watching replay and wants to go back to playing
-	//      how will those state changes happen?
+	@Override
+	public int getUpdateCount() { return this.updates; }
 //==========================================================
 //EVEN MORE PUBLIC API METHODS
 		/**
@@ -346,4 +345,5 @@ public class World implements Domain{
 		ans.append("Board: \n"+board);
 		return ans.toString();
 	}
+	
 }

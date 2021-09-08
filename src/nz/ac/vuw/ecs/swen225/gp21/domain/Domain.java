@@ -27,6 +27,13 @@ public interface Domain extends Subject{
 	 * @param s the new domain state
 	 */
 	public void setState(State s);
+	/**
+	 * Get the number of updates that have occurred to the domain.
+	 * When running, this is the number of updates since a game has started.
+	 * When replaying, this is the current point in the replay.
+	 * @return the number of updates that have occurred.
+	 */
+	public int getUpdateCount();
 //==============
 //HELPERS FOR RENDERING INTERFACE
 	/**
