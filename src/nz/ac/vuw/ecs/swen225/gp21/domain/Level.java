@@ -1,8 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 import java.util.*;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueDoor;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.BlueKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GreenDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GreenKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.SilverDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.SilverKey;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperKey;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
@@ -78,10 +82,16 @@ public final class Level {
 			entry("#", Wall.getInstance()),
 			entry("X", ExitLock.getInstance()),
 			entry("E", ExitTile.getInstance()),
-			entry("B", BlueDoor.getInstance()),
-			entry("b", BlueKey.getInstance()), //TODO add yellow door, yellow key etc etc
+			
+			entry("B", GreenDoor.getInstance()),
+			entry("b", GreenKey.getInstance()), //TODO add yellow door, yellow key etc etc
 			entry("g", GoldKey.getInstance()),
 			entry("G", GoldDoor.getInstance()),
+			entry("u", CopperKey.getInstance()),
+			entry("U", CopperDoor.getInstance()),
+			entry("s", SilverKey.getInstance()),
+			entry("S", SilverDoor.getInstance()),
+			
 			entry("i", Info.getInstance()),
 			entry("^", OneWayNorth.getInstance()),
 			entry("<", OneWayWest.getInstance()),
