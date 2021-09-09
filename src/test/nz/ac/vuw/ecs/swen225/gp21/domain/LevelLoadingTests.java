@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 /**
@@ -51,7 +52,8 @@ class LevelLoadingTests {
 	 */
 	@Test
 	void testLoad() {
-		World w = new World(testLevel);
+		World w = new TestWorld();
+		w.loadLevelData(testLevel);
 		w.doneLoading();
 		w.moveChipDown();
 		w.moveChipDown();
@@ -70,7 +72,8 @@ class LevelLoadingTests {
 	 */
 	@Test
 	void testLoadTwo() {
-		World w = new World(testLevel);
+		World w = new TestWorld();
+		w.loadLevelData(testLevel);
 		w.doneLoading();
 		w.moveChipDown();
 		w.moveChipDown();
@@ -80,7 +83,9 @@ class LevelLoadingTests {
 		w.update(200);
 		w.moveChipUp();
 		w.update(200);
-		String expected = "Is game over? -> false\n"
+		String expected = 
+				"Game is: Running\n"
+				+ "Is game over? -> false\n"
 				+ "PlayerQueue: \n"
 				+ "EMPTY\n"
 				+ "All entities: \n"
@@ -107,7 +112,8 @@ class LevelLoadingTests {
 	 */
 	@Test
 	void testLoadThree() {
-		World w = new World(testLevel);
+		World w = new TestWorld();
+		w.loadLevelData(testLevel);
 		w.addGameObject(new Block(w), new Coord(1,1));
 		w.doneLoading();
 		w.moveChipRight(); w.moveChipRight();
@@ -118,7 +124,9 @@ class LevelLoadingTests {
 		w.moveChipDown(); w.moveChipDown(); w.moveChipDown(); w.moveChipDown(); w.moveChipDown();
 		for(int runs = 0; runs < 11; runs++) { w.update(200); }
 		
-		String expected = "Is game over? -> false\n"
+		String expected = 
+				"Game is: Running\n"
+				+ "Is game over? -> false\n"
 				+ "PlayerQueue: \n"
 				+ "EMPTY\n"
 				+ "All entities: \n"

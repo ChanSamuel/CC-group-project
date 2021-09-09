@@ -45,6 +45,7 @@ public class Loading implements State {
 			}
 		}
 		w.totalTreasure = w.getBoard().getRemainingChips();
+		assert(w.totalTreasure >= 0);
 //		w.doneLoading();
 	}
 	/**

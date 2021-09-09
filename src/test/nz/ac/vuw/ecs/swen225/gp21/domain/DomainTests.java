@@ -12,6 +12,36 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
  */
 class DomainTests {
 	/**
+	 * The level these tests will use
+	 */
+	static Level testLevel = new Level(
+			//level dimensions
+			10, 10, 
+			//tiles
+			".....c...." +
+			".........." +
+			".....c...." +
+			".........." +
+			"......1..." +
+			".........." +
+			".........." +
+			"......1..." +
+			".........X" +
+			".........E",
+			//game objects
+			"C........." +
+			"..=......." +
+			".........." +
+			".........." +
+			".........." +
+			".........." +
+			".........." +
+			".........." +
+			".........." +
+			"..........",
+			//info tile message
+			"No info");
+	/**
 	 * Try creating the world object
 	 * No exceptions should be thrown
 	 */
@@ -19,7 +49,7 @@ class DomainTests {
 	void createWorld() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
 			System.out.println(w.toString());
 		} catch (Exception e) {
 			exception = true;
@@ -36,7 +66,9 @@ class DomainTests {
 	void addMovePlayer() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			System.out.println(w.toString());
 			w.moveChipDown();
 			System.out.println(w.toString());
@@ -60,7 +92,9 @@ class DomainTests {
 	void trySimulate() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			System.out.println(w.toString());
 			w.moveChipDown();
 			System.out.println(w.toString());
@@ -81,7 +115,9 @@ class DomainTests {
 	void tryMultipleSimulate() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			for(int updates = 0; updates < 10; ++updates) w.update(200);
 			System.out.println(w.toString());
 		} catch (Exception e) {
@@ -99,7 +135,9 @@ class DomainTests {
 	void tryMoveUp() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			w.moveChipUp();
 			w.update(200);
 			System.out.println(w.toString());
@@ -118,7 +156,9 @@ class DomainTests {
 	void tryReachExit() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			for(int row = 1; row < 10; row++) { 
 				w.moveChipDown(); 
 				w.update(200); 
@@ -146,7 +186,9 @@ class DomainTests {
 	void tryToMoveBlock() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			w.moveChipRight();
 			w.moveChipRight();
 			w.moveChipDown();
@@ -156,7 +198,9 @@ class DomainTests {
 			w.update(200);
 			System.out.println(w);
 			//the block is at (1,2)
-			String expected = "Is game over? -> false\n"
+			String expected = 
+					"Game is: Running\n"
+					+ "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
 					+ "All entities: \n"
@@ -190,12 +234,16 @@ class DomainTests {
 	void tryCollectTreasure() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
 			System.out.println(w);
 			for(int d = 0; d < 2; d++) {w.moveChipDown(); w.update(200);}
 			System.out.println(w);
-			String expected = "Is game over? -> false\n"
+			String expected = 
+					"Game is: Running\n"
+					+ "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
 					+ "All entities: \n"
@@ -230,12 +278,16 @@ class DomainTests {
 	void tryTeleportChip() {
 		boolean exception = false;
 		try {
-			World w = new World(); //
+			World w = new TestWorld(); //
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			for(int r = 0; r < 6; r++) {w.moveChipRight(); w.update(200);}
 			System.out.println(w);
 			for(int d = 0; d < 4; d++) {w.moveChipDown(); w.update(200);}
 			System.out.println(w);
-			String expected = "Is game over? -> false\n"
+			String expected = 
+					"Game is: Running\n"
+					+ "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
 					+ "All entities: \n"
@@ -270,7 +322,9 @@ class DomainTests {
 	void tryTeleportBlock() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			w.moveChipDown(); w.update(200);
 			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
 			System.out.println(w);
@@ -279,7 +333,9 @@ class DomainTests {
 			System.out.println(w);
 			for(int d = 0; d < 3; d++) {w.moveChipDown(); w.update(200);}
 			System.out.println(w);
-			String expected = "Is game over? -> false\n"
+			String expected =
+					"Game is: Running\n"
+					+ "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
 					+ "All entities: \n"
@@ -314,7 +370,9 @@ class DomainTests {
 	void tryMovementChain() {
 		boolean exception = false;
 		try {
-			World w = new World();
+			World w = new TestWorld();
+			w.loadLevelData(testLevel);
+			w.doneLoading();
 			w.moveChipDown(); w.update(200);
 			for(int r = 0; r < 5; r++) {w.moveChipRight(); w.update(200);}
 			System.out.println(w);
@@ -323,7 +381,9 @@ class DomainTests {
 			System.out.println(w);
 			for(int d = 0; d < 4; d++) {w.moveChipDown(); w.update(200);}
 			System.out.println(w);
-			String expected = "Is game over? -> false\n"
+			String expected =
+					"Game is: Running\n"
+					+ "Is game over? -> false\n"
 					+ "PlayerQueue: \n"
 					+ "EMPTY\n"
 					+ "All entities: \n"

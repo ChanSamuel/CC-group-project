@@ -72,9 +72,9 @@ public interface Domain extends Subject{
 	 * @param level The level data the restored game was using
 	 * @param updates List of updates leading to the state the game was in
 	 */
-	public void restoreGame(Level level, List<Tick> updates);
-	//OR!!! <Generate a deep copy>
-	public void restoreDomain(Domain d);
+	public void restoreGame(Level level, List<Tick> updates); //I'm not sure if we really want any of these three methods.
+	//OR!!! <Generate a deep copy>								Replaying should just be: load level + setState(replaying) + start sending ticks
+	public void restoreDomain(Domain d);					  //Restoring saved games, Still not sure about, because there's such tight coupling at the moment
 	public Domain getDomain(Domain d);
 //why not both?
 //==============
@@ -133,4 +133,10 @@ public interface Domain extends Subject{
 	 */
 	public void moveChipRight();
 //=======================
+//DOMAIN CONDITION
+	/**
+	 * Return if the domain is in the game over state.
+	 * @return true if the game is in the game over state
+	 */
+	public boolean isGameOver();
 }

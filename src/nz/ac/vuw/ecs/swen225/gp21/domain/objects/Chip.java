@@ -62,6 +62,7 @@ public class Chip extends GameObject {
 	 * This method is called when Chip collects a treasure chip
 	 */
 	public void collectedChip() {
+		treasureCollected++;
 		w.collectedAChip();
 	}
 	/**
@@ -70,6 +71,7 @@ public class Chip extends GameObject {
 	 */
 	public void addItem(Item item) {
 		this.invetory.add(item);
+		w.playerGainedItem(item);
 	}
 	/**
 	 * Determine if chip is holding a certain item
@@ -85,6 +87,7 @@ public class Chip extends GameObject {
 	 */
 	public void removeItem(Item item) {
 		this.invetory.remove(item);
+		w.playerConsumedItem(item);
 	}
 	
 	@Override
