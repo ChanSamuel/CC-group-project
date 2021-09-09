@@ -58,4 +58,9 @@ public final class TestWorld extends World {
 	public void playerConsumedItem(Item item) {
 		System.out.println("Player used item: "+item);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }
