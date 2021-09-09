@@ -128,7 +128,11 @@ public abstract class World implements Domain{
 	 * all the external objects have been added 
 	 * to the world via addObject(...)
 	 */
-	public void doneLoading() { this.worldState = new Running();} 
+	public void doneLoading() {
+		if(!(worldState instanceof Loading)) throw new IllegalStateException("Cannot finish loading when not in loading state!");
+		if(board == null) throw new IllegalStateException("doneLoading was called, but no level data was loaded!");
+		this.worldState = new Running();
+	} 
 	//TODO this should probably be a temp method? There has gotta be a better way to load in external entities
 	
 	@Override
@@ -314,6 +318,7 @@ public abstract class World implements Domain{
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
 		//add board state
+		ans.append("Game is: "+getDomainState().getClass().getSimpleName()+"\n");
 		ans.append("Is game over? -> "+isGameOver()+"\n");
 		//add player inventory
 		//add queue
@@ -326,7 +331,7 @@ public abstract class World implements Domain{
 		for(GameObject e : allEntities) ans.append(e+"\n");
 		ans.append("\n");
 		//add board
-		ans.append("Board: \n"+board);
+		ans.append("Board: \n"+(board == null ? "Not initialized" : board));
 		return ans.toString();
 	}
 	
