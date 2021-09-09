@@ -55,6 +55,7 @@ public final class Tile {
 	 * Remove the GameObject reference for this tile
 	 */
 	void removeOccupier() {
+		terrain.entityExited(occupier);
 		this.occupier = null;
 	}
 	/**
