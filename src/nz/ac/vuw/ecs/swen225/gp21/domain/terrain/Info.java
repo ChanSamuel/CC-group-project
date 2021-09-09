@@ -48,8 +48,13 @@ public final class Info implements Terrain {
 	@Override
 	public void entityEntered(GameObject o) {
 		o.w.enteredInfo(this.message);
-		//TODO app needs to know when the info tile is left, so it can stop displaying the info message
 	}
+	
+	@Override
+	public void entityExited(GameObject o) {
+		o.w.leftInfo();
+	}
+	
 	@Override
 	public void undoEntityActions(GameObject o) {}
 
