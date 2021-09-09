@@ -13,12 +13,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
  * @author Benjamin
  *
  */
-public class World implements Domain{
+public abstract class World implements Domain{
 	/**
 	 * The state of the world.
 	 * This dictates what actions the world can perform.
 	 */
-	private State worldState;
+	protected State worldState;
 	/**
 	 * Number of updates that have occurred since the game started running
 	 */
@@ -35,12 +35,12 @@ public class World implements Domain{
 	 * Store the movement requests that have been made by the controller.
 	 * (and by extension, the user.)
 	 */
-	private Deque<Command> playerCommands;
+	protected Deque<Command> playerCommands;
 	/**
 	 * Handy reference to the player controller game object.
 	 * Using a reference instead of having to scan through the array. (is this a good approach?)
 	 */
-	private Chip playerEntity;
+	protected Chip playerEntity;
 	/**
 	 * Handy reference to all game objects that are in the world.
 	 * Allows easy access to the game objects instead of trying to find them through
@@ -48,7 +48,7 @@ public class World implements Domain{
 	 * 
 	 * TODO "Dead" GameObjects might still live here, but won't have a reference in the Board array?
 	 */
-	private List<GameObject> allEntities;
+	protected List<GameObject> allEntities;
 	//^NOTE: to define entities (like the bug and block) I'm going to hard code them as classes for now
 	//		 this resource: http://gameprogrammingpatterns.com/type-object.html
 	//		 explains how to do this as data in a config file, although, this still needs to be determined
@@ -56,47 +56,37 @@ public class World implements Domain{
 	/**
 	 * The board is the internal representation of of the game. 
 	 */
-	private Board board;
+	protected Board board;
 	/**
 	 * Central record of total treasure.
 	 */
 	public int totalTreasure;
 //===========================================================
-//WORLD INITIALIZATION METHODS
+//WORLD INITIALIZATION METHODS TODO the domain system needs decoupling!
 	/**
-	 * Create a new test world. Initializes a default test board of 10*10 dimension
-	 * and a default player placement of 0,0
+	 * Create a new world.
+	 * Initializes the following fields:
+	 *   state
+	 *   player command queue
+	 *   entity list
+	 * Does not initialize:
+	 *   Board, init via load level 
+	 *   updates, init via load level, restore game, load replay
+	 *   totalTreasure, init via load level
+	 *   event, init via running.update()
+	 *   playerEntity, init via load level
 	 */
 	public World() {
-		updates = 0;
-		worldState = new Loading();
-		playerCommands = new ArrayDeque<Command>();
-		board = new ArrayBoard();
-		allEntities = new ArrayList<GameObject>();
-		playerEntity = new Chip(this);
-		//always add the player entity first, to ensure it is the first thing updated
-		addGameObject(playerEntity, new Coord(0,0));
-		addGameObject(new Block(this), new Coord(1, 2));
-		//board.validate() ?
-		totalTreasure = board.getRemainingChips();
-		assert(totalTreasure >= 0);
-		worldState = new Running();
-	}
-	/**
-	 * Create a world initialized with level data
-	 * @param level the level data
-	 */
-	public World(Level level) {
 		worldState = new Loading();
 		playerCommands = new ArrayDeque<Command>();
 		allEntities = new ArrayList<GameObject>();
-		this.loadLevelData(level);
-		assert(totalTreasure >= 0);
+		board = null;
+		updates = -1;
+		totalTreasure = -1;
+		event = null;
+		playerEntity = null;
 	}
-	//in the future this needs to change:
-	//world(){ state = new Loading(); }
-	//world w; w.loadLevel();
-	
+
 //===========================================================
 //PUBLIC API METHODS FOR OTHER MODULES TO TALK TO
 	/**
@@ -111,15 +101,15 @@ public class World implements Domain{
 	 * Initialize the world with data from the level object
 	 * @param level the level information
 	 */
-	@Override //call when starting a new game
+	@Override //NOTE: call when starting a new game
 	public void loadLevelData(Level level) { worldState.loadLevel(this, level); }
 	
 	@Override
-	public void restoreGame(Level level, List<Tick> updates) {} // nost sure if we want this one
+	public void restoreGame(Level level, List<Tick> updates) {} // not sure if we want this one
 	@Override
 	public void restoreDomain(Domain d) {} //not sure if we need this one
 	@Override
-	public Domain getDomain(Domain d) {return null;} //not sure if we need this one	
+	public Domain getDomain(Domain d) {return this;} //not sure if we need this one	
 	
 	@Override
 	public void forwardTick(Tick t) { worldState.forwardTick(this, t);}
@@ -138,45 +128,41 @@ public class World implements Domain{
 	 * all the external objects have been added 
 	 * to the world via addObject(...)
 	 */
-	public void doneLoading() { this.worldState = new Running();} //TODO this should probably be a temp method? Theres gotta be a better way to load in external entities
+	public void doneLoading() { this.worldState = new Running();} 
+	//TODO this should probably be a temp method? There has gotta be a better way to load in external entities
+	
+	@Override
+	public boolean isGameOver() { return worldState instanceof GameOver; }
+	
 	/**
-	 * Return the isGameOver flag
-	 * Will be replaced in the future by the state variable
-	 * @return true if the game is in a complete state
-	 */
-	public boolean isGameComplete() {
-		return worldState instanceof GameOver;
-	}
-	/**
-	 * Get the number of columns the board has
+	 * Get the number of columns the board has.
+	 * Throws RTE if there is no board.
 	 * @return the number of columns
 	 */
 	public int getBoardWidth() {
 		return worldState.getBoardWidth(this);
 	}
 	/**
-	 * Get the number of rows the board has
+	 * Get the number of rows the board has.
+	 * Throws RTE if there is no board.
 	 * @return the number of rows 
 	 */
 	public int getBoardHeight() {
 		return worldState.getBoardHeight(this);
 	}
 	/**
-	 * Determine if a coordinate is valid on the board
+	 * Determine if a coordinate is valid on the board.
+	 * Throws RTE if there is no board.
 	 * @param c the coordinate
 	 * @return if it is valid on the board
 	 */
-	public boolean isCoordValid(Coord c) {
-		return worldState.isCoordValid(this, c);
-	}
+	public boolean isCoordValid(Coord c) { return worldState.isCoordValid(this, c); }
+	
 	@Override
-	public Coord getPlayerLocation() {
-		return worldState.getPlayerLocation(this);
-	}
+	public Coord getPlayerLocation() { return worldState.getPlayerLocation(this); }
+	
 	@Override
-	public void addGameObject(GameObject e, Coord c) {
-		worldState.addObject(this, e, c);
-	}
+	public void addGameObject(GameObject e, Coord c) { worldState.addObject(this, e, c); }
 	
 	@Override
 	public int getUpdateCount() { return this.updates; }
@@ -207,41 +193,40 @@ public class World implements Domain{
 	 */
 	public Command poll() { return playerCommands.poll(); }
 	/**
-	 * Get the tile at a location
-	 * Can be used by game objects to make decisions
+	 * Get the tile at a location.
+	 * Can be used by game objects to make decisions.
 	 * @param location the location of the tile of interest
 	 * @return the tile at the location
 	 */
 	public Tile getTileAt(Coord location) { return board.getTileAt(location); }
 	/**
-	 * Get the list of all entities
+	 * Get the list of all entities.
 	 * @return the list of all entities
 	 */
 	public List<GameObject> getEntities(){ return this.allEntities; }
 	/**
-	 * Get the command queue
+	 * Get the command queue.
 	 * @return the command queue
 	 */
 	public Deque<Command> getCommandQueue(){ return this.playerCommands; }
 	/**
-	 * Get the board for this world
+	 * Get the board for this world.
 	 * @return the board this world is using
 	 */
 	public Board getBoard() { return this.board; }
 	/**
-	 * Set the board for this world
-	 * Caution, GameEntities will still have board references
+	 * Set the board for this world.
+	 * Caution, GameEntities will still have references to tiles in the old board.
 	 * @param b the board this world will use
 	 */
 	public void setBoard(Board b) { this.board = b; }
 	/**
-	 * Get the player entity object
+	 * Get the player entity object.
 	 * @return the player entity
 	 */
 	public Chip getPlayer() { return this.playerEntity; }
 	/**
-	 * Set the player entity
-	 * for this world
+	 * Set the player entity for this world.
 	 * @param c the player entity this world will use
 	 */
 	public void setPlayer(Chip c) {	this.playerEntity = c;	}
@@ -249,46 +234,40 @@ public class World implements Domain{
 //INTERNAL GAME EVENT METHODS - These methods are invoked when the relevant event occurs
 	/**
 	 * This method is called when chip enters a treasure tile
-	 * But before the treasure type is replaced with a 'free' type
+	 * But before the treasure terrain is replaced with 'free' terrain
 	 */
-	public void collectedAChip() {
-		playerEntity.treasureCollected++;
-		//notify?
-	}
+	public abstract void collectedAChip();
 	/**
 	 * This method is called when chip enters the exit square
 	 */
-	public void enteredExit() {
-		worldState = new GameOver(); 
-	}
+	public abstract void enteredExit();
 	/**
 	 * Called when an entity enters an info tile
 	 * @param msg the message the info tile contained
 	 */
-	public void enteredInfo(String msg) {
-		//TODO - do something useful here
-		System.out.println("Information: ["+msg+"]"); //TODO temporary operation
-	}
-	//TODO leftInfo() called when leaving info tile
-	/**
-	 * Called when the player looses
-	 */
-	public void playerLost() {
-		System.out.println("Player lost");//TODO temporary operation
-	}
-	
+	public abstract void enteredInfo(String msg);
 	/**
 	 * Called when the player leaves an info tile
 	 */
-	public void leftInfo() {}
+	public abstract void leftInfo();
+	/**
+	 * Called when the player looses
+	 */
+	public abstract void playerLost();
+	/**
+	 * Called when the player gains an item.
+	 * @param item the item the player gained
+	 */
+	public abstract void playerGainedItem(Item item);
+	/**
+	 * Called when the player uses an item.
+	 * For example, uses a key to unlock door.
+	 * @param item the item that was used
+	 */
+	public abstract void playerConsumedItem(Item item);
 //==========================================================
 //MOVEMENT METHODS - these methods talk to the board to move stuff
 // I'm open to criticism on why we have this extra layer of indirection GameObject/Tile -> world -> Board -> world information needed to make a decision	
-//
-//TODO 	How to stop this from getting out of control when playing a replay! :(
-// 		Could off-load it to state, only do this while running.
-//		While in replaying state: just move stuff, don't generate events. TODO
-//	
 	/**
 	 * Try Move an object to a destination
 	 * Moving an object can cause a cascade of further events to occur
@@ -335,7 +314,7 @@ public class World implements Domain{
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
 		//add board state
-		ans.append("Is game over? -> "+isGameComplete()+"\n");
+		ans.append("Is game over? -> "+isGameOver()+"\n");
 		//add player inventory
 		//add queue
 		ans.append("PlayerQueue: \n");
