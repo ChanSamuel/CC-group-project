@@ -276,6 +276,11 @@ public class World implements Domain{
 	public void playerLost() {
 		System.out.println("Player lost");//TODO temporary operation
 	}
+	
+	/**
+	 * Called when the player leaves an info tile
+	 */
+	public void leftInfo() {}
 //==========================================================
 //MOVEMENT METHODS - these methods talk to the board to move stuff
 // I'm open to criticism on why we have this extra layer of indirection GameObject/Tile -> world -> Board -> world information needed to make a decision	
