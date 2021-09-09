@@ -28,6 +28,11 @@ public interface Terrain {
 	 */
 	public void undoEntityActions(GameObject o);
 	/**
+	 * Called When an object leaves a tile with this terrain type
+	 * @param o the object that left a tile with this terrain type
+	 */
+	default void entityExited(GameObject o) {}
+	/**
 	 * Determines if a given GameObject is allowed to enter a tile 
 	 * with this terrain type
 	 * @param o the object trying to enter a tile with this terrain type
@@ -40,9 +45,7 @@ public interface Terrain {
 	 * @param o the object leaving a tile with this terrain type
 	 * @return default approve. If you need to have conditional leaving of tiles you should override this method.
 	 */
-	default boolean canEntityLeave(GameObject o) {
-		return true;
-	}	
+	default boolean canEntityLeave(GameObject o) { return true; }
 	/**
 	 * Get the char that represents this terrain type in the board toString, for debugging
 	 * @return the char that represents this terrain type in the board toString
