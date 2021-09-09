@@ -83,10 +83,10 @@ public final class Level {
 			entry("X", ExitLock.getInstance()),
 			entry("E", ExitTile.getInstance()),
 			
-			entry("B", GreenDoor.getInstance()),
-			entry("b", GreenKey.getInstance()), //TODO add yellow door, yellow key etc etc
-			entry("g", GoldKey.getInstance()),
-			entry("G", GoldDoor.getInstance()),
+			entry("G", GreenDoor.getInstance()),
+			entry("g", GreenKey.getInstance()), //TODO add yellow door, yellow key etc etc
+			entry("a", GoldKey.getInstance()),
+			entry("A", GoldDoor.getInstance()),
 			entry("u", CopperKey.getInstance()),
 			entry("U", CopperDoor.getInstance()),
 			entry("s", SilverKey.getInstance()),
@@ -102,6 +102,7 @@ public final class Level {
 		//TODO this isn't ideal, preferably we just give the object directly in the map
 		charToGameObjName = Map.ofEntries(
 				entry("C", "Chip"),
+				entry("=", "Block"),
 				entry("B", "Block")
 		);
 		
