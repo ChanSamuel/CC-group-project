@@ -35,7 +35,7 @@ public final class Running implements State{
 	public Tick update(World w, double elapsedTime) {
 		worldCheck(w);
 		w.updates++;
-		Tick tick = new Tick(w.updates, w);
+		Tick tick = new Tick(w.updates, w); //TODO make ticks && commands && moves independent of a specific world instance.
 		//update all game objects
 		for(GameObject e : w.getEntities()) {
 			w.event = new MultiMove();
@@ -43,9 +43,8 @@ public final class Running implements State{
 			tick.addEvent(w.event);
 		}
 		if(w.getBoard().getRemainingChips() == 0) w.getBoard().openExit(); //Should we do this check somewhere else?
-		if(w.isGameComplete()) System.out.println("Game is over"); //TODO temp check here, do something?
+		
 		assert(w.totalTreasure == w.getBoard().getRemainingChips()+w.getPlayer().treasureCollected);
-		//Encapsulate all the events that occurred in this game tick and store it, so other modules can view what happened during this tick TODO
 		return tick;
 	}
 	
