@@ -51,7 +51,7 @@ public interface Domain extends Subject{
 	 */
 	public Coord getPlayerLocation();
 //==============
-//LOADING METHODS
+//LOADING + SAVING METHODS
 	/**
 	 * When in the loading state, call this method to insert a new GameObject into the world.
 	 * @param o The object being added
