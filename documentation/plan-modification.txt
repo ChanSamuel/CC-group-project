@@ -1,0 +1,6 @@
+Alternate plan:
+
+board.moveObject() returns true/false
+
+If it returns true -> save an event to the currentEvent.
+If it returns false -> save a no Move to the currentEvent.
