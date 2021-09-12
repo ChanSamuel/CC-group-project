@@ -29,34 +29,43 @@ public final class DirectMove implements Command {
 	 */
 	private final Terrain beforeTerrain;
 	/**
-	 * The object that moved
-	 */
-	private final GameObject moved;
-	/**
 	 * Create a new direct move command.
 	 * It needs to store all in the information needed to undo the move.
-	 * @param beforeDir
-	 * @param beforePos
-	 * @param beforeTerrain
-	 * @param moved
+	 * @param beforeDir the direction the object was facing before the move
+	 * @param beforePos the position of the object before the move
+	 * @param beforeTerrain the terrain of the tile the object was on before the move
+	 * @param moved the object that was moved
 	 */
 	public DirectMove(Direction beforeDir ,Coord beforePos, Terrain beforeTerrain, GameObject moved) {
 		this.beforeDir = beforeDir;
 		this.beforePos = beforePos;
 		this.beforeTerrain = beforeTerrain;
-		this.moved = moved;
 		this.afterPos = moved.getTile().location;
 		this.afterDir = moved.dir;
+	}
+	/**
+	 * Get the object that will be moved in execute / undo.
+	 * Perform null checks.
+	 * @param w the world this move is being applied to.
+	 * @param c the location the GameObject should be at.
+	 * @return the GameObject.
+	 */
+	private GameObject getObjectToMove(World w, Coord c) {
+		Tile t = w.getTileAt(c);
+		if(!t.isTileOccupied()) throw new RuntimeException("Coord: "+c+" is empty! Yet direct move expected it to be occupied!");
+		return t.getOccupier();
 	}
 	
 	@Override
 	public void execute(World w) {
+		GameObject moved = getObjectToMove(w, beforePos);
 		moved.dir = afterDir;
 		w.getBoard().tryMoveObject(afterPos, moved);
 	}
 
 	@Override
 	public void undo(World w) {
+		GameObject moved = getObjectToMove(w, afterPos);
 		moved.dir = beforeDir;
 		w.getBoard().moveObjectBack(beforePos, moved);
 		w.getTileAt(afterPos).resetTerrain(moved, beforeTerrain);
