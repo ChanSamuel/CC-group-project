@@ -6,7 +6,7 @@ import java.util.Queue;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.renderer.RenderingPanel;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 
 /**
  * A Controller interface which provides implemented methods for interacting with the game.
@@ -35,7 +35,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the rendering module.
 	 */
-	protected RenderingPanel renderer;
+	protected WorldJPanel renderer;
 	
 	/**
 	 * The time left in the level in seconds
@@ -45,7 +45,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the Domain module of the game.
 	 */
-	Domain domain;
+	World world;
 	
 	/**
 	 * 
@@ -63,9 +63,9 @@ public abstract class Controller {
 	 */
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
-		domain = new World();
+		world = new GameWorld();
 		actions = new ArrayDeque<Action>();
-		renderer = new RenderingPanel();
+		renderer = new WorldJPanel();
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
