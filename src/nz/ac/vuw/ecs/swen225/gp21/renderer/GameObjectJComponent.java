@@ -8,7 +8,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * This is an abstract class for all the game object
+ * This is an abstract class for all the game object, 
+ * game objects are items that can move on map, such as blocks,monsters.
  * @author mengli
  *
  */
