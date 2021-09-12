@@ -1,17 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
+import javax.swing.JComponent;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * This is the door Jcomponent, update when door unlocked.
+ * This is the door JComponent, update when door unlocked.
  * @author mengli
  *
  */
-public class DoorJComponent extends GameObjectJComponent{
-
-	DoorJComponent(Coord coord,Direction dir) {
-		super(coord,dir);
+public class DoorJComponent extends JComponent{
+	/**
+	 * The constructor
+	 */
+	public DoorJComponent() {
 		
 	}
 	/**

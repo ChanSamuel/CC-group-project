@@ -54,7 +54,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
 	 */
-	private ChangingTerrainJPanel changingTerrainJPanel;
+	private ChangingElementsJPanel changingTerrainJPanel;
 	/**
 	 * The music
 	 */
@@ -95,7 +95,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
 		// The changingTerrain JPanel
-		this.changingTerrainJPanel = new ChangingTerrainJPanel(this);
+		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
 		this.ChapJPanel = new ChapJPanel(this);
 		// ---Create a layered pane and add elements to this pane-------
