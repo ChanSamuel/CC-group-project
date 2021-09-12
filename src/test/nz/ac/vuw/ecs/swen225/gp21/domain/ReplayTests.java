@@ -204,6 +204,8 @@ class ReplayTests {
 										//This is not good enough, because our plan
 										//was to load the initial level conditions
 										//the go forward through the ticks.
+			assertFalse(ticks.get(0).didPlayerMove());
+			assertTrue(ticks.get(1).didPlayerMove());
 			w.backTick(ticks.get(1));
 			w.backTick(ticks.get(0));
 			assertEquals(expectedTwo, w.toString());
