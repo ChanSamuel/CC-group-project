@@ -1,11 +1,9 @@
-package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
+package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import nz.ac.vuw.ecs.swen225.gp21.app.GameLoop;
-import nz.ac.vuw.ecs.swen225.gp21.app.actions.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.RenderingPanel;
@@ -35,14 +33,24 @@ public abstract class Controller {
 	private Action failedAction = null;
 	
 	/**
-	 * The entrypoint into the Domain module of the game.
-	 */
-	private Domain domain;
-	
-	/**
 	 * The entrypoint into the rendering module.
 	 */
-	private RenderingPanel renderer;
+	protected RenderingPanel renderer;
+	
+	/**
+	 * The time left in the level in seconds
+	 */
+	protected long timeLeft = 60;
+	
+	/**
+	 * The entrypoint into the Domain module of the game.
+	 */
+	Domain domain;
+	
+	/**
+	 * 
+	 */
+	GameLoop gLoop;
 	
 	/**
 	 * Constructs the Controller by initialising this object's fields and then starts the main game loop.
@@ -60,27 +68,16 @@ public abstract class Controller {
 		renderer = new RenderingPanel();
 		
 		// Open the thread and start it.
-		GameLoop g = new GameLoop(actions, this);
-		Thread t = new Thread(g);
+		gLoop = new GameLoop(actions, this);
+		Thread t = new Thread(gLoop);
 		
 		t.start();
 	}
 	
 	/**
-	 * Calls this class' implemented run() method.
-	 * Sometimes, implementations like GUI may run their own event loop, in which case 
-	 * this method does nothing, because the user interface and event loop should have already been initialised
-	 * upon construction.
+	 * Run the event loop of this Controller and initialise the user interface.
 	 */
-	public final void start() {
-		run();
-	}
-	
-	/**
-	 * Run the event loop of this Controller.
-	 * Some implementations like GUI may run their own event loop, in which case this method should do nothing.
-	 */
-	abstract void run();
+	public abstract void run();
 	
 	/**
 	 * Issue an Action to the game by adding it to the Action queue.
@@ -105,37 +102,33 @@ public abstract class Controller {
 	/**
 	 * Attempts to move Chap up.
 	 * The move may not be attempted immediately.
-	 * @return if move was valid or not.
 	 */
-	public boolean moveUp() {
-		return false;
+	public void moveUp() {
+		issue(new MoveUpAction());
 	}
 	
 	/**
 	 * Attempts to move Chap down.
 	 * The move may not be attempted immediately.
-	 * @return if move was valid or not.
 	 */
-	public boolean moveDown() {
-		return false;
+	public void moveDown() {
+		issue(new MoveDownAction());
 	}
 	
 	/**
 	 * Attempts to move Chap left.
 	 * The move may not be attempted immediately.
-	 * @return if move was valid or not.
 	 */
-	public boolean moveLeft() {
-		return false;
+	public void moveLeft() {
+		issue(new MoveLeftAction());
 	}
 	
 	/**
 	 * Attempts to move Chap right.
 	 * The move may not be attempted immediately.
-	 * @return if move was valid or not.
 	 */
-	public boolean moveRight() {
-		return false;
+	public void moveRight() {
+		issue(new MoveRightAction());
 	}
 	
 	/**
@@ -143,7 +136,7 @@ public abstract class Controller {
 	 * The game should resume at the last unfinished level.
 	 */
 	public void exit() {
-		
+		issue(new ExitAction());
 	}
 	
 	/**
@@ -151,7 +144,7 @@ public abstract class Controller {
 	 * The game can be resumed later on.
 	 */
 	public void exitAndSave() {
-		
+		issue(new ExitSaveAction());
 	}
 	
 	/**
@@ -159,44 +152,44 @@ public abstract class Controller {
 	 * @param f
 	 */
 	public void loadReplay(File f) {
-		
+		issue(new LoadReplayAction());
 	}
 	
 	/**
 	 * Loads a new game at level 1.
 	 */
 	public void loadLevel1() {
-		
+		issue(new LoadLevel1Action());
 	}
 	
 	/**
 	 * Loads a new game at level 2.
 	 */
 	public void loadLevel2() {
-		
+		issue(new LoadLevel2Action());
 	}
 	
 	/**
 	 * Pauses the game loop and sets the Controller to refuse all requests other than resumeGame().
 	 */
 	public void pauseGame() {
-		
+		issue(new PauseAction());
 	}
 	
 	/**
 	 * Resumes the game loop if it is paused.
 	 */
 	public void resumeGame() {
-		
+		issue(new ResumeAction());
 	}
 	
 	/**
 	 * Sets the last failed action to the given Action.
-	 * This method is only used internally by classes like GameLoop (hence package visiblity).
+	 * This method is should only be used internally by classes like GameLoop.
 	 * This method should be used whenever an action fails.
 	 * @param a
 	 */
-	void setFailedAction(Action a) {
+	public void setFailedAction(Action a) {
 		this.failedAction = a;
 	}
 	

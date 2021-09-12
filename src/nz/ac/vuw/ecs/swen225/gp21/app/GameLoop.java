@@ -1,10 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-import java.util.Optional;
 import java.util.Queue;
-
-import nz.ac.vuw.ecs.swen225.gp21.app.actions.Action;
-import nz.ac.vuw.ecs.swen225.gp21.app.controllers.Controller;
 
 /**
  * A runnable which runs the game loop.
@@ -24,6 +20,10 @@ public class GameLoop implements Runnable {
 	 */
 	private Controller control;
 	
+	private boolean isPaused;
+	
+	private boolean isTerminated;
+	
 	/**
 	 * Construct the GameLoop.
 	 * Doesn't actually run until you call run().
@@ -33,16 +33,29 @@ public class GameLoop implements Runnable {
 	public GameLoop(Queue<Action> actions, Controller control) {
 		this.actions = actions;
 		this.control = control;
+		this.isPaused = false;
+		this.isTerminated = false;
 	}
 	
 	@Override
 	public void run() {
 		while (true) {
-			// Poll something from the queue if it's there.
-			if (!actions.isEmpty()) {
-				Optional<Boolean> op = actions.poll().execute(control);
-				if (op.isPresent() && op.get()) {
-					System.out.println("Input was valid!");
+			// First thing is to check if paused or terminated.
+			if (isTerminated) break;
+			if (isPaused) {
+				// Poll something from the queue if it's there but don't execute unless it's a resume 
+				// or termination.
+				if (!actions.isEmpty()) {
+					Action a = actions.poll();
+					if (a instanceof ResumeAction || a instanceof ExitAction) {
+						a.execute(control);
+					}
+				}
+			} else { // Otherwise, execute away.
+				// Poll something from the queue if it's there.
+				if (!actions.isEmpty()) {
+					Action a = actions.poll();
+					a.execute(control);
 				}
 			}
 			
@@ -53,6 +66,14 @@ public class GameLoop implements Runnable {
 				throw new Error("Thread sleep interrupted!", e);
 			}
 		}
+	}
+	
+	void setPause(boolean p) {
+		this.isPaused = p;
+	}
+	
+	void setTerminated(boolean t) {
+		this.isTerminated = t;
 	}
 
 }
