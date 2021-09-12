@@ -9,13 +9,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 
 /**
- * This is the JPanel which holds all the terrains types which can move,but no
- * animation. such as key,treasure this is updated when chap moves.
+ * This is the JPanel which holds all the elements which can move, such as key,treasure.door
+ * This will update when chap moves.
  * 
  * @author mengli
  *
  */
-class ChangingTerrainJPanel extends JPanel {
+class ChangingElementsJPanel extends JPanel {
 	/**
 	 * The board object.
 	 */
@@ -34,7 +34,7 @@ class ChangingTerrainJPanel extends JPanel {
 	 * 
 	 * @param worldJPanel the parent JPanel
 	 */
-	ChangingTerrainJPanel(WorldJPanel worldJPanel) {
+	ChangingElementsJPanel(WorldJPanel worldJPanel) {
 		// set panel properties
 		setLayout(null);
 		setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
@@ -94,6 +94,8 @@ class ChangingTerrainJPanel extends JPanel {
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240+80, 80, this);
+				} else if (terrain instanceof GoldDoor) {
+					//TODO
 				}
 			}
 		}
