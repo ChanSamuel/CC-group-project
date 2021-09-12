@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.swen225.gp21.app;
+package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -12,6 +12,7 @@ public class TextController extends Controller {
 	
 	/**
 	 * Construct a Text Controller.
+	 * On construction, will run the main game loop.
 	 */
 	public TextController() {
 		super();		
@@ -21,7 +22,7 @@ public class TextController extends Controller {
 	 * Run the text controller loop.
 	 */
 	@Override
-	public void run() {
+	void run() {
 		Scanner scan = new Scanner(System.in);
 		while (true) {
 			System.out.println("Enter either 1 or 2 for an action and 3 to exit");

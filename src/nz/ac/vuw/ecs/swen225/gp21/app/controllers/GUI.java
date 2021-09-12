@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.swen225.gp21.app;
+package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
 import javax.swing.JFrame;
 

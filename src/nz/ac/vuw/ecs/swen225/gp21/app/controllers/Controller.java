@@ -1,10 +1,11 @@
-package nz.ac.vuw.ecs.swen225.gp21.app;
+package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
 import java.io.File;
 import java.util.ArrayDeque;
-import java.util.Optional;
 import java.util.Queue;
 
+import nz.ac.vuw.ecs.swen225.gp21.app.GameLoop;
+import nz.ac.vuw.ecs.swen225.gp21.app.actions.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.RenderingPanel;
@@ -44,10 +45,13 @@ public abstract class Controller {
 	private RenderingPanel renderer;
 	
 	/**
-	 * Constructs the Controller by initialising the the main game loop of this Controller by opening 
-	 * a new Swing worker thread.
+	 * Constructs the Controller by initialising this object's fields and then starts the main game loop.
 	 * After construction, the Controller can be used to make requests to the game by calling this object's
 	 * methods.
+	 * 
+	 * The game loop thread is always intialised before any subclass' code is executed.
+	 * The reason the thread is started on construction is to prevent subclass code from initialising their 
+	 * Controller implementation before the program is able to pick up actions requested by the subclass Controller.
 	 */
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
@@ -57,12 +61,23 @@ public abstract class Controller {
 		
 		// Open the thread and start it.
 		GameLoop g = new GameLoop(actions, this);
-		new Thread(g).start();
+		Thread t = new Thread(g);
 		
+		t.start();
 	}
 	
 	/**
-	 * Run the event loop.
+	 * Calls this class' implemented run() method.
+	 * Sometimes, implementations like GUI may run their own event loop, in which case 
+	 * this method does nothing, because the user interface and event loop should have already been initialised
+	 * upon construction.
+	 */
+	public final void start() {
+		run();
+	}
+	
+	/**
+	 * Run the event loop of this Controller.
 	 * Some implementations like GUI may run their own event loop, in which case this method should do nothing.
 	 */
 	abstract void run();

@@ -3,6 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 import java.util.Optional;
 import java.util.Queue;
 
+import nz.ac.vuw.ecs.swen225.gp21.app.actions.Action;
+import nz.ac.vuw.ecs.swen225.gp21.app.controllers.Controller;
+
 /**
  * A runnable which runs the game loop.
  * This runnable is meant to be run on a seperate thread.
@@ -43,6 +46,7 @@ public class GameLoop implements Runnable {
 				}
 			}
 			
+			// Finally, wait for 200ms
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
