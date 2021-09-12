@@ -93,8 +93,12 @@ public class Loading implements State {
 	@Override
 	public boolean addObject(World w, GameObject e, Coord c) {
 		if(e == null || c == null) throw new IllegalArgumentException("Cannot add null to the game!");
-		if(e instanceof Chip) w.setPlayer((Chip)e);
-		w.getEntities().add(e);
+		if(e instanceof Chip) { 
+			w.setPlayer((Chip)e); 
+			w.getEntities().add(0, e); //chip is always updated first. Chip's action is always first in tick.
+		} else {
+			w.getEntities().add(e);
+		}
 		w.getBoard().addObject(e, c); //this method will throw an exception if it fails
 		return true;
 	}

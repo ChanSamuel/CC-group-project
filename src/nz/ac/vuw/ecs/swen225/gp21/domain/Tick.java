@@ -67,5 +67,13 @@ public final class Tick {
 	 */
 	public List<Command> getEvents(){
 		return Collections.unmodifiableList(events);
+	}
+	/**
+	 * Determine if the player entity moved in this update.
+	 * @return true if the player object moved
+	 */
+	public boolean didPlayerMove() {
+		if(events.isEmpty()) return false;
+		return !((MultiMove)events.get(0)).isFirstNoMove();
 	}	
 }
