@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
-import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import java.util.*;
 /**
@@ -33,6 +32,13 @@ public final class MultiMove implements Command {
 		Collections.reverse(events); //TODO needs testing!
 		for(Command c : events) c.undo(w);
 		Collections.reverse(events);
+	}
+	/**
+	 * Determine if this MultiMove's first event is a No Move command.
+	 * @return true if first move is no move.
+	 */
+	public boolean isFirstNoMove() {
+		return events.isEmpty() ? false : (events.get(0) instanceof NoMove) ;
 	}
 
 }
