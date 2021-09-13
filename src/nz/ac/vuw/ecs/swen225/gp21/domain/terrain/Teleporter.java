@@ -46,6 +46,7 @@ public class Teleporter implements Terrain {
 
 	@Override
 	public void entityEntered(GameObject o) {
+		if(o.dir == Direction.NONE) throw new RuntimeException("Cannot teleport object facing NONE direction. Cannot deduce which square to send object to!");
 		Coord destination = o.dir.next(linkLocation);
 		o.w.moveObject(o, destination);
 	}
