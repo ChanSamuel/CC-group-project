@@ -46,8 +46,8 @@ class ChapJPanel extends JPanel {
 	 */
 	ChapJPanel(WorldJPanel worldJPanel) {
 		// -------------Set the coord and dir-----------------------------
-		this.coord = worldJPanel.getChap().getTile().location;
-		this.dir = worldJPanel.getChap().dir;
+		this.coord = worldJPanel.domain.getPlayerLocation();
+		this.dir = worldJPanel.getDir();
 		this.worldJPanel = worldJPanel;
 		// -------------Set the properties of this JPanel----------------
 		setBounds(0, 0,this.worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
@@ -98,8 +98,8 @@ class ChapJPanel extends JPanel {
 		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		//update the coord and dir.
-		this.coord = worldJPanel.getChap().getTile().location;
-		this.dir = worldJPanel.getChap().dir;
+		this.coord = worldJPanel.getCoord();
+		this.dir = worldJPanel.getDir();
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
@@ -21,9 +22,9 @@ public class WorldJFrame extends JFrame{
 	public static final int MIDDLE_COLS = FOCUS_AREA_COLS/2;
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
-	public WorldJFrame(World world) {
+	public WorldJFrame(Domain domain) {
 		WorldJPanel worldJPanel = new WorldJPanel();
-		worldJPanel.setWorld(world);
+		worldJPanel.setDomain(domain);
 		add(worldJPanel);
 		worldJPanel.addKeyListener(worldJPanel);
 		worldJPanel.setFocusable(true);
