@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -55,7 +56,10 @@ public class GUIFrame extends JFrame {
 		fileSaveState.setEnabled(false);
 		fileSaveReplay.setEnabled(false);
 		
+		Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		pack();
+		setSize((int) (0.95 * screenDim.getWidth()), (int) (0.8 * screenDim.getHeight()));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Chap's Challenge");

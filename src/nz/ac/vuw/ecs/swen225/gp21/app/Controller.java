@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 
@@ -45,7 +46,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the Domain module of the game.
 	 */
-	World world;
+	Domain world;
 	
 	/**
 	 * The game loop.
@@ -63,9 +64,47 @@ public abstract class Controller {
 	 */
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
-		world = new GameWorld(this);
 		actions = new ArrayDeque<Action>();
 		renderer = new WorldJPanel();
+		
+		world = new World() {
+
+			@Override
+			public void collectedAChip() {
+				chipCollectedTrans();
+
+			}
+
+			@Override
+			public void enteredExit() {
+				enteredExitTrans();
+			}
+
+			@Override
+			public void enteredInfo(String msg) {
+				enteredInfoTrans();
+			}
+
+			@Override
+			public void leftInfo() {
+				leftInfoTrans();
+			}
+
+			@Override
+			public void playerLost() {
+				playerLostTrans();
+			}
+
+			@Override
+			public void playerGainedItem(Item item) {
+				playerGainedItemTrans();
+			}
+
+			@Override
+			public void playerConsumedItem(Item item) {
+				playerConsumedItemTrans();
+			}
+		};
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
