@@ -1,8 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
@@ -27,60 +24,48 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  */
 public class Teleporter implements Terrain {
 	/**
-	 * Record of one-way teleporter links
+	 * The location of the other teleporter, that this teleporter is linked to.
 	 */
-	public static Map<Coord, Coord> links = new HashMap<>();
+	private final Coord linkLocation;
 	/**
-	 * Hold the only instance of the teleporter terrain
-	 */
-	private static Teleporter instance = new Teleporter();
-	/**
-	 * Get an instance of the teleporter terrain type
+	 * Get an instance of the teleporter terrain type.
+	 * @param other The location this teleporter should send GameObjects to
 	 * @return instance of teleporter terrain
 	 */
-	public static Teleporter getInstance() { return instance; }
+	public static Teleporter makeInstance(Coord other) { return new Teleporter(other); }
 	/**
-	 * Teleporter terrain constructor
+	 * Teleporter terrain constructor.
+	 * @param other the location this teleporter will send GameObjects to.
 	 */
-	private Teleporter() {}
+	private Teleporter(Coord other) {
+		this.linkLocation = other;
+	}
 	
 	@Override
 	public Terrain nextType(GameObject o) { return this; }
 
 	@Override
 	public void entityEntered(GameObject o) {
-		Coord destination = getDestinationCoord(o.getTile().location, o.dir);
+		Coord destination = o.dir.next(linkLocation);
 		o.w.moveObject(o, destination);
 	}
+	
 	@Override
 	public void undoEntityActions(GameObject o) {
-		//TODO currently doing nothing, I think directMove handles this.	
+		//currently doing nothing, I think directMove handles this.	
 	}
 
 	@Override
 	public boolean canEntityGoOn(GameObject o) { 
-		Coord locationOfTeleport = o.dir.next(o.getTile().location); //we are one tile away from the teleporter at this point
-		Coord destination = getDestinationCoord(locationOfTeleport, o.dir);
+		if(o.dir == Direction.NONE) throw new RuntimeException("Cannot teleport object facing NONE direction. Cannot deduce which square to send object to!");
+		Coord destination = o.dir.next(linkLocation);
 		if(!o.w.isCoordValid(destination)) return false;
 		return o.w.getTileAt(destination).canEntityGoOnTile(o);
 	}
 
 	@Override
 	public char boardChar() { return 'O'; }
-	/**
-	 * Gets the coordinate of the tile the teleporter will try to move the GameObject to
-	 * Based on the direction the GameObject is facing
-	 * @param c - the location of the teleporter being moved into
-	 * @param dir - the direction the teleporter is being moved through
-	 * @return the coordinate of the tile the teleporter will move the object to
-	 */
-	private Coord getDestinationCoord(Coord c, Direction dir) {
-		if(dir == Direction.NONE) throw new RuntimeException("Cannot teleport object facing NONE direction. Cannot deduce which square to send object to!");
-		Coord destination = links.get(c); //if the teleport tile has no link the level was not initialized properly
-		if(destination == null) throw new IllegalStateException("Teleporter at "+c+" has no link!");
-		return dir.next(destination);
-	}
-	
+
 	@Override
 	public String toString() { return "Teleporter"; }
 
