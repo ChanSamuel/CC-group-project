@@ -74,8 +74,6 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		// -------- Set the world,board and chap----------
 		this.domain = domain;
 		this.board = domain.getBoard();
-//		this.coord = domain.getPlayerLocation();
-		this.dir = domain.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// -----------Add music---------------------------
 		try {
 			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
@@ -158,12 +156,6 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		return domain.getPlayerLocation();
 	}
 	
-	/**
-	 * Get chap's direction
-	 */
-	Direction getDir() {
-		return this.dir;
-	}
 
 	// TODO Those are TEMP key listeners just for testing GUI.
 	// -------------------The Key listeners------------------------------

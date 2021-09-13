@@ -46,9 +46,11 @@ class ChapJPanel extends JPanel {
 	 */
 	ChapJPanel(WorldJPanel worldJPanel) {
 		// -------------Set the coord and dir-----------------------------
-		this.coord = worldJPanel.domain.getPlayerLocation();
-		this.dir = worldJPanel.getDir();
 		this.worldJPanel = worldJPanel;
+		checkDomain();
+		this.coord = worldJPanel.domain.getPlayerLocation();
+		this.dir = worldJPanel.domain.getBoard().getTileAt(this.coord).getOccupier().dir;
+		
 		// -------------Set the properties of this JPanel----------------
 		setBounds(0, 0,this.worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
@@ -89,17 +91,23 @@ class ChapJPanel extends JPanel {
 		// TODO create a new thread ChapMoving for animation
 		ChapMoving cm = new ChapMoving();
 	}
-
+	/**
+	 * Check if domain is null
+	 */
+	private void checkDomain() {
+		if(this.worldJPanel.domain==null) throw new RuntimeException("Domain is null");
+	}
 	/**
 	 * Override the paint method of chap
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
+		checkDomain();
 		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		//update the coord and dir.
 		this.coord = worldJPanel.getCoord();
-		this.dir = worldJPanel.getDir();
+		this.dir = worldJPanel.domain.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {
