@@ -75,5 +75,47 @@ public class TextController extends Controller {
 			}
 		}
 	}
+
+	@Override
+	public void chipCollectedTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enteredExitTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enteredInfoTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void leftInfoTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerLostTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerGainedItemTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerConsumedItemTrans() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

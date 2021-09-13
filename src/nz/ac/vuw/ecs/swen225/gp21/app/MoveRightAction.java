@@ -4,7 +4,7 @@ public class MoveRightAction implements Action{
 
 	@Override
 	public void execute(Controller control) {
-		control.domain.moveChipRight();
+		control.world.moveChipRight();
 		return;
 	}
 

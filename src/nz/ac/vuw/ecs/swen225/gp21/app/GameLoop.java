@@ -39,7 +39,10 @@ public class GameLoop implements Runnable {
 	
 	@Override
 	public void run() {
+		long updatedTime = -1;
+		long elapsedTime = 0;
 		while (true) {
+			long start = System.currentTimeMillis();
 			// First thing is to check if paused or terminated.
 			if (isTerminated) break;
 			if (isPaused) {
@@ -51,17 +54,32 @@ public class GameLoop implements Runnable {
 						a.execute(control);
 					}
 				}
-			} else { // Otherwise, execute away.
-				// Poll something from the queue if it's there.
+			} else { // Otherwise, proceed normally.
+				
+				// Update the world.
+				if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
+				// TODO: Doesn't work yet.
+				//control.world.update(elapsedTime);
+				updatedTime = System.currentTimeMillis();
+				
+				// Update the renderer (apparently not).
+				// control.renderer.repaint();
+				
+				// TODO: Recorder things here??
+				
+				// Poll an action from the queue if it's there.
 				if (!actions.isEmpty()) {
 					Action a = actions.poll();
 					a.execute(control);
 				}
 			}
 			
-			// Finally, wait for 200ms
+			// Finally, wait for the remainder time of the 200ms since start has not occured.
 			try {
-				Thread.sleep(200);
+				long delay = 200 - System.currentTimeMillis() - start;
+				if (delay > 0) {
+					Thread.sleep(delay);
+				}
 			} catch (InterruptedException e) {
 				throw new Error("Thread sleep interrupted!", e);
 			}

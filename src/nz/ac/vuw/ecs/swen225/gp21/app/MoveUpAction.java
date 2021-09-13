@@ -4,7 +4,7 @@ public class MoveUpAction implements Action {
 
 	@Override
 	public void execute(Controller control) {
-		control.domain.moveChipUp();
+		control.world.moveChipUp();
 	}
 
 	@Override

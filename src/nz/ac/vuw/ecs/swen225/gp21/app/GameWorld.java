@@ -5,46 +5,47 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 public class GameWorld extends World {
 
+	Controller control;
+	
+	public GameWorld(Controller control) {
+		super();
+		this.control = control;
+	}
+	
 	@Override
 	public void collectedAChip() {
-		// TODO Auto-generated method stub
+		control.chipCollectedTrans();
 
 	}
 
 	@Override
 	public void enteredExit() {
-		// TODO Auto-generated method stub
-
+		control.enteredExitTrans();
 	}
 
 	@Override
 	public void enteredInfo(String msg) {
-		// TODO Auto-generated method stub
-
+		control.enteredInfoTrans();
 	}
 
 	@Override
 	public void leftInfo() {
-		// TODO Auto-generated method stub
-
+		control.leftInfoTrans();
 	}
 
 	@Override
 	public void playerLost() {
-		// TODO Auto-generated method stub
-
+		control.playerLostTrans();
 	}
 
 	@Override
 	public void playerGainedItem(Item item) {
-		// TODO Auto-generated method stub
-
+		control.playerGainedItemTrans();
 	}
 
 	@Override
 	public void playerConsumedItem(Item item) {
-		// TODO Auto-generated method stub
-
+		control.playerConsumedItemTrans();
 	}
 
 }

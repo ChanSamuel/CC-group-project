@@ -6,7 +6,7 @@ public class MoveDownAction implements Action {
 
 	@Override
 	public void execute(Controller control) {
-		control.domain.moveChipDown();
+		control.world.moveChipDown();
 		return;
 	}
 

@@ -48,7 +48,7 @@ public abstract class Controller {
 	World world;
 	
 	/**
-	 * 
+	 * The game loop.
 	 */
 	GameLoop gLoop;
 	
@@ -63,7 +63,7 @@ public abstract class Controller {
 	 */
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
-		world = new GameWorld();
+		world = new GameWorld(this);
 		actions = new ArrayDeque<Action>();
 		renderer = new WorldJPanel();
 		
@@ -78,6 +78,48 @@ public abstract class Controller {
 	 * Run the event loop of this Controller and initialise the user interface.
 	 */
 	public abstract void run();
+	
+	/**
+	 * The transition method called upon chip collection.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void chipCollectedTrans();
+	
+	/**
+	 * The transition method called when chap enters the exit tile.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void enteredExitTrans();
+	
+	/**
+	 * The transition method called upon chap entering an info tile.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void enteredInfoTrans();
+	
+	/**
+	 * The transition method called when chap leaves an info tile.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void leftInfoTrans();
+	
+	/**
+	 * The transition method called when chap loses.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void playerLostTrans();
+	
+	/**
+	 * The transition method called when chap gains an item.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void playerGainedItemTrans();
+	
+	/**
+	 * The transition method called when chap consumes an item.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void playerConsumedItemTrans();
 	
 	/**
 	 * Issue an Action to the game by adding it to the Action queue.
