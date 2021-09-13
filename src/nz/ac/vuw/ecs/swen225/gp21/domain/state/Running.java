@@ -35,7 +35,7 @@ public final class Running implements State{
 	public Tick update(World w, double elapsedTime) {
 		worldCheck(w);
 		w.updates++;
-		Tick tick = new Tick(w.updates, w); //TODO make ticks && commands && moves independent of a specific world instance.
+		Tick tick = new Tick(w.updates); //TODO make ticks && commands && moves independent of a specific world instance.
 		//update all game objects
 		for(GameObject e : w.getEntities()) {
 			w.event = new MultiMove();

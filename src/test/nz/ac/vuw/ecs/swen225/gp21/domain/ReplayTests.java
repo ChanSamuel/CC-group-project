@@ -124,7 +124,7 @@ class ReplayTests {
 			//There are no more ticks coming. <- 	this 100% should be the replay
 			//										modules job of managing			
 			
-			ticks.get(ticks.size()-1).isFinalTick = true;
+			ticks.get(ticks.size()-1).isFinalTick = true; //(Note, replaying currently doesn't inspect this field)
 			//NOTE: This raises an interesting question:
 			//		Should I be able to save and exit the game,
 			//		then replay that partially completed game?
@@ -224,6 +224,93 @@ class ReplayTests {
 		assertTrue(passed);
 	}
 	
-	
+	/**
+	 * Test that ticks work properly on different world Objects
+	 */
+	@Test
+	void testReplayDifferentWorld() {
+		boolean passed = true;
+		try {
+			List<Tick> ticks = new ArrayList<>();
+			World first = new TestWorld();
+			first.loadLevelData(testLevel);
+			first.doneLoading();
+			
+			World second = new TestWorld();
+			second.loadLevelData(testLevel);
+			second.doneLoading();
+			
+			first.moveChipDown();
+			first.moveChipDown();
+			ticks.add(first.update(200));
+			ticks.add(first.update(200));
+			ticks.add(first.update(200));
+			ticks.get(ticks.size()-1).isFinalTick = true;
+			
+			first = null;
+			System.gc();
+			
+			second.setState(new Replaying());
+			
+			second.forwardTick(ticks.get(0));
+			second.forwardTick(ticks.get(1));
+			second.forwardTick(ticks.get(2));
+			
+			String expectedOne = 
+					"Game is: Replaying\n"
+					+ "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->SOUTH at->Row: 5 Columns: 5 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 6 Columns: 5 Block\n"
+					+ "\n"
+					+ "Board: \n"
+					+ "0|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "2|_|_|c|_|_|O|_|_|_|_|\n"
+					+ "3|#|#|#|#|#|#|#|#|#|#|\n"
+					+ "4|_|_|_|_|_|O|_|_|_|_|\n"
+					+ "5|_|_|_|_|_|C|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|=|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
+			
+			assertEquals(expectedOne, second.toString());
+			
+			second.backTick(ticks.get(2));
+			second.backTick(ticks.get(1));
+			second.backTick(ticks.get(0));
+
+			String expectedTwo = 
+					"Game is: Replaying\n"
+					+ "Is game over? -> false\n"
+					+ "PlayerQueue: \n"
+					+ "EMPTY\n"
+					+ "All entities: \n"
+					+ "GameObject: Chip facing->NORTH at->Row: 0 Columns: 5 Chip Chip's Invetory: []\n"
+					+ "GameObject: Block facing->NONE at->Row: 1 Columns: 5 Block\n"
+					+ "\n"
+					+ "Board: \n"
+					+ "0|_|_|_|_|_|C|_|_|_|_|\n"
+					+ "1|_|_|_|_|_|=|_|_|_|_|\n"
+					+ "2|_|_|c|_|_|O|_|_|_|_|\n"
+					+ "3|#|#|#|#|#|#|#|#|#|#|\n"
+					+ "4|_|_|_|_|_|O|_|_|_|_|\n"
+					+ "5|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "6|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "7|_|_|_|_|_|_|_|_|_|_|\n"
+					+ "8|_|c|c|_|_|_|_|_|#|X|\n"
+					+ "9|_|_|_|_|_|_|_|_|#|e|\n";
+			
+			assertEquals(expectedTwo, second.toString());
+			
+		} catch (IllegalStateException s) {
+			System.out.println("Exception thrown: "+s.getLocalizedMessage());
+			passed = false;
+		}
+		assertTrue(passed);
+	}
 
 }
