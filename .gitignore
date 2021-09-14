@@ -56,3 +56,5 @@ chap_challenge.iml
 .idea/libraries/com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_7_0.xml
 *.iml
 .idea/uiDesigner.xml
+out/production/chap_challenge/nz/ac/vuw/ecs/swen225/gp21/persistency/imports.png
+src/nz/ac/vuw/ecs/swen225/gp21/persistency/imports.png
