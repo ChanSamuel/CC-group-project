@@ -74,6 +74,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		// -------- Set the world,board and chap----------
 		this.domain = domain;
 		this.board = domain.getBoard();
+		this.coord = this.domain.getPlayerLocation();
 		// -----------Add music---------------------------
 		try {
 			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
@@ -182,7 +183,6 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 			domain.update(200);
 			System.out.println("move chap up");
 			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			this.updateJPanel();
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
@@ -208,6 +208,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		default:
 			break;
 		}
+		redraw(domain);
 	}
 //--------------------Methods inherit from Renderer--------
 	@Override
