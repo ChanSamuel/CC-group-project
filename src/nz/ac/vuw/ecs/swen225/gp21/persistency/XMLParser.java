@@ -1,8 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,8 @@ public class XMLParser<T> {
 
     public XMLParser(XmlMapper xmlMapper, Class<T> valueType) {
         this.xmlMapper = xmlMapper;
+        this.xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        //this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); fixme
         this.valueType = valueType;
     }
 
