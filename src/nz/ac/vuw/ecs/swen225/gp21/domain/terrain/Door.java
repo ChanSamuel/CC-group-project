@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 abstract class Door implements Terrain {
 
 	@Override
-	public Terrain nextType(GameObject o) {return Free.getInstance();}
+	public Terrain nextType(GameObject o) { o.w.openedADoor(); return Free.getInstance();}
 
 	@Override
 	public abstract void entityEntered(GameObject o);

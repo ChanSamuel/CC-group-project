@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
@@ -10,21 +11,19 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  */
 public interface Renderer {
 	/**
-	 * Set the world
+	 * Set the domain
 	 */
-	void setWorld(World world);
+	public void setDomain(Domain domain);
 	/**
-	 * Draw the current level
-	 * @param level
+	 * Set the level of game
 	 */
-	void drawLevel(Level level);
+	public void setLevel(int level);
 	/**
-	 * draw all the changes that happened in the tick
+	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
 	 */
-	void drawUpdateApplied(Tick t);
+	public void playSound(SoundType soundtype);
 	/**
-	 * draw all the changes being undone in the tick to support game replays
+	 * Redraw the world
 	 */
-	void drawUpdateUndone(Tick t);
-
+	public void redraw(Domain domain);
 }

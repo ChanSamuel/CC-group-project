@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
 import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.*;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
@@ -241,6 +240,11 @@ public abstract class World implements Domain{
 	 * But before the treasure terrain is replaced with 'free' terrain
 	 */
 	public abstract void collectedAChip();
+	/**
+	 * This method is called when chip opens a door.
+	 * It can be used to notify the view to do something special like play a sound.
+	 */
+	public abstract void openedADoor();
 	/**
 	 * This method is called when chip enters the exit square
 	 */

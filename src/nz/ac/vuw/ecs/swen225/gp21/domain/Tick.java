@@ -11,10 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
  */
 public final class Tick {
 	/**
-	 * reference to the world that generated this tick
-	 */
-	public final World w;
-	/**
 	 * this number specifies which update generated this tick
 	 */
 	public final int index;
@@ -33,10 +29,8 @@ public final class Tick {
 	/**
 	 * Create a new tick to store all the events that occur in an update.
 	 * @param index the tick ID.
-	 * @param w the world that generated this tick
 	 */
-	public Tick(int index, World w) {
-		this.w = w;
+	public Tick(int index) {
 		this.index = index;
 		this.events = new LinkedList<Command>();
 	}
@@ -49,16 +43,18 @@ public final class Tick {
 	
 	/**
 	 * Redo all the actions that occurred during this tick.
+	 * @param w the world this tick is being applied to.
 	 */
-	public void redoTick() {
+	public void redoTick(World w) {
 		Collections.reverse(events);
 		for(Command c : events) c.execute(w);
 		Collections.reverse(events);
 	}
 	/**
 	 * Undo all the actions that occurred during this tick.
+	 * @param w the world this tick is being applied to.
 	 */
-	public void undoTick() {
+	public void undoTick(World w) {
 		for(Command c : events) c.undo(w);
 	}
 	/**
