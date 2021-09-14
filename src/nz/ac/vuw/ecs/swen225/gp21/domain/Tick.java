@@ -18,7 +18,7 @@ public final class Tick {
 	 * List of all the events that were performed in the update
 	 * that this tick was generated in.
 	 */
-	final List<Command> events;
+	final List<MultiMove> events;
 	/**
 	 * Is this tick the final tick in the replay stream?.
 	 * NOTE: This MUST be set by an external monitor of the game-play.
@@ -32,7 +32,7 @@ public final class Tick {
 	 */
 	public Tick(int index) {
 		this.index = index;
-		this.events = new LinkedList<Command>();
+		this.events = new LinkedList<MultiMove>();
 	}
 	
 	/**
@@ -70,6 +70,14 @@ public final class Tick {
 	 */
 	public boolean didPlayerMove() {
 		if(events.isEmpty()) return false;
-		return !((MultiMove)events.get(0)).isFirstNoMove();
+		return !events.get(0).isFirstNoMove();
 	}	
+	/**
+	 * Determine if any object moved in this tick
+	 */
+	public boolean didAnyObjectMove() {
+		if(events.isEmpty()) return false;
+		for(MultiMove c : events) if(!c.isFirstNoMove()) return true;
+		return false;
+	}
 }
