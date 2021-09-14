@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLParser;
 
@@ -57,13 +59,44 @@ public class XMLParserTests extends TestCase {
     }
 
     @Test
+    public void testSaveObjectOk_NotSame() throws PersistException, IOException {
+        TestObject testObject = new TestObject(Arrays.asList("Not", "Ok"), "test1", "test2", 8, 9);
+        File f = new File("test2.xml");
+
+        XMLParser<TestObject> parser = new XMLParser<>(xmlMapper, TestObject.class);
+        doNothing().when(xmlMapper).writeValue(any(File.class), objectCaptor.capture());
+
+        parser.save(f, testObject);
+        TestObject testObjectCapture = (TestObject) objectCaptor.getValue();
+
+        TestObject expectedObject = new TestObject(Arrays.asList("Hello", "World"), "test1", "test2", 8, 9);
+
+        assertNotSame(expectedObject.getStringList().get(0), testObject.getStringList().get(0));
+        assertNotSame(expectedObject, testObjectCapture);
+    }
+
+
+    @Test
+    public void testSaveDomainOk() throws PersistException, IOException {
+        Domain testDomain = new TestWorld();
+        File f = new File("test3.xml");
+
+        XMLParser<Domain> parser = new XMLParser<>(xmlMapper, Domain.class);
+        doNothing().when(xmlMapper).writeValue(any(File.class), objectCaptor.capture());
+
+        parser.save(f, testDomain);
+        Domain testObjectCapture = (Domain) objectCaptor.getValue();
+
+        assertEquals(-1,testObjectCapture.getUpdateCount());
+    }
+
+    @Test
     public void testSaveWithIOException() throws IOException, PersistException {
         exceptionRule.expect(PersistException.class);
         TestObject testObject = new TestObject(Arrays.asList("Hello", "World"), "test1", "test2", 8, 9);
-        File f = new File("test2.xml");
+        File f = new File("test4.xml");
         XMLParser<TestObject> parser = new XMLParser(xmlMapper, TestObject.class);
         doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
         parser.save(f, testObject);
     }
-
 }
