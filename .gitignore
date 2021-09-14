@@ -25,3 +25,10 @@ hs_err_pid*
 /bin/
 .project
 .classpath
+
+# other modules
+src/nz/ac/vuw/ecs/swen225/gp21/domain/
+
+
+src/nz/ac/vuw/ecs/swen225/gp21/domain/Tile.java
+src/nz/ac/vuw/ecs/swen225/gp21/domain/Tile.java

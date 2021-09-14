@@ -43,6 +43,10 @@ public final class Level {
 	 */
 	private Map<String, String> charToGameObjName;
 	/**
+	 * Map contains record of one way teleport links used in this level.
+	 */
+	private Map<Coord, Coord> links;
+	/**
 	 * The height of the level in tiles
 	 */
 	public final int rows;
@@ -84,7 +88,7 @@ public final class Level {
 			entry("E", ExitTile.getInstance()),
 			
 			entry("G", GreenDoor.getInstance()),
-			entry("g", GreenKey.getInstance()), //TODO add yellow door, yellow key etc etc
+			entry("g", GreenKey.getInstance()), 
 			entry("a", GoldKey.getInstance()),
 			entry("A", GoldDoor.getInstance()),
 			entry("u", CopperKey.getInstance()),
@@ -96,10 +100,10 @@ public final class Level {
 			entry("^", OneWayNorth.getInstance()),
 			entry("<", OneWayWest.getInstance()),
 			entry(">", OneWayEast.getInstance()),
-			entry("v", OneWaySouth.getInstance()),
-			entry("teleport", Teleporter.getInstance())
+			entry("v", OneWaySouth.getInstance())
 		);
 		//TODO this isn't ideal, preferably we just give the object directly in the map
+		// but currently objects need a world instance to instantiate, and here in the level, we have no world to provide.
 		charToGameObjName = Map.ofEntries(
 				entry("C", "Chip"),
 				entry("=", "Block"),
@@ -110,14 +114,14 @@ public final class Level {
 		this.columns = columns;
 		this.terrainLayout = validateLevelLayout(terrainLayout);
 		this.entityLayout = entityLayout;
-//		Teleporter.links = makeTeleportLinks(); //NOTE moved this into board initialization
+		links = makeTeleportLinks(); 
 	}
 	/**
 	 * Analyze the terrain layout string to make
 	 * the teleporter coordinate pairs.
-	 * @return A record of one way teleporter links via tile coordiantes
+	 * @return A record of one way teleporter links via tile coordinates
 	 */
-	public Map<Coord, Coord> makeTeleportLinks() {
+	private Map<Coord, Coord> makeTeleportLinks() {
 		Map<Coord, Coord> links = new HashMap<>();
 		//record the location of the first nodes of the teleporters
 		Map<Integer, Coord> initialLinkLocation = new HashMap<>();
@@ -149,7 +153,7 @@ public final class Level {
 	 * @return position of this element in a one d array
 	 */
 	private int twoDtoOneD(int row, int col) {
-		return col + (row * columns); //TODO formula needs testing
+		return col + (row * columns); 
 	}
 	/**
 	 * Validate the layout of the level
@@ -182,7 +186,8 @@ public final class Level {
 		int index = twoDtoOneD(c.getRow(), c.getCol());
 		Character terrainChar = terrainLayout.charAt(index);
 		String terrainString = Character.toString(terrainChar);
-		if(Character.isDigit(terrainChar)) terrainString = "teleport";
+		//If digit, make teleport, get teleport destination from the map.
+		if(Character.isDigit(terrainChar)) return Teleporter.makeInstance(links.get(c)); 
 		return this.charToTerrain.get(terrainString);
 	}
 	

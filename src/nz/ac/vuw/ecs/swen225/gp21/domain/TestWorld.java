@@ -26,6 +26,11 @@ public final class TestWorld extends World {
 		System.out.println("Player collected a chip!");
 		System.out.println("Remaining Chips: "+(this.totalTreasure - playerEntity.treasureCollected));
 	}
+	
+	@Override
+	public void openedADoor() {
+		System.out.println("Chip opened a door!");
+	}
 
 	@Override
 	public void enteredExit() {

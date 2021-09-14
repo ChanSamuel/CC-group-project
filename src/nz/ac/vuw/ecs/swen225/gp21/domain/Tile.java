@@ -84,14 +84,14 @@ public final class Tile {
 	 * Gets the GameObject on this tile
 	 * @return The GameObject on this tile
 	 */
-	GameObject getOccupier() {
+	public GameObject getOccupier() {
 		return occupier;
 	}
 	/**
 	 * Returns whether this tile has a GameObject on it or not
 	 * @return true if there is a gameObject on this tile
 	 */
-	boolean isTileOccupied() {
+	public boolean isTileOccupied() {
 		return getOccupier() != null;
 	}
 	/**

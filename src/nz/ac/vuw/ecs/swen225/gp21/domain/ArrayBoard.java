@@ -11,7 +11,7 @@ public class ArrayBoard implements Board {
 	/**
 	 * TODO
 	 */
-	private Tile[][] board;
+	private final Tile[][] board;
 	/**
 	 * TODO
 	 */
@@ -20,29 +20,7 @@ public class ArrayBoard implements Board {
 	 * TODO
 	 */
 	final int columns;
-	/**
-	 * Creates a default test level. Simple 10*10 level 
-	 * Exit in the corner
-	 */
-	public ArrayBoard() {
-		this.rows = 10; this.columns = 10;
-		board = new Tile[rows][columns];
-		for(int row = 0; row < rows; row++) {
-			for(int col = 0; col < columns; col++) {
-				board[row][col] = new Tile(new Coord(row, col));
-				board[row][col].setTerrain(Free.getInstance());
-			}
-		}
-		board[rows-1][columns-1].setTerrain(ExitTile.getInstance());
-		//create a teleporter pair @ (r: 4, c: 6) && (r: 7, c: 6)
-		board[4][6].setTerrain(Teleporter.getInstance()); board[7][6].setTerrain(Teleporter.getInstance());
-		Teleporter.links.put(new Coord(4,6), new Coord(7,6));
-		Teleporter.links.put(new Coord(7,6), new Coord(4,6));
-		//create 2 treasure @ (r: 0, c: 5) && (r: 2, c: 5)
-		board[0][5].setTerrain(Treasure.getInstance()); board[2][5].setTerrain(Treasure.getInstance());
-		//create exit tile @ (r: 8, c: 9)
-		board[8][9].setTerrain(ExitLock.getInstance());
-	}
+	
 	/**
 	 * Create an array board from a level object
 	 * only initializes the terrain fields
@@ -58,9 +36,8 @@ public class ArrayBoard implements Board {
 				board[row][col].setTerrain(level.terrainAt(c));
 			}
 		}
-		Teleporter.links = level.makeTeleportLinks();
 	}
-	
+
 	@Override
 	public void addObject(GameObject o, Coord location) {
 		boundsCheck(location); //NOTE: method for loading
