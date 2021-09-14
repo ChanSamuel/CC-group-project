@@ -1,5 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+//import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,21 @@ public class ConcretePersister implements Persister {
     public void loadGame(File fileToLoad, Domain domain) throws PersistException {
         FileInputStream fs = getXMLFileStream(fileToLoad);
         XMLParser parser = new XMLParser(new XmlMapper(), Domain.class);
-        Domain domainToLoad = (Domain)parser.load(fs);
+        try {
+			Domain domainToLoad = (Domain)parser.load(fs);
+		} catch (PersistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // TODO
         // Load domainToLoad into the domain object from method call
@@ -54,7 +68,21 @@ public class ConcretePersister implements Persister {
         //TODO in all these methods need to check that Domain is not null AND file not null
 
         XMLParser parser = new XMLParser(new XmlMapper(), Domain.class);
-        parser.save(fileToSave, domain);
+        try {
+			parser.save(fileToSave, domain);
+		} catch (PersistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 
