@@ -58,3 +58,7 @@ chap_challenge.iml
 .idea/uiDesigner.xml
 out/production/chap_challenge/nz/ac/vuw/ecs/swen225/gp21/persistency/imports.png
 src/nz/ac/vuw/ecs/swen225/gp21/persistency/imports.png
+test_testobject_save.xml
+test_testworld_save.xml
+test_object_save.xml
+test_domain_save.xml
