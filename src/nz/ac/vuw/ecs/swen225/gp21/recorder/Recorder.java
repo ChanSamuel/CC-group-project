@@ -11,7 +11,8 @@ import java.util.List;
  * @author Peter Liley 2021
  */
 public class Recorder {
-    private List<GameTick> ticks;
+    private int level;
+    private List<TickTemp> ticks;
     private int tickPointer;
     private boolean autoReplayRunning = false;
 
@@ -35,46 +36,60 @@ public class Recorder {
     } 
 
     /**
-     * Saves the given list of game states to an xml file
+     * Saves the given list of game states to an xml file, after setting the last tick's
+     * 'finalTick' field to true.
      * 
      * return: True if save successful
      */
-    public boolean save(){
-        return SaveRecording.save(ticks);
+    public boolean save(File saveFile){
+        ticks.get(ticks.size()-1).isFinalTick = true; // set final tick
+        Recording r = new Recording(ticks, level);
+        return SaveRecording.save(saveFile, r);
     }
 
     /**
      * Parses an xml file into a list of game states
      * @return A list of all game states in loaded recording
      */
-    public void load(File xmlToLoad){
-        ticks = LoadRecording.load(xmlToLoad);
+    public void load(File loadFile){
+        Recording r = LoadRecording.load(loadFile);
+        ticks = r.getTicks();
+        level = r.getLevel();
     }
 
     /**
      * Add a single tick to the list
      * @throws IllegalArgumenException if tick is not valid (e.g. null ticks)
      */
-    public void addTick(GameTick tick){
+    public void addTick(TickTemp tick){
         if(tickValid(tick)) ticks.add(tick);
         else throw new IllegalArgumentException();
     }
 
     /**
      * Returns the next tick in the tick list if playback mode is auto
-     * Returns the next *meaningful* tick in the list if playback mode is manual
+     * Returns the next meaningful tick in the list if playback mode is manual
      *  - a 'meaningful' tick is one in which any actor moves
-     * @return next (meaningful*) GameTick object
+     * @return next (meaningful*) Tick object
      */
-    public GameTick nextTick(){
+    public TickTemp nextTick(){
         if(autoReplayRunning) return next();
         else return nextMeaningful();
     }
 
-
-    public GameTick prevTick(){
+    public TickTemp prevTick(){
         if(autoReplayRunning) return prev();
         else return prevMeaningful();
+    }
+
+    public boolean setLevel(int level){
+        if(level < 1) return false;
+        this.level = level;
+        return true;
+    }
+
+    public int getLevel(){
+        return level;
     }
 
     // PRIVATE METHODS ===============
@@ -83,7 +98,7 @@ public class Recorder {
      * Returns the next tick in the list of ticks by incrementing the pointer.
      * @return Next game state index in the list (or current tick if no next tick)
      */
-    private GameTick next() {
+    private TickTemp next() {
         if(tickPointer < ticks.size()-1) tickPointer++;
         return ticks.get(tickPointer);
     }
@@ -92,20 +107,21 @@ public class Recorder {
      * Updates state pointer and returns game state one before in the list
      * @return Previous game state index in the list (or current state if no prev state)
      */
-    private GameTick prev() {
+    private TickTemp prev() {
         if(tickPointer > 0) tickPointer--;
         return ticks.get(tickPointer);
     }
 
     /**
-     * Returns the next 'meaningful' tick, or current tick if no next tick
-     *  - - a 'meaningful' tick is one in which any actor moves
-     * @return
+     * Returns the next 'meaningful' tick, or current tick if no next tick.
+     * a 'meaningful' tick is one in which any actor moves
+     * 
+     * @return next tick that contains any movement
      */
-    private GameTick nextMeaningful() {
+    private TickTemp nextMeaningful() {
         while(tickPointer < ticks.size()-1){
             tickPointer++;
-            if(ticks.get(tickPointer).isMeaningful()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }
@@ -115,18 +131,18 @@ public class Recorder {
      *  - - a 'meaningful' tick is one in which any actor moves
      * @return
      */
-    private GameTick prevMeaningful() {
+    private TickTemp prevMeaningful() {
         while(tickPointer > 0){
             tickPointer--;
-            if(ticks.get(tickPointer).isMeaningful()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }
 
-        /**
+    /**
      * Returns true if the tick is valid
      */
-    private boolean tickValid(GameTick tick) {
+    private boolean tickValid(TickTemp tick) {
         if(tick == null) return false;
         return true;
     }
