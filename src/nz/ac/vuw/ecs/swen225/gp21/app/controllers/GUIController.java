@@ -30,6 +30,7 @@ public class GUIController extends GUI {
 			cl.show(frame.getContentPane(), "Home page");
 		});
 		
+		
 		// Menu bar quit game action
 		frame.fileQuit.addActionListener((ae) -> {
 			// Close all threads and exit.
@@ -102,6 +103,12 @@ public class GUIController extends GUI {
 
 	@Override
 	public void playerConsumedItemTrans() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerOpenedADoorTrans() {
 		// TODO Auto-generated method stub
 		
 	}

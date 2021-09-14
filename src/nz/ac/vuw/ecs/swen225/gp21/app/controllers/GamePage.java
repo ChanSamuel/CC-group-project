@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 
-public class GamePage extends JPanel implements Page{
+public class GamePage extends JPanel implements Page {
 	
 	GamePageBackground background = new GamePageBackground();
 	JPanel infoPanel = new JPanel();

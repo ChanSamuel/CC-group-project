@@ -117,5 +117,11 @@ public class TextController extends Controller {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void playerOpenedADoorTrans() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -1,9 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,19 +33,24 @@ public class HomePage extends JPanel implements Page {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(0, 0, 200, 0);
 		add(heroImageTextLabel, gbc);
 		
 		
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		buttonPanel.add(loadGameButton);
-		buttonPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-		buttonPanel.add(newGameButton);
+		buttonPanel.setLayout(new BorderLayout(0, 15));
+		buttonPanel.add(loadGameButton, BorderLayout.PAGE_START);
+		buttonPanel.add(newGameButton, BorderLayout.PAGE_END);
 		
 		heroImageLabel.setIcon(heroImg);
-		heroImageTextLabel.setText("<html><h1>Chap's Challenge</h1></html>");
+		heroImageTextLabel.setText("Chap's Challenge");
+		heroImageTextLabel.setFont(heroImageTextLabel.getFont().deriveFont(50f));
 		add(buttonPanel);
 		
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		loadGameButton.setPreferredSize(new Dimension((int)(0.2 * screenSize.getWidth()), (int)(0.08 * screenSize.getHeight())));
+		newGameButton.setPreferredSize(new Dimension((int)(0.2 * screenSize.getWidth()), (int)(0.08 * screenSize.getHeight())));
 	}
 	
 	@Override

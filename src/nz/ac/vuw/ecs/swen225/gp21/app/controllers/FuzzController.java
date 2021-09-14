@@ -50,5 +50,11 @@ public class FuzzController extends Controller {
 		System.out.println("Consumed an item");
 	}
 
+	@Override
+	public void playerOpenedADoorTrans() {
+		System.out.println("Player opened a door");
+		
+	}
+
 
 }

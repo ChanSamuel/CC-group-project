@@ -104,6 +104,12 @@ public abstract class Controller {
 			public void playerConsumedItem(Item item) {
 				playerConsumedItemTrans();
 			}
+
+			@Override
+			public void openedADoor() {
+				playerOpenedADoorTrans();
+				
+			}
 		};
 		
 		// Open the thread and start it.
@@ -159,6 +165,12 @@ public abstract class Controller {
 	 * Called by GameWorld on the GameLoop thread.
 	 */
 	public abstract void playerConsumedItemTrans();
+	
+	/**
+	 * The transition method called when chap opens a door.
+	 * Called by GameWorld on the GameLoop thread.
+	 */
+	public abstract void playerOpenedADoorTrans();
 	
 	/**
 	 * Issue an Action to the game by adding it to the Action queue.
