@@ -32,3 +32,13 @@ src/nz/ac/vuw/ecs/swen225/gp21/domain/
 
 src/nz/ac/vuw/ecs/swen225/gp21/domain/Tile.java
 src/nz/ac/vuw/ecs/swen225/gp21/domain/Tile.java
+.idea/libraries/com_fasterxml_jackson_core_jackson_core_2_6_6.xml
+.idea/libraries/com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_7_0.xml
+.idea/libraries/org_mockito_junit_jupiter_2_20_0.xml
+.idea/libraries/org_mockito_mockito_core_2_1_0.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/workspace.xml
+chap_challenge.iml
