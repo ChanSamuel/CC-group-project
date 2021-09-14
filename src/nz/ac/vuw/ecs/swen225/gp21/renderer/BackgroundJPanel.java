@@ -88,7 +88,7 @@ class BackgroundJPanel extends JPanel {
 		System.out.println("Draw the background JPanel");
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				Terrain terrain = board.getTileAt(new Coord(j, i)).getTerrain();
 				// draw the grass tile.
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
