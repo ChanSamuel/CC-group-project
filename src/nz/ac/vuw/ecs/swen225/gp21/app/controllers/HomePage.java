@@ -14,13 +14,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HomePage extends JPanel implements Page {
 	
+	String[] levels = {"Level 1", "Level 2"};
+	
 	JButton loadGameButton = new JButton("Load game");
 	JButton newGameButton = new JButton("New game");
+	JComboBox levelChooser = new JComboBox(levels);
 	JPanel buttonPanel = new JPanel();
 	JLabel heroImageLabel = new JLabel();
 	JLabel heroImageTextLabel = new JLabel();
@@ -39,7 +43,9 @@ public class HomePage extends JPanel implements Page {
 		
 		buttonPanel.setLayout(new BorderLayout(0, 15));
 		buttonPanel.add(loadGameButton, BorderLayout.PAGE_START);
-		buttonPanel.add(newGameButton, BorderLayout.PAGE_END);
+		buttonPanel.add(newGameButton, BorderLayout.CENTER);
+		buttonPanel.add(levelChooser, BorderLayout.PAGE_END);
+		
 		
 		heroImageLabel.setIcon(heroImg);
 		heroImageTextLabel.setText("Chap's Challenge");

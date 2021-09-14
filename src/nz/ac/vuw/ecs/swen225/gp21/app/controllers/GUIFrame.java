@@ -21,7 +21,7 @@ public class GUIFrame extends JFrame {
 	JMenuItem helpControls = new JMenuItem("Controls");
 	JMenuItem fileLoadGame = new JMenuItem("Load game");
 	JMenuItem fileLoadReplay = new JMenuItem("Load replay");
-	JMenuItem fileExit = new JMenuItem("Exit to menu");
+	JMenuItem fileExitToMenu = new JMenuItem("Exit to menu");
 	JMenuItem fileQuit = new JMenuItem("Quit game");
 	JMenuItem fileExitSave = new JMenuItem("Exit and save");
 	JMenuItem fileSaveState = new JMenuItem("Save state");
@@ -33,7 +33,7 @@ public class GUIFrame extends JFrame {
 		menuBar.add(helpMenu);
 		fileMenu.add(fileLoadGame);
 		fileMenu.add(fileLoadReplay);
-		fileMenu.add(fileExit);
+		fileMenu.add(fileExitToMenu);
 		fileMenu.add(fileQuit);
 		fileMenu.add(fileExitSave);
 		fileMenu.add(fileSaveState);

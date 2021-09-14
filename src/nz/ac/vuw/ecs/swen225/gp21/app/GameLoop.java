@@ -62,8 +62,8 @@ public class GameLoop implements Runnable {
 				//control.world.update(elapsedTime);
 				updatedTime = System.currentTimeMillis();
 				
-				// Update the renderer (apparently not).
-				// control.renderer.repaint();
+				// Update the renderer.
+				control.renderer.redraw(control.world);
 				
 				// TODO: Recorder things here??
 				

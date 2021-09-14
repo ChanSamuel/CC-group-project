@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,8 +21,13 @@ public class GamePageBackground extends JPanel {
 		} catch (IOException e) {
 			throw new Error("Could not read game page background image file!", e);
 		}
-		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
-	    setPreferredSize(size);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
+		Dimension size = new Dimension((int) (0.85*width), (int) (0.75*height));
+		setPreferredSize(size);
 	    setMinimumSize(size);
 	    setMaximumSize(size);
 	}

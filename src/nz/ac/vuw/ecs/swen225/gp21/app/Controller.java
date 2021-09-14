@@ -7,6 +7,9 @@ import java.util.Queue;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 
 /**
@@ -39,6 +42,11 @@ public abstract class Controller {
 	protected WorldJPanel renderer;
 	
 	/**
+	 * The entrypoint into the persistency module.
+	 */
+	protected Persister persister;
+	
+	/**
 	 * The time left in the level in seconds
 	 */
 	protected long timeLeft = 60;
@@ -46,7 +54,9 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the Domain module of the game.
 	 */
-	Domain world;
+	protected Domain world;
+	
+	protected Recorder recorder;
 	
 	/**
 	 * The game loop.
@@ -66,6 +76,8 @@ public abstract class Controller {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
 		renderer = new WorldJPanel();
+		persister = new ConcretePersister();
+		recorder = new Recorder();
 		
 		world = new World() {
 
@@ -111,6 +123,8 @@ public abstract class Controller {
 				
 			}
 		};
+		
+		renderer.setDomain(world);
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
