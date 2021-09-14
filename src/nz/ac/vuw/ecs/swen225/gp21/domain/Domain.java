@@ -77,6 +77,10 @@ public interface Domain extends Subject{
 	public void restoreDomain(Domain d);					  //Restoring saved games, Still not sure about, because there's such tight coupling at the moment
 	public Domain getDomain(Domain d);
 //why not both?
+	/**
+	 * Call this method when you have loaded a level, and added all the external GameObjects you wanted to add.
+	 */
+	public void doneLoading();
 //==============
 	
 //=============
