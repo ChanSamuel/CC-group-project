@@ -21,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class XMLParserObjectTests {
 
-    // If the TestObject changes its constructor to private, 'saving' it doesn't work
-    // If the TestObject doesn't have getters, 'saving' it doesn't work
+    // Need a default constructor (allowed to be private)
 
     @Test
     @Order(1)
@@ -39,7 +38,7 @@ public class XMLParserObjectTests {
         File f = new File("test_testobject_save.xml");
         XMLParser<TestObject> parser = new XMLParser<>(new XmlMapper(), TestObject.class);
         TestObject testObject = parser.load(new FileInputStream(f));
-        assertEquals("Hello", testObject.getStringList().get(0));
+        assertEquals("Hello", testObject.getTheList().get(0));
     }
 
     @Test
@@ -52,9 +51,9 @@ public class XMLParserObjectTests {
 
     @Test
     public void saveTestWorld() throws PersistException {
-        TestWorld testWorld = new TestWorld();
+        World testWorld = new TestWorld();
         File f = new File("test_testworld_save.xml");
-        XMLParser<TestWorld> parser = new XMLParser<>(new XmlMapper(), TestWorld.class);
+        XMLParser<World> parser = new XMLParser<>(new XmlMapper(), World.class);
         parser.save(f, testWorld);
     }
 
