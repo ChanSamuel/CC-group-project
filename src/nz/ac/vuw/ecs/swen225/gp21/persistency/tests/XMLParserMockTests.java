@@ -46,13 +46,12 @@ public class XMLParserMockTests extends TestCase {
     public void testSaveObjectOk() throws PersistException, IOException {
         TestObject testObject = new TestObject(Arrays.asList("Hello", "World"), "test", 8, 9);
         File f = new File("test1.xml");
+        XMLParser parser = new XMLParser(xmlMapper);
 
-        XMLParser<TestObject> parser = new XMLParser<>(xmlMapper, TestObject.class);
         doNothing().when(xmlMapper).writeValue(any(File.class), objectCaptor.capture());
-
         parser.save(f, testObject);
-        TestObject testObjectCapture = (TestObject) objectCaptor.getValue();
 
+        TestObject testObjectCapture = (TestObject) objectCaptor.getValue();
         TestObject expectedObject = new TestObject(Arrays.asList("Hello", "World"), "test", 8, 9);
 
         assertEquals(expectedObject, testObjectCapture);
@@ -63,7 +62,7 @@ public class XMLParserMockTests extends TestCase {
         exceptionRule.expect(PersistException.class);
         TestObject testObject = new TestObject(Arrays.asList("Hello", "World"), "test", 8, 9);
         File f = new File("test.xml");
-        XMLParser<TestObject> parser = new XMLParser(xmlMapper, TestObject.class);
+        XMLParser parser = new XMLParser(xmlMapper);
         doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
         parser.save(f, testObject);
     }
