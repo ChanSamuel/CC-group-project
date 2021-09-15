@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
  */
 public class ConcretePersister implements Persister {
 
-    private List<Integer> levelsThatExist = Arrays.asList();
+    private static List<Integer> levelsThatExist = Arrays.asList();
 
     @Override
     public void loadLevel(int levelNumber, Domain domain) throws PersistException {
