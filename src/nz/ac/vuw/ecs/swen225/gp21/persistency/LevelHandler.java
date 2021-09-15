@@ -16,6 +16,7 @@ public class LevelHandler {
     }
 
     public static Level toLevel(LevelHandler levelHandler) {
-        return null;
+        // TODO do checks here
+        return new Level(levelHandler.rows, levelHandler.cols, levelHandler.terrainLayout, levelHandler.entityLayout, "No Info");
     }
 }
