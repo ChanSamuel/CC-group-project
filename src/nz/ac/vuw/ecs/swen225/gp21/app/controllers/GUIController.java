@@ -47,6 +47,7 @@ public class GUIController extends GUI {
 	            report("Attempting to load " + selectedFile.toPath());
 	            try {
 					this.persister.loadGame(selectedFile, world);
+					this.initialise();
 					
 				} catch (PersistException e) {
 					warning(e.getMessage());
@@ -66,6 +67,7 @@ public class GUIController extends GUI {
 	            report("Attempting to load " + selectedFile.toPath());
 	            try {
 					this.persister.loadGame(selectedFile, world);
+					this.initialise();
 				} catch (PersistException e) {
 					warning(e.getMessage());
 				}
@@ -129,9 +131,10 @@ public class GUIController extends GUI {
 			
 			try {
 				persister.loadLevel(homePage.levelChooser.getSelectedIndex() + 1, world);
+				this.initialise();
 			} catch (PersistException e) {
 				warning(e.getMessage());
-				// return; TODO: return if loading the level fails.
+				return;
 			}
 			
 			// Re-enable save buttons for game page.

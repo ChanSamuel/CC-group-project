@@ -60,6 +60,8 @@ public abstract class Controller {
 	
 	protected Recorder recorder;
 	
+	protected boolean isInitialised = false;
+	
 	/**
 	 * The game loop.
 	 */
@@ -126,8 +128,7 @@ public abstract class Controller {
 			}
 		};
 		
-		setupDomain();
-		renderer.setDomain(world);
+		// setupDomain(); Only used for testing the Renderer works with App.
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
@@ -137,7 +138,7 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Test method.
+	 * Test method to make sure Renderer and App works.
 	 */
 	private void setupDomain() {
 		Level testLevel;
@@ -169,6 +170,23 @@ public abstract class Controller {
 		
 		world.loadLevelData(testLevel);
 		world.doneLoading();
+	}
+	
+	
+	/**
+	 * Experimental method.
+	 */
+	protected void deInitialise() {
+		this.isInitialised = false;
+		renderer = new WorldJPanel();
+	}
+	
+	/**
+	 * Ready the renderer for game playing.
+	 */
+	protected void initialise() {
+		this.isInitialised = true;
+		renderer.setDomain(world);
 	}
 	
 	/**

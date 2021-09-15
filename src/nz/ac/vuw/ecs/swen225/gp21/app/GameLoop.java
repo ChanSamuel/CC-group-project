@@ -56,14 +56,16 @@ public class GameLoop implements Runnable {
 				}
 			} else { // Otherwise, proceed normally.
 				
-				// Update the world.
-				if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-				// TODO: Doesn't work yet.
-				//control.world.update(elapsedTime);
-				updatedTime = System.currentTimeMillis();
-				
-				// Update the renderer.
-				control.renderer.redraw(control.world);
+				if (control.isInitialised) {
+					// Update the world.
+					if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
+					// TODO: Doesn't work yet.
+					//control.world.update(elapsedTime);
+					updatedTime = System.currentTimeMillis();
+					
+					// Update the renderer.
+					control.renderer.redraw(control.world);
+				}
 				
 				// TODO: Recorder things here??
 				
