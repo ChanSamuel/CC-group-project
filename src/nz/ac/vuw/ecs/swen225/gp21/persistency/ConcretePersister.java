@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.Recording;
 
 /**
  * This class is responsible for reading map files and reading/writing files representing
@@ -55,7 +56,25 @@ public class ConcretePersister implements Persister {
         parser.save(fileToSave, domain);
     }
 
+    @Override
+    public Recording getRecording(File recordingFile) throws PersistException {
+        if (!checkFileXML(recordingFile)) {
+            throw new PersistException("File to save a game to must be a .xml file.");
+        }
 
+        XMLParser parser = new XMLParser(new XmlMapper());
+        return (Recording) parser.load(getXMLFileStream(recordingFile), Recording.class);
+    }
+
+    @Override
+    public void saveRecording(File recordingFile, Recording recording) throws PersistException {
+        if (!checkFileXML(recordingFile)) {
+            throw new PersistException("File to save a game to must be a .xml file.");
+        }
+
+        XMLParser parser = new XMLParser(new XmlMapper());
+        parser.save(recordingFile, recording);
+    }
 
 
     // TODO I will be defining and saving the level myself
