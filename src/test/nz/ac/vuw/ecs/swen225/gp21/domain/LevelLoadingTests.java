@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
@@ -148,6 +149,37 @@ class LevelLoadingTests {
 		
 		assertEquals(expected, w.toString());
 		assertEquals(11, w.updates);
+	}
+	
+	/**
+	 * Try loading a level when the world is hiding behind the domain interface
+	 */
+	@Test
+	void domainLoad() {
+		Domain domain = new TestWorld();
+		domain.loadLevelData(testLevel);
+		domain.doneLoading();
+		String expected = 
+				"Game is: Running\n"
+				+ "Is game over? -> false\n"
+				+ "PlayerQueue: \n"
+				+ "EMPTY\n"
+				+ "All entities: \n"
+				+ "GameObject: Chip facing->NORTH at->Row: 0 Columns: 0 Chip Chip's Invetory: []\n"
+				+ "GameObject: Block facing->NONE at->Row: 2 Columns: 2 Block\n"
+				+ "\n"
+				+ "Board: \n"
+				+ "0|C|_|_|_|_|_|_|_|_|_|\n"
+				+ "1|_|_|_|_|_|_|_|_|_|_|\n"
+				+ "2|v|#|=|_|_|_|_|_|_|_|\n"
+				+ "3|_|#|_|_|_|_|_|_|_|_|\n"
+				+ "4|O|#|_|_|_|_|_|_|_|_|\n"
+				+ "5|#|#|#|#|#|#|#|#|#|#|\n"
+				+ "6|O|#|_|_|_|_|_|_|_|_|\n"
+				+ "7|_|#|_|_|_|_|_|_|#|X|\n"
+				+ "8|v|#|_|_|_|_|_|_|#|_|\n"
+				+ "9|_|_|_|_|_|c|c|c|#|e|\n";
+		assertEquals(expected, domain.toString());
 	}
 	
 
