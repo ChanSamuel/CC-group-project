@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
+import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public abstract class GUI extends Controller {
 				pages.add(gamePage);
 				
 				frame = new GUIFrame(pages);
+				
 			});
 		} catch (InvocationTargetException e) {
 			throw new Error("Frame Construction invocation error!", e);

@@ -9,10 +9,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 
@@ -24,29 +27,34 @@ public class GamePage extends JPanel implements Page {
 	
 	public GamePage(WorldJPanel renderer) {
 		setLayout(new GridBagLayout());
-        
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.CENTER;
-		add(background, gbc);
-		
-		background.setLayout(new BorderLayout(50, 0));
-		
-		background.add(renderer, BorderLayout.LINE_START);
-		background.add(infoPanel, BorderLayout.CENTER);
-		background.add(replayPanel, BorderLayout.LINE_END);
-		
-		
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
 		
-		renderer.setBackground(Color.orange);
-		renderer.setPreferredSize(new Dimension((int) (0.4 * width), (int) (0.70 * height)));
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.ipadx = 400;
+		gbc.ipady = 400;
+		gbc.insets = new Insets(0, 50, 0, 0);
+		add(renderer, gbc);
 		
+		gbc.gridx = 1;
+		add(infoPanel, gbc);
+		
+		gbc.gridx = 2;
+		add(replayPanel, gbc);
+		
+		
+		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+		
+		renderer.setBackground(Color.orange);
+		renderer.setBorder(panelBorder);
 		infoPanel.setBackground(Color.blue);
+		infoPanel.setBorder(panelBorder);
 		replayPanel.setBackground(Color.yellow);
+		replayPanel.setBorder(panelBorder);
 		
 	}
 	

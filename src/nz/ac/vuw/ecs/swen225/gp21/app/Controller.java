@@ -6,6 +6,8 @@ import java.util.Queue;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
@@ -124,6 +126,7 @@ public abstract class Controller {
 			}
 		};
 		
+		setupDomain();
 		renderer.setDomain(world);
 		
 		// Open the thread and start it.
@@ -131,6 +134,41 @@ public abstract class Controller {
 		Thread t = new Thread(gLoop);
 		
 		t.start();
+	}
+	
+	/**
+	 * Test method.
+	 */
+	private void setupDomain() {
+		Level testLevel;
+		int rows = 10;
+		int columns = 10;
+		String tiles = "";
+		tiles += "..........";
+		tiles += "..........";
+		tiles += "v#........";
+		tiles += ".#........";
+		tiles += "1#........";
+		tiles += "##########";
+		tiles += "1#........";
+		tiles += ".#......#X";
+		tiles += "v#......#.";
+		tiles += ".....ccc#E";
+		String entities = "";
+		entities += "C.........";
+		entities += "..........";
+		entities += "..B.......";
+		entities += "..........";
+		entities += "..........";
+		entities += "..........";
+		entities += "..........";
+		entities += "..........";
+		entities += "..........";
+		entities += "..........";
+		testLevel = new Level(rows, columns, tiles, entities, "No Info");
+		
+		world.loadLevelData(testLevel);
+		world.doneLoading();
 	}
 	
 	/**

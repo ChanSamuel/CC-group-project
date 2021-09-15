@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 import java.util.*;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 /**
  * Domain will be the publicly accessible interface that other modules will use to interact with domain.
  * Domains need to be able to support the following operations:
@@ -11,6 +13,14 @@ import java.util.*;
  *
  */
 public interface Domain extends Subject{
+	
+	/**
+	 * Hacked method to make my program work.
+	 */
+	public default void doneLoading() {
+		setState(new Running());
+	}
+	
 	/**
 	 * Get the state that the domain is in.
 	 * Some operations can't be applied if the domain is in the wrong state

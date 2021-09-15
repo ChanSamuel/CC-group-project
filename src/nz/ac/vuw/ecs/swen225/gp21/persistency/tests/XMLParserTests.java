@@ -17,7 +17,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import org.mockito.junit.MockitoJUnitRunner;
+//import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
@@ -30,7 +30,7 @@ import java.util.Arrays;
  * @author Lucy Goodwin
  *
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class XMLParserTests extends TestCase {
 
     @Mock
