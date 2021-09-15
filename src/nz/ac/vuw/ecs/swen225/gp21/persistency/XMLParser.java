@@ -17,16 +17,14 @@ import java.io.InputStream;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 
-public class XMLParser<T> {
+public class XMLParser {
 
     private XmlMapper xmlMapper;
-    private Class<T> valueType;
 
-    public XMLParser(XmlMapper xmlMapper, Class<T> valueType) {
+    public XMLParser(XmlMapper xmlMapper) {
         this.xmlMapper = xmlMapper;
-        this.xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        this.valueType = valueType;
+        this.xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); //fixme
+        this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); //fixme
     }
 
     /**
@@ -35,7 +33,7 @@ public class XMLParser<T> {
      * @return
      * @throws PersistException
      */
-    public T load(InputStream is) throws PersistException {
+    public <T> T load(InputStream is, Class<T> valueType) throws PersistException {
         try {
             return xmlMapper.readValue(is, valueType);
         } catch (JsonMappingException e) {
@@ -56,7 +54,7 @@ public class XMLParser<T> {
      * @param value
      * @throws PersistException
      */
-    public void save(File file, T value) throws PersistException {
+    public <T> void save(File file, T value) throws PersistException {
         try {
             xmlMapper.writeValue(file, value);
         } catch (JsonMappingException e) {
