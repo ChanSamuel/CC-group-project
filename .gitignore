@@ -23,6 +23,10 @@
 hs_err_pid*
 # IDE stuff
 /bin/
+
+/out/
+/.idea/
+
 .project
 .classpath
 .idea/checkstyle-idea.xml
@@ -62,3 +66,8 @@ test_testobject_save.xml
 test_testworld_save.xml
 test_object_save.xml
 test_domain_save.xml
+.checkstyle
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.jdt.ui.prefs
+chap_challenge-cs-cleanup.xml
+chap_challenge-cs-formatter.xml
