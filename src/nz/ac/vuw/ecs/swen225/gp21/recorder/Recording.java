@@ -8,10 +8,10 @@ import java.util.List;
  * @author Peter Liley
  */
 public class Recording {
-    private final List<TickTemp> ticks;
+    private final List<Tick> ticks;
     private final int level;
 
-    public Recording(List<TickTemp> ticks, int level) {
+    public Recording(List<Tick> ticks, int level) {
         this.ticks = ticks;
         this.level = level;
     }
@@ -21,7 +21,7 @@ public class Recording {
      * 
      * @return list of ticks in recording
      */
-    public List<TickTemp> getTicks() {
+    public List<Tick> getTicks() {
         return ticks;
     }
 
