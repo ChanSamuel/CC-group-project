@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class XMLParserObjectTests {
@@ -55,6 +55,58 @@ public class XMLParserObjectTests {
         File f = new File("test_testworld_save.xml");
         XMLParser<World> parser = new XMLParser<>(new XmlMapper(), World.class);
         parser.save(f, testWorld);
+    }
+
+    @Test
+    public void saveLevel1() throws PersistException {
+        String tiles = "";
+        tiles += "################";
+        tiles += "#..........#...#";
+		tiles += "#..........#.g.#";
+		tiles += "#...########...#";
+		tiles += "#...#......#...#";
+		tiles += "#...#.a..g.#.c.#";
+		tiles += "#...#......A...#";
+		tiles += "#...#.c....#...#";
+		tiles += "#...G...##G#####";
+		tiles += "#...#...#......#";
+		tiles += "#...#...#...c..#";
+		tiles += "#...#...#..###.#";
+		tiles += "#.c.#...#..XE#.#";
+		tiles += "#...#...#..###.#";
+		tiles += "#...#####......#";
+        tiles += "################";
+
+        String entities = "";
+        entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+		entities +="......C.........";
+		entities +="................";
+		entities +="................";
+		entities +="................";
+
+        Level levelOne = new Level(16, 16, entities, tiles, "No Info");
+		File fileToSave = new File("level1.xml");
+		XMLParser<Level> parser = new XMLParser(new XmlMapper(), Level.class);
+		parser.save(fileToSave, levelOne);
+    }
+
+    @Test
+    public void loadSavedLevel() throws FileNotFoundException, PersistException {
+        InputStream is = getClass().getResourceAsStream("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml");
+        File fileToLoad = new File("levels/level1.xml");
+        XMLParser<Level> parser = new XMLParser(new XmlMapper(), Level.class);
+        Level loadedLevel = parser.load(is);
     }
 
 }
