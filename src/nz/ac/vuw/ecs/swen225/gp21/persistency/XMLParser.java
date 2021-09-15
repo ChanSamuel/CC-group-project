@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +25,7 @@ public class XMLParser<T> {
     public XMLParser(XmlMapper xmlMapper, Class<T> valueType) {
         this.xmlMapper = xmlMapper;
         this.xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        //this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); fixme
+        this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         this.valueType = valueType;
     }
 
@@ -67,3 +71,4 @@ public class XMLParser<T> {
         }
     }
 }
+
