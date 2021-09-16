@@ -33,6 +33,10 @@ class ChangingElementsJPanel extends JPanel {
 	 * The block image.
 	 */
 	private BufferedImage blockImage;
+	/**
+	 * The dooors image.
+	 */
+	private BufferedImage doorsImage;
 
 	/**
 	 * The constructor
@@ -56,6 +60,7 @@ class ChangingElementsJPanel extends JPanel {
 	void initImages() {
 		try {
 			this.keysImage = FileUtil.getBufferedImage("keys.png");
+			this.doorsImage = FileUtil.getBufferedImage("door.png");
 			this.treasureImage = FileUtil.getBufferedImage("treasure.png");
 			this.blockImage = FileUtil.getBufferedImage("block.png");
 		} catch (IOException e) {
@@ -79,9 +84,9 @@ class ChangingElementsJPanel extends JPanel {
 				Object object = board.getTileAt(new Coord(j, i)).getOccupier();
 				if(terrain instanceof Treasure) {
 					//draw the treasure
-					System.out.println("draw treasure here");
-					System.out.println("i: "+i);
-					System.out.println("j: "+j);
+//					System.out.println("draw treasure here");
+//					System.out.println("i: "+i);
+//					System.out.println("j: "+j);
 					g.drawImage(treasureImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
 				}else if (terrain instanceof SilverKey) {
@@ -104,11 +109,28 @@ class ChangingElementsJPanel extends JPanel {
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240+80, 80, this);
+				} else if (terrain instanceof SilverDoor) {
+					// draw silver Door
+					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 0, 32, 32, this);
+				} else if (terrain instanceof GoldDoor) {
+					// draw gold Door
+					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 32, 32, 32+32, this);
+				} else if (terrain instanceof GreenDoor) {
+					// draw green Door
+					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 64, 32, 64+32, this);
+				} else if (terrain instanceof CopperDoor) {
+					// draw copper Door
+					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 96, 32, 96+32, this);
 				} else if (object instanceof Block) {
 					// draw block
-					System.out.println("draw block here");
-					System.out.println("i: "+i);
-					System.out.println("j: "+j);
 					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
 				}
