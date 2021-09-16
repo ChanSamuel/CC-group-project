@@ -60,6 +60,8 @@ public class GUIFrame extends JFrame {
 		
 		Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 		
+		addKeyListener(new Keyboard(control));
+		
 		pack();
 		setSize((int) (0.95 * screenDim.getWidth()), (int) (0.8 * screenDim.getHeight()));
 		setLocationRelativeTo(null);

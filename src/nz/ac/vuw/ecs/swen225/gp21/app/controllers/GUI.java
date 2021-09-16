@@ -50,6 +50,7 @@ public abstract class GUI extends Controller {
 				
 				frame = new GUIFrame(this, pages);
 				
+				
 			});
 		} catch (InvocationTargetException e) {
 			throw new Error("Frame Construction invocation error!", e);

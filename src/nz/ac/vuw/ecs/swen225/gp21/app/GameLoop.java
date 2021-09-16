@@ -58,7 +58,6 @@ public class GameLoop implements Runnable {
 					
 				}
 				
-				
 				// Update the renderer (even though nothing happens, we still do this so that it doesn't
 				// give a black screen upon resizing the window).
 				control.renderer.redraw(control.world);

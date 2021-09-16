@@ -24,13 +24,14 @@ public class GUIController extends GUI {
 	public void run() {
 		super.run();
 		addListeners();
-		frame.addKeyListener(new Keyboard(this));
 	}
 	
 	private void addListeners() {
 		
 		gamePage.replayPanel.pausePlay.addActionListener((ae) -> {
 			if (gLoop.getisPaused()) {
+				// Need to request back focus otherwise key listener will go numb.
+				frame.requestFocusInWindow();
 				this.resumeGame();
 			} else {
 				this.pauseGame();
