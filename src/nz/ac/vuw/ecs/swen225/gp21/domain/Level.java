@@ -142,6 +142,7 @@ public final class Level {
           if (initialLinkLocation.containsKey(linkNumber)) {
             // full pair
             links.put(initialLinkLocation.get(linkNumber), new Coord(row, col));
+            links.put(new Coord(row, col), initialLinkLocation.get(linkNumber));
           } else {
             initialLinkLocation.put(linkNumber, new Coord(row, col));
           }
@@ -205,6 +206,10 @@ public final class Level {
     String terrainString = Character.toString(terrainChar);
     // If digit, make teleport, get teleport destination from the map.
     if (Character.isDigit(terrainChar)) {
+      Coord link = links.get(c);
+      if (link == null) {
+        throw new RuntimeException("Teleporter has no link! "+c);
+      }
       return Teleporter.makeInstance(links.get(c));
     }
     return this.charToTerrain.get(terrainString);
