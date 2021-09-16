@@ -153,7 +153,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * Get chap's current location
 	 */
-	Coord getCoord() {
+	Coord getChapCoord() {
 		return domain.getPlayerLocation();
 	}
 	
