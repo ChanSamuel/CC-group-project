@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.*;
 
 
 /**
@@ -28,6 +29,10 @@ class ChangingElementsJPanel extends JPanel {
 	 * The treasure image.
 	 */
 	private BufferedImage treasureImage;
+	/**
+	 * The block image.
+	 */
+	private BufferedImage blockImage;
 
 	/**
 	 * The constructor
@@ -52,6 +57,7 @@ class ChangingElementsJPanel extends JPanel {
 		try {
 			this.keysImage = FileUtil.getBufferedImage("keys.png");
 			this.treasureImage = FileUtil.getBufferedImage("treasure.png");
+			this.blockImage = FileUtil.getBufferedImage("block.png");
 		} catch (IOException e) {
 			System.out.println("image loading failed");
 			e.printStackTrace();
@@ -70,6 +76,7 @@ class ChangingElementsJPanel extends JPanel {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				Object object = board.getTileAt(new Coord(j, i)).getOccupier();
 				if(terrain instanceof Treasure) {
 					//draw the treasure
 					g.drawImage(this.treasureImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
@@ -94,8 +101,10 @@ class ChangingElementsJPanel extends JPanel {
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240+80, 80, this);
-				} else if (terrain instanceof GoldDoor) {
-					//TODO
+				} else if (object instanceof Block) {
+					// draw block
+					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
 				}
 			}
 		}
