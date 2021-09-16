@@ -121,7 +121,7 @@ public class GUIController extends GUI {
 		});
 		
 		frame.fileSaveReplay.addActionListener((ae) -> {
-			if (recorder.save()) {
+			if (recorder.save(new File(""))) {
 				report("Save successful");
 			} else {
 				warning("Save unsuccessful");
@@ -188,12 +188,6 @@ public class GUIController extends GUI {
 	 */
 
 	@Override
-	public void chipCollectedTrans() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void enteredExitTrans() {
 		// TODO Auto-generated method stub
 		
@@ -229,7 +223,7 @@ public class GUIController extends GUI {
 	}
 
 	@Override
-	public void playerOpenedADoorTrans() {
+	public void playerOpenedDoorTrans() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -10,12 +10,6 @@ public class FuzzController extends Controller {
 	}
 
 	@Override
-	public void chipCollectedTrans() {
-		System.out.println("Chip collected");
-		
-	}
-
-	@Override
 	public void enteredExitTrans() {
 		System.out.println("Entered an exit tile");
 		
@@ -51,7 +45,7 @@ public class FuzzController extends Controller {
 	}
 
 	@Override
-	public void playerOpenedADoorTrans() {
+	public void playerOpenedDoorTrans() {
 		System.out.println("Player opened a door");
 		
 	}

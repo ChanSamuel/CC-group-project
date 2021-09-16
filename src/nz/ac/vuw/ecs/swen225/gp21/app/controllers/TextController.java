@@ -77,12 +77,6 @@ public class TextController extends Controller {
 	}
 
 	@Override
-	public void chipCollectedTrans() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void enteredExitTrans() {
 		// TODO Auto-generated method stub
 		
@@ -119,7 +113,7 @@ public class TextController extends Controller {
 	}
 
 	@Override
-	public void playerOpenedADoorTrans() {
+	public void playerOpenedDoorTrans() {
 		// TODO Auto-generated method stub
 		
 	}

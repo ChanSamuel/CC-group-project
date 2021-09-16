@@ -84,12 +84,6 @@ public abstract class Controller {
 		world = new World() {
 
 			@Override
-			public void collectedAChip() {
-				chipCollectedTrans();
-
-			}
-
-			@Override
 			public void enteredExit() {
 				enteredExitTrans();
 			}
@@ -120,10 +114,17 @@ public abstract class Controller {
 			}
 
 			@Override
-			public void openedADoor() {
-				playerOpenedADoorTrans();
+			public void openedDoor() {
+				playerOpenedDoorTrans();
 				
 			}
+
+			@Override
+			public void collectedChip() {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		};
 		
 		setupDomain();
@@ -177,12 +178,6 @@ public abstract class Controller {
 	public abstract void run();
 	
 	/**
-	 * The transition method called upon chip collection.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void chipCollectedTrans();
-	
-	/**
 	 * The transition method called when chap enters the exit tile.
 	 * Called by GameWorld on the GameLoop thread.
 	 */
@@ -222,7 +217,7 @@ public abstract class Controller {
 	 * The transition method called when chap opens a door.
 	 * Called by GameWorld on the GameLoop thread.
 	 */
-	public abstract void playerOpenedADoorTrans();
+	public abstract void playerOpenedDoorTrans();
 	
 	/**
 	 * Issue an Action to the game by adding it to the Action queue.
