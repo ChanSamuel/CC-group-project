@@ -69,6 +69,10 @@ class BackgroundJPanel extends JPanel {
 	 */
 	private final int PADDING = 10;
 	/**
+	 * The info image
+	 */
+	private BufferedImage infoImage;
+	/**
 	 * The constructor Take the board list as parameter to create the backgound.
 	 * 
 	 * @param board the board.
@@ -91,6 +95,7 @@ class BackgroundJPanel extends JPanel {
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
 			this.telePorterImage = FileUtil.getBufferedImage("teleporter.png");
+			this.infoImage = FileUtil.getBufferedImage("info.png");
 			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
 			this.exitTileImage = FileUtil.getBufferedImage("exitTile.png");
 			this.oneWayEastImage = FileUtil.getBufferedImage("oneWayEast.png");
@@ -126,7 +131,11 @@ class BackgroundJPanel extends JPanel {
 					// draw the teleporter
 					g.drawImage(this.telePorterImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof OneWayEast) {
+				} else if (terrain instanceof Info) {
+					// draw the info
+					g.drawImage(this.infoImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+				}else if (terrain instanceof OneWayEast) {
 					// draw the one way east
 					g.drawImage(this.oneWayEastImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
 							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
