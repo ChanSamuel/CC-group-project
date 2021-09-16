@@ -29,14 +29,6 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	 */
 	final static int TILE_HEIGHT = 40;
 	/**
-	 * The cols of focusing area
-	 */
-	final static int FOCUSING_COLS = 9;
-	/**
-	 * The rows of focusing area
-	 */
-	final static int FOCUSING_ROWS = 9;
-	/**
 	 * The Board.
 	 */
 	private Board board;
