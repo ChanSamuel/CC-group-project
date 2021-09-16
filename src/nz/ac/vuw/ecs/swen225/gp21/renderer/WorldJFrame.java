@@ -23,17 +23,16 @@ public class WorldJFrame extends JFrame{
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
 	public WorldJFrame(Domain domain) {
-		WorldJPanel worldJPanel = new WorldJPanel();
-		worldJPanel.setDomain(domain);
-		add(worldJPanel);
-		worldJPanel.addKeyListener(worldJPanel);
-		worldJPanel.setFocusable(true);
+		WrapperJPanel wrapperJPanel = new WrapperJPanel(domain);
+		add(wrapperJPanel);
+		wrapperJPanel.addKeyListener(wrapperJPanel);
+		wrapperJPanel.setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen  = tk.getScreenSize();
 		int x = screen.width/2-WIDTH/2;
 		int y = screen.height/2-HEIGHT/2;
 		setLayout(null);
-		setBounds(x,y,WIDTH,HEIGHT);
+		setBounds(x,y,(int)screen.getWidth(),(int)screen.getHeight());
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

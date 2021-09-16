@@ -158,58 +158,58 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	}
 	
 
-	// TODO Those are TEMP key listeners just for testing GUI.
-	// -------------------The Key listeners------------------------------
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		if(domain==null) return;
-		int code = e.getKeyCode();
-		switch (code) {
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
-			domain.moveChipUp();
-			domain.update(200);
-			System.out.println("move chap up");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_S:
-		case KeyEvent.VK_DOWN:
-			domain.moveChipDown();
-			domain.update(200);
-			System.out.println("move chap down");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_LEFT:
-			domain.moveChipLeft();
-			domain.update(200);
-			System.out.println("move chap left");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_D:
-		case KeyEvent.VK_RIGHT:
-			domain.moveChipRight();
-			domain.update(200);
-			System.out.println("move chap right");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		default:
-			break;
-		}
-		redraw(domain);
-	}
+//	// TODO Those are TEMP key listeners just for testing GUI.
+//	// -------------------The Key listeners------------------------------
+//	@Override
+//	public void keyTyped(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent e) {
+//		if(domain==null) return;
+//		int code = e.getKeyCode();
+//		switch (code) {
+//		case KeyEvent.VK_W:
+//		case KeyEvent.VK_UP:
+//			domain.moveChipUp();
+//			domain.update(200);
+//			System.out.println("move chap up");
+//			System.out.println("chap's location is: " + domain.getPlayerLocation());
+//			break;
+//		case KeyEvent.VK_S:
+//		case KeyEvent.VK_DOWN:
+//			domain.moveChipDown();
+//			domain.update(200);
+//			System.out.println("move chap down");
+//			System.out.println("chap's location is: " + domain.getPlayerLocation());
+//			break;
+//		case KeyEvent.VK_A:
+//		case KeyEvent.VK_LEFT:
+//			domain.moveChipLeft();
+//			domain.update(200);
+//			System.out.println("move chap left");
+//			System.out.println("chap's location is: " + domain.getPlayerLocation());
+//			break;
+//		case KeyEvent.VK_D:
+//		case KeyEvent.VK_RIGHT:
+//			domain.moveChipRight();
+//			domain.update(200);
+//			System.out.println("move chap right");
+//			System.out.println("chap's location is: " + domain.getPlayerLocation());
+//			break;
+//		default:
+//			break;
+//		}
+//		redraw(domain);
+//	}
 //--------------------Methods inherit from Renderer--------
 	@Override
 	public void redraw(Domain domain) {
