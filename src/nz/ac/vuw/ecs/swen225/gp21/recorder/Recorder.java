@@ -3,6 +3,10 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 import java.io.File;
 import java.util.List;
 
+// GOTTA GET RID OF THIS
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
+
 /**
  * The primary class for the recording package.
  * Represents a 'recording' of a game, containing all the states in the game, 
@@ -42,10 +46,14 @@ public class Recorder {
      * 
      * @return True if save successful
      */
-    public boolean save(File saveFile){
+    public void save(File saveFile) throws RecorderException{
         ticks.get(ticks.size()-1).isFinalTick = true; // set final tick
         Recording r = new Recording(ticks, level);
-        return SaveRecording.save(saveFile, r);
+        try{
+            SaveRecording.save(saveFile, r);
+        } catch (PersistException e) {
+            throw new RecorderException(e.getMessage());
+        }
     }
 
     /**
@@ -57,6 +65,7 @@ public class Recorder {
         Recording r = LoadRecording.load(loadFile);
         ticks = r.getTicks();
         level = r.getLevel();
+        tickPointer = 0;
     }
 
     /**
@@ -145,7 +154,7 @@ public class Recorder {
     private Tick nextMeaningful() {
         while(tickPointer < ticks.size()-1){
             tickPointer++;
-            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
         }
         return null;
     }
@@ -158,7 +167,7 @@ public class Recorder {
     private Tick prevMeaningful() {
         while(tickPointer > 0){
             tickPointer--;
-            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
         }
         return null;
     }

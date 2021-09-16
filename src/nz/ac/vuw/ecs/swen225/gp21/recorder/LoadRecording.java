@@ -12,7 +12,8 @@ public class LoadRecording {
 
     public static Recording load(File fileToLoad) {
         // TODO: check this makes sense
-        return (Recording) loadFile(fileToLoad);
+        //return (Recording) persistecy.loadFile(fileToLoad);
+        return null;
     }
     
 }

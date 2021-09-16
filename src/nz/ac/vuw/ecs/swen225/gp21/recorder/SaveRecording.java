@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 
@@ -12,18 +13,16 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
  */
 public class SaveRecording {
 
-    public static boolean save(File file, Recording recording) {
+    public static void save(File file, Recording recording) throws PersistException {
         try{
             // TODO: check with Lucy about the saving process:
                 // method name
                 // exceptions
                 // return boolean / exception?
-            saveFile(recording);
-            return true;
+            //persistecy.saveFile(recording);
         }
         catch(Exception e){
-            e.printStackTrace();
-            return false;
+            throw new PersistException("Failed to save recording");
         }
     }
     
