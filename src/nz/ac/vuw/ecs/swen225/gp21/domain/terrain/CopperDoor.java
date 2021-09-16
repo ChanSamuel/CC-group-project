@@ -52,13 +52,14 @@ public final class CopperDoor extends Door {
   @Override
   public boolean canEntityGoOn(GameObject o) {
     if (o instanceof Chip) {
-      return ((Chip) o).hasItem(new KeyItem("Green"));
+//      return ((Chip) o).hasItem(new KeyItem("Copper"));
+      return ((Chip) o).hasItem(new KeyItem("Copper"));
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return super.toString() + " Green";
+    return super.toString() + " Copper";
   }
 }

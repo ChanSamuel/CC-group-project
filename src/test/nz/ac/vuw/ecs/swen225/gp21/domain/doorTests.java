@@ -1,6 +1,7 @@
 package test.nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
@@ -52,22 +53,36 @@ class doorTests {
     d.moveChipDown();
     d.update(200);
 
-    moveRight(d, 2);
-    moveLeft(d, 2);
-    d.moveChipDown();
-    d.update(200);
+//    System.out.println(d.toString());
 
     moveRight(d, 2);
     moveLeft(d, 2);
     d.moveChipDown();
     d.update(200);
 
+//    System.out.println(d.toString());
+
     moveRight(d, 2);
     moveLeft(d, 2);
     d.moveChipDown();
     d.update(200);
 
-    System.out.println(d.toString());
+//    System.out.println(d.toString());
+
+    moveRight(d, 2);
+    moveLeft(d, 2);
+    d.moveChipDown();
+    d.update(200);
+
+//    System.out.println(d.toString());
+    String expected = "Game is: Running\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
+        + "EMPTY\n" + "All entities: \n"
+        + "GameObject: Chip facing->SOUTH at->Row: 4 Columns: 6 Chip Chip's Invetory: []\n" + "\n"
+        + "Board: \n" + "0|_|_|_|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n"
+        + "2|_|_|_|_|_|_|_|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|_|_|\n" + "4|_|O|_|_|_|O|C|_|_|_|\n"
+        + "5|#|#|#|#|#|#|#|#|#|e|\n";
+
+    assertEquals(expected, d.toString());
 
   }
 
