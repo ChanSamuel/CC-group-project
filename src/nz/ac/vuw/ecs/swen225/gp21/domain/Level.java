@@ -85,7 +85,8 @@ public final class Level {
     }
     if ((terrainLayout.length() != entityLayout.length())
         || (terrainLayout.length() != rows * columns)) {
-      throw new IllegalArgumentException("Level data is inconsistent!");
+      throw new IllegalArgumentException("Level data is inconsistent!" + "\nExpecting "
+          + (rows * columns) + " total tiles but read: " + terrainLayout.length() + " tiles!");
     }
     if (terrainLayout.isBlank() || entityLayout.isBlank()) {
       throw new IllegalArgumentException("Level data cannot be blank!");
