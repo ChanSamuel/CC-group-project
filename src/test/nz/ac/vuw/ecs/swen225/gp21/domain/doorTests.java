@@ -86,6 +86,12 @@ class doorTests {
 
   }
 
+  /**
+   * Move chip right
+   *
+   * @param d     the domain chip is in
+   * @param times how many times
+   */
   private void moveRight(Domain d, int times) {
     for (int i = 0; i < times; i++) {
       d.moveChipRight();
@@ -93,6 +99,12 @@ class doorTests {
     }
   }
 
+  /**
+   * Move chip left
+   *
+   * @param d     the domain chip is in
+   * @param times how many times
+   */
   private void moveLeft(Domain d, int times) {
     for (int i = 0; i < times; i++) {
       d.moveChipLeft();
