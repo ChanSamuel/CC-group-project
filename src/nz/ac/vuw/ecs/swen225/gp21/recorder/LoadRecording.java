@@ -10,8 +10,9 @@ import java.util.List;
  */
 public class LoadRecording {
 
-    public static List<GameTick> load(File xmlToLoad) {
-        return null;
+    public static Recording load(File fileToLoad) {
+        // TODO: check this makes sense
+        return (Recording) loadFile(fileToLoad);
     }
     
 }

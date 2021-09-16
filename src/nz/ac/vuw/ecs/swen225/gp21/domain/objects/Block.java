@@ -5,85 +5,103 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.movementController.NoMovement;
+import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 
 /**
- * The block is an object that can be pushed by Chip into empty tiles
+ * The block is an object that can be pushed by Chip into empty tiles.
+ *
  * @author Benjamin
  *
  */
 public final class Block extends GameObject {
-	/**
-	 * Create a new movable block
-	 * @param w
-	 */
-	public Block(World w){
-		super(w, new NoMovement());
-	}
 
-	@Override
-	public boolean canEntityGoOnTile(GameObject entity) {
-		if(entity instanceof Chip) { //Only chip can enter the tile the block is on
-			Coord dest = getNextLocation(entity);
-			if(!w.isCoordValid(dest)) return false;
-			Tile t = w.getTileAt(dest);
-			//provided the block itself can move in the direction Chip is trying to push it
-			this.dir = entity.dir; //borrow the direction from entity, incase the terrain type needs to know where we are going (it usually does)
-			boolean answer = t.canEntityGoOnTile(this); 
-			this.dir = Direction.NONE;
-			return answer;
-		}
-		return false;
-	}
+  /**
+   * Create a new movable block.
+   *
+   * @param w the world this block is in
+   */
+  public Block(World w) {
+    super(w, new NoMovement());
+  }
 
-	@Override
-	public void entityEnteredTile(GameObject entity) {
-		//chip entered the tile, move the block to the next square
-		switch(entity.dir) {
-		case NORTH:
-			w.moveUp(this);
-			break;
-		case EAST:
-			w.moveRight(this);
-			break;
-		case SOUTH:
-			w.moveDown(this);
-			break;
-		case WEST:
-			w.moveLeft(this);
-			break;
-		default:
-			throw new RuntimeException("Unknown direction for block: "+entity.dir+" | "+entity.toString());
-		}
-	}
+  @Override
+  public boolean canEntityGoOnTile(GameObject entity) {
+    if (entity instanceof Chip) { // Only chip can enter the tile the block is on
+      Coord dest = getNextLocation(entity);
+      if (!wor.isCoordValid(dest)) {
+        return false;
+      }
+      Tile t = wor.getTileAt(dest);
+      // provided the block itself can move in the direction Chip is trying to push it
+      this.dir = entity.dir;
+      // borrow the direction from entity, incase the terrain type needs to
+      // know where we are going (it usually does)
+      boolean answer = t.canEntityGoOnTile(this);
+      this.dir = Direction.NONE;
+      return answer;
+    }
+    return false;
+  }
 
-	@Override
-	public void update(double elapsedTime) {
-		this.c.update(w, elapsedTime).execute(w);
-	}
-	
-	@Override
-	public void doneMoving(){
-		this.dir = Direction.NONE;
-	}
+  @Override
+  public void entityEnteredTile(GameObject entity) {
+    // chip entered the tile, move the block to the next square
+    switch (entity.dir) {
+      case NORTH:
+        wor.moveUp(this);
+        break;
+      case EAST:
+        wor.moveRight(this);
+        break;
+      case SOUTH:
+        wor.moveDown(this);
+        break;
+      case WEST:
+        wor.moveLeft(this);
+        break;
+      default:
+        throw new RuntimeException(
+            "Unknown direction for block: " + entity.dir + " | " + entity.toString());
+    }
+  }
 
-	@Override
-	public String getName() { return getClass().getSimpleName(); }
+  @Override
+  public void update(double elapsedTime) {
+    this.controller.update(wor, elapsedTime).execute(wor);
+  }
 
-	@Override
-	public char boardChar() { return '='; }
-	/**
-	 * Helper method to get the tile the block will move to if it is pushed by an entity
-	 * @param o the object that will push the block
-	 * @return the location of the tile the block would move to
-	 */
-	private Coord getNextLocation(GameObject o) {
-		if(o.dir == Direction.NONE) throw new RuntimeException("Entity: e["+o.toString()+"] facing NONE direction, cannot move block:["+o.dir+"] in NONE direction");
-		return o.dir.next(currentTile.location);
-	}
+  @Override
+  public void doneMoving() {
+    this.dir = Direction.NONE;
+  }
 
-	@Override
-	public String toString() {
-		return super.toString()+" "+getClass().getSimpleName();
-	}
+  @Override
+  public String getName() {
+    return getClass().getSimpleName();
+  }
+
+  @Override
+  public char boardChar() {
+    return '=';
+  }
+
+  /**
+   * Helper method to get the tile the block will move to if it is pushed by an
+   * entity.
+   *
+   * @param o the object that will push the block
+   * @return the location of the tile the block would move to
+   */
+  private Coord getNextLocation(GameObject o) {
+    if (o.dir == Direction.NONE) {
+      throw new RuntimeException("Entity: e[" + o.toString()
+          + "] facing NONE direction, cannot move block:[" + o.dir + "] in NONE direction");
+    }
+    return o.dir.next(currentTile.location);
+  }
+
+  @Override
+  public String toString() {
+    return super.toString() + " " + getClass().getSimpleName();
+  }
 }

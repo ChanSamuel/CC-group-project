@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.Recording;
 
 /**
  * This class is responsible for reading map files and reading/writing files representing
@@ -13,7 +14,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
  */
 public class ConcretePersister implements Persister {
 
-    private List<Integer> levelsThatExist = Arrays.asList();
+    private static List<Integer> levelsThatExist = Arrays.asList(1); //todo add as we have levels
+
 
     @Override
     public void loadLevel(int levelNumber, Domain domain) throws PersistException {
@@ -21,15 +23,12 @@ public class ConcretePersister implements Persister {
             throw new PersistException("Level " + levelNumber + " does not exist");
         }
 
-        XMLParser<Level> parser = new XMLParser(new XmlMapper(), Level.class);
-        //Level levelToLoad = parser.load(getLevelFileStream(levelNumber)); fixme
+        XMLParser parser = new XMLParser(new XmlMapper());
+        LevelHandler levelHandler = parser.load(getLevelFileStream(levelNumber), LevelHandler.class);
+        domain.loadLevelData(LevelHandler.toLevel(levelHandler));
+        domain.doneLoading();
 
-        // TODO
-        // Load level into Domain
-        // (if level 2, add Game object (see below))
-        // change Domain state to 'doneLoading)
-
-        //todo for loading the JAR file
+        // todo (if level 2, add Game object before changing state to done loading)
         //        String pathName = "levels/level" + levelNumber;
         //        Class cls = Class.forName(pathName);
         //        Object obj = cls.newInstance();
@@ -38,8 +37,8 @@ public class ConcretePersister implements Persister {
     @Override
     public void loadGame(File fileToLoad, Domain domain) throws PersistException {
         FileInputStream fs = getXMLFileStream(fileToLoad);
-        XMLParser parser = new XMLParser(new XmlMapper(), Domain.class);
-        Domain domainToLoad = (Domain)parser.load(fs);
+        XMLParser parser = new XMLParser(new XmlMapper());
+        Domain domainToLoad = (Domain)parser.load(fs, Domain.class);
 
         // TODO
         // Load domainToLoad into the domain object from method call
@@ -53,22 +52,38 @@ public class ConcretePersister implements Persister {
 
         //TODO in all these methods need to check that Domain is not null AND file not null
 
-        XMLParser parser = new XMLParser(new XmlMapper(), Domain.class);
+        XMLParser parser = new XMLParser(new XmlMapper());
         parser.save(fileToSave, domain);
     }
 
+    @Override
+    public Recording getRecording(File recordingFile) throws PersistException {
+        if (!checkFileXML(recordingFile)) {
+            throw new PersistException("File to save a game to must be a .xml file.");
+        }
 
+        XMLParser parser = new XMLParser(new XmlMapper());
+        return (Recording) parser.load(getXMLFileStream(recordingFile), Recording.class);
+    }
+
+    @Override
+    public void saveRecording(File recordingFile, Recording recording) throws PersistException {
+        if (!checkFileXML(recordingFile)) {
+            throw new PersistException("File to save a game to must be a .xml file.");
+        }
+
+        XMLParser parser = new XMLParser(new XmlMapper());
+        parser.save(recordingFile, recording);
+    }
 
 
     // TODO I will be defining and saving the level myself
-    private void saveLevel(int levelNumber, Level level) throws PersistException {
-        if (levelNumber<1) {
-            throw new PersistException("Level number must be a positive integer");
+    public void saveLevel(File fileToSave, LevelHandler level) throws PersistException {
+        if (!checkFileXML(fileToSave)) {
+            throw new PersistException("File is not a .xml file!");
         }
-
-        File fileToSave = new File("levels/level" + levelNumber + ".xml"); //fixme?
-        XMLParser<Level> parser = new XMLParser(new XmlMapper(), Level.class);
-        //parser.save(fileToSave, level); fixme how is this going to be handles
+        XMLParser parser = new XMLParser(new XmlMapper());
+        parser.save(fileToSave, level);
     }
 
 
