@@ -24,12 +24,20 @@ public class GUIController extends GUI {
 	public void run() {
 		super.run();
 		addListeners();
-		addKeyListener();
-		
+		frame.addKeyListener(new Keyboard(this));
 	}
 	
 	private void addListeners() {
-		// Menu bar new game button action
+		
+		gamePage.replayPanel.pausePlay.addActionListener((ae) -> {
+			if (gLoop.getisPaused()) {
+				this.resumeGame();
+			} else {
+				this.pauseGame();
+			}
+		});
+		
+		// Menu bar exit to menu button action
 		frame.fileExitToMenu.addActionListener((ae) -> {
 			
 			// Disable buttons which involve saving when we go back to main menu.
@@ -172,13 +180,6 @@ public class GUIController extends GUI {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JOptionPane.showMessageDialog(f, message, "Warning", JOptionPane.ERROR_MESSAGE);
-	}
-	
-	/**
-	 * Add the key listener 
-	 */
-	private void addKeyListener() {
-		frame.addKeyListener(new Keyboard(this));
 	}
 	
 	

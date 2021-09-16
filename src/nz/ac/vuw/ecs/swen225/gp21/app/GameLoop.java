@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.util.Queue;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
+
 /**
  * A runnable which runs the game loop.
  * This runnable is meant to be run on a seperate thread.
@@ -20,9 +23,10 @@ public class GameLoop implements Runnable {
 	 */
 	private Controller control;
 	
+	/**
+	 * Boolean indicating if the game is paused or not.
+	 */
 	private boolean isPaused;
-	
-	private boolean isTerminated;
 	
 	/**
 	 * Construct the GameLoop.
@@ -34,7 +38,6 @@ public class GameLoop implements Runnable {
 		this.actions = actions;
 		this.control = control;
 		this.isPaused = false;
-		this.isTerminated = false;
 	}
 	
 	@Override
@@ -43,8 +46,7 @@ public class GameLoop implements Runnable {
 		long elapsedTime = 0;
 		while (true) {
 			long start = System.currentTimeMillis();
-			// First thing is to check if paused or terminated.
-			if (isTerminated) break;
+			// First thing is to check if paused.
 			if (isPaused) {
 				// Poll something from the queue if it's there but don't execute unless it's a resume 
 				// or termination.
@@ -53,24 +55,34 @@ public class GameLoop implements Runnable {
 					if (a instanceof ResumeAction || a instanceof ExitAction) {
 						a.execute(control);
 					}
+					
 				}
+				
+				
+				// Update the renderer (even though nothing happens, we still do this so that it doesn't
+				// give a black screen upon resizing the window).
+				control.renderer.redraw(control.world);
 			} else { // Otherwise, proceed normally.
 				
 				// Update the world.
 				if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-				control.world.update(elapsedTime);
+				Tick t = control.world.update(elapsedTime);
 				updatedTime = System.currentTimeMillis();
 				
 				// Update the renderer.
 				control.renderer.redraw(control.world);
 				
-				// TODO: Recorder things here??
+				// Recorder things here.
+				//control.recorder.addTick(t);
+				
+				
 				
 				// Poll an action from the queue if it's there.
 				if (!actions.isEmpty()) {
 					Action a = actions.poll();
 					a.execute(control);
 					System.out.println("Performed action " + a.actionName());
+					
 				}
 			}
 			
@@ -86,12 +98,12 @@ public class GameLoop implements Runnable {
 		}
 	}
 	
-	void setPause(boolean p) {
-		this.isPaused = p;
+	public boolean getisPaused() {
+		return this.isPaused;
 	}
 	
-	void setTerminated(boolean t) {
-		this.isTerminated = t;
+	void setPause(boolean p) {
+		this.isPaused = p;
 	}
 
 }

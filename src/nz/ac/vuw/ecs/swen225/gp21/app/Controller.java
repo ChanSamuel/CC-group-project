@@ -7,7 +7,6 @@ import java.util.Queue;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
-import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
@@ -61,9 +60,9 @@ public abstract class Controller {
 	protected Recorder recorder;
 	
 	/**
-	 * The game loop.
+	 * The game loop where all other modules are updated periodically.
 	 */
-	GameLoop gLoop;
+	protected GameLoop gLoop;
 	
 	/**
 	 * Constructs the Controller by initialising this object's fields and then starts the main game loop.
@@ -121,7 +120,6 @@ public abstract class Controller {
 
 			@Override
 			public void collectedChip() {
-				// TODO Auto-generated method stub
 				
 			}
 			

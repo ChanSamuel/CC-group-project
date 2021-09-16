@@ -11,6 +11,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
+
 public class GUIFrame extends JFrame {
 	
 	// Menu bar
@@ -27,7 +29,7 @@ public class GUIFrame extends JFrame {
 	JMenuItem fileSaveState = new JMenuItem("Save state");
 	JMenuItem fileSaveReplay = new JMenuItem("Save replay");
 	
-	public GUIFrame(List<Page> pages) {
+	public GUIFrame(Controller control, List<Page> pages) {
 		
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
@@ -58,12 +60,12 @@ public class GUIFrame extends JFrame {
 		
 		Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		
 		pack();
 		setSize((int) (0.95 * screenDim.getWidth()), (int) (0.8 * screenDim.getHeight()));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Chap's Challenge");
+		setFocusable(true);
 		setVisible(true);
 		
 	}

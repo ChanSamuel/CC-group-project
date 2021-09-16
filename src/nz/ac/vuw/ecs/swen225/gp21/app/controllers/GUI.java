@@ -48,7 +48,7 @@ public abstract class GUI extends Controller {
 				pages.add(homePage);
 				pages.add(gamePage);
 				
-				frame = new GUIFrame(pages);
+				frame = new GUIFrame(this, pages);
 				
 			});
 		} catch (InvocationTargetException e) {
