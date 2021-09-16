@@ -54,15 +54,14 @@ public class LevelHandlingTests {
 
         LevelHandler levelOne = new LevelHandler(16, 16, 1, entities, tiles);
         File fileToSave = new File("level1.xml");
-        new ConcretePersister().saveLevel(1, levelOne);
+        new ConcretePersister().saveLevel(fileToSave, levelOne);
     }
 
     @Test
     public void loadSavedLevel() throws FileNotFoundException, PersistException {
         InputStream is = getClass().getResourceAsStream("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml");
-        File fileToLoad = new File("levels/level1.xml");
-        XMLParser parser = new XMLParser(new XmlMapper());
         LevelHandler levelHandler = new XMLParser(new XmlMapper()).load(is, LevelHandler.class);
         Level loadedLevel = LevelHandler.toLevel(levelHandler);
+        System.out.println(loadedLevel.rows);
     }
 }
