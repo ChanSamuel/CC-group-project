@@ -42,7 +42,7 @@ class ChangingElementsJPanel extends JPanel {
 	ChangingElementsJPanel(WorldJPanel worldJPanel) {
 		// set panel properties
 		setLayout(null);
-		setBounds(0, 0, WorldJFrame.WIDTH, WorldJFrame.HEIGHT);
+		setBounds(0, 0, worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		// initialize images
 		initImages();
@@ -75,12 +75,15 @@ class ChangingElementsJPanel extends JPanel {
 		//iterating through the board, draw image based on Tile's terrain type.
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				Terrain terrain = board.getTileAt(new Coord(j, i)).getTerrain();
 				Object object = board.getTileAt(new Coord(j, i)).getOccupier();
 				if(terrain instanceof Treasure) {
 					//draw the treasure
-					g.drawImage(this.treasureImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+					System.out.println("draw treasure here");
+					System.out.println("i: "+i);
+					System.out.println("j: "+j);
+					g.drawImage(treasureImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
 				}else if (terrain instanceof SilverKey) {
 					// draw silver key
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
@@ -103,6 +106,9 @@ class ChangingElementsJPanel extends JPanel {
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240+80, 80, this);
 				} else if (object instanceof Block) {
 					// draw block
+					System.out.println("draw block here");
+					System.out.println("i: "+i);
+					System.out.println("j: "+j);
 					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
 				}
