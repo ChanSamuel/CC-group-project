@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
 import java.awt.CardLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -22,6 +24,8 @@ public class GUIController extends GUI {
 	public void run() {
 		super.run();
 		addListeners();
+		addKeyListener();
+		
 	}
 	
 	private void addListeners() {
@@ -170,6 +174,12 @@ public class GUIController extends GUI {
 		JOptionPane.showMessageDialog(f, message, "Warning", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * Add the key listener 
+	 */
+	private void addKeyListener() {
+		frame.addKeyListener(new Keyboard(this));
+	}
 	
 	
 	/* ****************************

@@ -58,8 +58,7 @@ public class GameLoop implements Runnable {
 				
 				// Update the world.
 				if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-				// TODO: Doesn't work yet.
-				//control.world.update(elapsedTime);
+				control.world.update(elapsedTime);
 				updatedTime = System.currentTimeMillis();
 				
 				// Update the renderer.
@@ -71,6 +70,7 @@ public class GameLoop implements Runnable {
 				if (!actions.isEmpty()) {
 					Action a = actions.poll();
 					a.execute(control);
+					System.out.println("Performed action " + a.actionName());
 				}
 			}
 			

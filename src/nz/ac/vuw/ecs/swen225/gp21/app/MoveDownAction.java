@@ -7,6 +7,7 @@ public class MoveDownAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		control.world.moveChipDown();
+		System.out.println("chap's location is: " + control.world.getPlayerLocation());
 		return;
 	}
 

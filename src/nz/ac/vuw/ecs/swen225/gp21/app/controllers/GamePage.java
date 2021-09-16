@@ -38,10 +38,12 @@ public class GamePage extends JPanel implements Page {
 		gbc.ipadx = 400;
 		gbc.ipady = 400;
 		gbc.insets = new Insets(0, 50, 0, 0);
-		add(renderer, gbc);
+		
+		gbc.gridx = 0;
+		add(infoPanel, gbc);
 		
 		gbc.gridx = 1;
-		add(infoPanel, gbc);
+		add(renderer, gbc);
 		
 		gbc.gridx = 2;
 		add(replayPanel, gbc);

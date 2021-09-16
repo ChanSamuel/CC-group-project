@@ -5,6 +5,7 @@ public class MoveUpAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		control.world.moveChipUp();
+		System.out.println("chap's location is: " + control.world.getPlayerLocation());
 	}
 
 	@Override
