@@ -24,10 +24,10 @@ public class TempMain {
 				int rows = 10;
 				int columns = 10;
 				String tiles = "";
-				tiles += "..........";
-				tiles += "..........";
-				tiles += "v#........";
-				tiles += ".#........";
+				tiles += "......#.c.";
+				tiles += "......#...";
+				tiles += "v#....#S##";
+				tiles += ".#...s....";
 				tiles += "1#........";
 				tiles += "##########";
 				tiles += "1#........";
