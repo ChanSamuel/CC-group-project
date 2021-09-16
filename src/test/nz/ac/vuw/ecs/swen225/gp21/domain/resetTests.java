@@ -28,7 +28,7 @@ class resetTests {
     int rows = 6;
     int columns = 10;
     String tiles = "";
-    tiles += "..........";
+    tiles += ".......gG.";
     tiles += "..........";
     tiles += ".....cc...";
     tiles += "........#X";
@@ -71,6 +71,7 @@ class resetTests {
     domain.loadLevelData(testLevel);
     domain.doneLoading();
     domain.setState(new Replaying());
+    System.out.println(domain.toString());
 
     for (int tick = 0; tick < ticks.size(); tick++) {
       domain.forwardTick(ticks.get(tick));
