@@ -19,7 +19,6 @@ public class ConcretePersister implements Persister {
 
     @Override
     public void loadLevel(int levelNumber, Domain domain) throws PersistException {
-    	/*
         if (!levelsThatExist.contains(levelNumber)) {
             throw new PersistException("Level " + levelNumber + " does not exist");
         }
@@ -33,8 +32,6 @@ public class ConcretePersister implements Persister {
         //        String pathName = "levels/level" + levelNumber;
         //        Class cls = Class.forName(pathName);
         //        Object obj = cls.newInstance();
-         * 
-         */
     }
 
     @Override

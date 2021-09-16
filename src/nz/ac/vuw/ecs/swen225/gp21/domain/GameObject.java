@@ -14,6 +14,16 @@ public abstract class GameObject {
    */
   public final World wor;
   /**
+   * The file path to the image used to render this character. Use if the renderer
+   * wants to use an image.
+   */
+  public final String filePathLeft;
+  /**
+   * The file path to the image used to render this character. Use if the renderer
+   * wants to use an image.
+   */
+  public final String filePathRight;
+  /**
    * The logic that GameObjects use to choose how to move is encapsulated away
    * into a movement controller.
    */
@@ -32,27 +42,37 @@ public abstract class GameObject {
    * to package-private, might need to be changed later? how will persistence
    * module load in new GameObjects?
    *
-   * @param w A reference to the world, so the object can tell the game to move it
-   *          on the board {not sure how we can get the object to move itself?}
-   * @param c The movement controller component that controls this object
+   * @param w         A reference to the world, so the object can tell the game to
+   *                  move it on the board {not sure how we can get the object to
+   *                  move itself?}
+   * @param c         The movement controller component that controls this object
+   * @param pathLeft  The file path used to render the GameObject facing Left
+   * @param PathRight The file path used to render the GameObject facing right
    */
-  protected GameObject(World w, MovementController c) {
+  protected GameObject(World w, MovementController c, String pathLeft, String PathRight) {
     this.wor = w;
     this.controller = c;
     dir = Direction.NONE;
+    this.filePathLeft = pathLeft;
+    this.filePathRight = PathRight;
   }
 
   /**
    * Create a new GameObject with a direction.
    *
-   * @param w A reference to the world
-   * @param c The movement controller component that controls this object
-   * @param d The direction this object has
+   * @param w         A reference to the world
+   * @param c         The movement controller component that controls this object
+   * @param d         The direction this object has
+   * @param pathLeft
+   * @param PathRight
    */
-  protected GameObject(World w, MovementController c, Direction d) {
+  protected GameObject(World w, MovementController c, Direction d, String pathLeft,
+      String PathRight) {
     this.wor = w;
     this.controller = c;
     dir = d;
+    this.filePathLeft = pathLeft;
+    this.filePathRight = PathRight;
   }
 
   /**

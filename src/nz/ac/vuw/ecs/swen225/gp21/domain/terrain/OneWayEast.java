@@ -9,9 +9,16 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  *
  */
 public final class OneWayEast extends OneWay {
-
+  /**
+   * The instance of one way east
+   */
   private static OneWayEast instance = new OneWayEast();
 
+  /**
+   * Get an instance of one way east terrain
+   *
+   * @return incetance of one way east
+   */
   public static OneWayEast getInstance() {
     return instance;
   }

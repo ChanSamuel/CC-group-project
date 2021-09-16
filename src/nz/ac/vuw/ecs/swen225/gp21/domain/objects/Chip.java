@@ -35,7 +35,7 @@ public class Chip extends GameObject {
    * @param w the game world that chip exists in.
    */
   public Chip(World w) {
-    super(w, new PlayerController(), Direction.NORTH);
+    super(w, new PlayerController(), Direction.NORTH, "chap-3-right.gif", "chap-3-left.gif");
     treasureCollected = 0;
     invetory = new ArrayList<Item>(INVETORY_SIZE);
   }

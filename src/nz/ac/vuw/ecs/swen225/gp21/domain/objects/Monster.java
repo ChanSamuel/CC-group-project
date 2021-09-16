@@ -15,12 +15,14 @@ public abstract class Monster extends GameObject {
   /**
    * Create a new monster.
    *
-   * @param w the world this monster will exist in
-   * @param c the controller that decides how the monster will move
-   * @param d the direction this monster will face when it is created.
+   * @param w         the world this monster will exist in
+   * @param c         the controller that decides how the monster will move
+   * @param d         the direction this monster will face when it is created.
+   * @param pathLeft  The file path used to render the GameObject facing Left
+   * @param pathRight The file path used to render the GameObject facing right
    */
-  public Monster(World w, MovementController c, Direction d) {
-    super(w, c, d);
+  public Monster(World w, MovementController c, Direction d, String pathLeft, String pathRight) {
+    super(w, c, d, pathLeft, pathRight);
   }
 
   @Override

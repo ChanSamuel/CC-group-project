@@ -21,7 +21,7 @@ public final class Block extends GameObject {
    * @param w the world this block is in
    */
   public Block(World w) {
-    super(w, new NoMovement());
+    super(w, new NoMovement(), "block.png", "block.png");
   }
 
   @Override

@@ -64,6 +64,8 @@ public final class Running implements State {
 
     o.updateDirection(d);
     Coord destination = o.dir.next(o.getTile().location);
+    // is the before terrain actually here?
+    // also can this system cope with teleporting onto treasure?
     if (w.moveObject(o, destination)) {
       w.event.saveEvent(new DirectMove(beforeD, beforeC, beforeT, o));
     } else {

@@ -1,12 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.io.File;
-import java.util.ArrayDeque;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 
 /**
  * The primary class for the recording package.
@@ -18,14 +13,11 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 public class Recorder {
     private int level;
     private List<Tick> ticks;
-    private Queue<Tick> queTick;
     private int tickPointer;
     private boolean autoReplayRunning = false;
 
     public Recorder(){
         this.tickPointer = 0;
-        this.ticks = new LinkedList<Tick>();
-        this.queTick = new ArrayDeque<Tick>();
     }
 
     /**
@@ -73,7 +65,7 @@ public class Recorder {
      * @throws IllegalArgumenException if tick is not valid (e.g. null ticks)
      */
     public void addTick(Tick tick){
-        if(tickValid(tick)) queTick.add(tick);
+        if(tickValid(tick)) ticks.add(tick);
         else throw new IllegalArgumentException();
     }
 
@@ -153,7 +145,7 @@ public class Recorder {
     private Tick nextMeaningful() {
         while(tickPointer < ticks.size()-1){
             tickPointer++;
-            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }
@@ -166,7 +158,7 @@ public class Recorder {
     private Tick prevMeaningful() {
         while(tickPointer > 0){
             tickPointer--;
-            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }

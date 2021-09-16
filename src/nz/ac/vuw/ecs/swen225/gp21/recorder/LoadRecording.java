@@ -12,8 +12,7 @@ public class LoadRecording {
 
     public static Recording load(File fileToLoad) {
         // TODO: check this makes sense
-    	return null;
-        //return (Recording) loadFile(fileToLoad);
+        return (Recording) loadFile(fileToLoad);
     }
     
 }
