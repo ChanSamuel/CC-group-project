@@ -11,6 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 
 /**
@@ -32,7 +33,7 @@ class resetTests {
     tiles += "..........";
     tiles += ".....cc...";
     tiles += "........#X";
-    tiles += "........#E";
+    tiles += ".1...1c.#E";
     tiles += "##########";
     String entities = "";
     entities += "C.........";
@@ -49,6 +50,7 @@ class resetTests {
    */
   @Test
   void testUndoTreasure() {
+    System.out.println("TEST ONE!");
     Domain domain = new TestWorld();
     List<Tick> ticks = new ArrayList<>();
     domain.loadLevelData(testLevel);
@@ -61,12 +63,13 @@ class resetTests {
     domain.moveChipRight();
     domain.moveChipRight();
     domain.moveChipRight();
-    domain.moveChipRight();
+    domain.moveChipDown();
+    domain.moveChipDown();
     for (int sims = 0; sims < 11; sims++) {
       ticks.add(domain.update(200));
     }
     ticks.get(ticks.size() - 1).isFinalTick = true;
-
+    System.out.println(domain.toString());
     domain = new TestWorld();
     domain.loadLevelData(testLevel);
     domain.doneLoading();
@@ -86,6 +89,7 @@ class resetTests {
 
     // TODO TEST HERE!
     System.out.println(domain.toString());
+    System.out.println("TEST ONE COMPLETE");
     assertFalse(true);
   }
 
@@ -94,7 +98,65 @@ class resetTests {
    */
   @Test
   void testUndoDoor() {
-    assertFalse(true);
+    System.out.println("TEST TWO!");
+    List<Tick> ticks = new ArrayList<>();
+    Domain d = new TestWorld();
+    d.loadLevelData(testLevel);
+    d.doneLoading();
+    for (int move = 0; move < 10; move++) {
+      d.moveChipRight();
+      ticks.add(d.update(200));
+    }
+    ticks.get(ticks.size() - 1).isFinalTick = true;
+    System.out.println(d.toString());
+    d.setState(new Loading());
+    d.loadLevelData(testLevel);
+    d.setState(new Replaying());
+    System.out.println(d.toString());
+    for (int tick = 0; tick < ticks.size(); tick++) {
+      d.forwardTick(ticks.get(tick));
+    }
+    System.out.println(d.toString());
+    for (int tick = ticks.size() - 1; tick != 0; tick--) {
+      d.backTick(ticks.get(tick));
+    }
+    System.out.println(d.toString());
+    System.out.println("TEST TWO COMPLETE");
+    assertEquals(1, 2);
+  }
+
+  /**
+   * Test if we can undo pickups through a teleport block
+   */
+  @Test
+  void testTeleportUndo() {
+    System.out.println("TEST THREE!");
+    List<Tick> ticks = new ArrayList<>();
+    Domain d = new TestWorld();
+    d.loadLevelData(testLevel);
+    d.doneLoading();
+    for (int move = 0; move < 4; move++) {
+      d.moveChipDown();
+      ticks.add(d.update(200));
+    }
+    d.moveChipRight();
+    ticks.add(d.update(200));
+    ticks.get(ticks.size() - 1).isFinalTick = true;
+    System.out.println(d.toString());
+    d.setState(new Loading());
+    d.loadLevelData(testLevel);
+    d.setState(new Replaying());
+    System.out.println(d.toString());
+    for (int tick = 0; tick < ticks.size(); tick++) {
+      d.forwardTick(ticks.get(tick));
+    }
+    System.out.println(d.toString());
+    for (int tick = ticks.size() - 1; tick != 0; tick--) {
+      d.backTick(ticks.get(tick));
+    }
+    System.out.println(d.toString());
+    System.out.println("TEST THREE COMPLETE");
+    assertTrue(false);
   }
 
 }
