@@ -61,6 +61,7 @@ public final class Running implements State {
     Direction beforeD = o.dir;
     Coord beforeC = o.getTile().location;
     Terrain beforeT = o.getTile().getTerrain();
+    // TODO this is incorrect. beforeT needs to be obtained from destination.
 
     o.updateDirection(d);
     Coord destination = o.dir.next(o.getTile().location);

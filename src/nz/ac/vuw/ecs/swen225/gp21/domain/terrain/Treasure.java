@@ -63,8 +63,6 @@ public class Treasure implements Terrain {
     }
     Chip player = (Chip) o;
     player.treasureCollected--;
-    // TODO world.treasureCollected should be abstract, then world can implement the
-    // method, and update the invetory drawing.
   }
 
   @Override
