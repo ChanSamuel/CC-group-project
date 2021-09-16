@@ -39,7 +39,7 @@ public class ArrayBoard implements Board {
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         Coord c = new Coord(row, col);
-        board[row][col] = new Tile(c);
+        board[row][col] = new Tile(c, this);
         board[row][col].setTerrain(level.terrainAt(c));
       }
     }

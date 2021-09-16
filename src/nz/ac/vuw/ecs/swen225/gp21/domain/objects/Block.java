@@ -20,18 +20,18 @@ public final class Block extends GameObject {
    *
    * @param w the world this block is in
    */
-  public Block(World w) {
-    super(w, new NoMovement(), "block.png", "block.png");
+  public Block() {
+    super(new NoMovement(), "block.png", "block.png");
   }
 
   @Override
   public boolean canEntityGoOnTile(GameObject entity) {
     if (entity instanceof Chip) { // Only chip can enter the tile the block is on
       Coord dest = getNextLocation(entity);
-      if (!wor.isCoordValid(dest)) {
+      if (currentTile.board.isCoordValid(dest)) {
         return false;
       }
-      Tile t = wor.getTileAt(dest);
+      Tile t = currentTile.board.getTileAt(dest);
       // provided the block itself can move in the direction Chip is trying to push it
       this.dir = entity.dir;
       // borrow the direction from entity, incase the terrain type needs to

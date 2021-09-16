@@ -45,7 +45,7 @@ public final class Running implements State {
     // update all game objects
     for (GameObject e : w.getEntities()) {
       w.event = new MultiMove();
-      e.update(elapsedTime);
+      e.update(elapsedTime, w);
       tick.addEvent(w.event);
     }
     if (w.getBoard().getRemainingChips() == 0) {

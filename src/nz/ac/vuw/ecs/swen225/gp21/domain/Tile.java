@@ -15,6 +15,10 @@ public final class Tile {
    */
   public final Coord location;
   /**
+   * The board that this tile belongs to
+   */
+  public final Board board;
+  /**
    * Reference to the object that is on this tile.
    */
   private GameObject occupier;
@@ -26,11 +30,13 @@ public final class Tile {
   /**
    * Create a Tile with no terrain type {uninitialized}.
    *
-   * @param location the location of the tile
+   * @param location The location of the tile
+   * @param b        The board that this tile belongs to
    */
-  Tile(Coord location) {
+  Tile(Coord location, Board b) {
     this.location = location;
     this.terrain = null;
+    this.board = b;
     occupier = null;
   }
 

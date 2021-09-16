@@ -8,12 +8,6 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  */
 public abstract class GameObject {
   /**
-   * This entities reference back to the world. Since the world is what moves the
-   * objects [ for now :^/ ], if an object needs to move itself it needs a
-   * reference back up to the top.
-   */
-  public final World wor;
-  /**
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
@@ -42,15 +36,11 @@ public abstract class GameObject {
    * to package-private, might need to be changed later? how will persistence
    * module load in new GameObjects?
    *
-   * @param w         A reference to the world, so the object can tell the game to
-   *                  move it on the board {not sure how we can get the object to
-   *                  move itself?}
    * @param c         The movement controller component that controls this object
    * @param pathLeft  The file path used to render the GameObject facing Left
    * @param PathRight The file path used to render the GameObject facing right
    */
-  protected GameObject(World w, MovementController c, String pathLeft, String PathRight) {
-    this.wor = w;
+  protected GameObject(MovementController c, String pathLeft, String PathRight) {
     this.controller = c;
     dir = Direction.NONE;
     this.filePathLeft = pathLeft;
@@ -60,15 +50,13 @@ public abstract class GameObject {
   /**
    * Create a new GameObject with a direction.
    *
-   * @param w         A reference to the world
    * @param c         The movement controller component that controls this object
    * @param d         The direction this object has
    * @param pathLeft
    * @param PathRight
    */
-  protected GameObject(World w, MovementController c, Direction d, String pathLeft,
+  protected GameObject(MovementController c, Direction d, String pathLeft,
       String PathRight) {
-    this.wor = w;
     this.controller = c;
     dir = d;
     this.filePathLeft = pathLeft;
@@ -100,8 +88,9 @@ public abstract class GameObject {
    * the bug type moves in a random direction each second }
    *
    * @param elapsedTime time in milliseconds since the last update
+   * @param w           The world this update is occuring in
    */
-  public abstract void update(double elapsedTime);
+  public abstract void update(double elapsedTime, World w);
 
   /**
    * Get the name of this object type. For example, the player controlled entity
