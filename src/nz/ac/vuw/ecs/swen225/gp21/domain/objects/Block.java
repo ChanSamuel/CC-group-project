@@ -39,6 +39,7 @@ public final class Block extends GameObject {
       boolean answer = t.canEntityGoOnTile(this);
       this.dir = Direction.NONE;
       return answer;
+//      return currentTile.canOccupierMove(entity.dir);
     }
     return false;
   }

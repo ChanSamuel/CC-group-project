@@ -17,6 +17,14 @@ public interface Board {
   public void addObject(GameObject o, Coord location);
 
   /**
+   * Get the world this board is currently connected to. Boards can be hot swapped
+   * out from world objects.
+   *
+   * @return The World that this board is being used by
+   */
+  public World getWorld();
+
+  /**
    * Get the number of treasure that still needs to be collected.
    *
    * @return the number of treasure that has not been picked up

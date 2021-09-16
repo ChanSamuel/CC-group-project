@@ -389,9 +389,10 @@ public abstract class World implements Domain {
    *
    * @param o           the object being moved
    * @param destination where the object is being moved to
-   * @return true if the move succeeded
+   * @return The terrain at the destination before the move was applied, or NULL
+   *         if couldn't make the move.
    */
-  public boolean moveObject(GameObject o, Coord destination) {
+  public Terrain moveObject(GameObject o, Coord destination) {
     return board.tryMoveObject(destination, o);
   }
 
