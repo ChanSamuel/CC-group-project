@@ -14,6 +14,9 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 public class SaveRecording {
 
     public static void save(File file, Recording recording) throws PersistException {
+        if(recording.getLevel() < 1){
+            throw new PersistException("Attempting to save recording with no level");
+        }
         try{
             // TODO: check with Lucy about the saving process:
                 // method name

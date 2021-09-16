@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 // GOTTA GET RID OF THIS
@@ -22,6 +23,7 @@ public class Recorder {
 
     public Recorder(){
         this.tickPointer = 0;
+        ticks = new LinkedList<Tick>();
     }
 
     /**
@@ -71,11 +73,11 @@ public class Recorder {
     /**
      * Add a single tick to the list.
      *
-     * @throws IllegalArgumenException if tick is not valid (e.g. null ticks)
+     * @throws RecorderException if tick is not valid (e.g. null ticks)
      */
-    public void addTick(Tick tick){
+    public void addTick(Tick tick) throws RecorderException{
         if(tickValid(tick)) ticks.add(tick);
-        else throw new IllegalArgumentException();
+        else throw new RecorderException("null tick added");
     }
 
     /**
