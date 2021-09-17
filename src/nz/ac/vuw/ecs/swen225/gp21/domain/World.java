@@ -9,6 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * The world provides the main interface of the domain package, for other
