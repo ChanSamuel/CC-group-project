@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+
 /**
  * Board interface defines the operations a Chip Challenge board must provide to
  * enable gameplay.
@@ -33,17 +36,20 @@ public interface Board {
 
   /**
    * Open the exit tile.
+   *
+   * @return A command that can be used to remove/restore the exit tile
    */
-  public void openExit();
+  public MultiMove openExit();
 
   /**
    * Try to move an object to the destination.
    *
    * @param o           the object being moved
    * @param destination the location it is trying to move to
-   * @return true if the move was carried out
+   * @return The terrain of the destination before it was updated, or null if the
+   *         GameObject could not be moved
    */
-  public boolean tryMoveObject(Coord destination, GameObject o);
+  public Terrain tryMoveObject(Coord destination, GameObject o);
 
   /**
    * Perform the actions needed to undo a move.
