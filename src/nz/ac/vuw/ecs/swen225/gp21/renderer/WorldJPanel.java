@@ -23,11 +23,20 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * tile width
 	 */
-	final static int TILE_WIDTH = 40;
+	public final static int TILE_WIDTH = 40;
 	/**
 	 * tile height
 	 */
-	final static int TILE_HEIGHT = 40;
+	public final static int TILE_HEIGHT = 40;
+	/**
+	 * The rows of focusing area
+	 */
+	public final static int FOCUSING_ROWS = 9;
+	/**
+	 * The cols of focusing area
+	 */
+	public final static int FOCUSING_COLS = 9;
+	
 	/**
 	 * The rows of focusing area
 	 */
