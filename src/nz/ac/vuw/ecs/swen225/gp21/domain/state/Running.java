@@ -49,7 +49,7 @@ public final class Running implements State {
       tick.addEvent(w.event);
     }
     if (w.getBoard().getRemainingChips() == 0) {
-      w.getBoard().openExit(); // Should we do this check somewhere else?
+      tick.addEvent(w.getBoard().openExit()); // return multimove that captures the terrain change
     }
 
     assert (w.totalTreasure == w.getBoard().getRemainingChips() + w.getPlayer().treasureCollected);
@@ -60,15 +60,15 @@ public final class Running implements State {
   public void makeMove(World w, GameObject o, Direction d) {
     Direction beforeD = o.dir;
     Coord beforeC = o.getTile().location;
-    Terrain beforeT = o.getTile().getTerrain();
-    // TODO this is incorrect. beforeT needs to be obtained from destination.
 
     o.updateDirection(d);
+    // This destination is not necessarily the final square, because teleporters
+    // could move the GameObject
     Coord destination = o.dir.next(o.getTile().location);
-    // is the before terrain actually here?
-    // also can this system cope with teleporting onto treasure?
-    if (w.moveObject(o, destination)) {
-      w.event.saveEvent(new DirectMove(beforeD, beforeC, beforeT, o));
+    // The terrain at the destination before the move was applied.
+    Terrain terrainAtDest = w.getBoard().tryMoveObject(destination, o);
+    if (terrainAtDest != null) {
+      w.event.saveEvent(new DirectMove(beforeD, beforeC, terrainAtDest, o));
     } else {
       w.event.saveEvent(new NoMove());
     }
