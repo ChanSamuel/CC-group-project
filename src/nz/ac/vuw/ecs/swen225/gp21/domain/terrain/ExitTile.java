@@ -37,8 +37,9 @@ public class ExitTile implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
-    o.wor.enteredExit(); // TODO might need to defer this state?
+  public Terrain entityEntered(GameObject o) {
+    o.getTile().board.getWorld().enteredExit();
+    return this;
   }
 
   @Override

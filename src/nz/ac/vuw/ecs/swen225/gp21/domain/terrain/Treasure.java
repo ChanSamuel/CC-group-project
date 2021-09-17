@@ -48,12 +48,13 @@ public class Treasure implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     if (!(o instanceof Chip)) {
       throw new RuntimeException("Non-chip entity entered treasure tile! ->" + o);
     }
     Chip player = (Chip) o;
     player.collectedChip();
+    return this;
   }
 
   @Override

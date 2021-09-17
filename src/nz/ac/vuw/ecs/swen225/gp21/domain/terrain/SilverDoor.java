@@ -32,12 +32,13 @@ public final class SilverDoor extends Door {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     if (o instanceof Chip) {
       ((Chip) o).removeItem(new KeyItem("Silver"));
     } else {
       throw new RuntimeException("Non Chip object entered locked door! ->" + this + " & " + o);
     }
+    return this;
   }
 
   @Override
