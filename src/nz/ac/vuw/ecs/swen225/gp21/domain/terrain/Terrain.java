@@ -25,8 +25,9 @@ public interface Terrain {
    * invoked before setting the Tile's terrain to this.nextType()
    *
    * @param o the object that entered a tile with this type
+   * @return The terrain that is at the location the GameObject ended at
    */
-  public void entityEntered(GameObject o);
+  public Terrain entityEntered(GameObject o);
 
   /**
    * Undo the activities that were performed in the entityEntered method.
