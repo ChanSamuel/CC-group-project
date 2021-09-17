@@ -15,14 +15,13 @@ public abstract class Monster extends GameObject {
   /**
    * Create a new monster.
    *
-   * @param w         the world this monster will exist in
    * @param c         the controller that decides how the monster will move
    * @param d         the direction this monster will face when it is created.
    * @param pathLeft  The file path used to render the GameObject facing Left
    * @param pathRight The file path used to render the GameObject facing right
    */
-  public Monster(World w, MovementController c, Direction d, String pathLeft, String pathRight) {
-    super(w, c, d, pathLeft, pathRight);
+  public Monster(MovementController c, Direction d, String pathLeft, String pathRight) {
+    super(c, d, pathLeft, pathRight);
   }
 
   @Override
@@ -42,12 +41,12 @@ public abstract class Monster extends GameObject {
           + currentTile.location + " ->" + entity);
     }
     // Chip walked onto the same tile as a monster, oops
-    wor.playerLost();
+    currentTile.board.getWorld().playerLost();
   }
 
   @Override
-  public void update(double elapsedTime) {
-    controller.update(wor, elapsedTime).execute(wor);
+  public void update(double elapsedTime, World w) {
+    controller.update(w, elapsedTime).execute(w);
     // TODO
     // w.recordExecutedCommand(c.update().execute())
     // doing (w.enqueueCommandToExecuteLater(c.update())) creates a weird
