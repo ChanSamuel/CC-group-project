@@ -34,7 +34,7 @@ public class Loading implements State {
     w.getEntities().clear();
     w.setBoard(null);
     System.gc();
-    w.setBoard(new ArrayBoard(level));
+    w.setBoard(new ArrayBoard(level, w));
     for (int row = 0; row < level.rows; row++) {
       for (int col = 0; col < level.columns; col++) {
         Coord c = new Coord(row, col);
@@ -65,9 +65,9 @@ public class Loading implements State {
     // but I think its far from ideal.
     switch (name) {
       case "Chip":
-        return new Chip(w);
+        return new Chip();
       case "Block":
-        return new Block(w);
+        return new Block();
       default:
         throw new IllegalArgumentException("Unknown GameObject type! ->" + name);
     }
