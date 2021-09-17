@@ -1,7 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
+import nz.ac.vuw.ecs.swen225.gp21.domain.commands.TerrainChange;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
 
 /**
@@ -11,9 +14,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
  *
  */
 public class ArrayBoard implements Board {
-
   /**
-   * test.
+   * A reference back up to the world
+   */
+  private World world;
+  /**
+   * The internal representation of the game
    */
   private final Tile[][] board;
 
@@ -31,15 +37,17 @@ public class ArrayBoard implements Board {
    * fields.
    *
    * @param level object that contains the information needed to build the board
+   * @param w     The world that is using this board
    */
-  public ArrayBoard(Level level) {
+  public ArrayBoard(Level level, World w) {
+    this.world = w;
     this.rows = level.rows;
     this.columns = level.columns;
     board = new Tile[rows][columns];
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         Coord c = new Coord(row, col);
-        board[row][col] = new Tile(c);
+        board[row][col] = new Tile(c, this);
         board[row][col].setTerrain(level.terrainAt(c));
       }
     }
@@ -114,16 +122,15 @@ public class ArrayBoard implements Board {
    * @param o    the object being moved
    */
   @Override
-  public boolean tryMoveObject(Coord dest, GameObject o) {
+  public Terrain tryMoveObject(Coord dest, GameObject o) {
     if (!coordInBoard(dest)) {
-      return false;
+      return null;
     }
     Tile t = coordToTile(dest);
     if (!t.canEntityGoOnTile(o)) {
-      return false;
+      return null;
     }
-    t.addOccupier(o);
-    return true;
+    return t.addOccupier(o);
   }
 
   /**
@@ -143,14 +150,18 @@ public class ArrayBoard implements Board {
   }
 
   @Override
-  public void openExit() {
+  public MultiMove openExit() {
+    MultiMove response = new MultiMove();
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         if (board[row][col].getTerrain() instanceof ExitLock) {
+          response.saveEvent(new TerrainChange(new Coord(row, col), board[row][col].getTerrain(),
+              Free.getInstance()));
           board[row][col].setTerrain(Free.getInstance());
         }
       }
     }
+    return response;
   }
 
   @Override
@@ -186,5 +197,10 @@ public class ArrayBoard implements Board {
   @Override
   public boolean isCoordValid(Coord c) {
     return this.coordInBoard(c);
+  }
+
+  @Override
+  public World getWorld() {
+    return this.world;
   }
 }

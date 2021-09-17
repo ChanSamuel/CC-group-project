@@ -12,12 +12,12 @@ abstract class Door implements Terrain {
 
   @Override
   public Terrain nextType(GameObject o) {
-    o.wor.openedDoor();
+    o.getTile().board.getWorld().openedDoor();
     return Free.getInstance();
   }
 
   @Override
-  public abstract void entityEntered(GameObject o);
+  public abstract Terrain entityEntered(GameObject o);
 
   @Override
   public abstract boolean canEntityGoOn(GameObject o);

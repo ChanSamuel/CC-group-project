@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 
 /**
  * This suite of tests makes use of the new level loading functionality
- * 
+ *
  * @author Benjamin
  *
  */
@@ -105,7 +105,7 @@ class LevelLoadingTests {
   void testLoadThree() {
     World w = new TestWorld();
     w.loadLevelData(testLevel);
-    w.addGameObject(new Block(w), new Coord(1, 1));
+    w.addGameObject(new Block(), new Coord(1, 1));
     w.doneLoading();
     w.moveChipRight();
     w.moveChipRight();

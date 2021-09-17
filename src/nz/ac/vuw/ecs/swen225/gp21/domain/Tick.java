@@ -97,6 +97,8 @@ public final class Tick {
 
   /**
    * Determine if any object moved in this tick.
+   *
+   * @return true if an object moved during this update
    */
   public boolean didAnyObjectMove() {
     if (events.isEmpty()) {

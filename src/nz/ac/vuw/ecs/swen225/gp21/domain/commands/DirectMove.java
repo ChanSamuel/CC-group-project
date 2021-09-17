@@ -43,7 +43,7 @@ public final class DirectMove implements Command {
    *
    * @param beforeDir     the direction the object was facing before the move
    * @param beforePos     the position of the object before the move
-   * @param beforeTerrain the terrain of the tile the object was on before the
+   * @param beforeTerrain the terrain of the tile the object moved to before the
    *                      move
    * @param moved         the object that was moved
    */
@@ -75,7 +75,7 @@ public final class DirectMove implements Command {
   public void execute(World w) {
     GameObject moved = getObjectToMove(w, beforePos);
     moved.dir = afterDir;
-    w.getBoard().tryMoveObject(afterPos, moved);
+    assert (w.getBoard().tryMoveObject(afterPos, moved) != null);
   }
 
   @Override

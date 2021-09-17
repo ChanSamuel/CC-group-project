@@ -31,11 +31,9 @@ public class Chip extends GameObject {
 
   /**
    * Create a new Chip.
-   *
-   * @param w the game world that chip exists in.
    */
-  public Chip(World w) {
-    super(w, new PlayerController(), Direction.NORTH, "chap-3-right.gif", "chap-3-left.gif");
+  public Chip() {
+    super(new PlayerController(), Direction.NORTH, "chap-3-right.gif", "chap-3-left.gif");
     treasureCollected = 0;
     invetory = new ArrayList<Item>(INVETORY_SIZE);
   }
@@ -56,16 +54,16 @@ public class Chip extends GameObject {
       throw new RuntimeException(
           "Non Monster entered the same tile as chip! at:" + currentTile.location + " ->" + entity);
     }
-    wor.playerLost();
+    currentTile.board.getWorld().playerLost();
   }
 
   @Override
-  public void update(double elapsedTime) {
+  public void update(double elapsedTime, World w) {
     // I'm not sure if we should be getting the lower level objects to move
     // themselves?
     // or {currently} send a command back up to the top level class to move the
     // object for us?
-    controller.update(wor, elapsedTime).execute(wor);
+    controller.update(w, elapsedTime).execute(w);
   }
 
   /**
@@ -73,7 +71,7 @@ public class Chip extends GameObject {
    */
   public void collectedChip() {
     treasureCollected++;
-    wor.collectedChip();
+    currentTile.board.getWorld().collectedChip();
   }
 
   /**
@@ -83,7 +81,7 @@ public class Chip extends GameObject {
    */
   public void addItem(Item item) {
     this.invetory.add(item);
-    wor.playerGainedItem(item);
+    currentTile.board.getWorld().playerGainedItem(item);
   }
 
   /**
@@ -103,7 +101,7 @@ public class Chip extends GameObject {
    */
   public void removeItem(Item item) {
     this.invetory.remove(item);
-    wor.playerConsumedItem(item);
+    currentTile.board.getWorld().playerConsumedItem(item);
   }
 
   @Override

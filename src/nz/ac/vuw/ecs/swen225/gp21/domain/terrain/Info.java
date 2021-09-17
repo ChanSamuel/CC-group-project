@@ -58,13 +58,14 @@ public final class Info implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
-    o.wor.enteredInfo(this.message);
+  public Terrain entityEntered(GameObject o) {
+    o.getTile().board.getWorld().enteredInfo(this.message);
+    return this;
   }
 
   @Override
   public void entityExited(GameObject o) {
-    o.wor.leftInfo();
+    o.getTile().board.getWorld().leftInfo();
   }
 
   @Override

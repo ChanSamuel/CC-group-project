@@ -34,7 +34,8 @@ abstract class OneWay implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
+    return this;
   }
 
   @Override

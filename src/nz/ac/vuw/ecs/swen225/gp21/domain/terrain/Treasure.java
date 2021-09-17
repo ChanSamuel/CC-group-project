@@ -48,12 +48,13 @@ public class Treasure implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     if (!(o instanceof Chip)) {
       throw new RuntimeException("Non-chip entity entered treasure tile! ->" + o);
     }
     Chip player = (Chip) o;
     player.collectedChip();
+    return this;
   }
 
   @Override
@@ -63,8 +64,6 @@ public class Treasure implements Terrain {
     }
     Chip player = (Chip) o;
     player.treasureCollected--;
-    // TODO world.treasureCollected should be abstract, then world can implement the
-    // method, and update the invetory drawing.
   }
 
   @Override
