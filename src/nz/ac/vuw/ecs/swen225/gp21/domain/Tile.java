@@ -88,12 +88,15 @@ public final class Tile {
    * Follow the complete move procedure. Notify terrain, then the occupier
    *
    * @param o the object being moved onto this tile
+   * @return The terrain at the final destination of the GameObject before
+   *         setTerrain was called
    */
-  void addOccupier(GameObject o) {
+  Terrain addOccupier(GameObject o) {
     setOccupier(o);
-    terrain.entityEntered(o);
+    Terrain answer = terrain.entityEntered(o);
     setTerrain(terrain.nextType(o));
     o.doneMoving();
+    return answer;
   }
 
   /**
