@@ -28,7 +28,7 @@ public final class Block extends GameObject {
   public boolean canEntityGoOnTile(GameObject entity) {
     if (entity instanceof Chip) { // Only chip can enter the tile the block is on
       Coord dest = getNextLocation(entity);
-      if (currentTile.board.isCoordValid(dest)) {
+      if (!currentTile.board.isCoordValid(dest)) {
         return false;
       }
       Tile t = currentTile.board.getTileAt(dest);
@@ -49,16 +49,16 @@ public final class Block extends GameObject {
     // chip entered the tile, move the block to the next square
     switch (entity.dir) {
       case NORTH:
-        wor.moveUp(this);
+        currentTile.board.getWorld().moveUp(this);
         break;
       case EAST:
-        wor.moveRight(this);
+        currentTile.board.getWorld().moveRight(this);
         break;
       case SOUTH:
-        wor.moveDown(this);
+        currentTile.board.getWorld().moveDown(this);
         break;
       case WEST:
-        wor.moveLeft(this);
+        currentTile.board.getWorld().moveLeft(this);
         break;
       default:
         throw new RuntimeException(
@@ -67,8 +67,8 @@ public final class Block extends GameObject {
   }
 
   @Override
-  public void update(double elapsedTime) {
-    this.controller.update(wor, elapsedTime).execute(wor);
+  public void update(double elapsedTime, World w) {
+    this.controller.update(w, elapsedTime).execute(w);
   }
 
   @Override
