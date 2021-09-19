@@ -47,7 +47,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * Chap's current coord
 	 */
-	protected Coord coord;
+	protected Coord playerCoord;
 	/**
 	 * Chap's current dir
 	 */
@@ -68,6 +68,7 @@ public class WorldJPanel extends JPanel {
 	private Music backgroundMusic;
 //	private Music doorOpenSound;
 	private Music gameStartSound;
+
 //	private Music pickUpAKeySound;
 //	private Music pickUpAChipSound;
 //	private Music enterExitSound;
@@ -76,34 +77,24 @@ public class WorldJPanel extends JPanel {
 	 */
 	public WorldJPanel() {
 	}
-	
-	public void setDomain(Domain domain) {
 
-		// -------- Set the world,board and chap----------
+	/**
+	 * Set the domain and call init to initialize WorldJpanel
+	 * 
+	 * @param domain
+	 */
+	public void init(Domain domain, int level) {
 		this.domain = domain;
-		this.board = domain.getBoard();
-		this.coord = this.domain.getPlayerLocation();
-		// -----------Add music---------------------------
-		try {
-			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
-			this.gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
-//			this.doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
-//			this.pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
-//			this.pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
-//			this.enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
-		} catch (IOException e) {
-			System.out.println("Music loading failed");
-			e.printStackTrace();
+		this.level = level;
+		// ---------Play music of current level---------------------
+		if (this.level == 1) {
+			playSound(SoundType.BGM_LEVEL_1);
+		} else if (this.level == 2) {
+			playSound(SoundType.BGM_LEVEL_2);
 		}
-		//----------Game Music----------------------------------------------
-		// modify volumn, positive means increase, negative means decrease.
-		this.backgroundMusic.modifyVolumn(-5);
-		//start background music
-		this.backgroundMusic.start();
-		//loop background music
-		this.backgroundMusic.loop();
-		//play game start music
-		this.gameStartSound.start();
+		// ---------Set the board and coord of player----------------------
+		this.board = domain.getBoard();
+		this.playerCoord = this.domain.getPlayerLocation();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -116,7 +107,7 @@ public class WorldJPanel extends JPanel {
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
 		this.ChapJPanel = new ChapJPanel(this);
-		
+
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
@@ -131,11 +122,14 @@ public class WorldJPanel extends JPanel {
 		add(lp);
 	}
 
+
 	/**
 	 * update the panel, once chap moves
 	 */
 	void updateJPanel() {
-		if(domain==null) return;
+		// ---------check if domain and level have been set----------------
+		if (domain == null||level== -1)
+			throw new RuntimeException("Please set domain and level");
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
 //		// update chap's location
@@ -149,7 +143,8 @@ public class WorldJPanel extends JPanel {
 	 * Update focus area, place chap in the middle
 	 */
 	void updateFocusArea() {
-		if(domain==null) return;
+		if (domain == null)
+			return;
 		// calculate the offset of chap's coord from center of the board.
 		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getCol());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
@@ -171,61 +166,80 @@ public class WorldJPanel extends JPanel {
 	Coord getChapCoord() {
 		return domain.getPlayerLocation();
 	}
-	
-		/**
-		 * Redraw the maze if chap moves.
-		 * @param domain
-		 */
-		public void redraw(Domain domain) {
-			if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
-					|| this.coord.getRow() != this.domain.getPlayerLocation().getRow()) {
-				this.coord = this.domain.getPlayerLocation();
-				this.updateJPanel();
+
+	/**
+	 * Redraw the maze if chap moves.
+	 * 
+	 * @param domain
+	 */
+	public void redraw(Domain domain) {
+		if (this.playerCoord.getCol() != this.domain.getPlayerLocation().getCol()
+				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
+			this.playerCoord = this.domain.getPlayerLocation();
+			this.updateJPanel();
+		}
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * Play sound effect, this method should be called when event such as pick up a
+	 * chip, pick up a key, open the door etc.
+	 */
+	public static void playSound(SoundType soundType) {
+		try {
+			switch (soundType) {
+			case BGM_LEVEL_1:
+				Music level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level1Music.modifyVolumn(-5);
+				// start background music
+				level1Music.start();
+				// loop background music
+				level1Music.loop();
+				break;
+			case BGM_LEVEL_2:
+				Music level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level2Music.modifyVolumn(-5);
+				// start background music
+				level2Music.start();
+				// loop background music
+				level2Music.loop();
+				break;
+			case GAME_START:
+				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
+				gameStartSound.start();
+				break;
+			case DOOR_OPEN:
+				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
+				doorOpenSound.start();
+				break;
+			case SHOW_INFO:
+				Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
+				showInfoSound.start();
+				break;
+			case PICK_UP_A_KEY:
+				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
+				pickUpAKeySound.start();
+				break;
+			case PICK_UP_A_CHIP:
+				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
+				pickUpAChipSound.start();
+				break;
+			case ENTER_EXIT:
+				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
+				enterExitSound.start();
+				break;
+			default:
+				throw new RuntimeException("Not a valid sound effect");
 			}
+		} catch (IOException e) {
+			System.out.println("Music loading failed");
+			e.printStackTrace();
 		}
 
-		public void setLevel(int level) {
-			this.level = level;
-		}
-		/**
-		 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
-		 */
-		public static void playSound(SoundType soundType) {
-			try {
-				switch(soundType) {
-				case GAME_START:
-					Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
-					gameStartSound.start();
-					break;
-				case DOOR_OPEN:
-					Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
-					doorOpenSound.start();
-					break;
-				case SHOW_INFO:
-					Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
-					showInfoSound.start();
-					break;
-				case PICK_UP_A_KEY:
-					Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
-					pickUpAKeySound.start();
-					break;
-				case PICK_UP_A_CHIP:
-					Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
-					pickUpAChipSound.start();
-					break;
-				case ENTER_EXIT:
-					Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
-					enterExitSound.start();
-					break;
-				default:
-					throw new RuntimeException("Not a valid sound effect");
-				}
-			} catch (IOException e) {
-				System.out.println("Music loading failed");
-				e.printStackTrace();
-			}
-			
-			
-		}
+	}
 }
-

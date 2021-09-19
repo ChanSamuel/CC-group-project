@@ -25,11 +25,12 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	private Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
-
-	public WrapperJPanel(Domain domain) {
-		this.domain = domain;
+	/**
+	 * Constructor of WrapperJPanel
+	 * @param domain
+	 */
+	public WrapperJPanel() {
 		worldJPanel = new WorldJPanel();
-		worldJPanel.setDomain(domain);
 		add(worldJPanel);
 		setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -123,12 +124,8 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	}
 
 	@Override
-	public void setLevel(int level) {
-		worldJPanel.setLevel(level);
-	}
-
-	@Override
-	public void setDomain(Domain domain) {
-		worldJPanel.setDomain(domain);
+	public void init(Domain domain,int level) {
+		this.domain = domain;
+		worldJPanel.init(domain,level);
 	}
 }

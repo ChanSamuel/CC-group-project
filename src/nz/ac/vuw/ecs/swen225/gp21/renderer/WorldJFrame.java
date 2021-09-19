@@ -23,10 +23,12 @@ public class WorldJFrame extends JFrame{
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
 	public WorldJFrame(Domain domain) {
-		WrapperJPanel wrapperJPanel = new WrapperJPanel(domain);
+		WrapperJPanel wrapperJPanel = new WrapperJPanel();
 		add(wrapperJPanel);
 		wrapperJPanel.addKeyListener(wrapperJPanel);
 		wrapperJPanel.setFocusable(true);
+		//initialize the wrapperJPanel, set up the domain and level
+		wrapperJPanel.init(domain,1);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen  = tk.getScreenSize();
 		int x = screen.width/2-WIDTH/2;
