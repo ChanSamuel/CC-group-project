@@ -19,7 +19,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  * @author mengli
  *
  */
-public class WorldJPanel extends JPanel implements KeyListener, Renderer {
+public class WorldJPanel extends JPanel {
 	/**
 	 * tile width
 	 */
@@ -68,7 +68,6 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	public WorldJPanel() {
 	}
 	
-	@Override
 	public void setDomain(Domain domain) {
 
 		// -------- Set the world,board and chap----------
@@ -210,26 +209,23 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 //		}
 //		redraw(domain);
 //	}
-//--------------------Methods inherit from Renderer--------
-	@Override
-	public void redraw(Domain domain) {
-		if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
-				|| this.coord.getRow() != this.domain.getPlayerLocation().getRow()) {
-			this.coord = this.domain.getPlayerLocation();
-			this.updateJPanel();
+	//--------------------Methods inherit from Renderer--------
+		public void redraw(Domain domain) {
+			if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
+					|| this.coord.getRow() != this.domain.getPlayerLocation().getRow()) {
+				this.coord = this.domain.getPlayerLocation();
+				this.updateJPanel();
+			}
 		}
-	}
 
-	@Override
-	public void setLevel(int level) {
-		this.level = level;
-	}
+		public void setLevel(int level) {
+			this.level = level;
+		}
 
-	@Override
-	public void playSound(SoundType soundtype) {
-		// TODO Auto-generated method stub
-		
-	}
+		public void playSound(SoundType soundtype) {
+			// TODO Auto-generated method stub
+			
+		}
 }
 
 ///**

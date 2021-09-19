@@ -14,19 +14,19 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  * @author mengli
  *
  */
-public class WrapperJPanel extends JPanel implements KeyListener{
+public class WrapperJPanel extends JPanel implements KeyListener, Renderer{
 	public static final int FOCUS_AREA_ROWS = 9;
 	public static final int FOCUS_AREA_COLS = 9;
 	public static final int WIDTH=WorldJPanel.TILE_WIDTH*FOCUS_AREA_COLS;
 	public static final int HEIGHT=WorldJPanel.TILE_HEIGHT*FOCUS_AREA_ROWS;
 	private Domain domain;
+	private WorldJPanel worldJPanel;
 	
 	public WrapperJPanel(Domain domain) {
 		this.domain = domain;
-		WorldJPanel worldJPanel = new WorldJPanel();
+		worldJPanel = new WorldJPanel();
 		worldJPanel.setDomain(domain);
 		add(worldJPanel);
-		addKeyListener(worldJPanel);
 		setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen  = tk.getScreenSize();
@@ -88,5 +88,27 @@ public class WrapperJPanel extends JPanel implements KeyListener{
 				break;
 			}
 			redraw(domain);
+		}
+
+		//--------------------Methods inherit from Renderer--------
+		@Override
+		public void redraw(Domain domain) {
+			worldJPanel.redraw(domain);
+		}
+
+		@Override
+		public void setLevel(int level) {
+			worldJPanel.setLevel(level);
+		}
+
+		@Override
+		public void playSound(SoundType soundtype) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setDomain(Domain domain) {
+			worldJPanel.setDomain(domain);
 		}
 }
