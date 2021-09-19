@@ -93,7 +93,9 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		}
 		// modify volumn, positive means increase, negative means decrease.
 		this.backgroundMusic.modifyVolumn(-5);
+		//start background music
 		this.backgroundMusic.start();
+		//loop background music
 		this.backgroundMusic.loop();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
