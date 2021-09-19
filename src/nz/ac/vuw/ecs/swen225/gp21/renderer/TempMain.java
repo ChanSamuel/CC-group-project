@@ -7,6 +7,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 
 /**
  * TODO This is a temp main method created for testing GUI.
@@ -50,53 +52,69 @@ public class TempMain {
 				entities += "......................";
 				entities += "......................";
 				testLevel = new Level(rows, columns, tiles, entities, "No Info");
-				
-				Domain domain = new TestWorld();
+
+//				Domain domain = new TestWorld();
+
+				Domain domain = new World() {
+					@Override
+					public void collectedChip() {
+						WorldJPanel.playSound(SoundType.PICK_UP_A_CHIP);
+						System.out.println("Player collected a chip!");
+						System.out.println("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
+					}
+
+					@Override
+					public void openedDoor() {
+						WorldJPanel.playSound(SoundType.DOOR_OPEN);
+						System.out.println("Chip opened a door!");
+					}
+
+					@Override
+					public void enteredExit() {
+						WorldJPanel.playSound(SoundType.ENTER_EXIT);
+						System.out.println("Player Won!");
+						setState(new GameOver());
+					}
+
+					@Override
+					public void enteredInfo(String msg) {
+						System.out.println("View -> stared displaying information: " + msg);
+					}
+
+					@Override
+					public void leftInfo() {
+						System.out.println("View -> stopped displaying information");
+					}
+
+					@Override
+					public void playerLost() {
+						System.out.println("Player lost!");
+						setState(new GameOver());
+					}
+
+					@Override
+					public void playerGainedItem(Item item) {
+						if (item instanceof KeyItem) {
+							WorldJPanel.playSound(SoundType.PICK_UP_A_KEY);
+						}
+						System.out.println("Player gained item: " + item);
+					}
+
+					@Override
+					public void playerConsumedItem(Item item) {
+						if (item instanceof KeyItem) {
+							WorldJPanel.playSound(SoundType.DOOR_OPEN);
+						}
+						System.out.println("Player used item: " + item);
+					}
+
+					@Override
+					public String toString() {
+						return super.toString();
+					}
+				};
 				domain.loadLevelData(testLevel);
 				domain.doneLoading();
-//				domain = new World() {
-//
-//					@Override
-//					public void collectedAChip() {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void enteredExit() {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void enteredInfo(String msg) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void leftInfo() {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void playerLost() {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void playerGainedItem(Item item) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void playerConsumedItem(Item item) {
-//						// TODO Auto-generated method stub
-//						
-//					}};
 				WorldJFrame worldJFrame = new WorldJFrame(domain);
 			}
 		});

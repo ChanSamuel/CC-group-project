@@ -65,11 +65,12 @@ public class WorldJPanel extends JPanel {
 	 * The current game level
 	 */
 	private int level = -1;
-	/**
-	 * The music
-	 */
 	private Music backgroundMusic;
-
+//	private Music doorOpenSound;
+//	private Music gameStartSound;
+//	private Music pickUpAKeySound;
+//	private Music pickUpAChipSound;
+//	private Music enterExitSound;
 	/**
 	 * Constructor
 	 */
@@ -85,16 +86,23 @@ public class WorldJPanel extends JPanel {
 		// -----------Add music---------------------------
 		try {
 			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
+//			this.gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
+//			this.doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
+//			this.pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
+//			this.pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
+//			this.enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
 		} catch (IOException e) {
 			System.out.println("Music loading failed");
 			e.printStackTrace();
 		}
+		//----------Game Music----------------------------------------------
 		// modify volumn, positive means increase, negative means decrease.
 		this.backgroundMusic.modifyVolumn(-5);
 		//start background music
 		this.backgroundMusic.start();
 		//loop background music
 		this.backgroundMusic.loop();
+		
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -232,8 +240,37 @@ public class WorldJPanel extends JPanel {
 			this.level = level;
 		}
 
-		public void playSound(SoundType soundtype) {
-			// TODO Auto-generated method stub
+		public static void playSound(SoundType soundType) {
+			try {
+				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
+				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
+				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
+				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
+				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
+				switch(soundType) {
+				case GAME_START:
+					gameStartSound.start();
+					break;
+				case DOOR_OPEN:
+					doorOpenSound.start();
+					break;
+				case PICK_UP_A_KEY:
+					pickUpAKeySound.start();
+					break;
+				case PICK_UP_A_CHIP:
+					pickUpAChipSound.start();
+					break;
+				case ENTER_EXIT:
+					enterExitSound.start();
+					break;
+				default:
+					throw new RuntimeException("Not a valid sound effect");
+				}
+			} catch (IOException e) {
+				System.out.println("Music loading failed");
+				e.printStackTrace();
+			}
+			
 			
 		}
 }
