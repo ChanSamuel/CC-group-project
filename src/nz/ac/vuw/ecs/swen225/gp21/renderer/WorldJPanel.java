@@ -189,6 +189,7 @@ public class WorldJPanel extends JPanel {
 			try {
 				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
 				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
+				Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
 				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
 				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
 				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
@@ -198,6 +199,9 @@ public class WorldJPanel extends JPanel {
 					break;
 				case DOOR_OPEN:
 					doorOpenSound.start();
+					break;
+				case SHOW_INFO:
+					showInfoSound.start();
 					break;
 				case PICK_UP_A_KEY:
 					pickUpAKeySound.start();
