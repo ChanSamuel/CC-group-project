@@ -36,16 +36,6 @@ public class WorldJPanel extends JPanel {
 	 * The cols of focusing area
 	 */
 	public final static int FOCUSING_COLS = 9;
-	
-	/**
-	 * The rows of focusing area
-	 */
-	final static int FOCUSING_ROWS = 9;
-	/**
-	 * The cols of focusing area
-	 */
-	final static int FOCUSING_COLS = 9;
-	
 	/**
 	 * The Board.
 	 */
