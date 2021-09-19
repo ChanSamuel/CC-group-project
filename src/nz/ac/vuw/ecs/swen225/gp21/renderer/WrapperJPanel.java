@@ -9,10 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JPanel;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * This is the JPanel used for the implementation of focus area
@@ -115,6 +112,12 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 			}
 		}
 	}
+	/**
+	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
+	 */
+	public static void playSound(SoundType soundtype) {
+		WorldJPanel.playSound(soundtype);
+	}
 
 	// --------------------Methods inherit from Renderer--------
 	@Override
@@ -125,12 +128,6 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	@Override
 	public void setLevel(int level) {
 		worldJPanel.setLevel(level);
-	}
-
-	@Override
-	public void playSound(SoundType soundtype) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
