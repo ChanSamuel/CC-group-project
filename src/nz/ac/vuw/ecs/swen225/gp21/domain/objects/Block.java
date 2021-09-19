@@ -47,6 +47,7 @@ public final class Block extends GameObject {
   @Override
   public void entityEnteredTile(GameObject entity) {
     // chip entered the tile, move the block to the next square
+    currentTile.board.getWorld().objectPushed();
     switch (entity.dir) {
       case NORTH:
         currentTile.board.getWorld().moveUp(this);

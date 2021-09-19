@@ -54,6 +54,7 @@ public class Teleporter implements Terrain {
           + " Cannot deduce which square to send object to!");
     }
     Coord destination = o.dir.next(linkLocation);
+    o.getTile().board.getWorld().objectTeleported();
     return o.getTile().board.getWorld().moveObject(o, destination);
   }
 
