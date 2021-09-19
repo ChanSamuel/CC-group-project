@@ -68,6 +68,7 @@ public class WorldJPanel extends JPanel {
 	private Music backgroundMusic;
 //	private Music doorOpenSound;
 	private Music gameStartSound;
+	boolean playerMoved = true;
 
 //	private Music pickUpAKeySound;
 //	private Music pickUpAChipSound;
@@ -132,11 +133,10 @@ public class WorldJPanel extends JPanel {
 			throw new RuntimeException("Please set domain and level");
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
-//		// update chap's location
-//		this.ChapJPanel.updateChap();
-//		// repaint the changingTerrainJPanel.
-//		this.changingTerrainJPanel.repaint();
-		this.repaint();
+		// update chap's location
+		this.ChapJPanel.updateChap();
+		// repaint the changingTerrainJPanel.
+		this.changingTerrainJPanel.repaint();
 	}
 
 	/**
@@ -176,7 +176,10 @@ public class WorldJPanel extends JPanel {
 		if (this.playerCoord.getCol() != this.domain.getPlayerLocation().getCol()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
 			this.playerCoord = this.domain.getPlayerLocation();
+			this.playerMoved = true;
 			this.updateJPanel();
+		} else {
+			this.playerMoved = false;
 		}
 	}
 

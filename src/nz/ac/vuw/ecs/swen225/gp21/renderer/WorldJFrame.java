@@ -31,10 +31,10 @@ public class WorldJFrame extends JFrame{
 		wrapperJPanel.init(domain,1);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen  = tk.getScreenSize();
-		int x = screen.width/2-WIDTH/2;
-		int y = screen.height/2-HEIGHT/2;
+		int x = screen.width/2-screen.width/4;
+		int y = screen.height/2-screen.height/4;
 		setLayout(null);
-		setBounds(x,y,(int)screen.getWidth(),(int)screen.getHeight());
+		setBounds(x,y,(int)(screen.getWidth()/2),(int)(screen.getHeight()/2));
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

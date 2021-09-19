@@ -37,6 +37,10 @@ class ChangingElementsJPanel extends JPanel {
 	 * The dooors image.
 	 */
 	private BufferedImage doorsImage;
+	/**
+	 * The exit lock image
+	 */
+	private BufferedImage exitLockImage;
 
 	/**
 	 * The constructor
@@ -61,6 +65,7 @@ class ChangingElementsJPanel extends JPanel {
 		try {
 			this.keysImage = FileUtil.getBufferedImage("keys.png");
 			this.doorsImage = FileUtil.getBufferedImage("door.png");
+			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
 			this.treasureImage = FileUtil.getBufferedImage("treasure.png");
 			this.blockImage = FileUtil.getBufferedImage("block.png");
 		} catch (IOException e) {
@@ -133,6 +138,10 @@ class ChangingElementsJPanel extends JPanel {
 					// draw block
 					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
+				} else if (terrain instanceof ExitLock) {
+					// draw the exit lock
+					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 				}
 			}
 		}
