@@ -67,7 +67,7 @@ public class WorldJPanel extends JPanel {
 	private int level = -1;
 	private Music backgroundMusic;
 //	private Music doorOpenSound;
-//	private Music gameStartSound;
+	private Music gameStartSound;
 //	private Music pickUpAKeySound;
 //	private Music pickUpAChipSound;
 //	private Music enterExitSound;
@@ -86,7 +86,7 @@ public class WorldJPanel extends JPanel {
 		// -----------Add music---------------------------
 		try {
 			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
-//			this.gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
+			this.gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
 //			this.doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
 //			this.pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
 //			this.pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
@@ -102,7 +102,8 @@ public class WorldJPanel extends JPanel {
 		this.backgroundMusic.start();
 		//loop background music
 		this.backgroundMusic.loop();
-		
+		//play game start music
+		this.gameStartSound.start();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -115,6 +116,7 @@ public class WorldJPanel extends JPanel {
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
 		this.ChapJPanel = new ChapJPanel(this);
+		
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
@@ -127,10 +129,6 @@ public class WorldJPanel extends JPanel {
 		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
-//		// create a new thread keep checking if chap's location has changed, if changed,
-//		// call updateJPanel()
-//		CheckUpdate checkUpdate = new CheckUpdate(this);
-//		checkUpdate.start();
 	}
 
 	/**
@@ -174,59 +172,6 @@ public class WorldJPanel extends JPanel {
 		return domain.getPlayerLocation();
 	}
 	
-
-//	// TODO Those are TEMP key listeners just for testing GUI.
-//	// -------------------The Key listeners------------------------------
-//	@Override
-//	public void keyTyped(KeyEvent e) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void keyPressed(KeyEvent e) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void keyReleased(KeyEvent e) {
-//		if(domain==null) return;
-//		int code = e.getKeyCode();
-//		switch (code) {
-//		case KeyEvent.VK_W:
-//		case KeyEvent.VK_UP:
-//			domain.moveChipUp();
-//			domain.update(200);
-//			System.out.println("move chap up");
-//			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			break;
-//		case KeyEvent.VK_S:
-//		case KeyEvent.VK_DOWN:
-//			domain.moveChipDown();
-//			domain.update(200);
-//			System.out.println("move chap down");
-//			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			break;
-//		case KeyEvent.VK_A:
-//		case KeyEvent.VK_LEFT:
-//			domain.moveChipLeft();
-//			domain.update(200);
-//			System.out.println("move chap left");
-//			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			break;
-//		case KeyEvent.VK_D:
-//		case KeyEvent.VK_RIGHT:
-//			domain.moveChipRight();
-//			domain.update(200);
-//			System.out.println("move chap right");
-//			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			break;
-//		default:
-//			break;
-//		}
-//		redraw(domain);
-//	}
 	//--------------------Methods inherit from Renderer--------
 		public void redraw(Domain domain) {
 			if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
@@ -275,40 +220,3 @@ public class WorldJPanel extends JPanel {
 		}
 }
 
-///**
-// * This is a sub class extends thread to keep check if there is chap moves.
-// * Because when chap moves is unpredictable, so trying to check movement
-// * frequently and refresh view.
-// * 
-// * @author mengli
-// *
-// */
-//class CheckUpdate extends Thread {
-//	/**
-//	 * The parent JPanel
-//	 * 
-//	 * @param worldJPanel
-//	 */
-//	private WorldJPanel worldJPanel;
-//
-//	public CheckUpdate(WorldJPanel worldJPanel) {
-//		this.worldJPanel = worldJPanel;
-//	}
-//
-//	@Override
-//	public void run() {
-//		if(this.worldJPanel.domain==null) return;
-//		while (true) {
-//			if (worldJPanel.coord.getCol() != worldJPanel.domain.getPlayerLocation().getCol()
-//					|| worldJPanel.coord.getRow() != worldJPanel.domain.getPlayerLocation().getRow()) {
-//				worldJPanel.coord = worldJPanel.domain.getPlayerLocation();
-//				worldJPanel.updateJPanel();
-//			}
-//			try {
-//				Thread.sleep(20);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-//}
