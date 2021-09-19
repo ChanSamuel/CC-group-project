@@ -35,7 +35,7 @@ public final class Wall implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     throw new RuntimeException("Entity: [" + o + "] entered a wall tile!");
   }
 

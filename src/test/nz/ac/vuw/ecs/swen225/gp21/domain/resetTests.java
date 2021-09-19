@@ -80,17 +80,27 @@ class resetTests {
       domain.forwardTick(ticks.get(tick));
     }
 
-    // TODO TEST HERE!
+    assertEquals("Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n" + "EMPTY\n"
+        + "All entities: \n"
+        + "GameObject: Chip facing->SOUTH at->Row: 4 Columns: 6 Chip Chip's Invetory: []\n" + "\n"
+        + "Board: \n" + "0|_|_|_|_|_|_|_|k|D|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n"
+        + "2|_|_|_|_|_|_|_|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|_|\n" + "4|_|O|_|_|_|O|C|_|#|e|\n"
+        + "5|#|#|#|#|#|#|#|#|#|#|\n", domain.toString());
     System.out.println(domain.toString());
 
-    for (int tick = ticks.size() - 1; tick != 0; tick--) {
+    for (int tick = ticks.size() - 1; tick != -1; tick--) {
       domain.backTick(ticks.get(tick));
     }
 
-    // TODO TEST HERE!
     System.out.println(domain.toString());
     System.out.println("TEST ONE COMPLETE");
-    assertFalse(true);
+    String expected = "Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
+        + "EMPTY\n" + "All entities: \n"
+        + "GameObject: Chip facing->NORTH at->Row: 0 Columns: 0 Chip Chip's Invetory: []\n" + "\n"
+        + "Board: \n" + "0|C|_|_|_|_|_|_|k|D|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n"
+        + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
+        + "5|#|#|#|#|#|#|#|#|#|#|\n";
+    assertEquals(expected, domain.toString());
   }
 
   /**
@@ -117,12 +127,18 @@ class resetTests {
       d.forwardTick(ticks.get(tick));
     }
     System.out.println(d.toString());
-    for (int tick = ticks.size() - 1; tick != 0; tick--) {
+    for (int tick = ticks.size() - 1; tick != -1; tick--) {
       d.backTick(ticks.get(tick));
     }
     System.out.println(d.toString());
     System.out.println("TEST TWO COMPLETE");
-    assertEquals(1, 2);
+    String expected = "Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
+        + "EMPTY\n" + "All entities: \n"
+        + "GameObject: Chip facing->NORTH at->Row: 0 Columns: 0 Chip Chip's Invetory: []\n" + "\n"
+        + "Board: \n" + "0|C|_|_|_|_|_|_|k|D|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n"
+        + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
+        + "5|#|#|#|#|#|#|#|#|#|#|\n";
+    assertEquals(expected, d.toString());
   }
 
   /**
@@ -151,12 +167,18 @@ class resetTests {
       d.forwardTick(ticks.get(tick));
     }
     System.out.println(d.toString());
-    for (int tick = ticks.size() - 1; tick != 0; tick--) {
+    for (int tick = ticks.size() - 1; tick != -1; tick--) {
       d.backTick(ticks.get(tick));
     }
     System.out.println(d.toString());
     System.out.println("TEST THREE COMPLETE");
-    assertTrue(false);
+    String expected = "Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
+        + "EMPTY\n" + "All entities: \n"
+        + "GameObject: Chip facing->NORTH at->Row: 0 Columns: 0 Chip Chip's Invetory: []\n" + "\n"
+        + "Board: \n" + "0|C|_|_|_|_|_|_|k|D|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n"
+        + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
+        + "5|#|#|#|#|#|#|#|#|#|#|\n";
+    assertEquals(expected, d.toString());
   }
 
 }

@@ -32,10 +32,11 @@ public final class GoldKey extends KeyTile {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     if (o instanceof Chip) {
       ((Chip) o).addItem(new KeyItem("Gold"));
     }
+    return this;
   }
 
   @Override

@@ -21,7 +21,7 @@ public abstract class KeyTile implements Terrain {
   }
 
   @Override
-  public abstract void entityEntered(GameObject o);
+  public abstract Terrain entityEntered(GameObject o);
 
   @Override
   public boolean canEntityGoOn(GameObject o) {

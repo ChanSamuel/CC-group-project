@@ -36,7 +36,7 @@ public class ExitLock implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     throw new RuntimeException("Entity " + o + " entered the exit lock tile");
   }
 

@@ -67,6 +67,16 @@ public final class TestWorld extends World {
   }
 
   @Override
+  public void objectTeleported() {
+    System.out.println("Object teleported!");
+  }
+
+  @Override
+  public void objectPushed() {
+    System.out.println("Object was pushed!");
+  }
+
+  @Override
   public String toString() {
     return super.toString();
   }

@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 public enum SoundType {
+	GAME_START,
 	DOOR_OPEN,
 	PICK_UP_A_KEY,
 	PICK_UP_A_CHIP,

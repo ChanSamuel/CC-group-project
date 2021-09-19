@@ -9,6 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * The world provides the main interface of the domain package, for other
@@ -295,7 +296,7 @@ public abstract class World implements Domain {
    */
   @Override
   public Board getBoard() {
-    return this.board;
+    return this.board; // new unmodifiable board(this.board); TODO
   }
 
   /**
@@ -377,6 +378,16 @@ public abstract class World implements Domain {
    */
   public abstract void playerConsumedItem(Item item);
 
+  /**
+   * Called when a GameObject goes through a teleporter.
+   */
+  public abstract void objectTeleported();
+
+  /**
+   * Called when a pushable object is moved.
+   */
+  public abstract void objectPushed();
+
   // ==========================================================
   // MOVEMENT METHODS - these methods talk to the board to move stuff
   // I'm open to criticism on why we have this extra layer of indirection
@@ -389,9 +400,10 @@ public abstract class World implements Domain {
    *
    * @param o           the object being moved
    * @param destination where the object is being moved to
-   * @return true if the move succeeded
+   * @return The terrain at the destination before the move was applied, or NULL
+   *         if couldn't make the move.
    */
-  public boolean moveObject(GameObject o, Coord destination) {
+  public Terrain moveObject(GameObject o, Coord destination) {
     return board.tryMoveObject(destination, o);
   }
 

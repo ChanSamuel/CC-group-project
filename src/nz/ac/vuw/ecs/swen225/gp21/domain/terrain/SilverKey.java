@@ -32,10 +32,11 @@ public final class SilverKey extends KeyTile {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
     if (o instanceof Chip) {
       ((Chip) o).addItem(new KeyItem("Silver"));
     }
+    return this;
   }
 
   @Override

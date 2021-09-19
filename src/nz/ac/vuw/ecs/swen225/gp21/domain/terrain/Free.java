@@ -36,7 +36,8 @@ public class Free implements Terrain {
   }
 
   @Override
-  public void entityEntered(GameObject o) {
+  public Terrain entityEntered(GameObject o) {
+    return this;
   } // simple behavior for free tiles
 
   @Override
