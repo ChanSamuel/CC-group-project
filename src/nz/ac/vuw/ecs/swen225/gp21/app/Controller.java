@@ -35,7 +35,7 @@ public abstract class Controller {
 	/**
 	 * The last issued Action which was not valid.
 	 */
-	private Action failedAction = null;
+	private Queue<Action> failedActions;
 	
 	/**
 	 * The entrypoint into the rendering module.
@@ -57,12 +57,16 @@ public abstract class Controller {
 	 */
 	protected Domain world;
 	
+	/**
+	 * The entrypoint into the Recorder module.
+	 */
 	protected Recorder recorder;
 	
 	/**
 	 * The game loop where all other modules are updated periodically.
+	 * It is Package private so that only Action can access it.
 	 */
-	protected GameLoop gLoop;
+	GameLoop gLoop;
 	
 	/**
 	 * Constructs the Controller by initialising this object's fields and then starts the main game loop.
@@ -76,6 +80,7 @@ public abstract class Controller {
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
+		failedActions = new ArrayDeque<Action>();
 		renderer = new WorldJPanel();
 		persister = new ConcretePersister();
 		recorder = new Recorder();
@@ -125,49 +130,11 @@ public abstract class Controller {
 			
 		};
 		
-		setupDomain();
-		renderer.setDomain(world);
-		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
 		Thread t = new Thread(gLoop);
 		
 		t.start();
-	}
-	
-	/**
-	 * Test method.
-	 */
-	private void setupDomain() {
-		Level testLevel;
-		int rows = 10;
-		int columns = 10;
-		String tiles = "";
-		tiles += "..........";
-		tiles += "..........";
-		tiles += "v#........";
-		tiles += ".#........";
-		tiles += "1#........";
-		tiles += "##########";
-		tiles += "1#........";
-		tiles += ".#......#X";
-		tiles += "v#......#.";
-		tiles += ".....ccc#E";
-		String entities = "";
-		entities += "C.........";
-		entities += "..........";
-		entities += "..B.......";
-		entities += "..........";
-		entities += "..........";
-		entities += "..........";
-		entities += "..........";
-		entities += "..........";
-		entities += "..........";
-		entities += "..........";
-		testLevel = new Level(rows, columns, tiles, entities, "No Info");
-		
-		world.loadLevelData(testLevel);
-		world.doneLoading();
 	}
 	
 	/**
@@ -218,6 +185,18 @@ public abstract class Controller {
 	public abstract void playerOpenedDoorTrans();
 	
 	/**
+	 * Dialog to warn the user of something.
+	 * @param message
+	 */
+	protected abstract void warning(String message);
+	
+	/**
+	 * Dialog to notify the user of something.
+	 * @param message
+	 */
+	protected abstract void report(String message);
+	
+	/**
 	 * Issue an Action to the game by adding it to the Action queue.
 	 * The Action may not be proccessed immediately.
 	 * Actions can be moves, or requests to pause the game.
@@ -234,7 +213,7 @@ public abstract class Controller {
 	 * @return last failing action
 	 */
 	public Action getLastFailedAction() {
-		return this.failedAction;
+		return this.failedActions.peek();
 	}
 	
 	/**
@@ -271,18 +250,17 @@ public abstract class Controller {
 	
 	/**
 	 * Exits the game without saving.
-	 * The game should resume at the last unfinished level.
 	 */
 	public void exit() {
-		issue(new ExitAction());
+		System.exit(0);
 	}
 	
 	/**
 	 * Exits the game and saves the latest state into a file.
 	 * The game can be resumed later on.
 	 */
-	public void exitAndSave() {
-		issue(new ExitSaveAction());
+	public void exitAndSave(File saveFile) {
+		issue(new ExitSaveAction(saveFile));
 	}
 	
 	/**
@@ -290,7 +268,7 @@ public abstract class Controller {
 	 * @param f
 	 */
 	public void loadReplay(File f) {
-		issue(new LoadReplayAction());
+		issue(new LoadReplayAction(f));
 	}
 	
 	/**
@@ -308,6 +286,13 @@ public abstract class Controller {
 	}
 	
 	/**
+	 * Load a new game using the Test level.
+	 */
+	public void loadTestLevel() {
+		issue(new LoadTestLevelAction());
+	}
+	
+	/**
 	 * Pauses the game loop and sets the Controller to refuse all requests other than resumeGame().
 	 */
 	public void pauseGame() {
@@ -322,13 +307,42 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Sets the last failed action to the given Action.
+	 * Tells the game loop to go into auto play mode.
+	 */
+	public void setAutoPlay(boolean isAutoPlay) {
+		issue(new SetAutoPlayAction(isAutoPlay));
+	}
+	
+	public void loadGame(File f) {
+		issue(new LoadGameAction(f));
+	}
+	
+	public void newGame(String s) {
+		issue(new NewGameAction(s));
+	}
+	
+	public void haltGame() {
+		issue(new HaltAction());
+	}
+	
+	public void saveGameState(File saveFile) {
+		issue(new SaveStateAction(saveFile));
+	}
+	
+	public void saveReplay(File saveFile) {
+		issue(new SaveReplayAction(saveFile));
+	}
+	
+	/**
+	 * Add a failed action as the last failed action.
 	 * This method is should only be used internally by classes like GameLoop.
 	 * This method should be used whenever an action fails.
 	 * @param a
 	 */
-	public void setFailedAction(Action a) {
-		this.failedAction = a;
+	void addFailedAction(Action a) {
+		this.failedActions.add(a);
 	}
+	
+	
 	
 }

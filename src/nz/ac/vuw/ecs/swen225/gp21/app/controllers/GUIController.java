@@ -16,6 +16,19 @@ public class GUIController extends GUI {
 	
 	private final JFileChooser fileChooser = new JFileChooser();
 	
+	/**
+	 * A controller side flag to know if the program is paused or not.
+	 * GameLoop has it's own flag which we must set.
+	 */
+	private boolean isPaused = false;
+	
+	/**
+	 * A controller side flag to know if the program is in auto replay mode.
+	 * GameLoop has it's own flag which we must set.
+	 */
+	private boolean isAutoPlay = false;
+	
+	
 	public GUIController() {
 		super();
 	}
@@ -29,18 +42,32 @@ public class GUIController extends GUI {
 	private void addListeners() {
 		
 		gamePage.replayPanel.pausePlay.addActionListener((ae) -> {
-			if (gLoop.getisPaused()) {
+			if (isPaused) {
 				// Need to request back focus otherwise key listener will go numb.
+				// This may be due to an issue regarding acquiring the lock for Keyboard.
+				// FIXME: bug here regarding double pauses.
 				frame.requestFocusInWindow();
 				this.resumeGame();
+				this.isPaused = false;
 			} else {
 				this.pauseGame();
+				this.isPaused = true;
 			}
+		});
+		
+		gamePage.replayPanel.autoPlay.addActionListener((ae) -> {
+			this.isAutoPlay = !this.isAutoPlay;
+			this.setAutoPlay(this.isAutoPlay);
+			
+			// Request back focus for key listener.
+			frame.requestFocusInWindow();
 		});
 		
 		// Menu bar exit to menu button action
 		frame.fileExitToMenu.addActionListener((ae) -> {
 			
+			this.haltGame();
+			 
 			// Disable buttons which involve saving when we go back to main menu.
 			frame.fileExitSave.setEnabled(false);
 			frame.fileSaveState.setEnabled(false);
@@ -58,12 +85,9 @@ public class GUIController extends GUI {
 	            File selectedFile = fileChooser.getSelectedFile();
 	            
 	            report("Attempting to load " + selectedFile.toPath());
-	            try {
-					this.persister.loadGame(selectedFile, world);
-					
-				} catch (PersistException e) {
-					warning(e.getMessage());
-				}
+	            
+	            this.loadGame(selectedFile);
+	            
 	        } else {
 	            report("Cancelled file selection");
 	        }
@@ -77,11 +101,9 @@ public class GUIController extends GUI {
 	            File selectedFile = fileChooser.getSelectedFile();
 	            
 	            report("Attempting to load " + selectedFile.toPath());
-	            try {
-					this.persister.loadGame(selectedFile, world);
-				} catch (PersistException e) {
-					warning(e.getMessage());
-				}
+	            
+	            this.loadGame(selectedFile);
+	            
 	        } else {
 	            report("Cancelled file selection");
 	        }
@@ -96,23 +118,27 @@ public class GUIController extends GUI {
 		
 		// Menu bar quit and save action
 		frame.fileExitSave.addActionListener((ae) -> {
-			
-			try {
-				persister.saveCurrentGame(new File(""), world);
-			} catch (PersistException e) {
-				warning(e.getMessage());
-			}
-			
-			// Close all threads and exit.
-			System.exit(0);
+			int approval = fileChooser.showSaveDialog(fileChooser);
+	        if (approval == JFileChooser.APPROVE_OPTION) {
+	            File selectedFile = fileChooser.getSelectedFile();
+	            
+	            report("Loading " + selectedFile.toPath());
+            	this.exitAndSave(selectedFile);
+	        } else {
+	            report("Cancelled file selection");
+	        }
 		});
 		
 		frame.fileSaveState.addActionListener((ae) -> {
-			try {
-				persister.saveCurrentGame(new File(""), world);
-			} catch (PersistException e) {
-				warning(e.getMessage());
-			}
+			int approval = fileChooser.showSaveDialog(fileChooser);
+	        if (approval == JFileChooser.APPROVE_OPTION) {
+	            File selectedFile = fileChooser.getSelectedFile();
+	            
+	            report("Loading " + selectedFile.toPath());
+            	this.saveGameState(selectedFile);
+	        } else {
+	            report("Cancelled file selection");
+	        }
 		});
 		
 		frame.fileLoadReplay.addActionListener((ae) -> {
@@ -122,7 +148,7 @@ public class GUIController extends GUI {
 	            File selectedFile = fileChooser.getSelectedFile();
 	            
 	            report("Loading " + selectedFile.toPath());
-            	recorder.load(selectedFile);
+            	this.loadReplay(selectedFile);
 	        } else {
 	            report("Cancelled file selection");
 	        }
@@ -130,22 +156,20 @@ public class GUIController extends GUI {
 		});
 		
 		frame.fileSaveReplay.addActionListener((ae) -> {
-			if (recorder.save(new File(""))) {
-				report("Save successful");
-			} else {
-				warning("Save unsuccessful");
-			}
+			int approval = fileChooser.showSaveDialog(fileChooser);
+	        if (approval == JFileChooser.APPROVE_OPTION) {
+	            File selectedFile = fileChooser.getSelectedFile();
+	            
+	            report("Loading " + selectedFile.toPath());
+            	this.saveReplay(selectedFile);
+	        } else {
+	            report("Cancelled file selection");
+	        }
 		});
 		
 		// Home page new game button action
 		homePage.newGameButton.addActionListener((ae) -> {
-			
-			try {
-				persister.loadLevel(homePage.levelChooser.getSelectedIndex() + 1, world);
-			} catch (PersistException e) {
-				warning(e.getMessage());
-				// return; TODO: return if loading the level fails.
-			}
+			this.newGame(((String) homePage.levelChooser.getSelectedItem()));
 			
 			// Re-enable save buttons for game page.
 			frame.fileExitSave.setEnabled(true);
@@ -167,7 +191,7 @@ public class GUIController extends GUI {
 	 * Bring up a dialog to inform the user.
 	 * @param message
 	 */
-	private void report(String message) {
+	protected void report(String message) {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JOptionPane.showMessageDialog(f, message);
@@ -177,7 +201,7 @@ public class GUIController extends GUI {
 	 * Bring up a dialog to warn the user of something.
 	 * @param message
 	 */
-	public void warning(String message) {
+	protected void warning(String message) {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JOptionPane.showMessageDialog(f, message, "Warning", JOptionPane.ERROR_MESSAGE);

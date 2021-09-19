@@ -20,16 +20,13 @@ import javax.swing.JPanel;
 
 public class HomePage extends JPanel implements Page {
 	
-	String[] levels = {"Level 1", "Level 2"};
+	String[] levels = {"Level 1", "Level 2", "TEST LEVEL"};
 	
 	JButton loadGameButton = new JButton("Load game");
 	JButton newGameButton = new JButton("New game");
 	JComboBox levelChooser = new JComboBox(levels);
 	JPanel buttonPanel = new JPanel();
-	JLabel heroImageLabel = new JLabel();
 	JLabel heroImageTextLabel = new JLabel();
-	
-	ImageIcon heroImg = new ImageIcon("Assets/images/treasure.png");
 	
 	public HomePage() {
 		setLayout(new GridBagLayout());
@@ -47,7 +44,6 @@ public class HomePage extends JPanel implements Page {
 		buttonPanel.add(levelChooser, BorderLayout.PAGE_END);
 		
 		
-		heroImageLabel.setIcon(heroImg);
 		heroImageTextLabel.setText("Chap's Challenge");
 		heroImageTextLabel.setFont(heroImageTextLabel.getFont().deriveFont(50f));
 		add(buttonPanel);

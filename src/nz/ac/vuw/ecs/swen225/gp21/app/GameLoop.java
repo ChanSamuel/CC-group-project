@@ -16,7 +16,7 @@ public class GameLoop implements Runnable {
 	/**
 	 * The queue of actions from the Controller that we poll every tick.
 	 */
-	private Queue<Action> actions;
+	private volatile Queue<Action> actions;
 	
 	/**
 	 * The controller, we need it to execute actions with.
@@ -26,7 +26,27 @@ public class GameLoop implements Runnable {
 	/**
 	 * Boolean indicating if the game is paused or not.
 	 */
-	private boolean isPaused;
+	private volatile boolean isPaused;
+	
+	/**
+	 * Boolean indicating if the updated mechanic is running or not.
+	 */
+	private volatile boolean isPlaying;
+	
+	/**
+	 * Boolean indicating if the game is in autoplay mode or not.
+	 */
+	private volatile boolean isAutoPlay;
+	
+	/**
+	 * Boolean indicating if the game is in replay mode or not.
+	 */
+	private volatile boolean isReplay;
+	
+	/**
+	 * The number of ticks (iterations through the game loop) each second.
+	 */
+	private volatile int tps = 200;
 	
 	/**
 	 * Construct the GameLoop.
@@ -38,56 +58,79 @@ public class GameLoop implements Runnable {
 		this.actions = actions;
 		this.control = control;
 		this.isPaused = false;
+		this.isPlaying = false;
+		this.isAutoPlay = false;
+		this.isReplay = false;
 	}
 	
 	@Override
 	public void run() {
 		long updatedTime = -1;
 		long elapsedTime = 0;
+		
 		while (true) {
 			long start = System.currentTimeMillis();
-			// First thing is to check if paused.
-			if (isPaused) {
-				// Poll something from the queue if it's there but don't execute unless it's a resume 
-				// or termination.
-				if (!actions.isEmpty()) {
-					Action a = actions.poll();
-					if (a instanceof ResumeAction || a instanceof ExitAction) {
-						a.execute(control);
+			
+			// First, check if other modules can be updated.
+			if (isPlaying) {
+				
+				if (isPaused) {
+					// Poll something from the queue if it's there but don't execute unless it's a resume.
+					
+					Action a = actions.peek();
+					boolean cond = a instanceof ResumeAction;
+					pollAction(cond);
+					
+					// Update the renderer (even though nothing happens, we still do this so that it doesn't
+					// give a black screen upon resizing the window).
+					control.renderer.redraw(control.world);
+				} else { // Otherwise, proceed normally.
+					
+					if (isAutoPlay) { // Here, we assume that auto play is true only when replay is true.
+						
+						Tick t = control.recorder.nextTick();
+						control.world.forwardTick(t);
+						
+						// Update the renderer.
+						control.renderer.redraw(control.world);
+						
+					} else if (isReplay) {
+						
+						// Update the renderer.
+						control.renderer.redraw(control.world);
+						
+					} else {
+						// Update the world.
+						if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
+						Tick t = control.world.update(elapsedTime);
+						updatedTime = System.currentTimeMillis();
+						
+						// Update the renderer.
+						control.renderer.redraw(control.world);
+						
+						
+						// Recorder things here.
+						//control.recorder.addTick(t);
+						
 					}
 					
+					// Poll an action from the queue if it's there.
+					pollAction(true);
 				}
+			} else {
+				// If other modules can't be updated yet, then only execute an action if it is a start action.
+				Action topAct = actions.peek();
+				boolean c = topAct instanceof StartAction || topAct instanceof NewGameAction || 
+						topAct instanceof LoadGameAction || topAct instanceof LoadLevel1Action || 
+						topAct instanceof LoadTestLevelAction || topAct instanceof LoadLevel2Action || 
+						topAct instanceof LoadReplayAction;
 				
-				// Update the renderer (even though nothing happens, we still do this so that it doesn't
-				// give a black screen upon resizing the window).
-				control.renderer.redraw(control.world);
-			} else { // Otherwise, proceed normally.
-				
-				// Update the world.
-				if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-				Tick t = control.world.update(elapsedTime);
-				updatedTime = System.currentTimeMillis();
-				
-				// Update the renderer.
-				control.renderer.redraw(control.world);
-				
-				// Recorder things here.
-				//control.recorder.addTick(t);
-				
-				
-				
-				// Poll an action from the queue if it's there.
-				if (!actions.isEmpty()) {
-					Action a = actions.poll();
-					a.execute(control);
-					System.out.println("Performed action " + a.actionName());
-					
-				}
+				pollAction(c);
 			}
 			
-			// Finally, wait for the remainder time of the 200ms since start has not occured.
+			// Finally, wait for the remainder time of the 200ms (or however much) since start has not occured.
 			try {
-				long delay = 200 - System.currentTimeMillis() - start;
+				long delay = tps - System.currentTimeMillis() - start;
 				if (delay > 0) {
 					Thread.sleep(delay);
 				}
@@ -97,12 +140,50 @@ public class GameLoop implements Runnable {
 		}
 	}
 	
-	public boolean getisPaused() {
-		return this.isPaused;
+	/**
+	 * Internal helper method for polling an action and executes it if canExecute is true and the 
+	 * actions queue is not empty.
+	 * @param canExecute
+	 */
+	private void pollAction(boolean canExecute) {
+		if (actions.isEmpty()) return;
+		
+		Action a = actions.poll();
+		if (canExecute) {
+			a.execute(control);
+			System.out.println("Performed action " + a.actionName());
+		}
 	}
+	
+	
+	/*
+	 * Setters to write to the GameLoop.
+	 * These should only be used by Action instances.
+	 */
 	
 	void setPause(boolean p) {
 		this.isPaused = p;
 	}
+	
+	void setIsPlaying(boolean p) {
+		this.isPlaying = p;
+	}
+	
+	void setTps(int tps) {
+		this.tps = tps;
+	}
+	
+	void setAutoPlay(boolean a) {
+		if (a && !this.isReplay) return; // Don't set to true if we aren't in replay yet.
+		this.isAutoPlay = a;
+	}
+	
+	void setIsReplay(boolean r) {
+		this.isReplay = r;
+		// Precondition to ensure auto play is only ever true when replay is true.
+		if (!r) this.isAutoPlay = false;
+	}
+	
+	
 
 }

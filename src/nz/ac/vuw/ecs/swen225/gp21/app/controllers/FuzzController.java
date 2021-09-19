@@ -50,5 +50,17 @@ public class FuzzController extends Controller {
 		
 	}
 
+	@Override
+	protected void warning(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void report(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

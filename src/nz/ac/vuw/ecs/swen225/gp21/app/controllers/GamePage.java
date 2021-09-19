@@ -24,19 +24,24 @@ public class GamePage extends JPanel implements Page {
 	JPanel controlPanel = new JPanel();
 	JPanel infoPanel = new JPanel();
 	ReplayPanel replayPanel = new ReplayPanel();
+	JPanel wrapperPanel = new JPanel();
 	
 	public GamePage(WorldJPanel renderer) {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		
+		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.ipadx = 400;
-		gbc.ipady = 400;
+		gbc.ipadx = WorldJPanel.TILE_WIDTH * 9;
+		gbc.ipady = WorldJPanel.TILE_HEIGHT * 9;
 		gbc.insets = new Insets(0, 25, 0, 0);
 		
 		gbc.gridx = 0;
-		add(renderer, gbc);
+		add(wrapperPanel, gbc);
+		wrapperPanel.add(renderer);
+		wrapperPanel.setLayout(null);
+		
 		
 		gbc.gridx = 1;
 		gbc.ipadx = 5;
@@ -53,7 +58,7 @@ public class GamePage extends JPanel implements Page {
 		
 		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		
-		renderer.setBorder(panelBorder);
+		wrapperPanel.setBorder(panelBorder);
 		controlPanel.setBorder(panelBorder);
 		infoPanel.setBackground(Color.blue);
 		

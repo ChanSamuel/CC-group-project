@@ -3,6 +3,8 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 import java.io.File;
 import java.util.List;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+
 /**
  * The primary class for the recording package.
  * Represents a 'recording' of a game, containing all the states in the game, 
@@ -145,7 +147,7 @@ public class Recorder {
     private Tick nextMeaningful() {
         while(tickPointer < ticks.size()-1){
             tickPointer++;
-            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }
@@ -158,7 +160,7 @@ public class Recorder {
     private Tick prevMeaningful() {
         while(tickPointer > 0){
             tickPointer--;
-            if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
         }
         return null;
     }

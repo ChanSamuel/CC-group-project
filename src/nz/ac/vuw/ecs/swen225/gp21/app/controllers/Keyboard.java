@@ -15,7 +15,6 @@ public class Keyboard implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		System.out.println("dddddddd");
 		int code = ke.getKeyCode();
 		switch (code) {
 			case KeyEvent.VK_UP:
