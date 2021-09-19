@@ -296,7 +296,7 @@ public abstract class World implements Domain {
    */
   @Override
   public Board getBoard() {
-    return this.board;
+    return this.board; // new unmodifiable board(this.board); TODO
   }
 
   /**
