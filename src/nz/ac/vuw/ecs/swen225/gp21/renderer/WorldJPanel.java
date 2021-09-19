@@ -172,7 +172,10 @@ public class WorldJPanel extends JPanel {
 		return domain.getPlayerLocation();
 	}
 	
-	//--------------------Methods inherit from Renderer--------
+		/**
+		 * Redraw the maze if chap moves.
+		 * @param domain
+		 */
 		public void redraw(Domain domain) {
 			if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
 					|| this.coord.getRow() != this.domain.getPlayerLocation().getRow()) {
@@ -184,32 +187,34 @@ public class WorldJPanel extends JPanel {
 		public void setLevel(int level) {
 			this.level = level;
 		}
-
+		/**
+		 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
+		 */
 		public static void playSound(SoundType soundType) {
 			try {
-				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
-				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
-				Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
-				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
-				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
-				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
 				switch(soundType) {
 				case GAME_START:
+					Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
 					gameStartSound.start();
 					break;
 				case DOOR_OPEN:
+					Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
 					doorOpenSound.start();
 					break;
 				case SHOW_INFO:
+					Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
 					showInfoSound.start();
 					break;
 				case PICK_UP_A_KEY:
+					Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
 					pickUpAKeySound.start();
 					break;
 				case PICK_UP_A_CHIP:
+					Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
 					pickUpAChipSound.start();
 					break;
 				case ENTER_EXIT:
+					Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
 					enterExitSound.start();
 					break;
 				default:
