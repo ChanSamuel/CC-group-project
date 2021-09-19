@@ -58,27 +58,26 @@ public class TempMain {
 				Domain domain = new World() {
 					@Override
 					public void collectedChip() {
-						WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
+						WorldJPanel.playSound(SoundType.PICK_UP_A_CHIP);
 						System.out.println("Player collected a chip!");
 						System.out.println("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
 					}
 
 					@Override
 					public void openedDoor() {
-						WrapperJPanel.playSound(SoundType.DOOR_OPEN);
+						WorldJPanel.playSound(SoundType.DOOR_OPEN);
 						System.out.println("Chip opened a door!");
 					}
 
 					@Override
 					public void enteredExit() {
-						WrapperJPanel.playSound(SoundType.ENTER_EXIT);
+						WorldJPanel.playSound(SoundType.ENTER_EXIT);
 						System.out.println("Player Won!");
 						setState(new GameOver());
 					}
 
 					@Override
 					public void enteredInfo(String msg) {
-						WrapperJPanel.playSound(SoundType.SHOW_INFO);
 						System.out.println("View -> stared displaying information: " + msg);
 					}
 
@@ -96,7 +95,7 @@ public class TempMain {
 					@Override
 					public void playerGainedItem(Item item) {
 						if (item instanceof KeyItem) {
-							WrapperJPanel.playSound(SoundType.PICK_UP_A_KEY);
+							WorldJPanel.playSound(SoundType.PICK_UP_A_KEY);
 						}
 						System.out.println("Player gained item: " + item);
 					}
@@ -104,7 +103,7 @@ public class TempMain {
 					@Override
 					public void playerConsumedItem(Item item) {
 						if (item instanceof KeyItem) {
-							WrapperJPanel.playSound(SoundType.DOOR_OPEN);
+							WorldJPanel.playSound(SoundType.DOOR_OPEN);
 						}
 						System.out.println("Player used item: " + item);
 					}

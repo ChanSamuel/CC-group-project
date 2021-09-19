@@ -19,6 +19,10 @@ public interface Renderer {
 	 */
 	public void setLevel(int level);
 	/**
+	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
+	 */
+	public void playSound(SoundType soundtype);
+	/**
 	 * Redraw the world
 	 */
 	public void redraw(Domain domain);
