@@ -1,0 +1,35 @@
+//APP BREAK POINTS
+
+//PERSISTENCY BREAK POINTS
+
+//DOMAIN BREAK POINTS
+
+World.java
+==========
+105 //update
+203 //get player location
+204 
+208 //loading object from persistency
+298 //get board for rendering
+299
+337 //event notifiers
+343
+348
+355
+360
+365
+372
+379
+384
+389
+
+Domain.java
+===========
+Every method defined in domain
+
+
+//RECORDER BREAK POINTS
+
+//FUZZ BREAK POINTS
+
+//RENDERER BREAK POINTS
