@@ -378,6 +378,16 @@ public abstract class World implements Domain {
    */
   public abstract void playerConsumedItem(Item item);
 
+  /**
+   * Called when a GameObject goes through a teleporter.
+   */
+  public abstract void objectTeleported();
+
+  /**
+   * Called when a pushable object is moved.
+   */
+  public abstract void objectPushed();
+
   // ==========================================================
   // MOVEMENT METHODS - these methods talk to the board to move stuff
   // I'm open to criticism on why we have this extra layer of indirection
