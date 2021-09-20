@@ -213,28 +213,28 @@ public class WorldJPanel extends JPanel {
 				level2Music.loop();
 				break;
 			case GAME_START:
-				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
-				gameStartSound.start();
+				new Music(FileUtil.getAudioStream("GAME_START.wav")).start();;
 				break;
 			case DOOR_OPEN:
-				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
-				doorOpenSound.start();
+				new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();;
 				break;
 			case SHOW_INFO:
-				Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
-				showInfoSound.start();
+				new Music(FileUtil.getAudioStream("SHOW_INFO.wav")).start();;
+				break;
+			case TELEPORT:
+				new Music(FileUtil.getAudioStream("TELEPORT.wav")).start();
+				break;
+			case PUSH_BLOCK:
+				new Music(FileUtil.getAudioStream("PUSH_BLOCK.wav")).start();;
 				break;
 			case PICK_UP_A_KEY:
-				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
-				pickUpAKeySound.start();
+				new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav")).start();;
 				break;
 			case PICK_UP_A_CHIP:
-				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
-				pickUpAChipSound.start();
+				new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav")).start();;
 				break;
 			case ENTER_EXIT:
-				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
-				enterExitSound.start();
+				new Music(FileUtil.getAudioStream("ENTER_EXIT.wav")).start();;
 				break;
 			default:
 				throw new RuntimeException("Not a valid sound effect");

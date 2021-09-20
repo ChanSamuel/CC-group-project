@@ -116,14 +116,12 @@ public class TempMain {
 
 					@Override
 					public void objectTeleported() {
-						// TODO Auto-generated method stub
-						
+						WrapperJPanel.playSound(SoundType.TELEPORT);
 					}
 
 					@Override
 					public void objectPushed() {
-						// TODO Auto-generated method stub
-						
+							WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
 					}
 				};
 				domain.loadLevelData(testLevel);
