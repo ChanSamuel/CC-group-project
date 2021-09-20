@@ -113,6 +113,16 @@ public class TempMain {
 					public String toString() {
 						return super.toString();
 					}
+
+					@Override
+					public void objectTeleported() {
+						WrapperJPanel.playSound(SoundType.TELEPORT);
+					}
+
+					@Override
+					public void objectPushed() {
+							WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
+					}
 				};
 				domain.loadLevelData(testLevel);
 				domain.doneLoading();

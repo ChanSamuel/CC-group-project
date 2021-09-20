@@ -114,27 +114,29 @@ class ChangingElementsJPanel extends JPanel {
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240+80, 80, this);
-				} else if (terrain instanceof SilverDoor) {
-					// draw silver Door
-					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 0, 32, 32, this);
-				} else if (terrain instanceof GoldDoor) {
-					// draw gold Door
-					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 32, 32, 32+32, this);
-				} else if (terrain instanceof GreenDoor) {
-					// draw green Door
-					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 64, 32, 64+32, this);
-				} else if (terrain instanceof CopperDoor) {
-					// draw copper Door
-					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 96, 32, 96+32, this);
-				} else if (object instanceof Block) {
+				} 
+//				else if (terrain instanceof SilverDoor) {
+//					// draw silver Door
+//					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+//							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+//							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 0, 32, 32, this);
+//				} else if (terrain instanceof GoldDoor) {
+//					// draw gold Door
+//					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+//							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+//							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 32, 32, 32+32, this);
+//				} else if (terrain instanceof GreenDoor) {
+//					// draw green Door
+//					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+//							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+//							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 64, 32, 64+32, this);
+//				} else if (terrain instanceof CopperDoor) {
+//					// draw copper Door
+//					g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+//							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
+//							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 96, 32, 96+32, this);
+//				} 
+				else if (object instanceof Block) {
 					// draw block
 					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
