@@ -49,39 +49,6 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	 * APP MODIFICATIONS TO MAKE IT WORK.
-	 */
-	
-	public WrapperJPanel() {
-		
-	}
-	
-	public void initialise(Domain domain) {
-		this.domain = domain;
-		worldJPanel = new WorldJPanel();
-		worldJPanel.setDomain(domain);
-		add(worldJPanel);
-		
-		setFocusable(true);
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension screen = tk.getScreenSize();
-		int x = screen.width / 2 - WIDTH / 2;
-		int y = screen.height / 2 - HEIGHT / 2;
-		setLayout(null);
-		setBounds(x, y, WIDTH, HEIGHT);
-		setVisible(true);
-		
-		try {
-			this.tileImage = FileUtil.getBufferedImage("tiles.png");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	
 
 	// TODO Those are TEMP key listeners just for testing GUI.
 	// -------------------The Key listeners------------------------------

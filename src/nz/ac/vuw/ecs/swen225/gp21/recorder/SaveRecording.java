@@ -26,10 +26,5 @@ public class SaveRecording {
             return false;
         }
     }
-
-	private static void saveFile(Recording recording) {
-		// TODO Auto-generated method stub
-		
-	}
     
 }
