@@ -17,13 +17,13 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
  */
 public class Recorder {
     private int level;
-    private List<Tick> ticks;
-    private int tickPointer;
+    private List<GameUpdate> updates;
+    private int pointer;
     private boolean autoReplayRunning = false;
 
     public Recorder(){
-        this.tickPointer = 0;
-        ticks = new LinkedList<Tick>();
+        this.pointer = 0;
+        updates = new LinkedList<GameUpdate>();
     }
 
     /**
@@ -49,8 +49,7 @@ public class Recorder {
      * @return True if save successful
      */
     public void save(File saveFile) throws RecorderException{
-        ticks.get(ticks.size()-1).isFinalTick = true; // set final tick
-        Recording r = new Recording(ticks, level);
+        Recording r = new Recording(updates, level);
         try{
             SaveRecording.save(saveFile, r);
         } catch (PersistException e) {
@@ -65,9 +64,9 @@ public class Recorder {
      */
     public void load(File loadFile){
         Recording r = LoadRecording.load(loadFile);
-        ticks = r.getTicks();
+        updates = r.getUpdates();
         level = r.getLevel();
-        tickPointer = 0;
+        pointer = 0;
     }
 
     /**
@@ -75,8 +74,8 @@ public class Recorder {
      *
      * @throws RecorderException if tick is not valid (e.g. null ticks)
      */
-    public void addTick(Tick tick) throws RecorderException{
-        if(tickValid(tick)) ticks.add(tick);
+    public void addTick(GameUpdate update) throws RecorderException{
+        if(updateValid(update)) updates.add(update);
         else throw new RecorderException("null tick added");
     }
 
@@ -88,8 +87,7 @@ public class Recorder {
      * @return next relevant Tick object (depending on mode)
      */
     public Tick nextTick(){
-        if(autoReplayRunning) return next();
-        else return nextMeaningful();
+        
     }
 
     /**
@@ -133,8 +131,8 @@ public class Recorder {
      * @return Next game state index in the list (or current tick if no next tick)
      */
     private Tick next() {
-        if(tickPointer < ticks.size()-1) tickPointer++;
-        return ticks.get(tickPointer);
+        if(pointer < ticks.size()-1) pointer++;
+        return ticks.get(pointer);
     }
 
     /**
@@ -143,43 +141,18 @@ public class Recorder {
      * @return Previous game state index in the list (or current state if no prev state)
      */
     private Tick prev() {
-        if(tickPointer > 0) tickPointer--;
-        return ticks.get(tickPointer);
-    }
-
-    /**
-     * Returns the next 'meaningful' tick, or current tick if no next tick.
-     *  - a 'meaningful' tick is one in which any actor moves
-     * 
-     * @return next tick that contains any movement
-     */
-    private Tick nextMeaningful() {
-        while(tickPointer < ticks.size()-1){
-            tickPointer++;
-            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
-        }
-        return null;
-    }
-
-    /**
-     * Returns the next 'meaningful' tick, or current tick if no next tick
-     *  - a 'meaningful' tick is one in which any actor moves
-     * @return
-     */
-    private Tick prevMeaningful() {
-        while(tickPointer > 0){
-            tickPointer--;
-            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
-        }
-        return null;
+        if(pointer > 0) pointer--;
+        return ticks.get(pointer);
     }
 
     /**
      * Returns true if the tick is valid
      */
-    private boolean tickValid(Tick tick) {
-        if(tick == null) return false;
+    private boolean updateValid(GameUpdate update) {
+        if(update == null) return false;
         return true;
     }
+
+
 
 }
