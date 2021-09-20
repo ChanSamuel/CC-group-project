@@ -1,9 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
-import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 /**
  * This is the renderer interface for interacting with other modules.
  * @author mengli
@@ -11,17 +8,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  */
 public interface Renderer {
 	/**
-	 * Set the domain
+	 * Set the domain and level of game
 	 */
-	public void setDomain(Domain domain);
-	/**
-	 * Set the level of game
-	 */
-	public void setLevel(int level);
-	/**
-	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
-	 */
-	public void playSound(SoundType soundtype);
+	public void init(Domain domain,int level);
 	/**
 	 * Redraw the world
 	 */

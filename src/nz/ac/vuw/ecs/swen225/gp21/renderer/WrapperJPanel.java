@@ -9,10 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JPanel;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * This is the JPanel used for the implementation of focus area
@@ -28,19 +25,18 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	private Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
-
-	public WrapperJPanel(Domain domain) {
-		this.domain = domain;
+	/**
+	 * Constructor of WrapperJPanel
+	 * @param domain
+	 */
+	public WrapperJPanel() {
 		worldJPanel = new WorldJPanel();
-		worldJPanel.setDomain(domain);
 		add(worldJPanel);
 		setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screen = tk.getScreenSize();
-		int x = screen.width / 2 - WIDTH / 2;
-		int y = screen.height / 2 - HEIGHT / 2;
 		setLayout(null);
-		setBounds(x, y, WIDTH, HEIGHT);
+		setBounds(0, 0, WIDTH, HEIGHT);
 		setVisible(true);
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
@@ -73,34 +69,31 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
 			domain.moveChipUp();
-			domain.update(200);
 			System.out.println("move chap up");
 			System.out.println("chap's location is: " + domain.getPlayerLocation());
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			domain.moveChipDown();
-			domain.update(200);
 			System.out.println("move chap down");
 			System.out.println("chap's location is: " + domain.getPlayerLocation());
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			domain.moveChipLeft();
-			domain.update(200);
 			System.out.println("move chap left");
 			System.out.println("chap's location is: " + domain.getPlayerLocation());
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			domain.moveChipRight();
-			domain.update(200);
 			System.out.println("move chap right");
 			System.out.println("chap's location is: " + domain.getPlayerLocation());
 			break;
 		default:
 			break;
 		}
+		domain.update(200);
 		redraw(domain);
 	}
 
@@ -115,6 +108,12 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 			}
 		}
 	}
+	/**
+	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
+	 */
+	public static void playSound(SoundType soundtype) {
+		WorldJPanel.playSound(soundtype);
+	}
 
 	// --------------------Methods inherit from Renderer--------
 	@Override
@@ -123,18 +122,8 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	}
 
 	@Override
-	public void setLevel(int level) {
-		worldJPanel.setLevel(level);
-	}
-
-	@Override
-	public void playSound(SoundType soundtype) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setDomain(Domain domain) {
-		worldJPanel.setDomain(domain);
+	public void init(Domain domain,int level) {
+		this.domain = domain;
+		worldJPanel.init(domain,level);
 	}
 }
