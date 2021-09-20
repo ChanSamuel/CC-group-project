@@ -35,7 +35,8 @@ public class LoadTestLevelAction implements Action {
 		
 		control.world.loadLevelData(testLevel);
 		control.world.doneLoading();
-		control.renderer.setDomain(control.world);
+		//control.renderer.setDomain(control.world);
+		control.renderer.initialise(control.world);
 		control.gLoop.setIsPlaying(true);
 		
 	}

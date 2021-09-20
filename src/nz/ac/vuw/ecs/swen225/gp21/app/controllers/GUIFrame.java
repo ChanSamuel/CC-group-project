@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
 
@@ -54,6 +55,7 @@ public class GUIFrame extends JFrame {
 			c.add(p.getPanel(), p.getInformalName());
 		}
 		
+		
 		fileExitSave.setEnabled(false);
 		fileSaveState.setEnabled(false);
 		fileSaveReplay.setEnabled(false);
@@ -63,7 +65,7 @@ public class GUIFrame extends JFrame {
 		addKeyListener(new Keyboard(control));
 		
 		pack();
-		setSize((int) (0.95 * screenDim.getWidth()), (int) (0.8 * screenDim.getHeight()));
+		//setSize((int) (0.95 * screenDim.getWidth()), (int) (0.8 * screenDim.getHeight()));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Chap's Challenge");

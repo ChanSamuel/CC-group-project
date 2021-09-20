@@ -112,6 +112,18 @@ public class TempMain {
 					public String toString() {
 						return super.toString();
 					}
+
+					@Override
+					public void objectTeleported() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void objectPushed() {
+						// TODO Auto-generated method stub
+						
+					}
 				};
 				domain.loadLevelData(testLevel);
 				domain.doneLoading();

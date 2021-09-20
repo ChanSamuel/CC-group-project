@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.util.List;
 
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+
 /**
  * A wrapper class for saving a recording. Contains the list of ticks and the level.
  * 

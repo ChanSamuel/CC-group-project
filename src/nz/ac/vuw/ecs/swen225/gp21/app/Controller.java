@@ -12,6 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
 
 /**
  * A Controller interface which provides implemented methods for interacting with the game.
@@ -40,7 +41,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the rendering module.
 	 */
-	protected WorldJPanel renderer;
+	protected WrapperJPanel renderer;
 	
 	/**
 	 * The entrypoint into the persistency module.
@@ -81,8 +82,8 @@ public abstract class Controller {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
 		failedActions = new ArrayDeque<Action>();
-		renderer = new WorldJPanel();
 		persister = new ConcretePersister();
+		renderer = new WrapperJPanel();
 		recorder = new Recorder();
 		
 		world = new World() {
@@ -125,6 +126,18 @@ public abstract class Controller {
 
 			@Override
 			public void collectedChip() {
+				
+			}
+
+			@Override
+			public void objectTeleported() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void objectPushed() {
+				// TODO Auto-generated method stub
 				
 			}
 			

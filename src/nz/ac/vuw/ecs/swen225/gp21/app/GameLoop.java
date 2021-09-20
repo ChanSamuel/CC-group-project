@@ -108,7 +108,6 @@ public class GameLoop implements Runnable {
 						// Update the renderer.
 						control.renderer.redraw(control.world);
 						
-						
 						// Recorder things here.
 						//control.recorder.addTick(t);
 						

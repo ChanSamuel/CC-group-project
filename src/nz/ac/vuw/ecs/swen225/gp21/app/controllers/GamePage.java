@@ -17,6 +17,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
 
 public class GamePage extends JPanel implements Page {
 	
@@ -26,7 +27,7 @@ public class GamePage extends JPanel implements Page {
 	ReplayPanel replayPanel = new ReplayPanel();
 	JPanel wrapperPanel = new JPanel();
 	
-	public GamePage(WorldJPanel renderer) {
+	public GamePage(WrapperJPanel renderer) {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -38,9 +39,9 @@ public class GamePage extends JPanel implements Page {
 		gbc.insets = new Insets(0, 25, 0, 0);
 		
 		gbc.gridx = 0;
-		add(wrapperPanel, gbc);
-		wrapperPanel.add(renderer);
-		wrapperPanel.setLayout(null);
+		add(renderer, gbc);
+		//wrapperPanel.add(renderer);
+		//wrapperPanel.setLayout(null);
 		
 		
 		gbc.gridx = 1;
@@ -58,7 +59,8 @@ public class GamePage extends JPanel implements Page {
 		
 		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		
-		wrapperPanel.setBorder(panelBorder);
+		//wrapperPanel.setBorder(panelBorder);
+		//renderer.setBorder(panelBorder);
 		controlPanel.setBorder(panelBorder);
 		infoPanel.setBackground(Color.blue);
 		
