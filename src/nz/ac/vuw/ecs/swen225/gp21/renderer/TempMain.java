@@ -56,28 +56,30 @@ public class TempMain {
 //				Domain domain = new TestWorld();
 
 				Domain domain = new World() {
+					
 					@Override
 					public void collectedChip() {
-						WorldJPanel.playSound(SoundType.PICK_UP_A_CHIP);
+						WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
 						System.out.println("Player collected a chip!");
 						System.out.println("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
 					}
 
 					@Override
 					public void openedDoor() {
-						WorldJPanel.playSound(SoundType.DOOR_OPEN);
+						WrapperJPanel.playSound(SoundType.DOOR_OPEN);
 						System.out.println("Chip opened a door!");
 					}
 
 					@Override
 					public void enteredExit() {
-						WorldJPanel.playSound(SoundType.ENTER_EXIT);
+						WrapperJPanel.playSound(SoundType.ENTER_EXIT);
 						System.out.println("Player Won!");
 						setState(new GameOver());
 					}
 
 					@Override
 					public void enteredInfo(String msg) {
+						WrapperJPanel.playSound(SoundType.SHOW_INFO);
 						System.out.println("View -> stared displaying information: " + msg);
 					}
 
@@ -95,7 +97,7 @@ public class TempMain {
 					@Override
 					public void playerGainedItem(Item item) {
 						if (item instanceof KeyItem) {
-							WorldJPanel.playSound(SoundType.PICK_UP_A_KEY);
+							WrapperJPanel.playSound(SoundType.PICK_UP_A_KEY);
 						}
 						System.out.println("Player gained item: " + item);
 					}
@@ -103,7 +105,7 @@ public class TempMain {
 					@Override
 					public void playerConsumedItem(Item item) {
 						if (item instanceof KeyItem) {
-							WorldJPanel.playSound(SoundType.DOOR_OPEN);
+							WrapperJPanel.playSound(SoundType.DOOR_OPEN);
 						}
 						System.out.println("Player used item: " + item);
 					}
@@ -111,6 +113,18 @@ public class TempMain {
 					@Override
 					public String toString() {
 						return super.toString();
+					}
+
+					@Override
+					public void objectTeleported() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void objectPushed() {
+						// TODO Auto-generated method stub
+						
 					}
 				};
 				domain.loadLevelData(testLevel);

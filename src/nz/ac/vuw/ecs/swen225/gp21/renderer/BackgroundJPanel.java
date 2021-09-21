@@ -72,6 +72,7 @@ class BackgroundJPanel extends JPanel {
 	 * The info image
 	 */
 	private BufferedImage infoImage;
+	private boolean drawCurrentPanel;
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
 	 * 
@@ -96,7 +97,6 @@ class BackgroundJPanel extends JPanel {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
 			this.telePorterImage = FileUtil.getBufferedImage("teleporter.png");
 			this.infoImage = FileUtil.getBufferedImage("info.png");
-			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
 			this.exitTileImage = FileUtil.getBufferedImage("exitTile.png");
 			this.oneWayEastImage = FileUtil.getBufferedImage("oneWayEast.png");
 			this.oneWayWestImage = FileUtil.getBufferedImage("oneWayWest.png");
@@ -155,11 +155,7 @@ class BackgroundJPanel extends JPanel {
 					// draw the exit tile
 					g.drawImage(this.exitTileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof ExitLock) {
-					// draw the exit lock
-					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				}
+				} 
 			}
 		}
 	}

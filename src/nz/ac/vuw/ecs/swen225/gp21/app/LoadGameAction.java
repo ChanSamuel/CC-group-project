@@ -17,10 +17,12 @@ public class LoadGameAction implements Action {
 	public void execute(Controller control) {
 		try {
 			control.persister.loadGame(f, control.world);
-			control.gLoop.setIsPlaying(true);
 		} catch (PersistException e) {
-			e.printStackTrace(); // temporary.
+			control.warning(e.getMessage());
 		}
+		control.gLoop.setIsPlaying(true);
+		control.gLoop.setIsReplay(false);
+		control.gLoop.setAutoPlay(false);
 	}
 
 	@Override

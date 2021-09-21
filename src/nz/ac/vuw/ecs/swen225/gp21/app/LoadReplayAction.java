@@ -26,7 +26,8 @@ public class LoadReplayAction implements Action {
 		try {
 			control.persister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
-			e.printStackTrace(); // Temporary.
+			control.warning(e.getMessage());
+			return;
 		}
 		
 		control.gLoop.setIsReplay(true);

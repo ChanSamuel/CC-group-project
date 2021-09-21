@@ -13,6 +13,8 @@ import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
  */
 public class GameLoop implements Runnable {
 	
+	public static final int BASE_TPS = 40;
+	
 	/**
 	 * The queue of actions from the Controller that we poll every tick.
 	 */
@@ -46,7 +48,7 @@ public class GameLoop implements Runnable {
 	/**
 	 * The number of ticks (iterations through the game loop) each second.
 	 */
-	private volatile int tps = 200;
+	private volatile int tps = BASE_TPS;
 	
 	/**
 	 * Construct the GameLoop.
@@ -73,12 +75,11 @@ public class GameLoop implements Runnable {
 			
 			// First, check if other modules can be updated.
 			if (isPlaying) {
-				
 				if (isPaused) {
 					// Poll something from the queue if it's there but don't execute unless it's a resume.
 					
 					Action a = actions.peek();
-					boolean cond = a instanceof ResumeAction;
+					boolean cond = a instanceof TogglePauseAction;
 					pollAction(cond);
 					
 					// Update the renderer (even though nothing happens, we still do this so that it doesn't
@@ -108,8 +109,9 @@ public class GameLoop implements Runnable {
 						// Update the renderer.
 						control.renderer.redraw(control.world);
 						
+						
 						// Recorder things here.
-						//control.recorder.addTick(t);
+						control.recorder.addTick(t);
 						
 					}
 					
@@ -127,9 +129,9 @@ public class GameLoop implements Runnable {
 				pollAction(c);
 			}
 			
-			// Finally, wait for the remainder time of the 200ms (or however much) since start has not occured.
+			// Finally, wait for the remainder time of the 40ms (or however much) since start has not occured.
 			try {
-				long delay = tps - System.currentTimeMillis() - start;
+				long delay = tps - (System.currentTimeMillis() - start);
 				if (delay > 0) {
 					Thread.sleep(delay);
 				}
@@ -168,8 +170,8 @@ public class GameLoop implements Runnable {
 		this.isPlaying = p;
 	}
 	
-	void setTps(int tps) {
-		this.tps = tps;
+	void setTps(int t) {
+		this.tps = t;
 	}
 	
 	void setAutoPlay(boolean a) {
@@ -183,6 +185,24 @@ public class GameLoop implements Runnable {
 		if (!r) this.isAutoPlay = false;
 	}
 	
+	boolean getIsPaused() {
+		return this.isPaused;
+	}
 	
+	boolean getIsPlaying() {
+		return this.isPlaying;
+	}
+	
+	int getTps() {
+		return tps;
+	}
+	
+	boolean getIsAutoPlay() {
+		return this.isAutoPlay;
+	}
+	
+	boolean getIsReplay() {
+		return this.isReplay;
+	}
 
 }

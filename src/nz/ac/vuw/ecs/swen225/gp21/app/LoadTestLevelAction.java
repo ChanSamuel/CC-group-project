@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
 public class LoadTestLevelAction implements Action {
 
@@ -33,11 +34,13 @@ public class LoadTestLevelAction implements Action {
 		entities += "..........";
 		testLevel = new Level(rows, columns, tiles, entities, "No Info");
 		
+		control.world.setState(new Loading());
 		control.world.loadLevelData(testLevel);
 		control.world.doneLoading();
-		//control.renderer.setDomain(control.world);
-		control.renderer.initialise(control.world);
+		control.renderer.init(control.world, 1);
 		control.gLoop.setIsPlaying(true);
+		control.gLoop.setIsReplay(false);
+		control.gLoop.setAutoPlay(false);
 		
 	}
 

@@ -10,10 +10,13 @@ public class LoadLevel1Action implements Action {
 		try {
 			control.persister.loadLevel(1, control.world);
 		} catch (PersistException e) {
-			e.printStackTrace(); // Temporary.
+			control.warning(e.getMessage());
+			return;
 		}
 		
 		control.gLoop.setIsPlaying(true);
+		control.gLoop.setIsReplay(false);
+		control.gLoop.setAutoPlay(false);
 	}
 
 	@Override

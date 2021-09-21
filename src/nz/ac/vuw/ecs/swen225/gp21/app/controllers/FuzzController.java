@@ -10,56 +10,28 @@ public class FuzzController extends Controller {
 	}
 
 	@Override
-	public void enteredExitTrans() {
-		System.out.println("Entered an exit tile");
-		
-	}
-
-	@Override
-	public void enteredInfoTrans() {
-		System.out.println("Entered an info tile");
-		
-	}
-
-	@Override
-	public void leftInfoTrans() {
-		System.out.println("Exited an info tile");
-		
-	}
-
-	@Override
-	public void playerLostTrans() {
-		System.out.println("Player has lost!");
-		
-	}
-
-	@Override
-	public void playerGainedItemTrans() {
-		System.out.println("Gained an item");
-		
-	}
-
-	@Override
-	public void playerConsumedItemTrans() {
-		System.out.println("Consumed an item");
-	}
-
-	@Override
-	public void playerOpenedDoorTrans() {
-		System.out.println("Player opened a door");
-		
-	}
-
-	@Override
 	protected void warning(String message) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(message);
 	}
 
 	@Override
 	protected void report(String message) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(message);
+	}
+
+	@Override
+	protected void inform(String message) {
+		System.out.println(message);
+	}
+
+	@Override
+	protected void requestFocus() {
+		// Do nothing.
+	}
+	
+	@Override
+	public void haltGame() {
+		// Do nothing.
 	}
 
 

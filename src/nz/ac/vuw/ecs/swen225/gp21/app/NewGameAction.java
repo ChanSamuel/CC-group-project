@@ -19,7 +19,7 @@ public class NewGameAction implements Action {
 		} else if (levelChoice.equals(levels[2])) {
 			control.loadTestLevel();
 		} else {
-			throw new Error("Level not recognised!");
+			control.warning("Level not recognised!");
 		}
 		
 	}

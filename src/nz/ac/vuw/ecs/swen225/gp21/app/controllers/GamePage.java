@@ -60,7 +60,6 @@ public class GamePage extends JPanel implements Page {
 		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		
 		//wrapperPanel.setBorder(panelBorder);
-		//renderer.setBorder(panelBorder);
 		controlPanel.setBorder(panelBorder);
 		infoPanel.setBackground(Color.blue);
 		

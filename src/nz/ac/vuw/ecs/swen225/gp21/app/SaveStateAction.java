@@ -15,6 +15,12 @@ public class SaveStateAction implements Action {
 	
 	@Override
 	public void execute(Controller control) {
+		
+		if (!control.gLoop.getIsPlaying()) {
+			control.warning("Cannot save unless a game is being played.");
+			return;
+		}
+		
 		try {
 			control.report("Attempting to save " + saveFile.getPath() + "\nPress 'OK' and wait.");
 			control.persister.saveCurrentGame(saveFile, control.world);

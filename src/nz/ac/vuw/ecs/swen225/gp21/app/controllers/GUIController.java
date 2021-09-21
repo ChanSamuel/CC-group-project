@@ -10,23 +10,27 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
-
 public class GUIController extends GUI {
 	
 	private final JFileChooser fileChooser = new JFileChooser();
 	
 	/**
 	 * A controller side flag to know if the program is paused or not.
-	 * GameLoop has it's own flag which we must set.
+	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
 	 */
-	private boolean isPaused = false;
+	private volatile boolean isPaused = false;
 	
 	/**
 	 * A controller side flag to know if the program is in auto replay mode.
-	 * GameLoop has it's own flag which we must set.
+	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
 	 */
-	private boolean isAutoPlay = false;
+	private volatile boolean isAutoPlay = false;
+	
+	/**
+	 * A controller side flag to know if the program is in replay mode.
+	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
+	 */
+	private volatile boolean isReplay = false;
 	
 	
 	public GUIController() {
@@ -41,26 +45,25 @@ public class GUIController extends GUI {
 	
 	private void addListeners() {
 		
+		gamePage.replayPanel.stepBackward.addActionListener((ae) -> {
+			this.backTick();
+			requestFocus();
+		});
+		gamePage.replayPanel.stepForward.addActionListener((ae) -> {
+			this.forwardTick();
+			requestFocus();
+		});
+		
+		gamePage.replayPanel.setSpeedField.addActionListener((ae) -> {
+			this.changeSpeed(gamePage.replayPanel.setSpeedField.getText());
+		});
+		
 		gamePage.replayPanel.pausePlay.addActionListener((ae) -> {
-			if (isPaused) {
-				// Need to request back focus otherwise key listener will go numb.
-				// This may be due to an issue regarding acquiring the lock for Keyboard.
-				// FIXME: bug here regarding double pauses.
-				frame.requestFocusInWindow();
-				this.resumeGame();
-				this.isPaused = false;
-			} else {
-				this.pauseGame();
-				this.isPaused = true;
-			}
+			this.togglePause();
 		});
 		
 		gamePage.replayPanel.autoPlay.addActionListener((ae) -> {
-			this.isAutoPlay = !this.isAutoPlay;
-			this.setAutoPlay(this.isAutoPlay);
-			
-			// Request back focus for key listener.
-			frame.requestFocusInWindow();
+			this.toggleAutoPlay();
 		});
 		
 		// Menu bar exit to menu button action
@@ -206,52 +209,23 @@ public class GUIController extends GUI {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JOptionPane.showMessageDialog(f, message, "Warning", JOptionPane.ERROR_MESSAGE);
 	}
+
+	@Override
+	protected void inform(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	protected void requestFocus() {
+		// Request back focus for key listener.
+		frame.requestFocusInWindow();
+	}
 	
 	
 	/* ****************************
 	 * GUI ACTIONS
 	 * ****************************
 	 */
-
-	@Override
-	public void enteredExitTrans() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void enteredInfoTrans() {
-		report("Arbitrary informative message.");
-	}
-
-	@Override
-	public void leftInfoTrans() {
-		report("You have left an tile");
-		
-	}
-
-	@Override
-	public void playerLostTrans() {
-		report("You have lost the game\nReturning to main menu");
-		
-	}
-
-	@Override
-	public void playerGainedItemTrans() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerConsumedItemTrans() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerOpenedDoorTrans() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

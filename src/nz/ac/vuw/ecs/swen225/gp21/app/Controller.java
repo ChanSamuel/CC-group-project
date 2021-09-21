@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Scanner;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
@@ -11,6 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
+import nz.ac.vuw.ecs.swen225.gp21.renderer.SoundType;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
 
@@ -82,51 +84,51 @@ public abstract class Controller {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
 		failedActions = new ArrayDeque<Action>();
-		persister = new ConcretePersister();
 		renderer = new WrapperJPanel();
+		persister = new ConcretePersister();
 		recorder = new Recorder();
 		
 		world = new World() {
 
 			@Override
 			public void enteredExit() {
-				enteredExitTrans();
+				
 			}
 
 			@Override
 			public void enteredInfo(String msg) {
-				enteredInfoTrans();
+				
 			}
 
 			@Override
 			public void leftInfo() {
-				leftInfoTrans();
+				
 			}
 
 			@Override
 			public void playerLost() {
-				playerLostTrans();
+				
 			}
 
 			@Override
 			public void playerGainedItem(Item item) {
-				playerGainedItemTrans();
+				
 			}
 
 			@Override
 			public void playerConsumedItem(Item item) {
-				playerConsumedItemTrans();
+				
 			}
 
 			@Override
 			public void openedDoor() {
-				playerOpenedDoorTrans();
 				
 			}
 
 			@Override
 			public void collectedChip() {
-				
+				WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
+				//inform("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
 			}
 
 			@Override
@@ -156,48 +158,6 @@ public abstract class Controller {
 	public abstract void run();
 	
 	/**
-	 * The transition method called when chap enters the exit tile.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void enteredExitTrans();
-	
-	/**
-	 * The transition method called upon chap entering an info tile.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void enteredInfoTrans();
-	
-	/**
-	 * The transition method called when chap leaves an info tile.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void leftInfoTrans();
-	
-	/**
-	 * The transition method called when chap loses.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void playerLostTrans();
-	
-	/**
-	 * The transition method called when chap gains an item.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void playerGainedItemTrans();
-	
-	/**
-	 * The transition method called when chap consumes an item.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void playerConsumedItemTrans();
-	
-	/**
-	 * The transition method called when chap opens a door.
-	 * Called by GameWorld on the GameLoop thread.
-	 */
-	public abstract void playerOpenedDoorTrans();
-	
-	/**
 	 * Dialog to warn the user of something.
 	 * @param message
 	 */
@@ -210,19 +170,38 @@ public abstract class Controller {
 	protected abstract void report(String message);
 	
 	/**
+	 * Informs the user of something.
+	 * Does not necesarrily bring up a dialog.
+	 * @param message
+	 */
+	protected abstract void inform(String message);
+	
+	/**
+	 * Requests back focus for the key listener.
+	 * For Fuzz controller, this should do nothing.
+	 */
+	protected abstract void requestFocus();
+	
+	/* *********************************************
+	 * METHODS FOR ACTIONS THE CONTROLLER CAN ISSUE.
+	 * *********************************************
+	 */
+	
+	/**
 	 * Issue an Action to the game by adding it to the Action queue.
 	 * The Action may not be proccessed immediately.
 	 * Actions can be moves, or requests to pause the game.
 	 * @param a : the Action that should be issued.
 	 * 
 	 */
-	public void issue(Action a) {
+	private void issue(Action a) {
 		this.actions.add(a);
 	}
 	
 	/**
 	 * Returns the last failing Action that was issued.
 	 * This is an Action which was issued, processed, then failed due to it being invalid some way.
+	 * Currently does nothing.
 	 * @return last failing action
 	 */
 	public Action getLastFailedAction() {
@@ -271,6 +250,7 @@ public abstract class Controller {
 	/**
 	 * Exits the game and saves the latest state into a file.
 	 * The game can be resumed later on.
+	 * @param saveFile 
 	 */
 	public void exitAndSave(File saveFile) {
 		issue(new ExitSaveAction(saveFile));
@@ -306,44 +286,123 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Pauses the game loop and sets the Controller to refuse all requests other than resumeGame().
+	 * Pauses the game loop and sets the Controller to refuse all Actions other than another TogglePauseAction.
+	 * Resumes the game loop if already paused.
 	 */
-	public void pauseGame() {
-		issue(new PauseAction());
+	public void togglePause() {
+		issue(new TogglePauseAction());
 	}
 	
 	/**
-	 * Resumes the game loop if it is paused.
+	 * Toggles whether the current replay is in auto play mode or manual play mode.
+	 * Will warn the caller and won't execute the action if not currently in replay.
 	 */
-	public void resumeGame() {
-		issue(new ResumeAction());
+	public void toggleAutoPlay() {
+		issue(new ToggleAutoPlayAction());
 	}
 	
 	/**
-	 * Tells the game loop to go into auto play mode.
+	 * Loads a previously saved game.
+	 * @param f
 	 */
-	public void setAutoPlay(boolean isAutoPlay) {
-		issue(new SetAutoPlayAction(isAutoPlay));
-	}
-	
 	public void loadGame(File f) {
 		issue(new LoadGameAction(f));
 	}
 	
+	/**
+	 * Start a new game from the specified level.
+	 * @param s : a String which can be "Level 1", "Level 2", or "TEST LEVEL".
+	 */
 	public void newGame(String s) {
 		issue(new NewGameAction(s));
 	}
 	
-	public void haltGame() {
-		issue(new HaltAction());
+	/**
+	 * Start a new game from the specified level.
+	 * @param levelNumber : 0 for the test level, 1 for level 1, 2 for level 2.
+	 */
+	public void newGame(int levelNumber) {
+		if (levelNumber == 1) {
+			newGame("Level 1");
+		} else if (levelNumber == 2) {
+			newGame("Level 2");
+		} else if (levelNumber == 0){
+			newGame("TEST LEVEL");
+		} else {
+			warning("Level number " + levelNumber + " not recognised.\n"
+					+ "Acceptable level numbers are [0,1,2] where 0 is the test level.");
+		}
 	}
 	
+	/**
+	 * Save the current game state to a file.
+	 * Warns the user if a game isn't being currently played.
+	 * @param saveFile
+	 */
 	public void saveGameState(File saveFile) {
 		issue(new SaveStateAction(saveFile));
 	}
 	
+	/**
+	 * Save the current game into a replay file.
+	 * Warns the user if a game isn't currently being played.
+	 * @param saveFile
+	 */
 	public void saveReplay(File saveFile) {
 		issue(new SaveReplayAction(saveFile));
+	}
+	
+	/**
+	 * Change the speed that the replay is being played at.
+	 * Any values between [0.2, 5] inclusive are acceptable speeds.
+	 * Warns the user if the speed is not acceptable.
+	 * Warns the user if the value isn't a number.
+	 * @param val
+	 */
+	public void changeSpeed(String val) {
+		// Using scanner purely to check if the value is a number.
+		Scanner sc = new Scanner(val);
+		if (sc.hasNextFloat()) {
+			sc.close();
+			issue(new ChangeTickSpeedAction(Double.valueOf(val)));
+		} else {
+			sc.close();
+			warning("Speed multiplier value must be a number");
+		}
+	}
+	
+	/**
+	 * Change the speed that the replay is being played at.
+	 * Any values between [0.2, 5] inclusive are acceptable speeds.
+	 * Warns the user if the speed is not acceptable.
+	 * @param multiple
+	 */
+	public void changeSpeed(double multiple) {
+		issue(new ChangeTickSpeedAction(multiple));
+	}
+	
+	/**
+	 * Go back a tick during a replay.
+	 * Warns the user if the game isn't in replay mode yet.
+	 */
+	public void backTick() {
+		issue(new BackTickAction());
+	}
+	
+	/**
+	 * Go forward a tick during a replay.
+	 * Warns the user if the game isn't in replay mode yet.
+	 */
+	public void forwardTick() {
+		issue(new ForwardTickAction());
+	}
+	
+	/**
+	 * Halt the game.
+	 * This won't do anything in FuzzController.
+	 */
+	public void haltGame() {
+		issue(new HaltAction());
 	}
 	
 	/**
