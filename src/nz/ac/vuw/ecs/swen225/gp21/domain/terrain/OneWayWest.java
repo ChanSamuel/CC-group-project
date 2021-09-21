@@ -3,26 +3,36 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * TODO
+ * One way left tile.
+ *
  * @author Benjamin
  *
  */
 public final class OneWayWest extends OneWay {
-	
-	private static OneWayWest instance = new OneWayWest();
-	
-	public static OneWayWest getInstance() { return instance; }
+  /**
+   * Store the instance of one way west
+   */
+  private static OneWayWest instance = new OneWayWest();
 
-	/**
-	 * TODO
-	 */
-	private OneWayWest() {
-		super(Direction.WEST);
-	}
-	
-	@Override
-	public char boardChar() {
-		return '<';
-	}
+  /**
+   * Get an instance of one way west
+   *
+   * @return an instance of one way west
+   */
+  public static OneWayWest getInstance() {
+    return instance;
+  }
+
+  /**
+   * create a one way left tile.
+   */
+  private OneWayWest() {
+    super(Direction.WEST);
+  }
+
+  @Override
+  public char boardChar() {
+    return '<';
+  }
 
 }

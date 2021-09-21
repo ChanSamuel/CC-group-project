@@ -13,6 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 /**
  * This is the backgound JPanel which draws the tiles and walls, exit tiles,
@@ -44,10 +45,34 @@ class BackgroundJPanel extends JPanel {
 	 */
 	private BufferedImage exitTileImage;
 	/**
+	 * The one way east image
+	 */
+	private BufferedImage oneWayEastImage;
+	/**
+	 * The one way west image
+	 */
+	private BufferedImage oneWayWestImage;
+	/**
+	 * The one way north image
+	 */
+	private BufferedImage oneWayNorthImage;
+	/**
+	 * The one way south image
+	 */
+	private BufferedImage oneWaySouthImage;
+	/**
 	 * The parent JPanel
 	 */
 	private WorldJPanel worldJPanel;
-
+	/**
+	 * The padding
+	 */
+	private final int PADDING = 10;
+	/**
+	 * The info image
+	 */
+	private BufferedImage infoImage;
+	private boolean drawCurrentPanel;
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
 	 * 
@@ -71,8 +96,12 @@ class BackgroundJPanel extends JPanel {
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
 			this.telePorterImage = FileUtil.getBufferedImage("teleporter.png");
-			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
+			this.infoImage = FileUtil.getBufferedImage("info.png");
 			this.exitTileImage = FileUtil.getBufferedImage("exitTile.png");
+			this.oneWayEastImage = FileUtil.getBufferedImage("oneWayEast.png");
+			this.oneWayWestImage = FileUtil.getBufferedImage("oneWayWest.png");
+			this.oneWayNorthImage = FileUtil.getBufferedImage("oneWayNorth.png");
+			this.oneWaySouthImage = FileUtil.getBufferedImage("oneWaySouth.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +117,7 @@ class BackgroundJPanel extends JPanel {
 		System.out.println("Draw the background JPanel");
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				Terrain terrain = board.getTileAt(new Coord(i, j)).getTerrain();
+				Terrain terrain = board.getTileAt(new Coord(j, i)).getTerrain();
 				// draw the grass tile.
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
@@ -102,15 +131,31 @@ class BackgroundJPanel extends JPanel {
 					// draw the teleporter
 					g.drawImage(this.telePorterImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+				} else if (terrain instanceof Info) {
+					// draw the info
+					g.drawImage(this.infoImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+				}else if (terrain instanceof OneWayEast) {
+					// draw the one way east
+					g.drawImage(this.oneWayEastImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
+							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+				} else if (terrain instanceof OneWayWest) {
+					// draw the one way west
+					g.drawImage(this.oneWayWestImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
+							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+				} else if (terrain instanceof OneWaySouth) {
+					// draw the one way south
+					g.drawImage(this.oneWaySouthImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
+							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+				} else if (terrain instanceof OneWayNorth) {
+					// draw the one way north
+					g.drawImage(this.oneWayNorthImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
+							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
 				} else if (terrain instanceof ExitTile) {
 					// draw the exit tile
 					g.drawImage(this.exitTileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof ExitLock) {
-					// draw the exit lock
-					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				}
+				} 
 			}
 		}
 	}

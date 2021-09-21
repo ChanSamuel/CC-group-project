@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * The hero chap's JPanel
+ * The hero chap and block's JPanel
  * @author mengli
  *
  */
@@ -106,7 +106,7 @@ class ChapJPanel extends JPanel {
 		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		//update the coord and dir.
-		this.coord = worldJPanel.getCoord();
+		this.coord = worldJPanel.getChapCoord();
 		this.dir = worldJPanel.domain.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.

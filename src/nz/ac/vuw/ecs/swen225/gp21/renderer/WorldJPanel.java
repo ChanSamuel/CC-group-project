@@ -11,6 +11,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -19,15 +21,23 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  * @author mengli
  *
  */
-public class WorldJPanel extends JPanel implements KeyListener, Renderer {
+public class WorldJPanel extends JPanel {
 	/**
 	 * tile width
 	 */
-	final static int TILE_WIDTH = 40;
+	public final static int TILE_WIDTH = 40;
 	/**
 	 * tile height
 	 */
-	final static int TILE_HEIGHT = 40;
+	public final static int TILE_HEIGHT = 40;
+	/**
+	 * The rows of focusing area
+	 */
+	public final static int FOCUSING_ROWS = 9;
+	/**
+	 * The cols of focusing area
+	 */
+	public final static int FOCUSING_COLS = 9;
 	/**
 	 * The Board.
 	 */
@@ -39,7 +49,7 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * Chap's current coord
 	 */
-	protected Coord coord;
+	protected Coord playerCoord;
 	/**
 	 * Chap's current dir
 	 */
@@ -57,34 +67,31 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	 * The current game level
 	 */
 	private int level = -1;
-	/**
-	 * The music
-	 */
-	private Music backgroundMusic;
-
+	boolean playerMoved = true;
+	private DoorJComponent doorJComponent;
 	/**
 	 * Constructor
 	 */
 	public WorldJPanel() {
 	}
-	
-	@Override
-	public void setDomain(Domain domain) {
 
-		// -------- Set the world,board and chap----------
+	/**
+	 * Set the domain and call init to initialize WorldJpanel
+	 * 
+	 * @param domain
+	 */
+	public void init(Domain domain, int level) {
 		this.domain = domain;
-		this.board = domain.getBoard();
-		// -----------Add music---------------------------
-		try {
-			this.backgroundMusic = new Music(FileUtil.getAudioStream("music_level1.wav"));
-		} catch (IOException e) {
-			System.out.println("Music loading failed");
-			e.printStackTrace();
+		this.level = level;
+		// ---------Play music of current level---------------------
+		if (this.level == 1) {
+			playSound(SoundType.BGM_LEVEL_1);
+		} else if (this.level == 2) {
+			playSound(SoundType.BGM_LEVEL_2);
 		}
-		// modify volumn, positive means increase, negative means decrease.
-		this.backgroundMusic.modifyVolumn(-5);
-		this.backgroundMusic.start();
-		this.backgroundMusic.loop();
+		// ---------Set the board and coord of player----------------------
+		this.board = domain.getBoard();
+		this.playerCoord = this.domain.getPlayerLocation();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
 		setVisible(true);
@@ -93,6 +100,8 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
+		// The doors JComponent
+		this.doorJComponent = new DoorJComponent(this);
 		// The changingTerrain JPanel
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
@@ -103,37 +112,40 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 		lp.setLayout(null);
 		// arrange the layer, smaller index on top.
 		lp.add(ChapJPanel, index++);
+		lp.add(this.doorJComponent,index++);
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
 		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
-//		// create a new thread keep checking if chap's location has changed, if changed,
-//		// call updateJPanel()
-//		CheckUpdate checkUpdate = new CheckUpdate(this);
-//		checkUpdate.start();
 	}
+
 
 	/**
 	 * update the panel, once chap moves
 	 */
 	void updateJPanel() {
-		if(domain==null) return;
+		// ---------check if domain and level have been set----------------
+		if (domain == null||level== -1)
+			throw new RuntimeException("Please set domain and level");
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
-//		// update chap's location
-//		this.ChapJPanel.updateChap();
-//		// repaint the changingTerrainJPanel.
-//		this.changingTerrainJPanel.repaint();
-		this.repaint();
+		// update chap's location
+		this.ChapJPanel.updateChap();
+		// repaint the changingTerrainJPanel.
+		this.changingTerrainJPanel.repaint();
+		// repaint the doorJComponent.
+		this.doorJComponent.repaint();
 	}
+	
 
 	/**
 	 * Update focus area, place chap in the middle
 	 */
 	void updateFocusArea() {
-		if(domain==null) return;
+		if (domain == null)
+			return;
 		// calculate the offset of chap's coord from center of the board.
 		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getCol());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
@@ -152,119 +164,86 @@ public class WorldJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * Get chap's current location
 	 */
-	Coord getCoord() {
+	Coord getChapCoord() {
 		return domain.getPlayerLocation();
 	}
-	
 
-	// TODO Those are TEMP key listeners just for testing GUI.
-	// -------------------The Key listeners------------------------------
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		if(domain==null) return;
-		int code = e.getKeyCode();
-		switch (code) {
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
-			domain.moveChipUp();
-			domain.update(200);
-			System.out.println("move chap up");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-//			this.updateJPanel();
-			break;
-		case KeyEvent.VK_S:
-		case KeyEvent.VK_DOWN:
-			domain.moveChipDown();
-			domain.update(200);
-			System.out.println("move chap down");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_LEFT:
-			domain.moveChipLeft();
-			domain.update(200);
-			System.out.println("move chap left");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_D:
-		case KeyEvent.VK_RIGHT:
-			domain.moveChipRight();
-			domain.update(200);
-			System.out.println("move chap right");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		default:
-			break;
-		}
-	}
-//--------------------Methods inherit from Renderer--------
-	@Override
+	/**
+	 * Redraw the maze if chap moves.
+	 * 
+	 * @param domain
+	 */
 	public void redraw(Domain domain) {
-		if (this.coord.getCol() != this.domain.getPlayerLocation().getCol()
-				|| this.coord.getRow() != this.domain.getPlayerLocation().getRow()) {
-			this.coord = this.domain.getPlayerLocation();
+		if (this.playerCoord.getCol() != this.domain.getPlayerLocation().getCol()
+				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
+			this.playerCoord = this.domain.getPlayerLocation();
+			this.playerMoved = true;
 			this.updateJPanel();
+		} else {
+			this.playerMoved = false;
 		}
 	}
 
-	@Override
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
-	@Override
-	public void playSound(SoundType soundtype) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Play sound effect, this method should be called when event such as pick up a
+	 * chip, pick up a key, open the door etc.
+	 */
+	public static void playSound(SoundType soundType) {
+		try {
+			switch (soundType) {
+			case BGM_LEVEL_1:
+				Music level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level1Music.modifyVolumn(-5);
+				// start background music
+				level1Music.start();
+				// loop background music
+				level1Music.loop();
+				break;
+			case BGM_LEVEL_2:
+				Music level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level2Music.modifyVolumn(-5);
+				// start background music
+				level2Music.start();
+				// loop background music
+				level2Music.loop();
+				break;
+			case GAME_START:
+				new Music(FileUtil.getAudioStream("GAME_START.wav")).start();;
+				break;
+			case DOOR_OPEN:
+				new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();;
+				break;
+			case SHOW_INFO:
+				new Music(FileUtil.getAudioStream("SHOW_INFO.wav")).start();;
+				break;
+			case TELEPORT:
+				new Music(FileUtil.getAudioStream("TELEPORT.wav")).start();
+				break;
+			case PUSH_BLOCK:
+				new Music(FileUtil.getAudioStream("PUSH_BLOCK.wav")).start();;
+				break;
+			case PICK_UP_A_KEY:
+				new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav")).start();;
+				break;
+			case PICK_UP_A_CHIP:
+				new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav")).start();;
+				break;
+			case ENTER_EXIT:
+				new Music(FileUtil.getAudioStream("ENTER_EXIT.wav")).start();;
+				break;
+			default:
+				throw new RuntimeException("Not a valid sound effect");
+			}
+		} catch (IOException e) {
+			System.out.println("Music loading failed");
+			e.printStackTrace();
+		}
+
 	}
 }
-
-///**
-// * This is a sub class extends thread to keep check if there is chap moves.
-// * Because when chap moves is unpredictable, so trying to check movement
-// * frequently and refresh view.
-// * 
-// * @author mengli
-// *
-// */
-//class CheckUpdate extends Thread {
-//	/**
-//	 * The parent JPanel
-//	 * 
-//	 * @param worldJPanel
-//	 */
-//	private WorldJPanel worldJPanel;
-//
-//	public CheckUpdate(WorldJPanel worldJPanel) {
-//		this.worldJPanel = worldJPanel;
-//	}
-//
-//	@Override
-//	public void run() {
-//		if(this.worldJPanel.domain==null) return;
-//		while (true) {
-//			if (worldJPanel.coord.getCol() != worldJPanel.domain.getPlayerLocation().getCol()
-//					|| worldJPanel.coord.getRow() != worldJPanel.domain.getPlayerLocation().getRow()) {
-//				worldJPanel.coord = worldJPanel.domain.getPlayerLocation();
-//				worldJPanel.updateJPanel();
-//			}
-//			try {
-//				Thread.sleep(20);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-//}
