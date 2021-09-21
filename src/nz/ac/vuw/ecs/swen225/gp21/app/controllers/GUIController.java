@@ -43,6 +43,11 @@ public class GUIController extends GUI {
 		addListeners();
 	}
 	
+	@Override
+	public JFrame getFrame() {
+		return this.frame;
+	}
+	
 	private void addListeners() {
 		
 		gamePage.replayPanel.stepBackward.addActionListener((ae) -> {

@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
@@ -151,6 +153,11 @@ public abstract class Controller {
 		
 		t.start();
 	}
+	
+	/**
+	 * Test
+	 */
+	public abstract JFrame getFrame();
 	
 	/**
 	 * Run the event loop of this Controller and initialise the user interface.

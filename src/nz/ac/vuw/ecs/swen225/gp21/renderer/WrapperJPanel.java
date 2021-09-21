@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 
 /**
@@ -125,5 +127,6 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	public void init(Domain domain,int level) {
 		this.domain = domain;
 		worldJPanel.init(domain,level);
+		this.repaint();
 	}
 }

@@ -13,14 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePageBackground extends JPanel {
-	private Image img;
 	
 	public GamePageBackground() {
-		try {
-			img = ImageIO.read(new File(System.getProperty("user.dir") + "\\Assets\\images\\treasure.png"));
-		} catch (IOException e) {
-			throw new Error("Could not read game page background image file!", e);
-		}
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
@@ -32,9 +26,4 @@ public class GamePageBackground extends JPanel {
 	    setMaximumSize(size);
 	}
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(img, 0, 0, null);
-	}
 }
