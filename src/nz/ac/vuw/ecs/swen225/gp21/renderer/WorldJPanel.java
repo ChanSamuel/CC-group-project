@@ -81,10 +81,11 @@ public class WorldJPanel extends JPanel {
 	 * @param domain
 	 */
 	public void init(Domain domain, int level) {
-		this.removeAll();
-		this.revalidate();
 		this.domain = domain;
 		this.level = level;
+		//remove all old JPanels if exit, then revalidate.
+		this.removeAll();
+		this.revalidate();
 		// ---------Play music of current level---------------------
 		if (this.level == 1) {
 			playSound(SoundType.BGM_LEVEL_1);
