@@ -1,5 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
@@ -37,7 +41,17 @@ public class LoadTestLevelAction implements Action {
 		control.world.setState(new Loading());
 		control.world.loadLevelData(testLevel);
 		control.world.doneLoading();
-		control.renderer.init(control.world, 1);
+		
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.init(control.world, 1);
+			});
+		} catch (InvocationTargetException e) {
+			control.warning("Renderer intialisation interrputed");;
+		} catch (InterruptedException e) {
+			control.warning("Renderer intialisation interrputed");
+		}
+		
 		control.gLoop.setIsPlaying(true);
 		control.gLoop.setIsReplay(false);
 		control.gLoop.setAutoPlay(false);
