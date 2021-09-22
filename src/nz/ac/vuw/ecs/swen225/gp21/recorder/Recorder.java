@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+// GOTTA GET RID OF THIS
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
 /**
  * The primary class for the recording package.
@@ -20,8 +22,8 @@ public class Recorder {
     private boolean autoReplayRunning = false;
 
     public Recorder(){
-    	this.ticks = new LinkedList<Tick>();
         this.tickPointer = 0;
+        ticks = new LinkedList<Tick>();
     }
 
     /**
@@ -46,31 +48,37 @@ public class Recorder {
      * 
      * @return True if save successful
      */
-    public boolean save(File saveFile){
+    public void save(File saveFile) throws RecorderException{
         ticks.get(ticks.size()-1).isFinalTick = true; // set final tick
         Recording r = new Recording(ticks, level);
-        return SaveRecording.save(saveFile, r);
+        try{
+            SaveRecording.save(saveFile, r);
+        } catch (PersistException e) {
+            throw new RecorderException(e.getMessage());
+        }
     }
 
     /**
      * Parses an xml file into a list of game states.
      * 
      * @return A list of all game states in loaded recording
+     * @throws RecorderException
      */
-    public void load(File loadFile){
+    public void load(File loadFile) throws RecorderException{
         Recording r = LoadRecording.load(loadFile);
         ticks = r.getTicks();
         level = r.getLevel();
+        tickPointer = 0;
     }
 
     /**
      * Add a single tick to the list.
      *
-     * @throws IllegalArgumenException if tick is not valid (e.g. null ticks)
+     * @throws RecorderException if tick is not valid (e.g. null ticks)
      */
-    public void addTick(Tick tick){
+    public void addTick(Tick tick) throws RecorderException{
         if(tickValid(tick)) ticks.add(tick);
-        else throw new IllegalArgumentException();
+        else throw new RecorderException("null tick added");
     }
 
     /**
@@ -149,7 +157,7 @@ public class Recorder {
     private Tick nextMeaningful() {
         while(tickPointer < ticks.size()-1){
             tickPointer++;
-            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
         }
         return null;
     }
@@ -162,7 +170,7 @@ public class Recorder {
     private Tick prevMeaningful() {
         while(tickPointer > 0){
             tickPointer--;
-            //if(ticks.get(tickPointer).isAnyMove()) return ticks.get(tickPointer);
+            if(ticks.get(tickPointer).didAnyObjectMove()) return ticks.get(tickPointer);
         }
         return null;
     }

@@ -56,7 +56,6 @@ public class TempMain {
 //				Domain domain = new TestWorld();
 
 				Domain domain = new World() {
-					
 					@Override
 					public void collectedChip() {
 						WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
@@ -117,14 +116,12 @@ public class TempMain {
 
 					@Override
 					public void objectTeleported() {
-						// TODO Auto-generated method stub
-						
+						WrapperJPanel.playSound(SoundType.TELEPORT);
 					}
 
 					@Override
 					public void objectPushed() {
-						// TODO Auto-generated method stub
-						
+							WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
 					}
 				};
 				domain.loadLevelData(testLevel);

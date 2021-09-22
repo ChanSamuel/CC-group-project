@@ -11,6 +11,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -65,14 +67,8 @@ public class WorldJPanel extends JPanel {
 	 * The current game level
 	 */
 	private int level = -1;
-	private Music backgroundMusic;
-//	private Music doorOpenSound;
-	private Music gameStartSound;
 	boolean playerMoved = true;
-
-//	private Music pickUpAKeySound;
-//	private Music pickUpAChipSound;
-//	private Music enterExitSound;
+	private DoorJComponent doorJComponent;
 	/**
 	 * Constructor
 	 */
@@ -104,17 +100,19 @@ public class WorldJPanel extends JPanel {
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
+		// The doors JComponent
+		this.doorJComponent = new DoorJComponent(this);
 		// The changingTerrain JPanel
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
 		this.ChapJPanel = new ChapJPanel(this);
-
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
 		lp.setLayout(null);
 		// arrange the layer, smaller index on top.
 		lp.add(ChapJPanel, index++);
+		lp.add(this.doorJComponent,index++);
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
@@ -137,7 +135,10 @@ public class WorldJPanel extends JPanel {
 		this.ChapJPanel.updateChap();
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
+		// repaint the doorJComponent.
+		this.doorJComponent.repaint();
 	}
+	
 
 	/**
 	 * Update focus area, place chap in the middle
@@ -213,28 +214,28 @@ public class WorldJPanel extends JPanel {
 				level2Music.loop();
 				break;
 			case GAME_START:
-				Music gameStartSound = new Music(FileUtil.getAudioStream("GAME_START.wav"));
-				gameStartSound.start();
+				new Music(FileUtil.getAudioStream("GAME_START.wav")).start();;
 				break;
 			case DOOR_OPEN:
-				Music doorOpenSound = new Music(FileUtil.getAudioStream("DOOR_OPEN.wav"));
-				doorOpenSound.start();
+				new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();;
 				break;
 			case SHOW_INFO:
-				Music showInfoSound = new Music(FileUtil.getAudioStream("SHOW_INFO.wav"));
-				showInfoSound.start();
+				new Music(FileUtil.getAudioStream("SHOW_INFO.wav")).start();;
+				break;
+			case TELEPORT:
+				new Music(FileUtil.getAudioStream("TELEPORT.wav")).start();
+				break;
+			case PUSH_BLOCK:
+				new Music(FileUtil.getAudioStream("PUSH_BLOCK.wav")).start();;
 				break;
 			case PICK_UP_A_KEY:
-				Music pickUpAKeySound = new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav"));
-				pickUpAKeySound.start();
+				new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav")).start();;
 				break;
 			case PICK_UP_A_CHIP:
-				Music pickUpAChipSound = new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav"));
-				pickUpAChipSound.start();
+				new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav")).start();;
 				break;
 			case ENTER_EXIT:
-				Music enterExitSound = new Music(FileUtil.getAudioStream("ENTER_EXIT.wav"));
-				enterExitSound.start();
+				new Music(FileUtil.getAudioStream("ENTER_EXIT.wav")).start();;
 				break;
 			default:
 				throw new RuntimeException("Not a valid sound effect");
