@@ -6,6 +6,7 @@ import java.util.Queue;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 /**
  * A runnable which runs the game loop.
@@ -113,7 +114,12 @@ public class GameLoop implements Runnable {
 						updateRenderer();
 						
 						// Recorder things here.
-						control.recorder.addTick(t);
+						try {
+							control.recorder.addTick(t);
+						} catch (RecorderException e) {
+							control.warning("Something went wrong when adding a tick to the recorder:\n"
+											+ e.getMessage());
+						}
 						
 					}
 					

@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 public class LoadReplayAction implements Action {
 
@@ -26,13 +27,18 @@ public class LoadReplayAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		control.recorder.load(f);
+		try {
+			control.recorder.load(f);
+		} catch (RecorderException e1) {
+			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
+			return;
+		}
 		int levelNumber = control.recorder.getLevel();
 		
 		try {
 			control.persister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
-			control.warning(e.getMessage());
+			control.warning("Something went wrong when persisting the level:\n" + e.getMessage());
 			return;
 		}
 		
@@ -46,9 +52,11 @@ public class LoadReplayAction implements Action {
 				}
 			});
 		} catch (InvocationTargetException e) {
-			control.warning("Renderer intialisation interrputed");;
+			control.warning("Renderer intialisation interrputed");
+			return;
 		} catch (InterruptedException e) {
 			control.warning("Renderer intialisation interrputed");
+			return;
 		}
 		
 		control.gLoop.setIsReplay(true);

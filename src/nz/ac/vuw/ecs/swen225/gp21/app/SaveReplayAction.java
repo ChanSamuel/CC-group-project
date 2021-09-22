@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.io.File;
 
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
+
 public class SaveReplayAction implements Action {
 
 	private File saveFile;
@@ -23,12 +25,14 @@ public class SaveReplayAction implements Action {
 			return;
 		}
 		
-		control.report("Attempting to save " + saveFile.getPath() + "\nPress 'OK' and wait.");
-		if (control.recorder.save(saveFile)) {
-			control.report("Save successful");
-		} else {
-			control.warning("Save unsuccessful");
+		try {
+			control.recorder.save(saveFile);
+		} catch (RecorderException e) {
+			control.warning("Something went wrong with saving the replay:\n" + e.getMessage());
+			return;
 		}
+		
+		control.report("Save successful");
 	}
 
 	@Override

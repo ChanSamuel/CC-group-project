@@ -16,8 +16,8 @@ public class LoadLevel2Action implements Action {
 		
 		try {
 			control.persister.loadLevel(2, control.world);
-		} catch (PersistException e) {
-			control.warning(e.getMessage());
+		} catch (Exception e) {
+			control.warning("Something went wrong when loading level 2:\n" + e.getMessage());
 			return;
 		}
 		
@@ -31,9 +31,11 @@ public class LoadLevel2Action implements Action {
 				}
 			});
 		} catch (InvocationTargetException e) {
-			control.warning("Renderer intialisation interrputed");;
+			control.warning("Renderer intialisation interrputed");
+			return;
 		} catch (InterruptedException e) {
 			control.warning("Renderer intialisation interrputed");
+			return;
 		}
 		
 		control.gLoop.setIsPlaying(true);

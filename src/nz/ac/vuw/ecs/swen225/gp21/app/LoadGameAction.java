@@ -23,8 +23,9 @@ public class LoadGameAction implements Action {
 	public void execute(Controller control) {
 		try {
 			control.persister.loadGame(f, control.world);
-		} catch (PersistException e) {
-			control.warning(e.getMessage());
+		} catch (Exception e) {
+			control.warning("Something went wrong when loading a previously saved game:\n"+ e.getMessage());
+			return;
 		}
 		
 		try {
@@ -37,9 +38,11 @@ public class LoadGameAction implements Action {
 				}
 			});
 		} catch (InvocationTargetException e) {
-			control.warning("Renderer intialisation interrputed");;
+			control.warning("Renderer intialisation interrputed");
+			return;
 		} catch (InterruptedException e) {
 			control.warning("Renderer intialisation interrputed");
+			return;
 		}
 		
 		control.gLoop.setIsPlaying(true);
