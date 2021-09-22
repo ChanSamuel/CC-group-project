@@ -10,12 +10,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  */
 public final class OneWayWest extends OneWay {
   /**
-   * Store the instance of one way west
+   * Store the instance of one way west.
    */
   private static OneWayWest instance = new OneWayWest();
 
   /**
-   * Get an instance of one way west
+   * Get an instance of one way west.
    *
    * @return an instance of one way west
    */

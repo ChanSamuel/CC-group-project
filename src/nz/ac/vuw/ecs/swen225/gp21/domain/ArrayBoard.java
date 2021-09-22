@@ -15,11 +15,11 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
  */
 public class ArrayBoard implements Board {
   /**
-   * A reference back up to the world
+   * A reference back up to the world.
    */
   private World world;
   /**
-   * The internal representation of the game
+   * The internal representation of the game.
    */
   private final Tile[][] board;
 

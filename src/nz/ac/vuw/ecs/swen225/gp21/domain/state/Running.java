@@ -2,15 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import java.util.*; //TODO temp addition
 import java.util.stream.Collectors;
-
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord; //TODO temp addition
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
-import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tile; //TODO temp addition
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.DirectMove;
@@ -20,8 +17,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**

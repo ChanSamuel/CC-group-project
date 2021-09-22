@@ -17,8 +17,6 @@ public final class Block extends GameObject {
 
   /**
    * Create a new movable block.
-   *
-   * @param w the world this block is in
    */
   public Block() {
     super(new NoMovement(), "block.png", "block.png");
@@ -39,7 +37,7 @@ public final class Block extends GameObject {
       boolean answer = t.canEntityGoOnTile(this);
       this.dir = Direction.NONE;
       return answer;
-//      return currentTile.canOccupierMove(entity.dir);
+      // return currentTile.canOccupierMove(entity.dir);
     }
     return false;
   }

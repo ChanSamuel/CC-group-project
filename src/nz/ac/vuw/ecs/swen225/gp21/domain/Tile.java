@@ -15,7 +15,7 @@ public final class Tile {
    */
   public final Coord location;
   /**
-   * The board that this tile belongs to
+   * The board that this tile belongs to.
    */
   public final Board board;
   /**

@@ -1,7 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import java.util.List;
-
 /**
  * Domain will be the publicly accessible interface that other modules will use
  * to interact with domain. Domains need to be able to support the following
