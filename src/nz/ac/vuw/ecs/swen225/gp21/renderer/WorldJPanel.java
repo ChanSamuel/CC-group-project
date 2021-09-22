@@ -7,10 +7,12 @@ import java.io.IOException;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -43,7 +45,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * The domain object
 	 */
-	protected Domain domain;
+	protected volatile Domain domain;
 	/**
 	 * Chap's current coord
 	 */
@@ -60,7 +62,7 @@ public class WorldJPanel extends JPanel {
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
 	 */
-	private ChangingElementsJPanel changingTerrainJPanel;
+	public ChangingElementsJPanel changingTerrainJPanel;
 	/**
 	 * The current game level
 	 */
@@ -69,6 +71,8 @@ public class WorldJPanel extends JPanel {
 //	private Music doorOpenSound;
 	private Music gameStartSound;
 	boolean playerMoved = true;
+	
+	int id = 0;
 
 //	private Music pickUpAKeySound;
 //	private Music pickUpAChipSound;
@@ -95,6 +99,7 @@ public class WorldJPanel extends JPanel {
 		}
 		// ---------Set the board and coord of player----------------------
 		this.board = domain.getBoard();
+		
 		this.playerCoord = this.domain.getPlayerLocation();
 		// -------- Set the properties of this JPanel------
 		setLayout(null);
@@ -105,7 +110,8 @@ public class WorldJPanel extends JPanel {
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
 		// The changingTerrain JPanel
-		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
+		this.changingTerrainJPanel = new ChangingElementsJPanel(this, id);
+		id++;
 		// The chap JPanel
 		this.ChapJPanel = new ChapJPanel(this);
 
@@ -135,6 +141,7 @@ public class WorldJPanel extends JPanel {
 		updateFocusArea();
 		// update chap's location
 		this.ChapJPanel.updateChap();
+		
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
 	}

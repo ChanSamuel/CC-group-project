@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
@@ -31,19 +33,25 @@ import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
 public abstract class Controller {
 	
 	/**
+	 * A flag to signify whether the controller is waiting for something to finish or not.
+	 */
+	private volatile boolean waiting = false;
+	
+	/**
 	 * Contains a queue of the actions issued by the Controller. This queue is polled every tick.
 	 */
 	private Queue<Action> actions;
 	
 	/**
 	 * The last issued Action which was not valid.
+	 * Currently not used.
 	 */
 	private Queue<Action> failedActions;
 	
 	/**
 	 * The entrypoint into the rendering module.
 	 */
-	protected WrapperJPanel renderer;
+	protected volatile WrapperJPanel renderer;
 	
 	/**
 	 * The entrypoint into the persistency module.
@@ -58,7 +66,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the Domain module of the game.
 	 */
-	protected Domain world;
+	protected volatile Domain world;
 	
 	/**
 	 * The entrypoint into the Recorder module.
@@ -182,6 +190,16 @@ public abstract class Controller {
 	 */
 	protected abstract void requestFocus();
 	
+	/**
+	 * Shows the given page on this controller.
+	 * For FuzzController, this should do nothing.
+	 * @param pageName
+	 */
+	protected abstract void showPage(String pageName);
+	
+	protected abstract JFrame getFrame();
+	
+	
 	/* *********************************************
 	 * METHODS FOR ACTIONS THE CONTROLLER CAN ISSUE.
 	 * *********************************************
@@ -196,6 +214,10 @@ public abstract class Controller {
 	 */
 	private void issue(Action a) {
 		this.actions.add(a);
+	}
+	
+	protected void exitToMenu() {
+		issue(new ExitToMenuAction());
 	}
 	
 	/**
@@ -286,22 +308,6 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Pauses the game loop and sets the Controller to refuse all Actions other than another TogglePauseAction.
-	 * Resumes the game loop if already paused.
-	 */
-	public void togglePause() {
-		issue(new TogglePauseAction());
-	}
-	
-	/**
-	 * Toggles whether the current replay is in auto play mode or manual play mode.
-	 * Will warn the caller and won't execute the action if not currently in replay.
-	 */
-	public void toggleAutoPlay() {
-		issue(new ToggleAutoPlayAction());
-	}
-	
-	/**
 	 * Loads a previously saved game.
 	 * @param f
 	 */
@@ -332,6 +338,22 @@ public abstract class Controller {
 			warning("Level number " + levelNumber + " not recognised.\n"
 					+ "Acceptable level numbers are [0,1,2] where 0 is the test level.");
 		}
+	}
+	
+	/**
+	 * Pauses the game loop and sets the Controller to refuse all Actions other than another TogglePauseAction.
+	 * Resumes the game loop if already paused.
+	 */
+	public void togglePause() {
+		issue(new TogglePauseAction());
+	}
+	
+	/**
+	 * Toggles whether the current replay is in auto play mode or manual play mode.
+	 * Will warn the caller and won't execute the action if not currently in replay.
+	 */
+	public void toggleAutoPlay() {
+		issue(new ToggleAutoPlayAction());
 	}
 	
 	/**

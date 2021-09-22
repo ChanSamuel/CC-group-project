@@ -22,7 +22,7 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	public static final int FOCUS_AREA_COLS = 9;
 	public static final int WIDTH = WorldJPanel.TILE_WIDTH * FOCUS_AREA_COLS;
 	public static final int HEIGHT = WorldJPanel.TILE_HEIGHT * FOCUS_AREA_ROWS;
-	private Domain domain;
+	private volatile Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
 	/**
@@ -113,6 +113,11 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	 */
 	public static void playSound(SoundType soundtype) {
 		WorldJPanel.playSound(soundtype);
+	}
+	
+	public void makeSpecial() {
+		worldJPanel.changingTerrainJPanel.aFlag = true;
+		worldJPanel.changingTerrainJPanel.special = true;
 	}
 
 	// --------------------Methods inherit from Renderer--------

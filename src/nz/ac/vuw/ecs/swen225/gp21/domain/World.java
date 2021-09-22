@@ -62,7 +62,7 @@ public abstract class World implements Domain {
   /**
    * The board is the internal representation of of the game.
    */
-  protected Board board;
+  protected volatile Board board;
   /**
    * Central record of total treasure.
    */

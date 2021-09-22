@@ -14,25 +14,6 @@ public class GUIController extends GUI {
 	
 	private final JFileChooser fileChooser = new JFileChooser();
 	
-	/**
-	 * A controller side flag to know if the program is paused or not.
-	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
-	 */
-	private volatile boolean isPaused = false;
-	
-	/**
-	 * A controller side flag to know if the program is in auto replay mode.
-	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
-	 */
-	private volatile boolean isAutoPlay = false;
-	
-	/**
-	 * A controller side flag to know if the program is in replay mode.
-	 * When the corresponding action is executed, GameLoop sets it's own flag and this flag.
-	 */
-	private volatile boolean isReplay = false;
-	
-	
 	public GUIController() {
 		super();
 	}
@@ -69,15 +50,12 @@ public class GUIController extends GUI {
 		// Menu bar exit to menu button action
 		frame.fileExitToMenu.addActionListener((ae) -> {
 			
-			this.haltGame();
+			this.exitToMenu();
 			 
 			// Disable buttons which involve saving when we go back to main menu.
 			frame.fileExitSave.setEnabled(false);
 			frame.fileSaveState.setEnabled(false);
 			frame.fileSaveReplay.setEnabled(false);
-			
-			CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
-			cl.show(frame.getContentPane(), "Home page");
 		});
 		
 		frame.fileLoadGame.addActionListener((ae) -> {
@@ -179,8 +157,6 @@ public class GUIController extends GUI {
 			frame.fileSaveState.setEnabled(true);
 			frame.fileSaveReplay.setEnabled(true);
 			
-			CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
-			cl.show(frame.getContentPane(), "Game page");
 		});
 		
 	}
@@ -222,10 +198,15 @@ public class GUIController extends GUI {
 		frame.requestFocusInWindow();
 	}
 	
-	
-	/* ****************************
-	 * GUI ACTIONS
-	 * ****************************
-	 */
+	@Override
+	protected void showPage(String pageName) {
+		CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+		cl.show(frame.getContentPane(), pageName);
+	}
+
+	@Override
+	protected JFrame getFrame() {
+		return this.frame;
+	}
 	
 }

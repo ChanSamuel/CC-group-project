@@ -1,6 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
@@ -33,6 +36,17 @@ public class LoadReplayAction implements Action {
 		control.gLoop.setIsReplay(true);
 		control.gLoop.setIsPlaying(true);
 		control.world.setState(new Replaying());
+		
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.showPage("Game page");
+			});
+		} catch (InvocationTargetException e) {
+			control.warning("Showing page was interrupted");
+		} catch (InterruptedException e) {
+			control.warning("Showing page was interrupted");
+		}
+		
 	}
 
 	@Override

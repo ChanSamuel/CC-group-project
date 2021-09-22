@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
+import javax.swing.JFrame;
+
 import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
 
 public class FuzzController extends Controller {
@@ -32,6 +34,17 @@ public class FuzzController extends Controller {
 	@Override
 	public void haltGame() {
 		// Do nothing.
+	}
+
+	@Override
+	protected void showPage(String pageName) {
+		// Do nothing.
+	}
+
+	@Override
+	protected JFrame getFrame() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

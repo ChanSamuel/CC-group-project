@@ -1,5 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
 public class LoadLevel2Action implements Action {
@@ -17,6 +21,17 @@ public class LoadLevel2Action implements Action {
 		control.gLoop.setIsPlaying(true);
 		control.gLoop.setIsReplay(false);
 		control.gLoop.setAutoPlay(false);
+		
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.showPage("Game page");
+			});
+		} catch (InvocationTargetException e) {
+			control.warning("Showing page was interrupted");
+		} catch (InterruptedException e) {
+			control.warning("Showing page was interrupted");
+		}
+		
 	}
 
 	@Override

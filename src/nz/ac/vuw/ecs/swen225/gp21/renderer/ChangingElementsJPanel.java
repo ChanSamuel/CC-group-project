@@ -41,13 +41,22 @@ class ChangingElementsJPanel extends JPanel {
 	 * The exit lock image
 	 */
 	private BufferedImage exitLockImage;
-
+	
+	
+	private int id;
+	
+	public static boolean aFlag = false;
+	
+	public boolean special = false;
+	
+	public WorldJPanel wjp;
+	
 	/**
 	 * The constructor
 	 * 
 	 * @param worldJPanel the parent JPanel
 	 */
-	ChangingElementsJPanel(WorldJPanel worldJPanel) {
+	ChangingElementsJPanel(WorldJPanel worldJPanel, int id) {
 		// set panel properties
 		setLayout(null);
 		setBounds(0, 0, worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
@@ -56,6 +65,8 @@ class ChangingElementsJPanel extends JPanel {
 		initImages();
 		// set the board.
 		this.board = worldJPanel.getBoard();
+		this.wjp = worldJPanel;
+		this.id = id;
 	}
 
 	/**
@@ -79,6 +90,17 @@ class ChangingElementsJPanel extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
+		System.out.println("Changing element ID =  " + this.id);
+		if (aFlag) {
+			if (!special) {
+				System.out.println("Non-Special instance encountered with ID " + this.id);
+				//System.out.println("WJP board hash is: "+ wjp.getBoard().hashCode());
+				this.board = wjp.getBoard();
+			} else {
+				System.out.println("SPECIAL instance encountered with ID " + this.id);
+				//System.out.println("WJP board hash is: "+ wjp.getBoard().hashCode());
+			}
+		}
 		//NOTE add below would result in strange behavior.
 //		super.paintComponent(g);
 		System.out.println("Draw the changingTerrain JPanel");
