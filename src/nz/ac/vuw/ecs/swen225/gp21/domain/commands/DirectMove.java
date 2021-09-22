@@ -75,14 +75,14 @@ public final class DirectMove implements Command {
   public void execute(World w) {
     GameObject moved = getObjectToMove(w, beforePos);
     moved.dir = afterDir;
-    assert (w.getBoard().tryMoveObject(afterPos, moved) != null);
+    assert (w.getBoardWorld().tryMoveObject(afterPos, moved) != null);
   }
 
   @Override
   public void undo(World w) {
     GameObject moved = getObjectToMove(w, afterPos);
     moved.dir = beforeDir;
-    w.getBoard().moveObjectBack(beforePos, moved);
+    w.getBoardWorld().moveObjectBack(beforePos, moved);
     w.getTileAt(afterPos).resetTerrain(moved, beforeTerrain);
   }
 
