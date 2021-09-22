@@ -62,8 +62,9 @@ public class Recorder {
      * Parses an xml file into a list of game states.
      * 
      * @return A list of all game states in loaded recording
+     * @throws RecorderException
      */
-    public void load(File loadFile){
+    public void load(File loadFile) throws RecorderException{
         Recording r = LoadRecording.load(loadFile);
         ticks = r.getTicks();
         level = r.getLevel();

@@ -6,26 +6,28 @@ import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 
 /**
- * This class saves a list of game states to an xml file.
- * Uses the Persistency package's xml encoder to encode individual game states
- * and links them together into a list in the output file.
+ * This class saves a list of game states to an xml file in the form of a Recording object.
+ * Uses the Persistency package's xml encoder to encode.
  * 
  */
 public class SaveRecording {
 
+    /**
+     * Transfers a Recording object to the Persistency package for encoding and saving.
+     * @param file
+     * @param recording
+     * @throws PersistException
+     */
     public static void save(File file, Recording recording) throws PersistException {
         if(recording.getLevel() < 1){
             throw new PersistException("Attempting to save recording with no level");
         }
         try{
-            // TODO: check with Lucy about the saving process:
-                // method name
-                // exceptions
-                // return boolean / exception?
-            //persistecy.saveFile(recording);
+            ConcretePersister cp = new ConcretePersister();
+            cp.saveRecording(file, recording);
         }
         catch(Exception e){
-            throw new PersistException("Failed to save recording");
+            throw new PersistException(e.getMessage());
         }
     }
     
