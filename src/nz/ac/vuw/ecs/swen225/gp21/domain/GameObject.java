@@ -55,8 +55,7 @@ public abstract class GameObject {
    * @param pathLeft
    * @param PathRight
    */
-  protected GameObject(MovementController c, Direction d, String pathLeft,
-      String PathRight) {
+  protected GameObject(MovementController c, Direction d, String pathLeft, String PathRight) {
     this.controller = c;
     dir = d;
     this.filePathLeft = pathLeft;
@@ -150,7 +149,7 @@ public abstract class GameObject {
   @Override
   public String toString() {
     return "GameObject: " + getClass().getSimpleName() + " facing->" + dir + " at->"
-        + currentTile.location;
+        + (currentTile == null ? "No location" : currentTile.location);
   }
 
 }

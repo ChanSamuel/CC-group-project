@@ -8,6 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 
@@ -148,5 +149,15 @@ public class Loading implements State {
   @Override
   public void backTick(World w, Tick t) {
     throw new IllegalStateException("Cannot apply tick while game is loading!");
+  }
+
+  @Override
+  public void restoreGame(World world, WorldSave save) {
+    // TODO implement me!
+  }
+
+  @Override
+  public WorldSave generateSaveData(World w) {
+    throw new IllegalStateException("Cannot generate save data while game is running!");
   }
 }

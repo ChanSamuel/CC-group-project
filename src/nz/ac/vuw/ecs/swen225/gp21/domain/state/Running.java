@@ -1,12 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import java.util.*; //TODO temp addition
+import java.util.stream.Collectors;
+
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord; //TODO temp addition
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Tile; //TODO temp addition
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.DirectMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveDown;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
@@ -14,6 +20,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
@@ -141,5 +149,33 @@ public final class Running implements State {
   public void backTick(World w, Tick t) {
     throw new IllegalStateException(
         "Cannot apply tick when game is running! World should be in replaying state!");
+  }
+
+  @Override
+  public void restoreGame(World world, WorldSave save) {
+    throw new IllegalStateException("Cannot restore save game while game is running!");
+  }
+
+  @Override
+  public WorldSave generateSaveData(World w) {
+    WorldSave answer = new WorldSave();
+
+    answer.setRows(w.getBoardHeight());
+    answer.setCols(w.getBoardWidth());
+    answer.setCurrentState(w.getDomainState());
+    answer.setGameObjects(w.getEntities());
+    answer.setGameObjectLocations(w.getEntities().stream().map(GameObject::getTile).map(t -> {
+      return t.location;
+    }).collect(Collectors.toList()));
+    List<Terrain> terr = new ArrayList<>();
+    for (int row = 0; row < w.getBoardHeight(); row++) {
+      for (int col = 0; col < w.getBoardWidth(); col++) {
+        terr.add(w.getBoard().getTileAt(new Coord(row, col)).getTerrain());
+      }
+    }
+    answer.setUpdates(w.updates);
+    answer.setTotalTreasure(w.totalTreasure);
+
+    return answer;
   }
 }

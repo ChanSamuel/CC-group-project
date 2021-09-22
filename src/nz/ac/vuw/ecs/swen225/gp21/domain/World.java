@@ -116,17 +116,14 @@ public abstract class World implements Domain {
   }
 
   @Override
-  public void restoreGame(Level level, List<Tick> updates) {
-  } // not sure if we want this one
+  public void restoreGame(WorldSave save) {
+    worldState.restoreGame(this, save);
+  }
 
   @Override
-  public void restoreDomain(Domain d) {
-  } // not sure if we need this one
-
-  @Override
-  public Domain getDomain(Domain d) {
-    return this;
-  } // not sure if we need this one
+  public WorldSave generateSaveData() {
+    return worldState.generateSaveData(this);
+  }
 
   @Override
   public void forwardTick(Tick t) {

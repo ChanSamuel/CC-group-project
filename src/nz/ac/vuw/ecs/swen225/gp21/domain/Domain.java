@@ -80,25 +80,18 @@ public interface Domain extends Subject {
   public void loadLevelData(Level level);
 
   /**
-   * Restore the world to some previous state. Works by loading the level then
-   * fast forwarding through the ticks to get to the latest update.
+   * Domain restores its internal state from a WorldSave.
    *
-   * @param level   The level data the restored game was using
-   * @param updates List of updates leading to the state the game was in
+   * @param save the save that is being restored
    */
-  public void restoreGame(Level level, List<Tick> updates);
-  // I'm not sure if we really want any of
-  // these three methods.
-  // OR!!! <Generate a deep copy> Replaying should just be: load level +
-  // setState(replaying) + start sending ticks
+  public void restoreGame(WorldSave save);
 
-  public void restoreDomain(Domain d);
-  // Restoring saved games, Still not sure about, because
-  // there's such tight coupling at the moment
+  /**
+   * Load domain instance information into an object that is passed to the persist
+   * module.
+   */
+  public WorldSave generateSaveData();
 
-  public Domain getDomain(Domain d);
-
-  // why not both?
   /**
    * Call this method when you have loaded a level, and added all the external
    * GameObjects you wanted to add.

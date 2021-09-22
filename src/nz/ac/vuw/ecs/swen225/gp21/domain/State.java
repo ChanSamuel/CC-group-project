@@ -124,4 +124,19 @@ public interface State {
    */
   public void backTick(World w, Tick t);
 
+  /**
+   * Unpacks the information in the WorldSave and initializes it into the world.
+   *
+   * @param world the world that is being initialized with save information
+   * @param save  the save information
+   */
+  public void restoreGame(World world, WorldSave save);
+
+  /**
+   * Load world instance data into a wrapper object to be saved to disc.
+   *
+   * @return An object that contains the instance information of the world
+   */
+  public WorldSave generateSaveData(World w);
+
 }
