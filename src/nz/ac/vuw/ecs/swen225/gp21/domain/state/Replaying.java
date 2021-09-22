@@ -47,7 +47,7 @@ public final class Replaying implements State {
 
   @Override
   public boolean isCoordValid(World w, Coord c) {
-    return w.getBoard().isCoordValid(c);
+    return w.getBoardWorld().isCoordValid(c);
   }
 
   @Override

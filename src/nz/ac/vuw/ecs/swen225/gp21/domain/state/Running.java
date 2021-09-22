@@ -57,7 +57,8 @@ public final class Running implements State {
       tick.addEvent(w.event);
     }
     if (w.getBoard().getRemainingChips() == 0) {
-      tick.addEvent(w.getBoard().openExit()); // return multimove that captures the terrain change
+      tick.addEvent(w.getBoardWorld().openExit());
+      // return multimove that captures the terrain change
     }
 
     assert (w.totalTreasure == w.getBoard().getRemainingChips() + w.getPlayer().treasureCollected);
@@ -74,7 +75,7 @@ public final class Running implements State {
     // could move the GameObject
     Coord destination = o.dir.next(o.getTile().location);
     // The terrain at the destination before the move was applied.
-    Terrain terrainAtDest = w.getBoard().tryMoveObject(destination, o);
+    Terrain terrainAtDest = w.getBoardWorld().tryMoveObject(destination, o);
     if (terrainAtDest != null) {
       w.event.saveEvent(new DirectMove(beforeD, beforeC, terrainAtDest, o));
     } else {

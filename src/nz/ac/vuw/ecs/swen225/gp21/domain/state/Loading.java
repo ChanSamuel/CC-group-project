@@ -107,7 +107,7 @@ public class Loading implements State {
     } else {
       w.getEntities().add(e);
     }
-    w.getBoard().addObject(e, c); // this method will throw an exception if it fails
+    w.getBoardWorld().addObject(e, c); // this method will throw an exception if it fails
     return true;
   }
 
