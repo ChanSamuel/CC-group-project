@@ -294,9 +294,13 @@ public abstract class World implements Domain {
    *
    * @return the board this world is using
    */
+  public Board getBoardWorld() {
+    return this.board;
+  }
+
   @Override
   public Board getBoard() {
-    return this.board; // new unmodifiable board(this.board); TODO
+    return new UnmodifiableBoard(board);
   }
 
   /**
