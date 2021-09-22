@@ -81,6 +81,8 @@ public class WorldJPanel extends JPanel {
 	 * @param domain
 	 */
 	public void init(Domain domain, int level) {
+		this.removeAll();
+		this.revalidate();
 		this.domain = domain;
 		this.level = level;
 		// ---------Play music of current level---------------------

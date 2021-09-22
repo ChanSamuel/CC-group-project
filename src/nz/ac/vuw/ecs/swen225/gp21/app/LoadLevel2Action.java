@@ -38,6 +38,7 @@ public class LoadLevel2Action implements Action {
 			return;
 		}
 		
+		control.levelNumber = 2;
 		control.gLoop.setIsPlaying(true);
 		control.gLoop.setIsReplay(false);
 		control.gLoop.setAutoPlay(false);

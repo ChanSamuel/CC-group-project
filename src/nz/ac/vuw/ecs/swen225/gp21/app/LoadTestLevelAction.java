@@ -64,6 +64,7 @@ public class LoadTestLevelAction implements Action {
 			control.warning("Renderer intialisation interrputed");
 		}
 		
+		control.levelNumber = 0;
 		control.gLoop.setIsPlaying(true);
 		control.gLoop.setIsReplay(false);
 		control.gLoop.setAutoPlay(false);

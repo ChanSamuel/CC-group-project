@@ -205,8 +205,7 @@ public class GUIController extends GUI {
 
 	@Override
 	protected void inform(String message) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(message);
 	}
 	
 	@Override
