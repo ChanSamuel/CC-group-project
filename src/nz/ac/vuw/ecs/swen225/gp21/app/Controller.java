@@ -398,11 +398,11 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Halt the game.
-	 * This won't do anything in FuzzController.
+	 * Exits to main menu.
+	 * For FuzzController, this won't do anything.
 	 */
-	public void haltGame() {
-		issue(new HaltAction());
+	protected void exitToMenu() {
+		issue(new ExitToMenuAction());
 	}
 	
 	/**

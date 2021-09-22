@@ -1,7 +1,13 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.awt.CardLayout;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
@@ -28,6 +34,21 @@ public class LoadReplayAction implements Action {
 		} catch (PersistException e) {
 			control.warning(e.getMessage());
 			return;
+		}
+		
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.init(control.world, levelNumber);
+				if (control instanceof GUIController) {
+					JFrame frame = ((GUIController) control).getFrame();
+					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+					cl.show(frame.getContentPane(), "Game page");
+				}
+			});
+		} catch (InvocationTargetException e) {
+			control.warning("Renderer intialisation interrputed");;
+		} catch (InterruptedException e) {
+			control.warning("Renderer intialisation interrputed");
 		}
 		
 		control.gLoop.setIsReplay(true);
