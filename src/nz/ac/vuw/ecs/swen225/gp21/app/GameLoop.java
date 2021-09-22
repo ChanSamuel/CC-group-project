@@ -160,7 +160,7 @@ public class GameLoop implements Runnable {
 		Action a = actions.poll();
 		if (canExecute) {
 			a.execute(control);
-			System.out.println("Performed action " + a.actionName());
+			//System.out.println("Performed action " + a.actionName());
 		}
 	}
 	
