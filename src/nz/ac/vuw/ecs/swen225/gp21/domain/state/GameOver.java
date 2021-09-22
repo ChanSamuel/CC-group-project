@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 
 /**
  * The running state represents a world that has completed its gameplay
@@ -85,6 +86,16 @@ public final class GameOver implements State {
   @Override
   public void backTick(World w, Tick t) {
     throw new IllegalStateException("Cannot undo tick while in game over state!");
+  }
+
+  @Override
+  public void restoreGame(World world, WorldSave save) {
+    throw new IllegalStateException("Cannot restore save game while in game over state!");
+  }
+
+  @Override
+  public WorldSave generateSaveData(World w) {
+    throw new IllegalStateException("Cannot save game when in game over state!");
   }
 
 }

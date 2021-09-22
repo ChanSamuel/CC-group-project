@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
+import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 
 /**
  * Special state where the world will accept tick objects. World will apply the
@@ -95,6 +96,16 @@ public final class Replaying implements State {
           "World was expecting tick: " + w.updates + " but received tick: " + t.index);
     }
     t.undoTick(w);
+  }
+
+  @Override
+  public void restoreGame(World world, WorldSave save) {
+    throw new IllegalStateException("Cannot restore save game while in replaying state!");
+  }
+
+  @Override
+  public WorldSave generateSaveData(World w) {
+    throw new IllegalStateException("Cannot save game when in replay!");
   }
 
 }
