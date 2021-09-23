@@ -112,13 +112,8 @@ public class ConcretePersister implements Persister {
      * @returna file stream of the file created
      * @throws PersistException
      */
-    private FileInputStream getLevelFileStream(int levelNumber) throws PersistException {
-        try {
-            return new FileInputStream("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new PersistException("Level loading failed, please try again.");
-        }
+    private InputStream getLevelFileStream(int levelNumber) throws PersistException {
+        return getClass().getResourceAsStream("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
     }
 
     /**
