@@ -78,4 +78,9 @@ public final class UnmodifiableBoard implements Board {
     return actual.isCoordValid(c);
   }
 
+  @Override
+  public boolean isExitOpen() {
+    return actual.isExitOpen();
+  }
+
 }
