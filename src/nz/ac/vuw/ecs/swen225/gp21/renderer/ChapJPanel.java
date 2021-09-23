@@ -103,7 +103,7 @@ class ChapJPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		checkDomain();
-		System.out.println("Draw the chap JPanel");
+//		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		//update the coord and dir.
 		this.coord = worldJPanel.getChapCoord();
@@ -116,8 +116,8 @@ class ChapJPanel extends JPanel {
 			chapImage = chapImageRight;
 		}
 		// NOTE the last parameter couldn't be null, if using gif, if just image, then that's doesn't matter.
-		System.out.println("Chap's current col: "+coord.getCol());
-		System.out.println("Chap's current row: "+coord.getRow());
+//		System.out.println("Chap's current col: "+coord.getCol());
+//		System.out.println("Chap's current row: "+coord.getRow());
 		g.drawImage(chapImage, coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
 }

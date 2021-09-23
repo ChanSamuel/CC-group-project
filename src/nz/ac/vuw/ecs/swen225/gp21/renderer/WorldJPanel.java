@@ -23,11 +23,11 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * tile width
 	 */
-	public final static int TILE_WIDTH = 40;
+	public final static int TILE_WIDTH = 55;
 	/**
 	 * tile height
 	 */
-	public final static int TILE_HEIGHT = 40;
+	public final static int TILE_HEIGHT = 55;
 	/**
 	 * The rows of focusing area
 	 */

@@ -129,7 +129,7 @@ class DoorMoving extends Thread {
 	@Override
 	public void run() {
 		while(this.doorJComponent.offSet<128) {
-			System.out.println("Current offset: "+this.doorJComponent.offSet);
+//			System.out.println("Current offset: "+this.doorJComponent.offSet);
 			this.doorJComponent.currentRunning = true;
 			this.doorJComponent.offSet+=32;
 			this.doorJComponent.repaint();
