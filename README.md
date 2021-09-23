@@ -14,3 +14,4 @@ https://gitlab.ecs.vuw.ac.nz/course-work/swen225/2021/groupproject/t6/chap_chall
 6. right click on assets folder -> build path -> use as source folder
 7. right click project -> build path -> add external archives -> double click on ‘external libraries’ folder -> add all .jar files
 8. add JUnit to build path
+9. right click project -> build project
