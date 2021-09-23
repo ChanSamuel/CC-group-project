@@ -52,7 +52,10 @@ public class Recorder {
         ticks.get(ticks.size()-1).isFinalTick = true; // set final tick
         Recording r = new Recording(ticks, level);
         try{
-            SaveRecording.save(saveFile, r);
+            //SaveRecording.save(saveFile, r);
+            System.out.println(ticks); // temporary output for integration!
+            if(false) throw new PersistException("no error"); // TODO: this is only here to keep the catch block
+                                                              //  get rid of it!!!!
         } catch (PersistException e) {
             throw new RecorderException(e.getMessage());
         }
