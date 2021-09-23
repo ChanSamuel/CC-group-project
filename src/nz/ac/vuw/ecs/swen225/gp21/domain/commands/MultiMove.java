@@ -55,4 +55,18 @@ public final class MultiMove implements Command {
     return events.isEmpty() ? false : (events.get(0) instanceof NoMove);
   }
 
+  /**
+   * Determine if this multi move contains any direct move commands.
+   *
+   * @return true if this MM has a direct move in it.
+   */
+  public boolean containsObjectMove() {
+    for (Command c : events) {
+      if (c instanceof DirectMove) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
