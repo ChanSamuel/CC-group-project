@@ -110,7 +110,7 @@ public final class Tick {
       return false;
     }
     for (MultiMove c : events) {
-      if (!c.isFirstNoMove()) {
+      if (c.containsObjectMove()) {
         return true;
       }
     }
