@@ -1,9 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Queue;
 
+import javax.swing.SwingUtilities;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
-import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 /**
  * A runnable which runs the game loop.
@@ -84,7 +87,8 @@ public class GameLoop implements Runnable {
 					
 					// Update the renderer (even though nothing happens, we still do this so that it doesn't
 					// give a black screen upon resizing the window).
-					control.renderer.redraw(control.world);
+					updateRenderer();
+					
 				} else { // Otherwise, proceed normally.
 					
 					if (isAutoPlay) { // Here, we assume that auto play is true only when replay is true.
@@ -93,12 +97,12 @@ public class GameLoop implements Runnable {
 						control.world.forwardTick(t);
 						
 						// Update the renderer.
-						control.renderer.redraw(control.world);
+						updateRenderer();
 						
 					} else if (isReplay) {
 						
 						// Update the renderer.
-						control.renderer.redraw(control.world);
+						updateRenderer();
 						
 					} else {
 						// Update the world.
@@ -107,11 +111,15 @@ public class GameLoop implements Runnable {
 						updatedTime = System.currentTimeMillis();
 						
 						// Update the renderer.
-						control.renderer.redraw(control.world);
-						
+						updateRenderer();
 						
 						// Recorder things here.
-						control.recorder.addTick(t);
+						try {
+							control.recorder.addTick(t);
+						} catch (RecorderException e) {
+							control.warning("Something went wrong when adding a tick to the recorder:\n"
+											+ e.getMessage());
+						}
 						
 					}
 					
@@ -152,7 +160,19 @@ public class GameLoop implements Runnable {
 		Action a = actions.poll();
 		if (canExecute) {
 			a.execute(control);
-			System.out.println("Performed action " + a.actionName());
+			//System.out.println("Performed action " + a.actionName());
+		}
+	}
+	
+	private void updateRenderer() {
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.redraw(control.world);
+			});
+		} catch (InvocationTargetException e) {
+			throw new Error(e);
+		} catch (InterruptedException e) {
+			throw new Error(e);
 		}
 	}
 	
