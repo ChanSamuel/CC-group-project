@@ -81,7 +81,7 @@ class ChangingElementsJPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		//NOTE add below would result in strange behavior.
 //		super.paintComponent(g);
-		System.out.println("Draw the changingTerrain JPanel");
+//		System.out.println("Draw the changingTerrain JPanel");
 		//iterating through the board, draw image based on Tile's terrain type.
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {

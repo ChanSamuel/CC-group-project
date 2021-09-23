@@ -114,7 +114,7 @@ class BackgroundJPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		// iterating through the board, draw image based on Tile's terrain type.
 		super.paintComponent(g);
-		System.out.println("Draw the background JPanel");
+//		System.out.println("Draw the background JPanel");
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				Terrain terrain = board.getTileAt(new Coord(j, i)).getTerrain();
