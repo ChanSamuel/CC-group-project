@@ -33,6 +33,11 @@ public class ArrayBoard implements Board {
   final int columns;
 
   /**
+   * Remember if we called the open exit method.
+   */
+  private boolean isExitOpen;
+
+  /**
    * Create an array board from a level object only initializes the terrain
    * fields.
    *
@@ -43,6 +48,7 @@ public class ArrayBoard implements Board {
     this.world = w;
     this.rows = level.rows;
     this.columns = level.columns;
+    this.isExitOpen = false;
     board = new Tile[rows][columns];
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
@@ -151,6 +157,7 @@ public class ArrayBoard implements Board {
 
   @Override
   public MultiMove openExit() {
+    isExitOpen = true;
     MultiMove response = new MultiMove();
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
@@ -202,5 +209,10 @@ public class ArrayBoard implements Board {
   @Override
   public World getWorld() {
     return this.world;
+  }
+
+  @Override
+  public boolean isExitOpen() {
+    return isExitOpen;
   }
 }
