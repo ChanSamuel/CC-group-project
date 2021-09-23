@@ -1,4 +1,10 @@
 //APP BREAK POINTS
+GameLoop.java
+=============
+108 // Pre-domain update
+112 // Post domain update, pre renderer update
+115 // Post Renderer/domain update, pre recorder update
+123 // Post Renderer/domain/recorder update
 
 //PERSISTENCY BREAK POINTS
 
