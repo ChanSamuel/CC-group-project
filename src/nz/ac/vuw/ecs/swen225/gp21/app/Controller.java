@@ -2,8 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.io.File;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -55,15 +53,7 @@ public abstract class Controller {
 	/**
 	 * The time left in the level in seconds
 	 */
-	protected int timeLeft = 60;
-	
-	/**
-	 * The level number.
-	 * 0 For the test level, 1 for level 1, 2 for level 2.
-	 */
-	protected int levelNumber = 1;
-	
-	protected List<Item> inventory = new ArrayList<Item>();
+	protected long timeLeft = 60;
 	
 	/**
 	 * The entrypoint into the Domain module of the game.
@@ -102,78 +92,55 @@ public abstract class Controller {
 
 			@Override
 			public void enteredExit() {
-				WrapperJPanel.playSound(SoundType.ENTER_EXIT);
-				issue(new NextLevelAction());
+				
 			}
 
 			@Override
 			public void enteredInfo(String msg) {
-				WrapperJPanel.playSound(SoundType.SHOW_INFO);
-				report(msg);
+				
 			}
 
 			@Override
 			public void leftInfo() {
-				// Do nothing...
+				
 			}
 
 			@Override
 			public void playerLost() {
-				WrapperJPanel.playSound(SoundType.GAME_OVER);
-				issue(new PlayerLostAction());
+				
 			}
 
 			@Override
 			public void playerGainedItem(Item item) {
-				inventory.add(item);
-				String s = "";
-				for (int i = 0; i < inventory.size(); i++) {
-					if (i == inventory.size() - 1) {
-						s += inventory.get(i).toString();
-					} else {
-						s += inventory.get(i).toString() + ", ";
-					}
-				}
-				WrapperJPanel.playSound(SoundType.PICK_UP_A_KEY);
-				inform("You have gained a " + item.getColour() + " " + item.toString() + ".\n" + 
-						"Your current inventory is:\n" + s);
+				
 			}
 
 			@Override
 			public void playerConsumedItem(Item item) {
-				inventory.remove(item);
-				String s = "";
-				for (int i = 0; i < inventory.size(); i++) {
-					if (i == inventory.size() - 1) {
-						s += inventory.get(i).toString();
-					} else {
-						s += inventory.get(i).toString() + ", ";
-					}
-				}
-				inform("You have consumed a " + item.getColour() + " " + item.toString() + ".\n" + 
-						"Your current inventory is:\n" + s);
+				
 			}
 
 			@Override
 			public void openedDoor() {
-				WrapperJPanel.playSound(SoundType.DOOR_OPEN);
+				
 			}
 
 			@Override
 			public void collectedChip() {
 				WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
-				inform("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
+				//inform("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
 			}
 
 			@Override
 			public void objectTeleported() {
-				WrapperJPanel.playSound(SoundType.TELEPORT);
+				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void objectPushed() {
-				WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
+				// TODO Auto-generated method stub
+				
 			}
 			
 		};
@@ -431,11 +398,11 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Exits to main menu.
-	 * For FuzzController, this won't do anything.
+	 * Halt the game.
+	 * This won't do anything in FuzzController.
 	 */
-	protected void exitToMenu() {
-		issue(new ExitToMenuAction());
+	public void haltGame() {
+		issue(new HaltAction());
 	}
 	
 	/**

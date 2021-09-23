@@ -12,7 +12,6 @@ import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -26,6 +25,7 @@ public class GamePage extends JPanel implements Page {
 	JPanel controlPanel = new JPanel();
 	JPanel infoPanel = new JPanel();
 	ReplayPanel replayPanel = new ReplayPanel();
+	JPanel wrapperPanel = new JPanel();
 	
 	public GamePage(WrapperJPanel renderer) {
 		setLayout(new GridBagLayout());
@@ -40,6 +40,8 @@ public class GamePage extends JPanel implements Page {
 		
 		gbc.gridx = 0;
 		add(renderer, gbc);
+		//wrapperPanel.add(renderer);
+		//wrapperPanel.setLayout(null);
 		
 		
 		gbc.gridx = 1;
@@ -57,7 +59,9 @@ public class GamePage extends JPanel implements Page {
 		
 		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		
+		//wrapperPanel.setBorder(panelBorder);
 		controlPanel.setBorder(panelBorder);
+		infoPanel.setBackground(Color.blue);
 		
 	}
 	
