@@ -39,6 +39,10 @@ Every method defined in domain
 
 //RECORDER BREAK POINTS
 
+LoadRecording.java
+==================
+18 // call to persistency to load
+
 //FUZZ BREAK POINTS
 
 //RENDERER BREAK POINTS
