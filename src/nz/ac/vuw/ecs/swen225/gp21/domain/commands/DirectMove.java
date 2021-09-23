@@ -86,4 +86,14 @@ public final class DirectMove implements Command {
     w.getTileAt(afterPos).resetTerrain(moved, beforeTerrain);
   }
 
+  @Override
+  public String toString() {
+    String answer = "DirectMove [ ";
+    answer += " from: " + beforePos + " " + beforeDir;
+    answer += " to: " + afterPos + " " + afterDir;
+    answer += "]";
+
+    return answer;
+  }
+
 }
