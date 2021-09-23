@@ -63,7 +63,7 @@ public class Chip extends GameObject {
     // themselves?
     // or {currently} send a command back up to the top level class to move the
     // object for us?
-    controller.update(w, elapsedTime).execute(w);
+    controller.update(w, this, elapsedTime).execute(w);
   }
 
   /**

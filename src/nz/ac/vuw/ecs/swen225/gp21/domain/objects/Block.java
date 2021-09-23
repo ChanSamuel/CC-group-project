@@ -67,7 +67,7 @@ public final class Block extends GameObject {
 
   @Override
   public void update(double elapsedTime, World w) {
-    this.controller.update(w, elapsedTime).execute(w);
+    this.controller.update(w, this, elapsedTime).execute(w);
   }
 
   @Override

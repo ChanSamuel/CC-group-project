@@ -46,7 +46,7 @@ public abstract class Monster extends GameObject {
 
   @Override
   public void update(double elapsedTime, World w) {
-    controller.update(w, elapsedTime).execute(w);
+    controller.update(w, this, elapsedTime).execute(w);
     // TODO
     // w.recordExecutedCommand(c.update().execute())
     // doing (w.enqueueCommandToExecuteLater(c.update())) creates a weird
