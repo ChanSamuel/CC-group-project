@@ -15,3 +15,22 @@ https://gitlab.ecs.vuw.ac.nz/course-work/swen225/2021/groupproject/t6/chap_chall
 7. right click project -> build path -> add external archives -> double click on ‘external libraries’ folder -> add all .jar files
 8. add JUnit to build path
 9. right click project -> build project
+
+Running the game:
+
+1. select level one
+2. click new game
+3. play the level
+
+Saving:
+
+1. while the game is running (don't touch the exit)
+2. Make some moves to save
+3. Top left file menu -> save replay
+4. Enter any file name
+5. Click ok
+6. View the recording output in the console :)
+
+Fuzz testing:
+
+1. ???
