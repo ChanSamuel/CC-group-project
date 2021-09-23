@@ -1,9 +1,16 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.awt.CardLayout;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 public class LoadReplayAction implements Action {
 
@@ -20,13 +27,35 @@ public class LoadReplayAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		control.recorder.load(f);
+		try {
+			control.recorder.load(f);
+		} catch (RecorderException e1) {
+			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
+			return;
+		}
 		int levelNumber = control.recorder.getLevel();
 		
 		try {
 			control.persister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
-			control.warning(e.getMessage());
+			control.warning("Something went wrong when persisting the level:\n" + e.getMessage());
+			return;
+		}
+		
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.init(control.world, levelNumber);
+				if (control instanceof GUIController) {
+					JFrame frame = ((GUIController) control).getFrame();
+					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+					cl.show(frame.getContentPane(), "Game page");
+				}
+			});
+		} catch (InvocationTargetException e) {
+			control.warning("Renderer intialisation interrputed");
+			return;
+		} catch (InterruptedException e) {
+			control.warning("Renderer intialisation interrputed");
 			return;
 		}
 		

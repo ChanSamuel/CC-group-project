@@ -22,11 +22,12 @@ public class SaveStateAction implements Action {
 		}
 		
 		try {
-			control.report("Attempting to save " + saveFile.getPath() + "\nPress 'OK' and wait.");
 			control.persister.saveCurrentGame(saveFile, control.world);
 		} catch (PersistException e) {
-			control.warning(e.getMessage());
+			control.warning("Something went wrong when persisting the state:\n" + e.getMessage());
+			return;
 		}
+		control.report("Save successful");
 	}
 
 	@Override

@@ -28,11 +28,5 @@ public class FuzzController extends Controller {
 	protected void requestFocus() {
 		// Do nothing.
 	}
-	
-	@Override
-	public void haltGame() {
-		// Do nothing.
-	}
-
 
 }
