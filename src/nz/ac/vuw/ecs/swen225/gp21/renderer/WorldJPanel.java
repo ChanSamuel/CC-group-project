@@ -18,7 +18,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
  * The worldJPanel provides the main interface of the renderer package, for
  * other modules to interact with.
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 public class WorldJPanel extends JPanel {
@@ -69,6 +69,9 @@ public class WorldJPanel extends JPanel {
 	private int level = -1;
 	boolean playerMoved = true;
 	private DoorJComponent doorJComponent;
+	Music level1Music;
+	Music level2Music;
+
 	/**
 	 * Constructor
 	 */
@@ -83,14 +86,31 @@ public class WorldJPanel extends JPanel {
 	public void init(Domain domain, int level) {
 		this.domain = domain;
 		this.level = level;
-		//remove all old JPanels if exit, then revalidate.
+		// remove all old JPanels if exit, then revalidate.
 		this.removeAll();
 		this.revalidate();
 		// ---------Play music of current level---------------------
-		if (this.level == 1) {
-			playSound(SoundType.BGM_LEVEL_1);
-		} else if (this.level == 2) {
-			playSound(SoundType.BGM_LEVEL_2);
+		try {
+			if (this.level == 1) {
+				level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level1Music.modifyVolumn(-5);
+				// start background music
+				level1Music.start();
+				// loop background music
+				level1Music.loop();
+			} else if (this.level == 2) {
+				level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
+				// modify volumn, positive means increase, negative means decrease.
+				level2Music.modifyVolumn(-5);
+				// start background music
+				level2Music.start();
+				// loop background music
+				level2Music.loop();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		// ---------Set the board and coord of player----------------------
 		this.board = domain.getBoard();
@@ -115,7 +135,7 @@ public class WorldJPanel extends JPanel {
 		lp.setLayout(null);
 		// arrange the layer, smaller index on top.
 		lp.add(ChapJPanel, index++);
-		lp.add(this.doorJComponent,index++);
+		lp.add(this.doorJComponent, index++);
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
@@ -124,13 +144,20 @@ public class WorldJPanel extends JPanel {
 		add(lp);
 	}
 
+	void gameStopped() {
+		if (level1Music != null) {
+			level1Music.stop();
+		} else if (level2Music != null) {
+			level2Music.stop();
+		}
+	}
 
 	/**
 	 * update the panel, once chap moves
 	 */
 	void updateJPanel() {
 		// ---------check if domain and level have been set----------------
-		if (domain == null||level== -1)
+		if (domain == null || level == -1)
 			throw new RuntimeException("Please set domain and level");
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
@@ -141,7 +168,6 @@ public class WorldJPanel extends JPanel {
 		// repaint the doorJComponent.
 		this.doorJComponent.repaint();
 	}
-	
 
 	/**
 	 * Update focus area, place chap in the middle
@@ -195,54 +221,73 @@ public class WorldJPanel extends JPanel {
 	 * Play sound effect, this method should be called when event such as pick up a
 	 * chip, pick up a key, open the door etc.
 	 */
-	public static void playSound(SoundType soundType) {
+	public static void playSound(SoundType soundType, Boolean start) {
 		try {
-			switch (soundType) {
-			case BGM_LEVEL_1:
-				Music level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
-				// modify volumn, positive means increase, negative means decrease.
-				level1Music.modifyVolumn(-5);
-				// start background music
-				level1Music.start();
-				// loop background music
-				level1Music.loop();
-				break;
-			case BGM_LEVEL_2:
-				Music level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
-				// modify volumn, positive means increase, negative means decrease.
-				level2Music.modifyVolumn(-5);
-				// start background music
-				level2Music.start();
-				// loop background music
-				level2Music.loop();
-				break;
-			case GAME_START:
-				new Music(FileUtil.getAudioStream("GAME_START.wav")).start();;
-				break;
-			case DOOR_OPEN:
-				new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();;
-				break;
-			case SHOW_INFO:
-				new Music(FileUtil.getAudioStream("SHOW_INFO.wav")).start();;
-				break;
-			case TELEPORT:
-				new Music(FileUtil.getAudioStream("TELEPORT.wav")).start();
-				break;
-			case PUSH_BLOCK:
-				new Music(FileUtil.getAudioStream("PUSH_BLOCK.wav")).start();;
-				break;
-			case PICK_UP_A_KEY:
-				new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav")).start();;
-				break;
-			case PICK_UP_A_CHIP:
-				new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav")).start();;
-				break;
-			case ENTER_EXIT:
-				new Music(FileUtil.getAudioStream("ENTER_EXIT.wav")).start();;
-				break;
-			default:
-				throw new RuntimeException("Not a valid sound effect");
+			if (start) {
+				switch (soundType) {
+//				case BGM_LEVEL_1:
+//					level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
+//					// modify volumn, positive means increase, negative means decrease.
+//					level1Music.modifyVolumn(-5);
+//					// start background music
+//					level1Music.start();
+//					// loop background music
+//					level1Music.loop();
+//					break;
+//				case BGM_LEVEL_2:
+//					level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
+//					// modify volumn, positive means increase, negative means decrease.
+//					level2Music.modifyVolumn(-5);
+//					// start background music
+//					level2Music.start();
+//					// loop background music
+//					level2Music.loop();
+//					break;
+				case GAME_START:
+					new Music(FileUtil.getAudioStream("GAME_START.wav")).start();
+					;
+					break;
+				case DOOR_OPEN:
+					new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();
+					;
+					break;
+				case SHOW_INFO:
+					new Music(FileUtil.getAudioStream("SHOW_INFO.wav")).start();
+					;
+					break;
+				case TELEPORT:
+					new Music(FileUtil.getAudioStream("TELEPORT.wav")).start();
+					break;
+				case PUSH_BLOCK:
+					new Music(FileUtil.getAudioStream("PUSH_BLOCK.wav")).start();
+					;
+					break;
+				case PICK_UP_A_KEY:
+					new Music(FileUtil.getAudioStream("PICK_UP_A_KEY.wav")).start();
+					;
+					break;
+				case PICK_UP_A_CHIP:
+					new Music(FileUtil.getAudioStream("PICK_UP_A_CHIP.wav")).start();
+					;
+					break;
+				case ENTER_EXIT:
+					new Music(FileUtil.getAudioStream("ENTER_EXIT.wav")).start();
+					;
+					break;
+				default:
+					throw new RuntimeException("Not a valid sound effect");
+				}
 			}
+//				else {
+//				switch (soundType) {
+//				case BGM_LEVEL_1:
+//					level1Music.stop();
+//					break;
+//				case BGM_LEVEL_2:
+//					level2Music.stop();
+//					break;
+//				}
+//			}
 		} catch (IOException e) {
 			System.out.println("Music loading failed");
 			e.printStackTrace();

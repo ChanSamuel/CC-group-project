@@ -11,7 +11,7 @@ import javax.sound.sampled.LineUnavailableException;
 /**
  * This is the music class responsible for the music play and pause in game.
  * can load wav format music, mp3 not supported.
- * @author mengli
+ * @author mengli 300525081
  *
  */
 class Music {

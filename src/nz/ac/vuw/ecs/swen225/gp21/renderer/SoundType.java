@@ -1,4 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
+/**
+ * A enum for sound type to play
+ * @author mengli 300525081
+ *
+ */
 
 public enum SoundType {
 	BGM_LEVEL_1,

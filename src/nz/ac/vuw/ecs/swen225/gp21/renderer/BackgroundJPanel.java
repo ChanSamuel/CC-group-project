@@ -19,7 +19,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
  * This is the backgound JPanel which draws the tiles and walls, exit tiles,
  * exit locks and teleporter. This panel won't repaint() when chap moves.;
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 @SuppressWarnings("serial")

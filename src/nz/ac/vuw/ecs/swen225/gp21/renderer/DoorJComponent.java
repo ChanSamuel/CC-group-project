@@ -22,7 +22,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 /**
  * This is the door JComponent, update when door unlocked.
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 public class DoorJComponent extends JComponent {
