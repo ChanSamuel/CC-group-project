@@ -11,8 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
-import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -221,9 +219,9 @@ public class WorldJPanel extends JPanel {
 	 * Play sound effect, this method should be called when event such as pick up a
 	 * chip, pick up a key, open the door etc.
 	 */
-	public static void playSound(SoundType soundType, Boolean start) {
+	public static void playSound(SoundType soundType) {
 		try {
-			if (start) {
+			
 				switch (soundType) {
 //				case BGM_LEVEL_1:
 //					level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
@@ -277,17 +275,6 @@ public class WorldJPanel extends JPanel {
 				default:
 					throw new RuntimeException("Not a valid sound effect");
 				}
-			}
-//				else {
-//				switch (soundType) {
-//				case BGM_LEVEL_1:
-//					level1Music.stop();
-//					break;
-//				case BGM_LEVEL_2:
-//					level2Music.stop();
-//					break;
-//				}
-//			}
 		} catch (IOException e) {
 			System.out.println("Music loading failed");
 			e.printStackTrace();
