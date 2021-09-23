@@ -15,9 +15,13 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 public final class Tick {
 
   /**
-   * this number specifies which update generated this tick.
+   * This number specifies which update generated this tick.
    */
   public final int index;
+  /**
+   * The point in time when this updated occurred.
+   */
+  public final long timeStamp;
   /**
    * List of all the events that were performed in the update that this tick was
    * generated in.
@@ -38,6 +42,7 @@ public final class Tick {
   public Tick(int index) {
     this.index = index;
     this.events = new LinkedList<MultiMove>();
+    this.timeStamp = System.currentTimeMillis();
   }
 
   /**
@@ -105,7 +110,7 @@ public final class Tick {
       return false;
     }
     for (MultiMove c : events) {
-      if (!c.isFirstNoMove()) {
+      if (c.containsObjectMove()) {
         return true;
       }
     }

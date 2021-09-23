@@ -90,4 +90,11 @@ public interface Board {
    * @return if it is valid in the board
    */
   public boolean isCoordValid(Coord c);
+
+  /**
+   * Return true if the exit has been opened.
+   *
+   * @return true if the exit has been opened
+   */
+  public boolean isExitOpen();
 }

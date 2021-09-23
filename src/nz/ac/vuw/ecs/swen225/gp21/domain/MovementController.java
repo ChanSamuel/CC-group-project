@@ -18,10 +18,11 @@ public interface MovementController {
    * occured.
    *
    * @param w           the world this move will be applied to
+   * @param o           The object that is being moved
    * @param elapsedTime the time since the last game update - this may be changed
    *                    in favour for a different game loop that uses fixed time
    *                    steps
    * @return the command the gameObject wants to perform
    */
-  public Command update(World w, double elapsedTime);
+  public Command update(World w, GameObject o, double elapsedTime);
 }

@@ -208,7 +208,7 @@ public final class Level {
     if (Character.isDigit(terrainChar)) {
       Coord link = links.get(c);
       if (link == null) {
-        throw new RuntimeException("Teleporter has no link! "+c);
+        throw new RuntimeException("Teleporter has no link! " + c);
       }
       return Teleporter.makeInstance(links.get(c));
     }

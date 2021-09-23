@@ -38,13 +38,13 @@ public abstract class GameObject {
    *
    * @param c         The movement controller component that controls this object
    * @param pathLeft  The file path used to render the GameObject facing Left
-   * @param PathRight The file path used to render the GameObject facing right
+   * @param pathRight The file path used to render the GameObject facing right
    */
-  protected GameObject(MovementController c, String pathLeft, String PathRight) {
+  protected GameObject(MovementController c, String pathLeft, String pathRight) {
     this.controller = c;
     dir = Direction.NONE;
     this.filePathLeft = pathLeft;
-    this.filePathRight = PathRight;
+    this.filePathRight = pathRight;
   }
 
   /**
@@ -52,14 +52,16 @@ public abstract class GameObject {
    *
    * @param c         The movement controller component that controls this object
    * @param d         The direction this object has
-   * @param pathLeft
-   * @param PathRight
+   * @param pathLeft  The file path to the resource that draws the object facing
+   *                  left
+   * @param pathRight The file path to the resource that draws the object facing
+   *                  right
    */
-  protected GameObject(MovementController c, Direction d, String pathLeft, String PathRight) {
+  protected GameObject(MovementController c, Direction d, String pathLeft, String pathRight) {
     this.controller = c;
     dir = d;
     this.filePathLeft = pathLeft;
-    this.filePathRight = PathRight;
+    this.filePathRight = pathRight;
   }
 
   /**

@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.controllers;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
@@ -16,7 +17,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
 public final class PlayerController implements MovementController {
 
   @Override
-  public Command update(World w, double elapsedTime) {
+  public Command update(World w, GameObject o, double elapsedTime) {
     Command c = w.poll();
     if (c == null) {
       c = new NoMove();
