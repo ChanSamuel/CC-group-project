@@ -136,15 +136,16 @@ class ChangingElementsJPanel extends JPanel {
 //							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 //							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 96, 32, 96+32, this);
 //				} 
-				else if (object instanceof Block) {
-					// draw block
-					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
-							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
-				} else if (terrain instanceof ExitLock) {
+				 else if (terrain instanceof ExitLock) {
 					// draw the exit lock
 					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 				}
+				if (object instanceof Block) {
+						// draw block
+						g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+								WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT,null);
+					}
 			}
 		}
 	}

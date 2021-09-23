@@ -15,22 +15,24 @@ ConcretePersister.java
 
 World.java
 ==========
-105 //update
-203 //get player location
-204 
-208 //loading object from persistency
-298 //get board for rendering
-299
-337 //event notifiers
-343
-348
-355
-360
-365
-372
-379
-384
-389
+104 / 105 //update
+114 / 115 // load level
+203 / 204 //get player
+129 + 134 // replay play back
+175 + 184 // getters for rendering
+200 // get player location for rendering
+205 //loading object from persistency
+298 + 299 //get board for rendering
+338 //event notifiers
+344
+349
+356
+361
+366
+373
+380
+385
+390
 
 Domain.java
 ===========
@@ -38,6 +40,10 @@ Every method defined in domain
 
 
 //RECORDER BREAK POINTS
+
+LoadRecording.java
+==================
+18 // call to persistency to load
 
 //FUZZ BREAK POINTS
 

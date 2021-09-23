@@ -51,6 +51,8 @@ public class LoadTestLevelAction implements Action {
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.gameStopped();
+				
 				control.renderer.init(control.world, 1);
 				if (control instanceof GUIController) {
 					JFrame frame = ((GUIController) control).getFrame();
