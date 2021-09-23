@@ -111,8 +111,8 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
 	 */
-	public static void playSound(SoundType soundtype,Boolean start) {
-		WorldJPanel.playSound(soundtype,start);
+	public static void playSound(SoundType soundtype) {
+		WorldJPanel.playSound(soundtype);
 	}
 
 	// --------------------Methods inherit from Renderer--------
