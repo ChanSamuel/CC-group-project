@@ -139,6 +139,7 @@ class resetTests {
         + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
         + "5|#|#|#|#|#|#|#|#|#|#|\n";
     assertEquals(expected, d.toString());
+    System.out.println(ticks);
   }
 
   /**
@@ -179,6 +180,7 @@ class resetTests {
         + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
         + "5|#|#|#|#|#|#|#|#|#|#|\n";
     assertEquals(expected, d.toString());
+    System.out.println(ticks);
   }
 
 }
