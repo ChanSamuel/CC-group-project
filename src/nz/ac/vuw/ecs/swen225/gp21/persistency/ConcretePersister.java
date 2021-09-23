@@ -16,7 +16,6 @@ public class ConcretePersister implements Persister {
 
     private static List<Integer> levelsThatExist = Arrays.asList(1); //todo add as we have levels
 
-
     @Override
     public void loadLevel(int levelNumber, Domain domain) throws PersistException {
         if (!levelsThatExist.contains(levelNumber)) {
@@ -115,7 +114,7 @@ public class ConcretePersister implements Persister {
      */
     private FileInputStream getLevelFileStream(int levelNumber) throws PersistException {
         try {
-            return new FileInputStream(new File("levels/level" + levelNumber + ".xml")); //fixme?
+            return new FileInputStream("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new PersistException("Level loading failed, please try again.");
