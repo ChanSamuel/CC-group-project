@@ -11,7 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
  * latest movement command from the player movement command queue It is package
  * private.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class PlayerController implements MovementController {

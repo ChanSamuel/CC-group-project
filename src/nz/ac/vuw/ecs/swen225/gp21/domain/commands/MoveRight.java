@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 /**
  * Encapsulates an instruction to move an object right one tile.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class MoveRight extends GameObjectMove {

@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * Note: Be careful of pushing blocks onto one way tiles, they will probably get
  * stuck.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 abstract class OneWay implements Terrain {

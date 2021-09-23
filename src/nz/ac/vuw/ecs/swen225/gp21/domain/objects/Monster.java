@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 /**
  * Monster objects are considered hostile to the player entity, chip.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public abstract class Monster extends GameObject {

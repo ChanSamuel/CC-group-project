@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 /**
  * Gold keys can unlock gold doors.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class GoldKey extends KeyTile {

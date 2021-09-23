@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
 /**
  * ArrayBoard implements the Board functionality with a 2D array.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class ArrayBoard implements Board {

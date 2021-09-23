@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * This type defines the fields that a command that moves a game object needs I
  * believe it has package-private visibility.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public abstract class GameObjectMove implements Command {

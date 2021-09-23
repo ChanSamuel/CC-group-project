@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Coordinate data type for Tiles, to remember where they are.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  */
 public final class Coord {
   /**

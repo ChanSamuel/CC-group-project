@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * is given to the other modules if they need to read data from the Domain's
  * board.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class UnmodifiableBoard implements Board {

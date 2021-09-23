@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 /**
  * The no move command represents no movement.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class NoMove implements Command {

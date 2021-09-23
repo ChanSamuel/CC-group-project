@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * must collect all the treasure to unlock the exit lock (step on all tiles with
  * this terrain type) Only Chip can enter this type of tile.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class Treasure implements Terrain {

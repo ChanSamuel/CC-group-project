@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
  * Create a test world for unit testing. Prints out simple messages when events
  * happen.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class TestWorld extends World {

@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * Gold door can be opened by chip. Chip must have a gold key to open the gold
  * door.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class GoldDoor extends Door {

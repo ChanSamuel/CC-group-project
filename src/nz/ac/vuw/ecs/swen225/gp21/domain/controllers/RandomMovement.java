@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
  * directions The constructor types determine properties about the movement,
  * such as the frequency of movements, or probability of moving.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class RandomMovement implements MovementController {

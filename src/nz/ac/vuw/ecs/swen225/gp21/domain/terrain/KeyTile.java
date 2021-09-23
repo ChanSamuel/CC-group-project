@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 /**
  * Base class for the various key tiles to derive from.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public abstract class KeyTile implements Terrain {

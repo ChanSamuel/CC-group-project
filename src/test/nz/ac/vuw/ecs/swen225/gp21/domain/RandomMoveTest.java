@@ -15,6 +15,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
 
+/**
+ * Test the random movement controller
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class RandomMoveTest {
   /**
    * Tests will use this testLevel

@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * Command encapsulates an instruction that can be sent from an outside source
  * to the world, to be executed.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface Command {

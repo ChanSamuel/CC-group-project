@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * must define behavior for when a game object enters a tile with this terrain
  * type
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface Terrain {

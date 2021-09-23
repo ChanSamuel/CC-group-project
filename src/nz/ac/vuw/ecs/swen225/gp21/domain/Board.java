@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * Board interface defines the operations a Chip Challenge board must provide to
  * enable gameplay.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface Board {

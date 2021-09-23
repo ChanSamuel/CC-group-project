@@ -11,7 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 /**
  * World save contains all the instance information from a world object.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class WorldSave {

@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * Encapsulates an instruction to an object up one tile Package-private
  * visibility.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class MoveUp extends GameObjectMove {

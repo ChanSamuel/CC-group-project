@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 /**
  * The block is an object that can be pushed by Chip into empty tiles.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Block extends GameObject {

@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
  * The running state represents a world that has completed its gameplay
  * simulation and is in a finished state.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class GameOver implements State {

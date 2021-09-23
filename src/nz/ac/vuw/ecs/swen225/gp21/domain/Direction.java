@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
 /**
  * GameObjects have a direction.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  */
 public enum Direction {
   /**

@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
 /**
  * The no movement controller does just that Creates No Move commands.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class NoMovement implements MovementController {

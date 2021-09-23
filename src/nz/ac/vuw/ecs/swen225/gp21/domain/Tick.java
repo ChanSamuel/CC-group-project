@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
  * A tick is an encapsulation of all the events that occurred during a game
  * update.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Tick {

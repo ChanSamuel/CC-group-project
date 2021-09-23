@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * |#|#|#| |_|O|_| |_|_|_|
  * </p>
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class Teleporter implements Terrain {

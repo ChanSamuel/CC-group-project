@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 /**
  * Test if all the different doors work.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 class doorTests {

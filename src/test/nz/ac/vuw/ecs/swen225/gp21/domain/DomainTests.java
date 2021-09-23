@@ -8,8 +8,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 
 /**
  * These tests test the functionality of the Domain package
- * 
- * @author Benjamin
+ *
+ * @author sansonbenj 300482847
  *
  */
 class DomainTests {
@@ -102,8 +102,9 @@ class DomainTests {
       World w = new TestWorld();
       w.loadLevelData(testLevel);
       w.doneLoading();
-      for (int updates = 0; updates < 10; ++updates)
+      for (int updates = 0; updates < 10; ++updates) {
         w.update(200);
+      }
       System.out.println(w.toString());
     } catch (Exception e) {
       exception = true;

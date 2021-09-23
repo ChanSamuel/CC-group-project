@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 /**
  * This suite of tests makes use of the new level loading functionality
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 class LevelLoadingTests {

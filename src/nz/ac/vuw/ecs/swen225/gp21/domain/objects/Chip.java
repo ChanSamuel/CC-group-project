@@ -12,7 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
  * Chip is the GameObject that the player will control He can collect items in
  * his inventory.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class Chip extends GameObject {

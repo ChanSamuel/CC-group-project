@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * The Game world can be in one of several states, this interface defines the
  * operations a state most perform.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface State {

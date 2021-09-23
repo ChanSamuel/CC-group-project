@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 /**
  * Green door is opened by keys that have the Green color attribute.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class GreenDoor extends Door {

@@ -10,8 +10,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.*;
 /**
  * Test that the domain can undo & redo ticks Test that the domain produces good
  * ticks
- * 
- * @author Benjamin
+ *
+ * @author sansonbenj 300482847
  *
  */
 class ReplayTests {

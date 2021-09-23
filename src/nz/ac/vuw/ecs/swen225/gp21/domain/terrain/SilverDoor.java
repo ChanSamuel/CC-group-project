@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 /**
  * Silver door is opened by keys that have the Silver color attribute.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class SilverDoor extends Door {

@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * The free terrain type is the simplest. Any GameObject can enter a free
  * terrain type.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class Free implements Terrain {

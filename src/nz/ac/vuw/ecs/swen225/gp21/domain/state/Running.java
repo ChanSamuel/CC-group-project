@@ -23,7 +23,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * The running state represents a world that has been initialized and is capable
  * of simulating the world.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Running implements State {

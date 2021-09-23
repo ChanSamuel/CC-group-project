@@ -12,7 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * Direct move is used by replay to directly move actors, without worrying about
  * game logic checks.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class DirectMove implements Command {

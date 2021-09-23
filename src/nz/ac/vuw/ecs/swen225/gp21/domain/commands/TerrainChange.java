@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * Terrain change is used to remember terrain alterations caused by GameObject
  * moves for replays.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class TerrainChange implements Command {

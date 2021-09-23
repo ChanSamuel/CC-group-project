@@ -10,7 +10,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * API methods to simulate the game { update(...), moveChip(...), getState(...),
  * loadObject(...), loadLevel() }
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface Domain extends Subject {

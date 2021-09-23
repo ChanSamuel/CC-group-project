@@ -34,7 +34,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
  * world.addEntitiy after world initialization :(
  *
  * @see "https://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way"
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Level {

@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
  * The MultiMove encapsulates an action that occurred and any cascading actions
  * that happened because of it.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class MultiMove implements Command {

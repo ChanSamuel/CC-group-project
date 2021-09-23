@@ -7,7 +7,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * implement this interface effectively define the AI for the objects. In that
  * sense the game offers a fixed number of behaviors to choose from.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public interface MovementController {

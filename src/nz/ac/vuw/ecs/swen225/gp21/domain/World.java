@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * The world provides the main interface of the domain package, for other
  * modules to interact with.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public abstract class World implements Domain {

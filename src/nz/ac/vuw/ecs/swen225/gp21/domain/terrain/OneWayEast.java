@@ -5,7 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 /**
  * One Way right tile.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class OneWayEast extends OneWay {

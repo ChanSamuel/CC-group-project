@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  * entered of the object is facing the right direction and they can only be left
  * if facing the right direction.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class OneWayNorth extends OneWay {

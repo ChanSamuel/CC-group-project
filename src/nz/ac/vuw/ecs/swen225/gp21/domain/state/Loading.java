@@ -17,7 +17,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * simulate the world But it can load in level data Remember to call
  * doneLoading() when you've added the external entities.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class Loading implements State {

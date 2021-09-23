@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
  * The key item can be placed in Chip's Inventory It is consumed when chip opens
  * a door with it.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class KeyItem implements Item {

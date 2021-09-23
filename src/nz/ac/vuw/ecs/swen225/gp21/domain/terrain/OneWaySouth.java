@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
  * The one way south terrain can only be travesed in a downwards direction of
  * travel.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class OneWaySouth extends OneWay {

@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * The game world is comprised of tiles Tiles contain a location, possible game
  * object, and Terrain type.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Tile {

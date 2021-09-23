@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
  * commands in the tick to simulate a game (effectively replaying it) Ticks can
  * also be undone, to simulate rewinding the recording.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Replaying implements State {

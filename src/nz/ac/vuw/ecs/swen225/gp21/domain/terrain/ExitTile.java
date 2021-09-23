@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * The exit tile is the final goal tile If Chip enters a tile of this type, they
  * win.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public class ExitTile implements Terrain {

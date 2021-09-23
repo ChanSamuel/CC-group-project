@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
  * The information tile contains a help message. When chip enters the info tile,
  * it attempts to fire an event to the world object.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Info implements Terrain {

@@ -5,7 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 /**
  * The wall terrain type does not allow anyone past.
  *
- * @author Benjamin
+ * @author sansonbenj 300482847
  *
  */
 public final class Wall implements Terrain {
