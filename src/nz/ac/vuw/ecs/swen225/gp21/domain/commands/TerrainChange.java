@@ -49,4 +49,13 @@ public final class TerrainChange implements Command {
     w.getBoard().getTileAt(location).setTerrain(before);
   }
 
+  @Override
+  public String toString() {
+    String answer = "TerrainChange [ ";
+    answer += " prev: " + before;
+    answer += " after: " + after + " at->" + location;
+    answer += "]";
+    return answer;
+  }
+
 }

@@ -69,4 +69,15 @@ public final class MultiMove implements Command {
     return false;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder answer = new StringBuilder();
+    answer.append("Event: [\n");
+    for (Command c : events) {
+      answer.append(c.toString());
+    }
+    answer.append("]");
+    return answer.toString();
+  }
+
 }

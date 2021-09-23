@@ -116,4 +116,16 @@ public final class Tick {
     }
     return false;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder answer = new StringBuilder();
+    answer.append("Tick: " + index + " @ " + timeStamp + "[\n");
+    answer.append("IsFinalTick: " + isFinalTick + "Moves recorded {");
+    for (Command c : events) {
+      answer.append("\n" + c.toString());
+    }
+    answer.append("} \n]");
+    return answer.toString();
+  }
 }
