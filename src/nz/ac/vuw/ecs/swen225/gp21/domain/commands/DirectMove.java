@@ -89,8 +89,9 @@ public final class DirectMove implements Command {
   @Override
   public String toString() {
     String answer = "DirectMove [ ";
-    answer += " from: " + beforePos + " " + beforeDir;
-    answer += " to: " + afterPos + " " + afterDir;
+    answer += " from: (" + beforePos + ") (" + beforeDir + ")";
+    answer += " to: (" + afterPos + ") (" + afterDir + ")";
+    answer += " Terrain was => " + beforeTerrain;
     answer += "]";
 
     return answer;

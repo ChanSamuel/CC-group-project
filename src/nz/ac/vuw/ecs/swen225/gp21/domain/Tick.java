@@ -121,11 +121,11 @@ public final class Tick {
   public String toString() {
     StringBuilder answer = new StringBuilder();
     answer.append("Tick: " + index + " @ " + timeStamp + "[\n");
-    answer.append("IsFinalTick: " + isFinalTick + "Moves recorded {");
+    answer.append("\tIsFinalTick: " + isFinalTick + "\n\tMoves recorded {");
     for (Command c : events) {
-      answer.append("\n" + c.toString());
+      answer.append("\n\t\t" + c.toString());
     }
-    answer.append("} \n]");
+    answer.append("\n\t} \n]\n");
     return answer.toString();
   }
 }
