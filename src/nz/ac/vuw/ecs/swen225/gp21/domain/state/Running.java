@@ -51,7 +51,7 @@ public final class Running implements State {
       e.update(elapsedTime, w);
       tick.addEvent(w.event);
     }
-    if (w.getBoard().getRemainingChips() == 0) {
+    if (w.getBoard().getRemainingChips() == 0 && !w.getBoard().isExitOpen()) {
       tick.addEvent(w.getBoardWorld().openExit());
       // return multimove that captures the terrain change
     }
