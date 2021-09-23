@@ -5,7 +5,7 @@ public class MoveRightAction implements Action{
 	@Override
 	public void execute(Controller control) {
 		control.world.moveChipRight();
-		//System.out.println("chap's location is: " + control.world.getPlayerLocation());
+		System.out.println("chap's location is: " + control.world.getPlayerLocation());
 		return;
 	}
 

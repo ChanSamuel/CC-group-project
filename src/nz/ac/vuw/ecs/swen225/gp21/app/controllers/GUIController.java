@@ -68,12 +68,16 @@ public class GUIController extends GUI {
 		
 		// Menu bar exit to menu button action
 		frame.fileExitToMenu.addActionListener((ae) -> {
-			 this.exitToMenu();
+			
+			this.haltGame();
 			 
 			// Disable buttons which involve saving when we go back to main menu.
 			frame.fileExitSave.setEnabled(false);
 			frame.fileSaveState.setEnabled(false);
 			frame.fileSaveReplay.setEnabled(false);
+			
+			CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+			cl.show(frame.getContentPane(), "Home page");
 		});
 		
 		frame.fileLoadGame.addActionListener((ae) -> {
@@ -174,6 +178,9 @@ public class GUIController extends GUI {
 			frame.fileExitSave.setEnabled(true);
 			frame.fileSaveState.setEnabled(true);
 			frame.fileSaveReplay.setEnabled(true);
+			
+			CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+			cl.show(frame.getContentPane(), "Game page");
 		});
 		
 	}
@@ -205,7 +212,8 @@ public class GUIController extends GUI {
 
 	@Override
 	protected void inform(String message) {
-		System.out.println(message);
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -216,16 +224,8 @@ public class GUIController extends GUI {
 	
 	
 	/* ****************************
-	 * GUI SPECIFIC GETTERS.
+	 * GUI ACTIONS
 	 * ****************************
 	 */
-	
-	/**
-	 * Gets the JFrame of this GUI.
-	 * @return the JFrame.
-	 */
-	public JFrame getFrame() {
-		return this.frame;
-	}
 	
 }
