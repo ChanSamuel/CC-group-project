@@ -45,21 +45,20 @@ public final class RandomMovement implements MovementController {
           "the frequency of random movements must be positive: " + frequency);
     }
     this.frequency = frequency;
-    this.timeToNextMove = 0.0;
+    // convert to millis by timing by 1000
+    this.timeToNextMove = (1.0 / frequency) * 1000.0;
   }
 
   @Override
   public Command update(World w, GameObject o, double elapsedTime) {
-    if (timeToNextMove > 0.0) {
-      // do some calculation to bring the time down TODO needs testing
-      timeToNextMove -= elapsedTime;
-    } else {
+    timeToNextMove -= elapsedTime;
+    if (timeToNextMove <= 0.0) {
       // reset the time to next move
       double secondsToNextMove = 1.0 / frequency;
       double millisInSecond = 1000.0;
       timeToNextMove = (secondsToNextMove * millisInSecond);
       return randomMove(o);
-    } // No, it was not time to move yet
+    }
     Command response = new NoMove();
     w.event.saveEvent(response);
     return response;
