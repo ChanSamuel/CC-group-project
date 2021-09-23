@@ -56,7 +56,8 @@ public final class Running implements State {
       // return multimove that captures the terrain change
     }
 
-    assert (w.totalTreasure == w.getBoard().getRemainingChips() + w.getPlayer().treasureCollected);
+    assert (w.totalTreasure == w.getBoard().getRemainingChips()
+        + (w.getPlayer() == null ? 0 : w.getPlayer().treasureCollected));
     return tick;
   }
 
