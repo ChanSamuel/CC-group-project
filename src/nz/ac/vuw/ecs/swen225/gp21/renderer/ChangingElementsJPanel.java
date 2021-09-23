@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.*;
  * This is the JPanel which holds all the elements which can move, such as key,treasure.door
  * This will update when chap moves.
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 class ChangingElementsJPanel extends JPanel {

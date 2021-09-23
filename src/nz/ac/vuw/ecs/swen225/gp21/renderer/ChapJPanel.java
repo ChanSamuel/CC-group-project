@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * The hero chap and block's JPanel
- * @author mengli
+ * @author mengli 300525081
  *
  */
 //NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 

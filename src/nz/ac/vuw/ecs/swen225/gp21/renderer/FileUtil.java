@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * This is a utility class used for load files, such as images and musics
- * @author mengli
+ * @author mengli 300525081
  *
  */
 public class FileUtil {

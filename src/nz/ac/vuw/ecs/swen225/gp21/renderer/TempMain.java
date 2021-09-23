@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 /**
  * TODO This is a temp main method created for testing GUI.
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 public class TempMain {

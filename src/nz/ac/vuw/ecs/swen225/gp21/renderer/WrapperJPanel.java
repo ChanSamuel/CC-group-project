@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 /**
  * This is the JPanel used for the implementation of focus area
  * 
- * @author mengli
+ * @author mengli 300525081
  *
  */
 public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
@@ -111,8 +111,8 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	/**
 	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
 	 */
-	public static void playSound(SoundType soundtype) {
-		WorldJPanel.playSound(soundtype);
+	public static void playSound(SoundType soundtype,Boolean start) {
+		WorldJPanel.playSound(soundtype,start);
 	}
 
 	// --------------------Methods inherit from Renderer--------
@@ -125,5 +125,10 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	public void init(Domain domain,int level) {
 		this.domain = domain;
 		worldJPanel.init(domain,level);
+	}
+
+	@Override
+	public void gameStopped() {
+		worldJPanel.gameStopped();
 	}
 }
