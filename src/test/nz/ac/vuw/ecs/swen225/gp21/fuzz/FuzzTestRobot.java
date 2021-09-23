@@ -13,12 +13,12 @@ public class FuzzTestRobot {
 
     public void generateKeyPress() {
 
-        switch (random.nextInt(4)) {
-            case 0 -> robot.keyPress(KeyEvent.VK_LEFT);
-            case 1 -> robot.keyPress(KeyEvent.VK_RIGHT);
-            case 2 -> robot.keyPress(KeyEvent.VK_UP);
-            case 3 -> robot.keyPress(KeyEvent.VK_DOWN);
-        }
+//        switch (random.nextInt(4)) {
+//            case 0 -> robot.keyPress(KeyEvent.VK_LEFT);
+//            case 1 -> robot.keyPress(KeyEvent.VK_RIGHT);
+//            case 2 -> robot.keyPress(KeyEvent.VK_UP);
+//            case 3 -> robot.keyPress(KeyEvent.VK_DOWN);
+//        }
 
     }
 
