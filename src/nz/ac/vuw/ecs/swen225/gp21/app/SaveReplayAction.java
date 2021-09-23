@@ -20,8 +20,8 @@ public class SaveReplayAction implements Action {
 			return;
 		}
 		
-		if (!control.gLoop.getIsReplay()) {
-			control.warning("Can't save a replay if not in a replay.");
+		if (control.gLoop.getIsReplay()) {
+			control.warning("Can't save a replay whilst in a replay.");
 			return;
 		}
 		
