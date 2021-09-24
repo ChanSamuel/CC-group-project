@@ -1,10 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLParser;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,10 +26,9 @@ import java.util.Arrays;
 /**
  * These tests test the functionality of the ConcretePersister class
  * @author Lucy Goodwin
- *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class XMLParserMockTests extends TestCase {
+public class XMLPersisterMockTests extends TestCase {
 
     @Mock
     private XmlMapper xmlMapper;
@@ -46,7 +43,7 @@ public class XMLParserMockTests extends TestCase {
     public void testSaveObjectOk() throws PersistException, IOException {
         TestObject testObject = new TestObject(Arrays.asList("Hello", "World"), "test", 8, 9);
         File f = new File("test1.xml");
-        XMLParser parser = new XMLParser(xmlMapper);
+        XMLPersister parser = new XMLPersister(xmlMapper);
 
         doNothing().when(xmlMapper).writeValue(any(File.class), objectCaptor.capture());
         parser.save(f, testObject);
@@ -62,10 +59,12 @@ public class XMLParserMockTests extends TestCase {
         exceptionRule.expect(PersistException.class);
         TestObject testObject = new TestObject(Arrays.asList("Hello", "World"), "test", 8, 9);
         File f = new File("test.xml");
-        XMLParser parser = new XMLParser(xmlMapper);
+        XMLPersister parser = new XMLPersister(xmlMapper);
         doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
         parser.save(f, testObject);
     }
 
-    //TODO test other exceptions
+// TODO: 24/09/2021
+//    test other exceptions
+
 }

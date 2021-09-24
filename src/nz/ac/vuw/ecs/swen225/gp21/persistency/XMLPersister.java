@@ -1,30 +1,32 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.KeyDeserializer;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.*;
+// TODO: 24/09/2021
+/**
+ *
+ */
+public class XMLPersister {
 
-public class XMLParser {
-
+    // TODO: 24/09/2021
+    /**
+     *
+     */
     private XmlMapper xmlMapper;
 
-    public XMLParser(XmlMapper xmlMapper) {
+    // TODO: 24/09/2021
+    /**
+     *
+     * @param xmlMapper
+     */
+    public XMLPersister(XmlMapper xmlMapper) {
         this.xmlMapper = xmlMapper;
-        this.xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); //fixme
-        this.xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); //fixme
     }
 
     /**
@@ -38,13 +40,13 @@ public class XMLParser {
             return xmlMapper.readValue(is, valueType);
         } catch (JsonMappingException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         } catch (JsonParseException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         }
     }
 
@@ -59,13 +61,13 @@ public class XMLParser {
             xmlMapper.writeValue(file, value);
         } catch (JsonMappingException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         } catch (JsonGenerationException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistException(""); // todo handle this
+            throw new PersistException(""); // FIXME: 24/09/2021
         }
     }
 }

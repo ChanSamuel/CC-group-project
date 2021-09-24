@@ -71,5 +71,5 @@ test_domain_save.xml
 .settings/org.eclipse.jdt.ui.prefs
 chap_challenge-cs-cleanup.xml
 chap_challenge-cs-formatter.xml
-src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml
-src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml
+src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level100.xml
+src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level100.xml
