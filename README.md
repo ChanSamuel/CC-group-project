@@ -7,7 +7,7 @@ Loading instructions:
 https://gitlab.ecs.vuw.ac.nz/course-work/swen225/2021/groupproject/t6/chap_challenge.git
 
 1. Clone the repo from gitlab onto the lab machine
-2. Check out the branch we want the markers to use
+2. Check out the branch updated-breakpoint-tag
 3. unzip the external libraries folder
 4. Open project in eclipes
 5. in eclipse: directory -> project folder -> open chap_challenge folder -> finish

@@ -6,6 +6,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 
 /**
@@ -37,6 +39,13 @@ class Music {
 	private void init() {
 		try {
 			clip = AudioSystem.getClip();
+			clip.addLineListener(new LineListener() {
+				@Override
+			    public void update(LineEvent myLineEvent) {
+			      if (myLineEvent.getType() == LineEvent.Type.STOP)
+			        clip.close();
+			    }
+			  });
 		} catch (LineUnavailableException e) {
 			System.out.println("failed to get clip");
 			e.printStackTrace();
@@ -63,6 +72,7 @@ class Music {
 		if(clip!=null)
         clip.start();
 	}
+
 	/**
 	 * Stop the music
 	 */
