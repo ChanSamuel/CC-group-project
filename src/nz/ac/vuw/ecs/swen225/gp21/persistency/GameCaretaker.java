@@ -1,15 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
+import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
+import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +22,10 @@ import java.io.FileNotFoundException;
 
 /**
  * TODO
+ *  - I require that any interface/abstract type in WorldSave has the following annotation:
+ *  @JsonTypeInfo(use= JsonTypeInfo.Id.NAME)
+ *  - I also need JsonIgnore annotation in GameObject getName
+ *  - And a default constructor for Coord class, and renaming getCol to getColumns or whatever the actual field is called
  *
  * Caretaker holds Mementos
  * Mementos are world save
@@ -35,20 +44,55 @@ public class GameCaretaker {
     private static XmlMapper xmlMapper;
     static {
         xmlMapper = new XmlMapper();
-        xmlMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); //fixme?
-        xmlMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); //fixme?
-//        xmlMapper.registerSubtypes(new NamedType(Chip.class, "Chip")); //fixme?
-//        xmlMapper.registerSubtypes(new NamedType(Block.class, "Block")); //fixme?
+
+        // Register GameObject subtypes
         xmlMapper.registerSubtypes(
                 new NamedType(Chip.class, "Chip"),
                 new NamedType(Block.class, "Block"),
                 new NamedType(Monster.class, "Monster")
         );
 
+        // Register MovementController subtypes
+        xmlMapper.registerSubtypes(
+                new NamedType(NoMovement.class, "NoMovement"),
+                new NamedType(PlayerController.class, "PlayerController"),
+                new NamedType(RandomMovement.class, "RandomMovement")
+        );
+
+        // Register State subtypes
+        xmlMapper.registerSubtypes(
+                new NamedType(Running.class, "Running"),
+                new NamedType(GameOver.class, "GameOver"),
+                new NamedType(Loading.class, "Loading"),
+                new NamedType(Replaying.class, "Replaying")
+        );
+
+        // Register Terrain subtypes
+        xmlMapper.registerSubtypes(
+                new NamedType(CopperDoor.class, "CopperDoor"),
+                new NamedType(CopperKey.class, "CopperKey"),
+                new NamedType(ExitLock.class, "ExitLock"),
+                new NamedType(ExitTile.class, "ExitTile"),
+                new NamedType(Free.class, "Free"),
+                new NamedType(GoldDoor.class, "GoldDoor"),
+                new NamedType(GoldKey.class, "GoldKey"),
+                new NamedType(GreenDoor.class, "GreenDoor"),
+                new NamedType(GreenKey.class, "GreenKey"),
+                new NamedType(Info.class, "Info"),
+                new NamedType(OneWayEast.class, "OneWayEast"),
+                new NamedType(OneWayNorth.class, "OneWayNorth"),
+                new NamedType(OneWaySouth.class, "OneWaySouth"),
+                new NamedType(OneWayWest.class, "OneWayWest"),
+                new NamedType(SilverDoor.class, "SilverDoor"),
+                new NamedType(SilverKey.class, "SilverKey"),
+                new NamedType(Teleporter.class, "Teleporter"),
+                new NamedType(Treasure.class, "Treasure"),
+                new NamedType(Wall.class, "Wall")
+        );
+
+        xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
     }
 
-    // todo if this doesn't work then originator will be world save
-    // todo and memento will be something I define
 
     /**
      * Constructor for a Game Caretaker, takes a domain object as the originator
