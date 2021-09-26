@@ -14,12 +14,14 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +129,23 @@ public class SaveWorldSaveTests {
 
         assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
         assertEquals("Door  Green", ws.getTerrains().get(1).toString());
+    }
+
+    // FIXME: 26/09/2021 Need TestWorld to not be final for this test to work...
+//    @Test
+//    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
+//        File f = new File("worldsave_with_caretaker.xml");
+//        Domain domain = new TestWorld() {
+//            @Override
+//            public WorldSave generateSaveData() {
+//                return worldSave;
+//            }
+//        };
+//        GameCaretaker gameCaretaker = new GameCaretaker(domain);
+//        gameCaretaker.saveGame(f);
+//        WorldSave ws = gameCaretaker.getMemento(new FileInputStream(f));
+//
+//        assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
+//        assertEquals("Door  Green", ws.getTerrains().get(1).toString());
     }
 }
