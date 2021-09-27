@@ -33,7 +33,8 @@ public class Chip extends GameObject {
    * Create a new Chip.
    */
   public Chip() {
-    super(new PlayerController(), Direction.NORTH, "chap-3-right.gif", "chap-3-left.gif");
+    // I don't know how to make the chip input stream
+    super(new PlayerController(), Direction.NORTH, null, null);
     treasureCollected = 0;
     invetory = new ArrayList<Item>(INVETORY_SIZE);
   }
