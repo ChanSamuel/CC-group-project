@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.terrain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 
 /**
@@ -10,6 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface Terrain {
   /**
    * When an object enters a tile with this terrain, the terrain may swap to

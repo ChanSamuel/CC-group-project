@@ -1,11 +1,15 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * A Game object is something that exists in the game world that can move.
  *
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public abstract class GameObject {
   /**
    * The file path to the image used to render this character. Use if the renderer
@@ -99,6 +103,7 @@ public abstract class GameObject {
    *
    * @return the name of this entity
    */
+  @JsonIgnore
   public abstract String getName();
 
   /**

@@ -117,7 +117,6 @@ class ChapJPanel extends JPanel {
 		// that's doesn't matter.
 //		System.out.println("Chap's current col: "+coord.getCol());
 //		System.out.println("Chap's current row: "+coord.getRow());
-		g.drawImage(chapImage, coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
+		g.drawImage(chapImage, coord.getColumn() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
 }

@@ -182,7 +182,7 @@ public class WorldJPanel extends JPanel {
 		if (domain == null)
 			return;
 		// calculate the offset of chap's coord from center of the board.
-		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getCol());
+		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getColumn());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
 		// change the location of panel to place chap in the center.
 		setBounds(diffX, diffY, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
@@ -209,7 +209,7 @@ public class WorldJPanel extends JPanel {
 	 * @param domain
 	 */
 	public void redraw(Domain domain) {
-		if (this.playerCoord.getCol() != this.domain.getPlayerLocation().getCol()
+		if (this.playerCoord.getColumn() != this.domain.getPlayerLocation().getColumn()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
 			this.playerCoord = this.domain.getPlayerLocation();
 			this.playerMoved = true;

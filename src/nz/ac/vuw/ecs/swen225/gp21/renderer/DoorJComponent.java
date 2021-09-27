@@ -90,11 +90,11 @@ public class DoorJComponent extends JComponent {
 		Board board = worldJPanel.getBoard();
 		// iterating through the board, draw image based on Tile's terrain type.
 		for(Coord coord:doorMap.keySet()) {
-			int i = coord.getCol();
+			int i = coord.getColumn();
 			int j = coord.getRow();
-			if(this.worldJPanel.playerCoord.getCol()==i&&this.worldJPanel.playerCoord.getRow()==j&&doorMap.containsKey(coord)) {
+			if(this.worldJPanel.playerCoord.getColumn()==i&&this.worldJPanel.playerCoord.getRow()==j&&doorMap.containsKey(coord)) {
 				System.out.println("chap stands on silver door");
-				currentI = coord.getCol();
+				currentI = coord.getColumn();
 				currentJ = coord.getRow();
 				currentTerrain  = doorMap.get(coord);
 				this.doorMap.remove(coord);
