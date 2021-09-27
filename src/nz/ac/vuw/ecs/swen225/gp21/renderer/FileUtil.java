@@ -19,6 +19,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class FileUtil {
 	/**
+	 * Make this tool class's constructor private
+	 */
+	private FileUtil() {
+		
+	}
+	/**
 	 * A method for returning an InputStream from a filepath
 	 * @param type which type of file, image or sound
 	 * @param path the filepath of this file

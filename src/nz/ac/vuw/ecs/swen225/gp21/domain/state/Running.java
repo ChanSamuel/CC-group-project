@@ -4,20 +4,18 @@ import java.util.*; //TODO temp addition
 import java.util.stream.Collectors;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord; //TODO temp addition
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.DirectMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveDown;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.NoMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
 
 /**
  * The running state represents a world that has been initialized and is capable
@@ -39,26 +37,18 @@ public final class Running implements State {
   }
 
   @Override
-  public Tick update(World w, double elapsedTime) {
+  public void update(World w, double elapsedTime) {
     worldCheck(w);
     w.updates++;
-    Tick tick = new Tick(w.updates);
-    // TODO make ticks && commands && moves independent of a
-    // specific world instance.
-    // update all game objects
     for (GameObject e : w.getEntities()) {
-      w.event = new MultiMove();
-      e.update(elapsedTime, w);
-      tick.addEvent(w.event);
+      e.update(elapsedTime, w); // this method may generate events via w.eventOccured()
     }
     if (w.getBoard().getRemainingChips() == 0 && !w.getBoard().isExitOpen()) {
-      tick.addEvent(w.getBoardWorld().openExit());
-      // return multimove that captures the terrain change
+      w.getBoardWorld().openExit(); // this method may generate events via w.eventOccured()
     }
 
     assert (w.totalTreasure == w.getBoard().getRemainingChips()
         + (w.getPlayer() == null ? 0 : w.getPlayer().treasureCollected));
-    return tick;
   }
 
   @Override
@@ -73,9 +63,8 @@ public final class Running implements State {
     // The terrain at the destination before the move was applied.
     Terrain terrainAtDest = w.getBoardWorld().tryMoveObject(destination, o);
     if (terrainAtDest != null) {
-      w.event.saveEvent(new DirectMove(beforeD, beforeC, terrainAtDest, o));
-    } else {
-      w.event.saveEvent(new NoMove());
+      int updates = w.updates;
+      w.eventOccured(new DirectMove(updates, beforeD, beforeC, terrainAtDest, o));
     }
   }
 
@@ -137,42 +126,36 @@ public final class Running implements State {
   }
 
   @Override
-  public void forwardTick(World w, Tick t) {
+  public void forwardTick(World w, GameEvent e) {
     throw new IllegalStateException(
         "Cannot apply tick when game is running! World should be in replaying state!");
   }
 
   @Override
-  public void backTick(World w, Tick t) {
+  public void backTick(World w, GameEvent e) {
     throw new IllegalStateException(
         "Cannot apply tick when game is running! World should be in replaying state!");
   }
 
   @Override
-  public void restoreGame(World world, WorldSave save) {
+  public void restoreGame(World world, GameMemento save) {
     throw new IllegalStateException("Cannot restore save game while game is running!");
   }
 
   @Override
-  public WorldSave generateSaveData(World w) {
-    WorldSave answer = new WorldSave();
+  public GameMemento generateSaveData(World w) {
 
-    answer.setRows(w.getBoardHeight());
-    answer.setCols(w.getBoardWidth());
-    answer.setCurrentState(w.getDomainState());
-    answer.setGameObjects(w.getEntities());
-    answer.setGameObjectLocations(w.getEntities().stream().map(GameObject::getTile).map(t -> {
-      return t.location;
-    }).collect(Collectors.toList()));
     List<Terrain> terr = new ArrayList<>();
     for (int row = 0; row < w.getBoardHeight(); row++) {
       for (int col = 0; col < w.getBoardWidth(); col++) {
         terr.add(w.getBoard().getTileAt(new Coord(row, col)).getTerrain());
       }
     }
-    answer.setUpdates(w.updates);
-    answer.setTotalTreasure(w.totalTreasure);
 
-    return answer;
+    return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), w.getEntities(),
+        w.getEntities().stream().map(GameObject::getTile).map(t -> {
+          return t.location;
+        }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(),
+        w.totalTreasure); // we don't need the movement controllers at this time
   }
 }

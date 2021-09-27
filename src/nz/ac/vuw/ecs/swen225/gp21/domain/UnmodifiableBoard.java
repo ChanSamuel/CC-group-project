@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
@@ -44,7 +43,7 @@ public final class UnmodifiableBoard implements Board {
   }
 
   @Override
-  public MultiMove openExit() {
+  public void openExit() {
     throw new UnsupportedOperationException("Cannot modify read only board!");
   }
 

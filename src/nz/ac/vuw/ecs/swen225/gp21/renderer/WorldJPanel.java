@@ -1,7 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JLayeredPane;
@@ -43,7 +41,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * The domain object
 	 */
-	protected Domain domain;
+	private Domain domain;
 	/**
 	 * Chap's current coord
 	 */
@@ -55,7 +53,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * The chap JPanel
 	 */
-	private ChapJPanel ChapJPanel;
+	private ChapJPanel chapJPanel;
 	/**
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
@@ -69,13 +67,18 @@ public class WorldJPanel extends JPanel {
 	private DoorJComponent doorJComponent;
 	Music level1Music;
 	Music level2Music;
-
+	private static WorldJPanel worldJPanel = new WorldJPanel();
 	/**
 	 * Constructor
 	 */
-	public WorldJPanel() {
+	private WorldJPanel() {
 	}
-
+	/**
+	 * Get instance
+	 */
+	public static WorldJPanel getInstance() {
+		return worldJPanel;
+	}
 	/**
 	 * Set the domain and call init to initialize WorldJpanel
 	 * 
@@ -120,19 +123,22 @@ public class WorldJPanel extends JPanel {
 		updateFocusArea();
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
-		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
+		BackgroundJPanel backgroundJPanel = BackgroundJPanel.getInstance();
+		backgroundJPanel.init(board);
 		// The doors JComponent
-		this.doorJComponent = new DoorJComponent(this);
+		this.doorJComponent = DoorJComponent.getInstance();
+		doorJComponent.init(this);
 		// The changingTerrain JPanel
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
-		this.ChapJPanel = new ChapJPanel(this);
+		this.chapJPanel = ChapJPanel.getInstance();
+		this.chapJPanel.init(this);
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
 		lp.setLayout(null);
 		// arrange the layer, smaller index on top.
-		lp.add(ChapJPanel, index++);
+		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
@@ -141,7 +147,9 @@ public class WorldJPanel extends JPanel {
 		// add this JPanel to worldJPanel.
 		add(lp);
 	}
-
+	/**
+	 * called when game stopped.
+	 */
 	void gameStopped() {
 		if (level1Music != null) {
 			level1Music.stop();
@@ -160,7 +168,7 @@ public class WorldJPanel extends JPanel {
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
 		// update chap's location
-		this.ChapJPanel.updateChap();
+		this.chapJPanel.repaint();
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
 		// repaint the doorJComponent.
@@ -174,7 +182,7 @@ public class WorldJPanel extends JPanel {
 		if (domain == null)
 			return;
 		// calculate the offset of chap's coord from center of the board.
-		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getCol());
+		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getColumn());
 		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
 		// change the location of panel to place chap in the center.
 		setBounds(diffX, diffY, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
@@ -201,7 +209,7 @@ public class WorldJPanel extends JPanel {
 	 * @param domain
 	 */
 	public void redraw(Domain domain) {
-		if (this.playerCoord.getCol() != this.domain.getPlayerLocation().getCol()
+		if (this.playerCoord.getColumn() != this.domain.getPlayerLocation().getColumn()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
 			this.playerCoord = this.domain.getPlayerLocation();
 			this.playerMoved = true;

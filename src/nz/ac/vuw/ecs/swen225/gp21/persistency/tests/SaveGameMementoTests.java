@@ -15,6 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
 import org.junit.jupiter.api.Test;
@@ -26,22 +27,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SaveWorldSaveTests {
+public class SaveGameMementoTests {
 
     /**
-     * WorldSave object for testing
+     * GameMemento object for testing.
      */
-    private static WorldSave worldSave;
+    private static final GameMemento testMemento;
     static {
-        worldSave = new WorldSave();
-        worldSave.setCols(2);
-        worldSave.setRows(2);
-        worldSave.setUpdates(6);
-        worldSave.setCurrentState(new Running());
-        worldSave.setTotalTreasure(7);
-
         List<GameObject> gameObjects = new ArrayList<>();
         gameObjects.add(new Chip());
         gameObjects.add(new Block());
@@ -49,26 +43,23 @@ public class SaveWorldSaveTests {
         List<Coord> gameObjectLocations = new ArrayList<>();
         gameObjectLocations.add(new Coord(0,0));
         gameObjectLocations.add(new Coord(0, 1));
-        gameObjectLocations.add(new Coord(1, 0));
-        gameObjectLocations.add(new Coord(1,1));
 
         List<MovementController> gameObjectMoveControllers = new ArrayList<>();
         gameObjectMoveControllers.add(new PlayerController());
 
         List<Terrain> terrains = new ArrayList<>();
-        terrains.add(new GreenKey());
-        terrains.add(new GreenDoor());
+        terrains.add(GreenKey.getInstance());
+        terrains.add(GreenDoor.getInstance());
+        terrains.add(Teleporter.makeInstance(new Coord(0,0)));
 
-        worldSave.setGameObjects(gameObjects);
-        worldSave.setGameObjectLocations(gameObjectLocations);
-        worldSave.setGameObjectMoveControllers(gameObjectMoveControllers);
-        worldSave.setTerrains(terrains);
+        testMemento = new GameMemento(2, 2, gameObjects, gameObjectLocations, gameObjectMoveControllers,
+                terrains, 6, new Running(), 7);
     }
 
     /**
-     * XMLmapper with registered subtypes for testing
+     * XmlMapper with registered subtypes for testing
      */
-    private static XmlMapper xmlMapper;
+    private static final XmlMapper xmlMapper;
     static {
         xmlMapper = new XmlMapper();
 
@@ -122,30 +113,82 @@ public class SaveWorldSaveTests {
 
     @Test
     public void saveLoadWorldWithPersister() throws PersistException, IOException {
-        File f = new File("worldsave_with_persister.xml");
+        File f = new File("memento_save_with_persister.xml");
         XMLPersister persister = new XMLPersister(xmlMapper);
-        persister.save(f, worldSave);
-        WorldSave ws = xmlMapper.readValue(new FileInputStream(f), WorldSave.class);
-
-        assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
-        assertEquals("Door  Green", ws.getTerrains().get(1).toString());
+        persister.save(f, testMemento);
+        GameMemento loadedMemento = xmlMapper.readValue(new FileInputStream(f), GameMemento.class);
+        assertTrue(sameAsTest(loadedMemento));
     }
 
-    // FIXME: 26/09/2021 Need TestWorld to not be final for this test to work...
-//    @Test
-//    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
-//        File f = new File("worldsave_with_caretaker.xml");
-//        Domain domain = new TestWorld() {
-//            @Override
-//            public WorldSave generateSaveData() {
-//                return worldSave;
-//            }
-//        };
-//        GameCaretaker gameCaretaker = new GameCaretaker(domain);
-//        gameCaretaker.saveGame(f);
-//        WorldSave ws = gameCaretaker.getMemento(new FileInputStream(f));
-//
-//        assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
-//        assertEquals("Door  Green", ws.getTerrains().get(1).toString());
+    @Test
+    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
+        File f = new File("memento_save_with_caretaker.xml");
+        Domain domain = new TestWorld2() {
+            @Override
+            public GameMemento generateSaveData() {
+                return testMemento;
+            }
+        };
+        GameCaretaker gameCaretaker = new GameCaretaker(domain);
+        gameCaretaker.saveGame(f);
+        GameMemento loadedMemento = gameCaretaker.getMemento(new FileInputStream(f));
+        assertTrue(sameAsTest(loadedMemento));
+    }
+
+    private boolean sameAsTest(GameMemento loaded) {
+        return loaded.getRows() == 2
+                && loaded.getCols() == 2
+                && loaded.getUpdates() == 6
+                && loaded.getTotalTreasure() == 7
+                && loaded.getCurrentState().toString().contains("Running")
+                && loaded.getGameObjects().get(0).getName().equals("Chip")
+                && loaded.getGameObjects().get(1).getName().equals("Block")
+                && loaded.getGameObjectLocations().get(0).toString().equals("Row: 0 Columns: 0")
+                && loaded.getGameObjectLocations().get(1).toString().equals("Row: 0 Columns: 1")
+                && loaded.getGameObjectMoveControllers().get(0).toString().contains("PlayerController")
+                && loaded.getTerrains().get(0).toString().equals("Key tile Green")
+                && loaded.getTerrains().get(1).toString().equals("Door  Green")
+                && loaded.getTerrains().get(2).toString().equals("Teleporter");
+    }
+}
+
+class TestWorld2 extends World {
+    @Override
+    public void collectedChip() {}
+
+    @Override
+    public void openedDoor() {}
+
+    @Override
+    public void enteredExit() {}
+
+    @Override
+    public void enteredInfo(String msg) {}
+
+    @Override
+    public void leftInfo() {}
+
+    @Override
+    public void playerLost() {}
+
+    @Override
+    public void playerGainedItem(Item item) {}
+
+    @Override
+    public void playerConsumedItem(Item item) {}
+
+    @Override
+    public void objectTeleported() {}
+
+    @Override
+    public void objectPushed() {}
+
+    @Override
+    public void eventOccured(GameEvent e) {
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

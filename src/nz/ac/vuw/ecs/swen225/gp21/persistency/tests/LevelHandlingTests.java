@@ -6,15 +6,20 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LevelHandlingTests {
 
     @Mock
@@ -36,9 +41,10 @@ public class LevelHandlingTests {
     public void saveLevel1() throws PersistException {
         LevelHandler.saveLevelOne();
 
-// FIXME: 24/09/2021 
-//        doNothing().when(parser).save(any(File.class), levelMementoCaptor); 
-//        Level levelCaptured = levelMementoCaptor.getValue().toLevel();
+// FIXME: 24/09/2021
+
+//        doNothing().when(parser).save(any(File.class), levelMementoCaptor);
+//        Level levelCaptured = ((LevelMemento)levelMementoCaptor.getValue()).toLevel();
     }
 
     @Test

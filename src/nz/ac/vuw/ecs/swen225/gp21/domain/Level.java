@@ -188,7 +188,7 @@ public final class Level {
    * @return null if there is no entity at this position
    */
   public String entityNameAt(Coord c) {
-    int index = twoDtoOneD(c.getRow(), c.getCol());
+    int index = twoDtoOneD(c.getRow(), c.getColumn());
     String objectChar = Character.toString(entityLayout.charAt(index));
     return charToGameObjName.get(objectChar);
 
@@ -201,7 +201,7 @@ public final class Level {
    * @return the terrain at this location
    */
   public Terrain terrainAt(Coord c) {
-    int index = twoDtoOneD(c.getRow(), c.getCol());
+    int index = twoDtoOneD(c.getRow(), c.getColumn());
     Character terrainChar = terrainLayout.charAt(index);
     String terrainString = Character.toString(terrainChar);
     // If digit, make teleport, get teleport destination from the map.

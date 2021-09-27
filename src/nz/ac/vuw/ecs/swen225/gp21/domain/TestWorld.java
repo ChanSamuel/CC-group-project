@@ -77,6 +77,11 @@ public final class TestWorld extends World {
   }
 
   @Override
+  public void eventOccured(GameEvent e) {
+    System.out.println("Captured event: " + e);
+  }
+
+  @Override
   public String toString() {
     return super.toString();
   }
