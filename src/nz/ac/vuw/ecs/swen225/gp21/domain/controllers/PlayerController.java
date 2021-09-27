@@ -21,7 +21,6 @@ public final class PlayerController implements MovementController {
     Command c = w.poll();
     if (c == null) {
       c = new NoMove();
-      w.event.saveEvent(c);
     }
     return c;
   }
