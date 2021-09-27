@@ -133,6 +133,7 @@ public abstract class GameObject {
    *
    * @return the tile this object is on
    */
+  @JsonIgnore
   public Tile getTile() {
     return this.currentTile;
   }
