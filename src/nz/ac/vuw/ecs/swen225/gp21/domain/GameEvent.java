@@ -27,20 +27,6 @@ public interface GameEvent {
   public long getTimeStamp();
 
   /**
-   * determine if this event is the final event for a gameplay session.
-   *
-   * @return true if this was the final event in a gameplay session
-   */
-  public boolean isFinalUpdate();
-
-  /**
-   * Set if this event is the final update in a gameplay session.
-   *
-   * @param isFinal whether this update is the final update for a session
-   */
-  public void setFinalUpate(boolean isFinal);
-
-  /**
    * Re-perform the action encapsulated in this event.
    *
    * @param w the world this event should be applied to
