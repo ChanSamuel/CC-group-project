@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The running state represents a world that has been initialized and is capable

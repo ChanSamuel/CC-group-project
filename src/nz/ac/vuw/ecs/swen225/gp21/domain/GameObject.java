@@ -1,8 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import java.io.InputStream;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.io.InputStream;
 
 /**
  * A Game object is something that exists in the game world that can move.
