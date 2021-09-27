@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.TerrainChange;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
@@ -157,22 +156,18 @@ public class ArrayBoard implements Board {
   }
 
   @Override
-  public MultiMove openExit() {
+  public void openExit() {
     isExitOpen = true;
-    MultiMove response = new MultiMove();
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         if (board[row][col].getTerrain() instanceof ExitLock) {
           int updates = this.world.updates;
           this.world.eventOccured(new TerrainChange(updates, new Coord(row, col),
               board[row][col].getTerrain(), Free.getInstance())); // make an event
-          response.saveEvent(new TerrainChange(updates, new Coord(row, col),
-              board[row][col].getTerrain(), Free.getInstance())); // add to tick save pipeline
           board[row][col].setTerrain(Free.getInstance());
         }
       }
     }
-    return response;
   }
 
   @Override
