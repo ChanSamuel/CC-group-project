@@ -155,7 +155,7 @@ public final class Running implements State {
     return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), w.getEntities(),
         w.getEntities().stream().map(GameObject::getTile).map(t -> {
           return t.location;
-        }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(),
-        w.totalTreasure); // we don't need the movement controllers at this time
+        }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(), w.totalTreasure,
+        w.getBoard().isExitOpen()); // we don't need the movement controllers at this time
   }
 }
