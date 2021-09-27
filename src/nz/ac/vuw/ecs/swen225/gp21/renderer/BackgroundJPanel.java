@@ -61,10 +61,6 @@ class BackgroundJPanel extends JPanel {
 	 */
 	private BufferedImage oneWaySouthImage;
 	/**
-	 * The parent JPanel
-	 */
-	private WorldJPanel worldJPanel;
-	/**
 	 * The padding
 	 */
 	private final int PADDING = 10;
@@ -73,22 +69,36 @@ class BackgroundJPanel extends JPanel {
 	 */
 	private BufferedImage infoImage;
 	private boolean drawCurrentPanel;
+	private static BackgroundJPanel backgroundJPanel = new BackgroundJPanel();
+
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
 	 * 
 	 * @param board the board.
 	 */
-	BackgroundJPanel(WorldJPanel worldJPanel) {
+	private BackgroundJPanel() {
+		
+	}
+	/**
+	 * Get the instance
+	 */
+	public static BackgroundJPanel getInstance() {
+		return backgroundJPanel;
+	}
+	/**
+	 * Set the board
+	 */
+	void init(Board board) {
 		// ----------------Set the board.------------------------------------
-		this.board = worldJPanel.getBoard();
+		this.board = board;
 		// ---------------Set the properties of this JPanel------------------
 		setLayout(null);
-		setBounds(0, 0, this.board.getWidth()*WorldJPanel.TILE_WIDTH, this.board.getHeight()*WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0, this.board.getWidth() * WorldJPanel.TILE_WIDTH,
+				this.board.getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		// ---------------Initialize images----------------------------------
 		initImages();
 	}
-
 	/**
 	 * initialize the pictures
 	 */
@@ -135,27 +145,31 @@ class BackgroundJPanel extends JPanel {
 					// draw the info
 					g.drawImage(this.infoImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				}else if (terrain instanceof OneWayEast) {
+				} else if (terrain instanceof OneWayEast) {
 					// draw the one way east
-					g.drawImage(this.oneWayEastImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
-							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+					g.drawImage(this.oneWayEastImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
+							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
+							WorldJPanel.TILE_HEIGHT - PADDING, null);
 				} else if (terrain instanceof OneWayWest) {
 					// draw the one way west
-					g.drawImage(this.oneWayWestImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
-							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+					g.drawImage(this.oneWayWestImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
+							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
+							WorldJPanel.TILE_HEIGHT - PADDING, null);
 				} else if (terrain instanceof OneWaySouth) {
 					// draw the one way south
-					g.drawImage(this.oneWaySouthImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
-							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+					g.drawImage(this.oneWaySouthImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
+							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
+							WorldJPanel.TILE_HEIGHT - PADDING, null);
 				} else if (terrain instanceof OneWayNorth) {
 					// draw the one way north
-					g.drawImage(this.oneWayNorthImage, WorldJPanel.TILE_WIDTH * i+PADDING/2, WorldJPanel.TILE_HEIGHT * j+PADDING/2,
-							WorldJPanel.TILE_WIDTH-PADDING, WorldJPanel.TILE_HEIGHT-PADDING, null);
+					g.drawImage(this.oneWayNorthImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
+							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
+							WorldJPanel.TILE_HEIGHT - PADDING, null);
 				} else if (terrain instanceof ExitTile) {
 					// draw the exit tile
 					g.drawImage(this.exitTileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} 
+				}
 			}
 		}
 	}
