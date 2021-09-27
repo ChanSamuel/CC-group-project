@@ -11,11 +11,17 @@ public final class Coord {
   /**
    * The column of this coordinate.
    */
-  private final int column;
+  private int column;
   /**
    * the row of this coordinate.
    */
-  private final int row;
+  private int row;
+
+  /**
+   * default init column and row to zero.
+   */
+  public Coord() {
+  }
 
   /**
    * Make a new Coordinate at row, col.
@@ -42,7 +48,7 @@ public final class Coord {
    *
    * @return the column
    */
-  public int getCol() {
+  public int getColumn() {
     return column;
   }
 
