@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveLeft;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveRight;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MoveUp;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The running state represents a world that has been initialized and is capable
@@ -155,7 +155,7 @@ public final class Running implements State {
     return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), w.getEntities(),
         w.getEntities().stream().map(GameObject::getTile).map(t -> {
           return t.location;
-        }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(),
-        w.totalTreasure); // we don't need the movement controllers at this time
+        }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(), w.totalTreasure,
+        w.getBoard().isExitOpen()); // we don't need the movement controllers at this time
   }
 }

@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The running state represents a world that has completed its gameplay
