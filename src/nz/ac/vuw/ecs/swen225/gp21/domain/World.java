@@ -389,6 +389,13 @@ public abstract class World implements Domain {
    */
   public abstract void objectPushed();
 
+  /**
+   * Called when a GameEvent occurs.
+   *
+   * @param e the event that occurred
+   */
+  public abstract void eventOccured(GameEvent e);
+
   // ==========================================================
   // MOVEMENT METHODS - these methods talk to the board to move stuff
   // I'm open to criticism on why we have this extra layer of indirection

@@ -163,8 +163,11 @@ public class ArrayBoard implements Board {
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         if (board[row][col].getTerrain() instanceof ExitLock) {
-          response.saveEvent(new TerrainChange(new Coord(row, col), board[row][col].getTerrain(),
-              Free.getInstance()));
+          int updates = this.world.updates;
+          this.world.eventOccured(new TerrainChange(updates, new Coord(row, col),
+              board[row][col].getTerrain(), Free.getInstance())); // make an event
+          response.saveEvent(new TerrainChange(updates, new Coord(row, col),
+              board[row][col].getTerrain(), Free.getInstance())); // add to tick save pipeline
           board[row][col].setTerrain(Free.getInstance());
         }
       }

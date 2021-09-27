@@ -73,7 +73,9 @@ public final class Running implements State {
     // The terrain at the destination before the move was applied.
     Terrain terrainAtDest = w.getBoardWorld().tryMoveObject(destination, o);
     if (terrainAtDest != null) {
-      w.event.saveEvent(new DirectMove(beforeD, beforeC, terrainAtDest, o));
+      int updates = w.updates;
+      w.eventOccured(new DirectMove(updates, beforeD, beforeC, terrainAtDest, o));
+      w.event.saveEvent(new DirectMove(updates, beforeD, beforeC, terrainAtDest, o));
     } else {
       w.event.saveEvent(new NoMove());
     }
