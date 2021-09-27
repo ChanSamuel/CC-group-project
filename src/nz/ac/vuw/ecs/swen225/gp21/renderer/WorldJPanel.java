@@ -1,7 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JLayeredPane;
@@ -43,7 +41,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * The domain object
 	 */
-	protected Domain domain;
+	private Domain domain;
 	/**
 	 * Chap's current coord
 	 */
@@ -55,7 +53,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * The chap JPanel
 	 */
-	private ChapJPanel ChapJPanel;
+	private ChapJPanel chapJPanel;
 	/**
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
@@ -132,13 +130,14 @@ public class WorldJPanel extends JPanel {
 		// The changingTerrain JPanel
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
-		this.ChapJPanel = new ChapJPanel(this);
+		this.chapJPanel = ChapJPanel.getInstance();
+		this.chapJPanel.init(this);
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
 		lp.setLayout(null);
 		// arrange the layer, smaller index on top.
-		lp.add(ChapJPanel, index++);
+		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
 		lp.add(changingTerrainJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
@@ -168,7 +167,7 @@ public class WorldJPanel extends JPanel {
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
 		// update chap's location
-		this.ChapJPanel.repaint();
+		this.chapJPanel.repaint();
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
 		// repaint the doorJComponent.
