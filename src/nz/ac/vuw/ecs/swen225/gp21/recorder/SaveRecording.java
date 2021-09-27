@@ -6,6 +6,7 @@ import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
  * This class saves a list of game states to an xml file in the form of a Recording object.

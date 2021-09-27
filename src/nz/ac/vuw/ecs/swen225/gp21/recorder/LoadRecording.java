@@ -6,6 +6,7 @@ import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
  * Generates a list of game ticks in the form of a Recording object from an xml file.
@@ -14,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
 public class LoadRecording {
 
     public static Recording load(InputStream is) throws RecorderException {
-        XMLPersister p = new XMLPersister(null);
+        XMLPersister p = new XMLPersister(new XmlMapper());
         try{
             return p.load(is, Recording.class);
         } catch (PersistException e){
