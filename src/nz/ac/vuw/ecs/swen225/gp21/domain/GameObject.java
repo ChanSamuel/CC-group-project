@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import java.io.InputStream;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -15,12 +16,12 @@ public abstract class GameObject {
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
-  public final String filePathLeft;
+  public final InputStream leftStream;
   /**
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
-  public final String filePathRight;
+  public final InputStream rightStream;
   /**
    * The logic that GameObjects use to choose how to move is encapsulated away
    * into a movement controller.
@@ -44,11 +45,11 @@ public abstract class GameObject {
    * @param pathLeft  The file path used to render the GameObject facing Left
    * @param pathRight The file path used to render the GameObject facing right
    */
-  protected GameObject(MovementController c, String pathLeft, String pathRight) {
+  protected GameObject(MovementController c, InputStream leftStream, InputStream rightStream) {
     this.controller = c;
     dir = Direction.NONE;
-    this.filePathLeft = pathLeft;
-    this.filePathRight = pathRight;
+    this.leftStream = leftStream;
+    this.rightStream = rightStream;
   }
 
   /**
@@ -61,11 +62,12 @@ public abstract class GameObject {
    * @param pathRight The file path to the resource that draws the object facing
    *                  right
    */
-  protected GameObject(MovementController c, Direction d, String pathLeft, String pathRight) {
+  protected GameObject(MovementController c, Direction d, InputStream leftStream,
+      InputStream rightStream) {
     this.controller = c;
     dir = d;
-    this.filePathLeft = pathLeft;
-    this.filePathRight = pathRight;
+    this.leftStream = leftStream;
+    this.rightStream = rightStream;
   }
 
   /**
