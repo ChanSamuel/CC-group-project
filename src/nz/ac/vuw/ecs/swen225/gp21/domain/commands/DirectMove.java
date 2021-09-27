@@ -4,6 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GenericEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
@@ -15,7 +16,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * @author sansonbenj 300482847
  *
  */
-public final class DirectMove implements Command {
+public final class DirectMove extends GenericEvent implements Command {
   /**
    * Direction object was facing before the move.
    */
@@ -41,13 +42,16 @@ public final class DirectMove implements Command {
    * Create a new direct move command. It needs to store all in the information
    * needed to undo the move.
    *
+   * @param updateIndex   the number of the update that generated this move.
    * @param beforeDir     the direction the object was facing before the move
    * @param beforePos     the position of the object before the move
    * @param beforeTerrain the terrain of the tile the object moved to before the
    *                      move
    * @param moved         the object that was moved
    */
-  public DirectMove(Direction beforeDir, Coord beforePos, Terrain beforeTerrain, GameObject moved) {
+  public DirectMove(int updateIndex, Direction beforeDir, Coord beforePos, Terrain beforeTerrain,
+      GameObject moved) {
+    super(updateIndex);
     this.beforeDir = beforeDir;
     this.beforePos = beforePos;
     this.beforeTerrain = beforeTerrain;
@@ -87,14 +91,24 @@ public final class DirectMove implements Command {
   }
 
   @Override
+  public void redoEvent(World w) {
+    this.execute(w);
+  }
+
+  @Override
+  public void undoEvent(World w) {
+    this.undo(w);
+  }
+
+  @Override
   public String toString() {
     String answer = "DirectMove [ ";
     answer += " from: (" + beforePos + ") (" + beforeDir + ")";
     answer += " to: (" + afterPos + ") (" + afterDir + ")";
     answer += " Terrain was => " + beforeTerrain;
+    answer += " on update: " + updateIndex + " @ " + timeStamp + " final? =>" + isFinal;
     answer += "]";
 
     return answer;
   }
-
 }

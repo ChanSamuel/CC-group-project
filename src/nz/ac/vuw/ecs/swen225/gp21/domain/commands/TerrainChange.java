@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.commands;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Command;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GenericEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
@@ -12,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  * @author sansonbenj 300482847
  *
  */
-public final class TerrainChange implements Command {
+public final class TerrainChange extends GenericEvent implements Command {
   /**
    * Store the location where the change occurred.
    */
@@ -29,11 +30,13 @@ public final class TerrainChange implements Command {
   /**
    * Create a new store of a terrain change.
    *
-   * @param location the location of the tile that changed its terrain
-   * @param before   the terrain before the change
-   * @param after    the terrain after the change
+   * @param updateIndex the number of the update that generated this event
+   * @param location    the location of the tile that changed its terrain
+   * @param before      the terrain before the change
+   * @param after       the terrain after the change
    */
-  public TerrainChange(Coord location, Terrain before, Terrain after) {
+  public TerrainChange(int updateIndex, Coord location, Terrain before, Terrain after) {
+    super(updateIndex);
     this.location = location;
     this.before = before;
     this.after = after;
@@ -50,12 +53,22 @@ public final class TerrainChange implements Command {
   }
 
   @Override
+  public void redoEvent(World w) {
+    this.execute(w);
+  }
+
+  @Override
+  public void undoEvent(World w) {
+    this.undo(w);
+  }
+
+  @Override
   public String toString() {
     String answer = "TerrainChange [ ";
     answer += " prev: " + before;
     answer += " after: " + after + " at->" + location;
+    answer += " on update: " + updateIndex + " @ " + timeStamp + " final? =>" + isFinal;
     answer += "]";
     return answer;
   }
-
 }
