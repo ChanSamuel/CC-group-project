@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+
 /**
  * Domain will be the publicly accessible interface that other modules will use
  * to interact with domain. Domains need to be able to support the following
@@ -82,13 +84,14 @@ public interface Domain extends Subject {
    *
    * @param save the save that is being restored
    */
-  public void restoreGame(WorldSave save);
+  public void restoreGame(GameMemento save);
 
   /**
-   * Load domain instance information into an object that is passed to the persist
-   * module.
+   * Generate a Memento to be written to file.
+   *
+   * @return an object that stores the information needed to restore the game
    */
-  public WorldSave generateSaveData();
+  public GameMemento generateSaveData();
 
   /**
    * Call this method when you have loaded a level, and added all the external
@@ -103,9 +106,8 @@ public interface Domain extends Subject {
    * Simulate the game for one time interval, generates a new tick.
    *
    * @param elapsedTime the amount of time since the last update
-   * @return A record of the events that occured during the update
    */
-  public Tick update(double elapsedTime);
+  public void update(double elapsedTime);
 
   // ===================
   // REPLAYING TICK HELPERS
@@ -123,18 +125,18 @@ public interface Domain extends Subject {
    * Applies the events stored in the loaded tick. Does nothing if the events have
    * already been applied. TODO change to exception? return boolean if it worked?
    *
-   * @param t the next tick in the replay stream
+   * @param e the next event in the replay stream
    */
-  public void forwardTick(Tick t);
+  public void forwardTick(GameEvent e);
 
   /**
    * Undoes the events in the loaded tick. Changes the next expected tick to
    * (t.index - 1) Does nothing if the game is at the first update (initial game
    * conditions) TODO change to exception? return boolean if it worked?
    *
-   * @param t the last applied tick in the replay stream
+   * @param e the last applied event in the replay stream
    */
-  public void backTick(Tick t);
+  public void backTick(GameEvent e);
 
   // ===================
   // API
