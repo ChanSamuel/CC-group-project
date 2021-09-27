@@ -1,9 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 
 import java.io.File;
@@ -20,17 +18,17 @@ public class LevelHandler {
     /**
      * XMLMapper object with specific settings for mapping levels.
      */
-    private static XmlMapper xmlMapper = new XmlMapper();;
+    private static final XmlMapper xmlMapper = new XmlMapper();
 
     /**
      * List of integers that represent the levels that are defined and can be loaded
      */
-    private static List<Integer> levelsThatExist = Arrays.asList(1); // todo add as we have levels
+    private static final List<Integer> levelsThatExist = Arrays.asList(1); // todo add as we have levels
 
     /**
      * LevelMemento that represents level one todo update to relevant info
      */
-    private static LevelMemento levelOne = new LevelMemento(16, 16, 1,
+    private static final LevelMemento levelOne = new LevelMemento(16, 16, 1,
     "################"
     + "#..........#...#"
     + "#..........#.g.#"
@@ -95,8 +93,8 @@ public class LevelHandler {
 
     /**
      * Helper method todo finish doc
-     * @param levelNumber
-     * @return
+     * @param levelNumber which level to load
+     * @return that will provide an informative message that should be shown to the user
      * @throws PersistException
      */
     public static Level getLevel(int levelNumber) throws PersistException {
@@ -104,7 +102,7 @@ public class LevelHandler {
             throw new PersistException("Level " + levelNumber + " does not exist");
         }
 
-        XMLPersister parser = new XMLPersister(new XmlMapper());
+        XMLPersister parser = new XMLPersister(xmlMapper);
         InputStream is = LevelHandler.class.getResourceAsStream
                 ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
 
@@ -114,16 +112,16 @@ public class LevelHandler {
 
     /**
      * Saves level one LevelMemento field to an XML
-     * @throws PersistException
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void saveLevelOne() throws PersistException {
-        XMLPersister parser = new XMLPersister(new XmlMapper());
+        XMLPersister parser = new XMLPersister(xmlMapper);
         parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml"), levelOne);
     }
 
     /**
      * Saves level two LevelMemento field to an XML
-     * @throws PersistException
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void saveLevelTwo() throws PersistException {
 // TODO: 24/09/2021
