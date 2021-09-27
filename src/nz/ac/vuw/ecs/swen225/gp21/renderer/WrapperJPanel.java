@@ -30,7 +30,7 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	 * @param domain
 	 */
 	public WrapperJPanel() {
-		worldJPanel = new WorldJPanel();
+		worldJPanel = WorldJPanel.getInstance();
 		add(worldJPanel);
 		setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();

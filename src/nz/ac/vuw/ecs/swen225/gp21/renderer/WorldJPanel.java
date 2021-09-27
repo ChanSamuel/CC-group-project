@@ -69,13 +69,18 @@ public class WorldJPanel extends JPanel {
 	private DoorJComponent doorJComponent;
 	Music level1Music;
 	Music level2Music;
-
+	private static WorldJPanel worldJPanel = new WorldJPanel();
 	/**
 	 * Constructor
 	 */
-	public WorldJPanel() {
+	private WorldJPanel() {
 	}
-
+	/**
+	 * Get instance
+	 */
+	public static WorldJPanel getInstance() {
+		return worldJPanel;
+	}
 	/**
 	 * Set the domain and call init to initialize WorldJpanel
 	 * 
@@ -120,7 +125,8 @@ public class WorldJPanel extends JPanel {
 		updateFocusArea();
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
-		BackgroundJPanel backgroundJPanel = new BackgroundJPanel(this);
+		BackgroundJPanel backgroundJPanel = BackgroundJPanel.getInstance();
+		backgroundJPanel.init(board);
 		// The doors JComponent
 		this.doorJComponent = new DoorJComponent(this);
 		// The changingTerrain JPanel
