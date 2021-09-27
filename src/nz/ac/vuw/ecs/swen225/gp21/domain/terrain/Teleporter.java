@@ -21,7 +21,7 @@ public class Teleporter implements Terrain {
   /**
    * The location of the other teleporter, that this teleporter is linked to.
    */
-  private final Coord linkLocation;
+  private Coord linkLocation;
 
   /**
    * Get an instance of the teleporter terrain type.
@@ -40,6 +40,21 @@ public class Teleporter implements Terrain {
    */
   private Teleporter(Coord other) {
     this.linkLocation = other;
+  }
+
+  /**
+   * make a teleporter with a null link location.
+   */
+  public Teleporter() {
+  }
+
+  /**
+   * Get the location this teleporter links to.
+   *
+   * @return the linkLocation
+   */
+  public Coord getLinkLocation() {
+    return linkLocation;
   }
 
   @Override
