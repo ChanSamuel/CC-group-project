@@ -10,10 +10,6 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
 public abstract class GenericEvent implements GameEvent {
 
   /**
-   * Store if this GameUpdate the final one.
-   */
-  protected boolean isFinal;
-  /**
    * The time that this GameEvent was created.
    */
   protected final long timeStamp;
@@ -30,7 +26,6 @@ public abstract class GenericEvent implements GameEvent {
    */
   public GenericEvent(int updateIndex) {
     this.updateIndex = updateIndex;
-    this.isFinal = false;
     this.timeStamp = System.currentTimeMillis();
   }
 
@@ -42,16 +37,6 @@ public abstract class GenericEvent implements GameEvent {
   @Override
   public long getTimeStamp() {
     return this.timeStamp;
-  }
-
-  @Override
-  public boolean isFinalUpdate() {
-    return this.isFinal;
-  }
-
-  @Override
-  public void setFinalUpate(boolean isFinal) {
-    this.isFinal = isFinal;
   }
 
   @Override
