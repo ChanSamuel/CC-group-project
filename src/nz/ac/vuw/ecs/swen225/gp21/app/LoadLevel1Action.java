@@ -16,6 +16,10 @@ public class LoadLevel1Action implements Action {
 	@Override
 	public void execute(Controller control) {
 		
+		if (control.world.getDomainState() instanceof Running) {
+			control.world.setState(new Loading());
+		}
+		
 		try {
 			ConcretePersister.loadLevel(1, control.world);
 		} catch (Exception e) {

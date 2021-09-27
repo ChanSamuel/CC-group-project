@@ -29,6 +29,10 @@ public class LoadReplayAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
+		if (control.world.getDomainState() instanceof Running) {
+			control.world.setState(new Loading());
+		}
+		
 		try {
 			control.recorder.load(f);
 		} catch (RecorderException e1) {
