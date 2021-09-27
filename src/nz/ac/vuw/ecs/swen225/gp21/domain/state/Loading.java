@@ -3,14 +3,14 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 import nz.ac.vuw.ecs.swen225.gp21.domain.ArrayBoard;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
 
 /**
  * The loading state represents a world that is not initialized and cannot
@@ -75,7 +75,7 @@ public class Loading implements State {
   }
 
   @Override
-  public Tick update(World w, double elapsedTime) {
+  public void update(World w, double elapsedTime) {
     throw new IllegalStateException("Cannot simulate world while world is loading!");
   }
 
@@ -142,22 +142,23 @@ public class Loading implements State {
   }
 
   @Override
-  public void forwardTick(World w, Tick t) {
+  public void forwardTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot apply tick while game is loading!");
   }
 
   @Override
-  public void backTick(World w, Tick t) {
+  public void backTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot apply tick while game is loading!");
   }
 
   @Override
-  public void restoreGame(World world, WorldSave save) {
+  public void restoreGame(World world, GameMemento save) {
     // TODO implement me!
+    throw new RuntimeException("Method not implemented yet!");
   }
 
   @Override
-  public WorldSave generateSaveData(World w) {
+  public GameMemento generateSaveData(World w) {
     throw new IllegalStateException("Cannot generate save data while game is running!");
   }
 }
