@@ -17,7 +17,6 @@ public class NoMovement implements MovementController {
   @Override
   public Command update(World w, GameObject o, double elapsedTime) {
     Command response = new NoMove();
-    w.event.saveEvent(response);
     return response;
   }
 

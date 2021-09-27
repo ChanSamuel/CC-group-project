@@ -60,12 +60,13 @@ public final class RandomMovement implements MovementController {
       return randomMove(o);
     }
     Command response = new NoMove();
-    w.event.saveEvent(response);
     return response;
   }
 
   /**
    * Picks a random move.
+   *
+   * @param o the object that will be moved
    *
    * @return a move in a random direction
    */
