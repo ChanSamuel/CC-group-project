@@ -67,7 +67,7 @@ public final class TerrainChange extends GenericEvent implements Command {
     String answer = "TerrainChange [ ";
     answer += " prev: " + before;
     answer += " after: " + after + " at->" + location;
-    answer += " on update: " + updateIndex + " @ " + timeStamp + " final? =>" + isFinal;
+    answer += " on update: " + updateIndex + " @ " + timeStamp;
     answer += "]";
     return answer;
   }

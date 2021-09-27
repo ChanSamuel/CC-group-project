@@ -106,7 +106,7 @@ public final class DirectMove extends GenericEvent implements Command {
     answer += " from: (" + beforePos + ") (" + beforeDir + ")";
     answer += " to: (" + afterPos + ") (" + afterDir + ")";
     answer += " Terrain was => " + beforeTerrain;
-    answer += " on update: " + updateIndex + " @ " + timeStamp + " final? =>" + isFinal;
+    answer += " on update: " + updateIndex + " @ " + timeStamp;
     answer += "]";
 
     return answer;
