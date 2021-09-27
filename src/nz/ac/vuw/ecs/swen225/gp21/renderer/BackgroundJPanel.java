@@ -10,7 +10,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;

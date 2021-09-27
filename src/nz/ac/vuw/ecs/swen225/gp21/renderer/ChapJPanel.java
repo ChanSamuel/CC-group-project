@@ -60,7 +60,6 @@ class ChapJPanel extends JPanel {
 		// default direction set as left.
 		chapImage = chapImageLeft;
 	}
-
 	/**
 	 * initialize the image
 	 */
@@ -74,22 +73,6 @@ class ChapJPanel extends JPanel {
 			System.out.println("chap image loading failed");
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Update chap when moving
-	 * 
-	 * @param x x coordinate of chap
-	 * @param y y coordinate of chap
-	 */
-	void updateChap() {
-		// update the location of this JPanel.
-//		setBounds(coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-//				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT);
-		// create a new chapMoving thread for the animation
-		this.repaint();
-		// TODO create a new thread ChapMoving for animation
-		ChapMoving cm = new ChapMoving();
 	}
 	/**
 	 * Check if domain is null
@@ -122,11 +105,3 @@ class ChapJPanel extends JPanel {
 	}
 }
 
-/**
- * a subClass extends thread handling the chap moving animation
- * @author mengli
- */
-//TODO
-class ChapMoving extends Thread {
-
-}

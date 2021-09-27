@@ -147,7 +147,9 @@ public class WorldJPanel extends JPanel {
 		// add this JPanel to worldJPanel.
 		add(lp);
 	}
-
+	/**
+	 * called when game stopped.
+	 */
 	void gameStopped() {
 		if (level1Music != null) {
 			level1Music.stop();
@@ -166,7 +168,7 @@ public class WorldJPanel extends JPanel {
 		// -------------Update all the changed JPanels---------------------
 		updateFocusArea();
 		// update chap's location
-		this.ChapJPanel.updateChap();
+		this.ChapJPanel.repaint();
 		// repaint the changingTerrainJPanel.
 		this.changingTerrainJPanel.repaint();
 		// repaint the doorJComponent.
