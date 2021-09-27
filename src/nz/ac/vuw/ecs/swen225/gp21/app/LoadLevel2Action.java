@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
@@ -22,7 +23,9 @@ public class LoadLevel2Action implements Action {
 			return;
 		}
 		
-		control.world.doneLoading();
+		if (control.world.getDomainState() instanceof Loading) {
+			control.world.doneLoading();
+		}
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {

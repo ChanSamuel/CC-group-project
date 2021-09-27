@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
@@ -33,13 +35,18 @@ public class LoadReplayAction implements Action {
 			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
 			return;
 		}
+		
 		int levelNumber = control.recorder.getLevel();
 		
 		try {
-			control.persister.loadLevel(levelNumber, control.world);
+			ConcretePersister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
 			control.warning("Something went wrong when persisting the level:\n" + e.getMessage());
 			return;
+		}
+		
+		if (control.world.getDomainState() instanceof Loading) {
+			control.world.doneLoading();
 		}
 		
 		try {
