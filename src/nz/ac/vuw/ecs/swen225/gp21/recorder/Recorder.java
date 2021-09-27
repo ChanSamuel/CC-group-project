@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
@@ -80,10 +81,7 @@ public class Recorder {
     public void save(File saveFile) throws RecorderException{
         Recording r = new Recording(updates, level);
         try{
-            //SaveRecording.save(saveFile, r);
-            System.out.println(ticks); // temporary output for integration!
-            if(false) throw new PersistException("no error"); // TODO: this is only here to keep the catch block
-                                                              //  get rid of it!!!!
+            SaveRecording.save(saveFile, r);
         } catch (PersistException e) {
             throw new RecorderException(e.getMessage());
         }
@@ -95,8 +93,8 @@ public class Recorder {
      * @return A list of all game states in loaded recording
      * @throws RecorderException
      */
-    public void load(File loadFile) throws RecorderException{
-        Recording r = LoadRecording.load(loadFile);
+    public void load(InputStream is) throws RecorderException{
+        Recording r = LoadRecording.load(is);
         updates = r.getUpdates();
         level = r.getLevel();
         pointer = 0;
