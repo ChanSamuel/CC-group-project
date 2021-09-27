@@ -153,8 +153,40 @@ public class Loading implements State {
 
   @Override
   public void restoreGame(World world, GameMemento save) {
-    // TODO implement me!
+    // check for valid parameters
+    checkParams(save);
+    // write update field and total treasure field
+    world.updates = save.getUpdates();
+    world.totalTreasure = save.getTotalTreasure();
+    // create new board {rows, cols, terrain}
+    world.setBoard(new ArrayBoard(save, world));
+    // add game objects to the board and world
+    for (int index = 0; index < save.getGameObjects().size(); index++) {
+      this.addObject(world, save.getGameObjects().get(index),
+          save.getGameObjectLocations().get(index));
+    }
+    // set state?
+
+    // check total treasure == chips collected + remaining in level
+    assert (world.totalTreasure == world.getPlayer().treasureCollected
+        + world.getBoard().getRemainingChips());
     throw new RuntimeException("Method not implemented yet!");
+  }
+
+  private void checkParams(GameMemento save) {
+    // check terrain count == row * col
+    if (save.getRows() * save.getCols() != save.getTerrains().size()) {
+      throw new IllegalArgumentException("The save says there should be: row(" + save.getRows()
+          + ") * col(" + save.getCols() + ") = " + (save.getRows() * save.getRows())
+          + " tiles, but it provided " + save.getTerrains().size() + " tiles.");
+    }
+    // check loc == gameobject count
+    if (save.getGameObjects().size() != save.getGameObjectLocations().size()) {
+      throw new IllegalArgumentException(
+          "Number of game objects is not consistent with the number of object locations => locs:"
+              + save.getGameObjectLocations().size() + " GOs:" + save.getGameObjects().size());
+    }
+    return;
   }
 
   @Override
