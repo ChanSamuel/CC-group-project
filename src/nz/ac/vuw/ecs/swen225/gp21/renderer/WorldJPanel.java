@@ -126,7 +126,8 @@ public class WorldJPanel extends JPanel {
 		BackgroundJPanel backgroundJPanel = BackgroundJPanel.getInstance();
 		backgroundJPanel.init(board);
 		// The doors JComponent
-		this.doorJComponent = new DoorJComponent(this);
+		this.doorJComponent = DoorJComponent.getInstance();
+		doorJComponent.init(this);
 		// The changingTerrain JPanel
 		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
 		// The chap JPanel
