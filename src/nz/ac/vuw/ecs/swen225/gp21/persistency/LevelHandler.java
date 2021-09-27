@@ -1,7 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 
 import java.io.File;
@@ -85,6 +87,7 @@ public class LevelHandler {
 //            String pathName = "levels/level" + levelNumber;
 //            Class cls = Class.forName(pathName);
 //            Object obj = cls.newInstance();
+//            addGameObject(GameObject o, Coord c);
         }
 
         domain.doneLoading();
