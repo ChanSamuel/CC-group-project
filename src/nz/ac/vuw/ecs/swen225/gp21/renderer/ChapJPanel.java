@@ -10,6 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * The hero chap and block's JPanel
+ * 
  * @author mengli 300525081
  *
  */
@@ -42,17 +43,30 @@ class ChapJPanel extends JPanel {
 	 */
 	private WorldJPanel worldJPanel;
 	/**
+	 * The instance of ChapJPanel
+	 */
+	private static ChapJPanel chapJPanel = new ChapJPanel();
+	/**
 	 * Constructor for chap
 	 */
-	ChapJPanel(WorldJPanel worldJPanel) {
+	private ChapJPanel() {
+
+	}
+	/**
+	 * get the instance of this class
+	 */
+	/**
+	 * init this JPanel
+	 */
+	public void init(WorldJPanel worldJPanel) {
 		// -------------Set the coord and dir-----------------------------
 		this.worldJPanel = worldJPanel;
-		checkDomain();
-		this.coord = worldJPanel.domain.getPlayerLocation();
-		this.dir = worldJPanel.domain.getBoard().getTileAt(this.coord).getOccupier().dir;
-		
+		this.coord = worldJPanel.getChapCoord();
+		this.dir = worldJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
+
 		// -------------Set the properties of this JPanel----------------
-		setBounds(0, 0,this.worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0, this.worldJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
+				this.worldJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		setOpaque(false);
 		// -------------Initialize the images-----------------------------
@@ -60,7 +74,12 @@ class ChapJPanel extends JPanel {
 		// default direction set as left.
 		chapImage = chapImageLeft;
 	}
-
+	/**
+	 * Return the instance of this class
+	 */
+	public static ChapJPanel getInstance() {
+		return chapJPanel;
+	}
 	/**
 	 * initialize the image
 	 */
@@ -76,38 +95,17 @@ class ChapJPanel extends JPanel {
 		}
 	}
 
-	/**
-	 * Update chap when moving
-	 * 
-	 * @param x x coordinate of chap
-	 * @param y y coordinate of chap
-	 */
-	void updateChap() {
-		// update the location of this JPanel.
-//		setBounds(coord.getCol() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-//				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT);
-		// create a new chapMoving thread for the animation
-		this.repaint();
-		// TODO create a new thread ChapMoving for animation
-		ChapMoving cm = new ChapMoving();
-	}
-	/**
-	 * Check if domain is null
-	 */
-	private void checkDomain() {
-		if(this.worldJPanel.domain==null) throw new RuntimeException("Domain is null");
-	}
+
 	/**
 	 * Override the paint method of chap
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		checkDomain();
 //		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
-		//update the coord and dir.
+		// update the coord and dir.
 		this.coord = worldJPanel.getChapCoord();
-		this.dir = worldJPanel.domain.getBoard().getTileAt(this.coord).getOccupier().dir;
+		this.dir = worldJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {
@@ -115,18 +113,10 @@ class ChapJPanel extends JPanel {
 		} else if (dir == Direction.EAST) {
 			chapImage = chapImageRight;
 		}
-		// NOTE the last parameter couldn't be null, if using gif, if just image, then that's doesn't matter.
+		// NOTE the last parameter couldn't be null, if using gif, if just image, then
+		// that's doesn't matter.
 //		System.out.println("Chap's current col: "+coord.getCol());
 //		System.out.println("Chap's current row: "+coord.getRow());
 		g.drawImage(chapImage, coord.getColumn() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
-}
-
-/**
- * a subClass extends thread handling the chap moving animation
- * @author mengli
- */
-//TODO
-class ChapMoving extends Thread {
-
 }

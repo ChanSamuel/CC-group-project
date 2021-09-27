@@ -25,12 +25,13 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	private Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
+	private static WrapperJPanel wrapperJPanel = new WrapperJPanel();
 	/**
 	 * Constructor of WrapperJPanel
 	 * @param domain
 	 */
-	public WrapperJPanel() {
-		worldJPanel = new WorldJPanel();
+	private WrapperJPanel() {
+		worldJPanel = WorldJPanel.getInstance();
 		add(worldJPanel);
 		setFocusable(true);
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -38,12 +39,21 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 		setLayout(null);
 		setBounds(0, 0, WIDTH, HEIGHT);
 		setVisible(true);
+		initImage();
+	}
+	private void initImage() {
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * Get the instance of WrapperJPanel class
+	 */
+	public static WrapperJPanel getInstance() {
+		return wrapperJPanel;
 	}
 
 	// TODO Those are TEMP key listeners just for testing GUI.

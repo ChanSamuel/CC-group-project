@@ -34,11 +34,18 @@ public class DoorJComponent extends JComponent {
 	protected int offSet;
 	protected boolean currentRunning;
 	protected Terrain currentTerrain = null;
+	private static DoorJComponent doorJComponent= new DoorJComponent();
 
 	/**
 	 * The constructor
 	 */
-	public DoorJComponent(WorldJPanel worldJPanel) {
+	private DoorJComponent() {
+		
+	}
+	/**
+	 * Init the JPanel
+	 */
+	void init(WorldJPanel worldJPanel) {
 		this.worldJPanel = worldJPanel;
 		setVisible(true);
 		setOpaque(false);
@@ -57,6 +64,12 @@ public class DoorJComponent extends JComponent {
 				}
 			}
 		}
+	}
+	/**
+	 * Get the instance of this class
+	 */
+	public static DoorJComponent getInstance() {
+		return doorJComponent;
 	}
 	/**
 	 * start the door open animation
