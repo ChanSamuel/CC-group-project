@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * Domain will be the publicly accessible interface that other modules will use

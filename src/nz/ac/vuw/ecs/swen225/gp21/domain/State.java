@@ -1,8 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import nz.ac.vuw.ecs.swen225.gp21.persistency.tests.GameMemento;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The Game world can be in one of several states, this interface defines the
