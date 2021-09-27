@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * The Game world can be in one of several states, this interface defines the
  * operations a state most perform.
@@ -7,6 +9,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface State {
   /**
    * Simulate the world for one tick.
