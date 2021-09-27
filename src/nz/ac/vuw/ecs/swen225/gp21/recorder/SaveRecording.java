@@ -3,6 +3,8 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import nz.ac.vuw.ecs.swen225.gp21.app.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 
 /**
@@ -23,7 +25,7 @@ public class SaveRecording {
             throw new PersistException("Attempting to save recording with no level");
         }
         try{
-            ConcretePersister cp = new ConcretePersister();
+            ConcretePersister cp = new ConcretePersister(null, null);
             cp.saveRecording(file, recording);
         }
         catch(Exception e){

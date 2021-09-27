@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
 public class LoadLevel2Action implements Action {
@@ -15,11 +16,13 @@ public class LoadLevel2Action implements Action {
 	public void execute(Controller control) {
 		
 		try {
-			control.persister.loadLevel(2, control.world);
+			ConcretePersister.loadLevel(2, control.world);
 		} catch (Exception e) {
 			control.warning("Something went wrong when loading level 2:\n" + e.getMessage());
 			return;
 		}
+		
+		control.world.doneLoading();
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {

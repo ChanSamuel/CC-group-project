@@ -22,7 +22,7 @@ public class LoadGameAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		try {
-			control.persister.loadGame(f, control.world);
+			control.persister.loadGame(f);
 		} catch (Exception e) {
 			control.warning("Something went wrong when loading a previously saved game:\n"+ e.getMessage());
 			return;

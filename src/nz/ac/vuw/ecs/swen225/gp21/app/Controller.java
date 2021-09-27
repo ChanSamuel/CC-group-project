@@ -11,8 +11,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.LevelHandler;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.SoundType;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
@@ -50,7 +50,7 @@ public abstract class Controller {
 	/**
 	 * The entrypoint into the persistency module.
 	 */
-	protected Persister persister;
+	protected ConcretePersister persister;
 	
 	/**
 	 * The time left in the level in seconds
@@ -94,8 +94,7 @@ public abstract class Controller {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
 		failedActions = new ArrayDeque<Action>();
-		renderer = new WrapperJPanel();
-		persister = new ConcretePersister();
+		renderer = WrapperJPanel.getInstance();
 		recorder = new Recorder();
 		
 		world = new World() {
@@ -177,6 +176,8 @@ public abstract class Controller {
 			}
 			
 		};
+		
+		persister = new ConcretePersister(new LevelHandler(), new GameCaretaker(world));
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);

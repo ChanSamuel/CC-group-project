@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 import java.io.File;
 import java.util.List;
 
-import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
+import nz.ac.vuw.ecs.swen225.gp21.app.ConcretePersister;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
 /**
@@ -13,7 +13,7 @@ import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 public class LoadRecording {
 
     public static Recording load(File fileToLoad) throws RecorderException {
-        ConcretePersister p = new ConcretePersister();
+        ConcretePersister p = new ConcretePersister(null, null);
         try{
             return p.getRecording(fileToLoad);
         } catch (PersistException e){

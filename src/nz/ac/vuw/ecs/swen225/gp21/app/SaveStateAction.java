@@ -22,7 +22,7 @@ public class SaveStateAction implements Action {
 		}
 		
 		try {
-			control.persister.saveCurrentGame(saveFile, control.world);
+			control.persister.saveCurrentGame(saveFile);
 		} catch (PersistException e) {
 			control.warning("Something went wrong when persisting the state:\n" + e.getMessage());
 			return;
