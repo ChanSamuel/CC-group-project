@@ -43,16 +43,16 @@ public interface GameEvent {
   /**
    * Re-perform the action encapsulated in this event.
    *
-   * @param w the domain this event should be applied to
+   * @param w the world this event should be applied to
    */
-  public void redoEvent(Domain w);
+  public void redoEvent(World w);
 
   /**
    * Undo the action encapsulated in this event.
    *
-   * @param w the domain this event should be applied to
+   * @param w the world this event should be applied to
    */
-  public void undoEvent(Domain w);
+  public void undoEvent(World w);
 
   /**
    * Override the toString to something useful.
