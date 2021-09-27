@@ -88,7 +88,8 @@ public class ArrayBoard implements Board {
    * @return true if the coordinate is 'inside' the board
    */
   private boolean coordInBoard(Coord c) {
-    if (c.getRow() < 0 || c.getRow() > rows - 1 || c.getCol() < 0 || c.getCol() > columns - 1) {
+    if (c.getRow() < 0 || c.getRow() > rows - 1 || c.getColumn() < 0
+        || c.getColumn() > columns - 1) {
       return false;
     }
     return true;
@@ -104,7 +105,7 @@ public class ArrayBoard implements Board {
    */
   Tile coordToTile(Coord c) {
     boundsCheck(c);
-    return board[c.getRow()][c.getCol()];
+    return board[c.getRow()][c.getColumn()];
   }
 
   @Override

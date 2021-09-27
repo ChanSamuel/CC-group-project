@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * The controller interface defines the operations that a controller must be
  * able to perform. A controller is a module that encapsulates the logic that a
@@ -10,6 +12,7 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface MovementController {
   /**
    * Generate the command that the object this controller represents wants to do.
