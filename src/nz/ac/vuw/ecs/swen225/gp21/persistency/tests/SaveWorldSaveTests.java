@@ -49,15 +49,16 @@ public class SaveWorldSaveTests {
         List<Coord> gameObjectLocations = new ArrayList<>();
         gameObjectLocations.add(new Coord(0,0));
         gameObjectLocations.add(new Coord(0, 1));
-        gameObjectLocations.add(new Coord(1, 0));
-        gameObjectLocations.add(new Coord(1,1));
+
+        gameObjects.get(0).setTile(new Tile(gameObjectLocations.get(0), null));
 
         List<MovementController> gameObjectMoveControllers = new ArrayList<>();
         gameObjectMoveControllers.add(new PlayerController());
 
         List<Terrain> terrains = new ArrayList<>();
-        terrains.add(new GreenKey());
-        terrains.add(new GreenDoor());
+        terrains.add(GreenKey.getInstance());
+        terrains.add(GreenDoor.getInstance());
+        terrains.add(Teleporter.makeInstance(new Coord(0,0)));
 
         worldSave.setGameObjects(gameObjects);
         worldSave.setGameObjectLocations(gameObjectLocations);
@@ -131,21 +132,57 @@ public class SaveWorldSaveTests {
         assertEquals("Door  Green", ws.getTerrains().get(1).toString());
     }
 
-    // FIXME: 26/09/2021 Need TestWorld to not be final for this test to work...
-//    @Test
-//    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
-//        File f = new File("worldsave_with_caretaker.xml");
-//        Domain domain = new TestWorld() {
-//            @Override
-//            public WorldSave generateSaveData() {
-//                return worldSave;
-//            }
-//        };
-//        GameCaretaker gameCaretaker = new GameCaretaker(domain);
-//        gameCaretaker.saveGame(f);
-//        WorldSave ws = gameCaretaker.getMemento(new FileInputStream(f));
-//
-//        assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
-//        assertEquals("Door  Green", ws.getTerrains().get(1).toString());
+    @Test
+    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
+        File f = new File("worldsave_with_caretaker.xml");
+        Domain domain = new TestWorld2() {
+            @Override
+            public WorldSave generateSaveData() {
+                return worldSave;
+            }
+        };
+        GameCaretaker gameCaretaker = new GameCaretaker(domain);
+        gameCaretaker.saveGame(f);
+        WorldSave ws = gameCaretaker.getMemento(new FileInputStream(f));
+
+        assertEquals("Key tile Green", ws.getTerrains().get(0).toString());
+        assertEquals("Door  Green", ws.getTerrains().get(1).toString());
+    }
+}
+
+class TestWorld2 extends World {
+    @Override
+    public void collectedChip() {}
+
+    @Override
+    public void openedDoor() {}
+
+    @Override
+    public void enteredExit() {}
+
+    @Override
+    public void enteredInfo(String msg) {}
+
+    @Override
+    public void leftInfo() {}
+
+    @Override
+    public void playerLost() {}
+
+    @Override
+    public void playerGainedItem(Item item) {}
+
+    @Override
+    public void playerConsumedItem(Item item) {}
+
+    @Override
+    public void objectTeleported() {}
+
+    @Override
+    public void objectPushed() {}
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
