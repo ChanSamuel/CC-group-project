@@ -2,12 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * Special state where the world will accept tick objects. World will apply the
@@ -20,7 +20,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 public final class Replaying implements State {
 
   @Override
-  public Tick update(World w, double elapsedTime) {
+  public void update(World w, double elapsedTime) {
     throw new IllegalStateException("Cannot simulate world while replaying!");
   }
 
@@ -81,30 +81,22 @@ public final class Replaying implements State {
   }
 
   @Override
-  public void forwardTick(World w, Tick t) {
-    if (++w.updates != t.index) {
-      throw new RuntimeException(
-          "World was expecting tick: " + w.updates + " but received tick: " + t.index);
-    }
-    t.redoTick(w);
+  public void forwardTick(World w, GameEvent e) {
+    e.redoEvent(w);
   }
 
   @Override
-  public void backTick(World w, Tick t) {
-    if (w.updates-- != t.index) {
-      throw new RuntimeException(
-          "World was expecting tick: " + w.updates + " but received tick: " + t.index);
-    }
-    t.undoTick(w);
+  public void backTick(World w, GameEvent e) {
+    e.undoEvent(w);
   }
 
   @Override
-  public void restoreGame(World world, WorldSave save) {
+  public void restoreGame(World world, GameMemento save) {
     throw new IllegalStateException("Cannot restore save game while in replaying state!");
   }
 
   @Override
-  public WorldSave generateSaveData(World w) {
+  public GameMemento generateSaveData(World w) {
     throw new IllegalStateException("Cannot save game when in replay!");
   }
 

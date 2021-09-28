@@ -19,7 +19,8 @@ public final class Block extends GameObject {
    * Create a new movable block.
    */
   public Block() {
-    super(new NoMovement(), "block.png", "block.png");
+    // I don't know how to make the block input stream...
+    super(new NoMovement(), null, null);
   }
 
   @Override

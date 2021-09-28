@@ -1,11 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.commands.TerrainChange;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Free;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * ArrayBoard implements the Board functionality with a 2D array.
@@ -57,6 +57,39 @@ public class ArrayBoard implements Board {
         board[row][col].setTerrain(level.terrainAt(c));
       }
     }
+  }
+
+  /**
+   * Restore an arrayboard from a Memento. Does not add the GameObjects.
+   *
+   * @param w    the world that is using this board.
+   * @param save the Memento we are restoring from.
+   */
+  public ArrayBoard(GameMemento save, World w) {
+    this.world = w;
+    this.rows = save.getRows();
+    this.columns = save.getCols();
+    this.isExitOpen = save.getIsExitOpen();
+    this.board = new Tile[rows][columns];
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < columns; col++) {
+        Coord c = new Coord(row, col);
+        int index = twoDtoOneD(row, col);
+        board[row][col] = new Tile(c, this);
+        board[row][col].setTerrain(save.getTerrains().get(index));
+      }
+    }
+  }
+
+  /**
+   * convert two dimensional array index into one dimensional index.
+   *
+   * @param row the row of the target
+   * @param col the column of the target
+   * @return the targets location in a 1 dimensional array
+   */
+  private int twoDtoOneD(int row, int col) {
+    return col + (row * columns);
   }
 
   @Override
@@ -157,34 +190,18 @@ public class ArrayBoard implements Board {
   }
 
   @Override
-  public MultiMove openExit() {
+  public void openExit() {
     isExitOpen = true;
-    MultiMove response = new MultiMove();
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
         if (board[row][col].getTerrain() instanceof ExitLock) {
-          response.saveEvent(new TerrainChange(new Coord(row, col), board[row][col].getTerrain(),
-              Free.getInstance()));
+          int updates = this.world.updates;
+          this.world.eventOccured(new TerrainChange(updates, new Coord(row, col),
+              board[row][col].getTerrain(), Free.getInstance())); // make an event
           board[row][col].setTerrain(Free.getInstance());
         }
       }
     }
-    return response;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder ans = new StringBuilder();
-    for (int row = 0; row < rows; row++) {
-      ans.append(row + "|");
-      for (int col = 0; col < columns; col++) {
-        Tile t = coordToTile(new Coord(row, col));
-        ans.append(t.boardString());
-        ans.append("|");
-      }
-      ans.append("\n");
-    }
-    return ans.toString();
   }
 
   @Override
@@ -215,5 +232,20 @@ public class ArrayBoard implements Board {
   @Override
   public boolean isExitOpen() {
     return isExitOpen;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder ans = new StringBuilder();
+    for (int row = 0; row < rows; row++) {
+      ans.append(row + "|");
+      for (int col = 0; col < columns; col++) {
+        Tile t = coordToTile(new Coord(row, col));
+        ans.append(t.boardString());
+        ans.append("|");
+      }
+      ans.append("\n");
+    }
+    return ans.toString();
   }
 }

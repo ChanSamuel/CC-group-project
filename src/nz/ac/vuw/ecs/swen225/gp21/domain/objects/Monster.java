@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.objects;
 
+import java.io.InputStream;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.MovementController;
@@ -15,13 +16,16 @@ public abstract class Monster extends GameObject {
   /**
    * Create a new monster.
    *
-   * @param c         the controller that decides how the monster will move
-   * @param d         the direction this monster will face when it is created.
-   * @param pathLeft  The file path used to render the GameObject facing Left
-   * @param pathRight The file path used to render the GameObject facing right
+   * @param c           the controller that decides how the monster will move
+   * @param d           the direction this monster will face when it is created.
+   * @param leftStream  InputStream that provides the image to draw the monster
+   *                    facing left.
+   * @param rightStream InputStream that provides the image to draw the monster
+   *                    facing right.
    */
-  public Monster(MovementController c, Direction d, String pathLeft, String pathRight) {
-    super(c, d, pathLeft, pathRight);
+  public Monster(MovementController c, Direction d, InputStream leftStream,
+      InputStream rightStream) {
+    super(c, d, leftStream, rightStream);
   }
 
   @Override

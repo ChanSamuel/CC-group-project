@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The Game world can be in one of several states, this interface defines the
@@ -16,10 +17,8 @@ public interface State {
    *
    * @param w           the world being simulated
    * @param elapsedTime the time since the last update
-   * @return an object encapsulating all the events that happened during the
-   *         update
    */
-  public Tick update(World w, double elapsedTime);
+  public void update(World w, double elapsedTime);
 
   /**
    * Initialize the world from a level object.
@@ -112,20 +111,20 @@ public interface State {
   public Coord getPlayerLocation(World w);
 
   /**
-   * Apply the actions stored in a tick to the world.
+   * Apply an action to the world.
    *
    * @param w the world the tick is being applied to
-   * @param t the tick being played
+   * @param e the event being applied
    */
-  public void forwardTick(World w, Tick t);
+  public void forwardTick(World w, GameEvent e);
 
   /**
-   * Undo the actions stored in the tick.
+   * Undo an action.
    *
    * @param w the world the tick is being applied to
-   * @param t the tick being undone
+   * @param e the GameEvent being undone
    */
-  public void backTick(World w, Tick t);
+  public void backTick(World w, GameEvent e);
 
   /**
    * Unpacks the information in the WorldSave and initializes it into the world.
@@ -133,13 +132,15 @@ public interface State {
    * @param world the world that is being initialized with save information
    * @param save  the save information
    */
-  public void restoreGame(World world, WorldSave save);
+  public void restoreGame(World world, GameMemento save);
 
   /**
    * Load world instance data into a wrapper object to be saved to disc.
    *
+   * @param w the world that will provide the save information
+   *
    * @return An object that contains the instance information of the world
    */
-  public WorldSave generateSaveData(World w);
+  public GameMemento generateSaveData(World w);
 
 }

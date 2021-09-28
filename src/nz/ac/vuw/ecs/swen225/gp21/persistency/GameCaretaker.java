@@ -3,17 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
-import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
-import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
-import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
-import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
-import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
-import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
-import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
+import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 import java.io.File;
@@ -22,52 +14,45 @@ import java.io.FileNotFoundException;
 
 /**
  * TODO
- *  - I require that any interface/abstract type in WorldSave has the following annotation:
- *  @JsonTypeInfo(use= JsonTypeInfo.Id.NAME)
- *  - I also need JsonIgnore annotation in GameObject getName
- *  - And a default constructor for Coord class, and renaming getCol to getColumns or whatever the actual field is called
+ *  Caretaker holds Mementos
+ *  Mementos are world save
+ *  Memento is a capture of the originator which is the Domain
  *
- * Caretaker holds Mementos
- * Mementos are world save
- * Memento is a capture of the originator which is the Domain
+ * @author Lucy Goodwin
  */
 public class GameCaretaker {
 
     /**
      * The Originator... todo add some more info...
      */
-    private Domain domain;
+    private final Domain domain;
 
     /**
      * XMLMapper object with specific settings for mapping game state.
      */
-    private static XmlMapper xmlMapper;
+    private static final XmlMapper xmlMapper;
     static {
         xmlMapper = new XmlMapper();
-
-        // Register GameObject subtypes
+        // Register GameObject subtypes with XmlMapper
         xmlMapper.registerSubtypes(
                 new NamedType(Chip.class, "Chip"),
                 new NamedType(Block.class, "Block"),
                 new NamedType(Monster.class, "Monster")
         );
-
-        // Register MovementController subtypes
+        // Register MovementController subtypes with XmlMapper
         xmlMapper.registerSubtypes(
                 new NamedType(NoMovement.class, "NoMovement"),
                 new NamedType(PlayerController.class, "PlayerController"),
                 new NamedType(RandomMovement.class, "RandomMovement")
         );
-
-        // Register State subtypes
+        // Register State subtypes with XmlMapper
         xmlMapper.registerSubtypes(
                 new NamedType(Running.class, "Running"),
                 new NamedType(GameOver.class, "GameOver"),
                 new NamedType(Loading.class, "Loading"),
                 new NamedType(Replaying.class, "Replaying")
         );
-
-        // Register Terrain subtypes
+        // Register Terrain subtypes with XmlMapper
         xmlMapper.registerSubtypes(
                 new NamedType(CopperDoor.class, "CopperDoor"),
                 new NamedType(CopperKey.class, "CopperKey"),
@@ -89,16 +74,15 @@ public class GameCaretaker {
                 new NamedType(Treasure.class, "Treasure"),
                 new NamedType(Wall.class, "Wall")
         );
-
         xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
     }
-
 
     /**
      * Constructor for a Game Caretaker, takes a domain object as the originator
      * @param domain the game will be captured from this Domain and/or restored to this Domain
      */
-    public GameCaretaker(Domain domain) {
+    public GameCaretaker(Domain domain) throws PersistException {
+        if (domain==null) throw new PersistException("Cannot persist a null game");
         this.domain = domain;
     }
 
@@ -111,38 +95,43 @@ public class GameCaretaker {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public void loadGame(File fileToLoad) throws PersistException {
-        if (!checkFileXML(fileToLoad)) {
-            throw new PersistException("File to save a game to must be a .xml file.");
+        if ((fileToLoad==null) || notXMLFile(fileToLoad)) {
+            throw new PersistException("File to load a game to must be a .xml file.");
         }
-        FileInputStream fs = null;
+        FileInputStream fs = getFileInputStream(fileToLoad);
+        GameMemento memento = getMemento(fs);
+        domain.restoreGame(memento);
+        domain.doneLoading();
+    }
+
+    /**
+     * Helper method for loading games that returns a file stream of a given file.
+     * @param fileToLoad xml file to be loaded
+     * @return FileInput stream of the given file
+     * @throws PersistException with information to be shown to the user
+     */
+    private FileInputStream getFileInputStream(File fileToLoad) throws PersistException {
         try {
-            fs = new FileInputStream(fileToLoad);
+            return new FileInputStream(fileToLoad);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             throw new PersistException("Game loading failed, please try again.");
         }
-
-        WorldSave worldSaveMemento = getMemento(fs);
-
-        // domain.load data
-        // TODO
-        // Load domainToLoad into the domain object from method call
     }
 
     /**
-     * Helper method for.... todo elaborate
-     * Means I can test...
-     * @param fs
-     * @return
-     * @throws PersistException
+     * Helper method for restoring a game.
+     * @param fs FileInputStream to load memento from
+     * @return Memento from FileInputStream
+     * @throws PersistException with information to be shown to the user
      */
-    public WorldSave getMemento(FileInputStream fs) throws PersistException {
+    public GameMemento getMemento(FileInputStream fs) throws PersistException {
+        //todo check file stream not null
         XMLPersister parser = new XMLPersister(xmlMapper);
-        return parser.load(fs, WorldSave.class);
+        return parser.load(fs, GameMemento.class);
     }
 
     /**
-     *  This method is called by App when the user wants to save a current game.
+     *  This method is called by the App module when the user wants to save a current game.
      *  This method writes an XML file representing a Domain object that is holding the current game state.
      *  todo explain save a memento of originator (world save)
      *
@@ -150,33 +139,25 @@ public class GameCaretaker {
      * @throws PersistException The message of the exception shown should be shown in a pop-up message to the user
      */
     public void saveGame(File fileToSave) throws PersistException {
-        if ((fileToSave==null) || (!checkFileXML(fileToSave))) {
+        if ((fileToSave==null) || notXMLFile(fileToSave)) {
             throw new PersistException("File to save a game to must be a .xml file.");
         }
-        saveMemento(fileToSave, domain.generateSaveData());
-    }
-
-    /**
-     * Helper method todo elaborate
-     * @param fileToSave
-     * @param worldSave
-     * @throws PersistException
-     */
-    public void saveMemento(File fileToSave, WorldSave worldSave) throws PersistException {
         XMLPersister parser = new XMLPersister(xmlMapper);
-        parser.save(fileToSave, worldSave);
+        parser.save(fileToSave, domain.generateSaveData());
     }
 
     /**
-     * Helper method that returns true if the file passed to the method ends in .xml but false otherwise
-     * @param file
-     * @return boolean
+     * Helper method that returns true if the file passed to the method does not end in .xml
+     * @param file The file to check
+     * @return boolean (true if file does not end in '.xml')
      */
-    private static boolean checkFileXML(File file) {
-        assert(file!=null);
+    private static boolean notXMLFile(File file) {
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
-        return (dotIndex == -1) ? false : (fileName.substring(dotIndex + 1).equals("xml"));
+        // if there is no '.' in the filename then immediately return true
+        if (dotIndex == -1) return true;
+        // otherwise return whether the filename doesn't end in 'xml'
+        return !(fileName.substring(dotIndex + 1).equals("xml"));
     }
 
 }

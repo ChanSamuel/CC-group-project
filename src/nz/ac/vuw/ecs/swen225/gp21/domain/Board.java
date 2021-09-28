@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.commands.MultiMove;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
@@ -35,11 +34,10 @@ public interface Board {
   int getRemainingChips();
 
   /**
-   * Open the exit tile.
-   *
-   * @return A command that can be used to remove/restore the exit tile
+   * Open the exit tile. Note: this method will generate events via
+   * world.eventOccured.
    */
-  public MultiMove openExit();
+  public void openExit();
 
   /**
    * Try to move an object to the destination.

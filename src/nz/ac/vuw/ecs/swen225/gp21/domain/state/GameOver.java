@@ -2,12 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The running state represents a world that has completed its gameplay
@@ -19,7 +19,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 public final class GameOver implements State {
 
   @Override
-  public Tick update(World w, double elapsedTime) {
+  public void update(World w, double elapsedTime) {
     throw new IllegalStateException("World is in game over state! No more updates can be made!");
   }
 
@@ -79,22 +79,22 @@ public final class GameOver implements State {
   }
 
   @Override
-  public void forwardTick(World w, Tick t) {
+  public void forwardTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot apply tick when in game over state!");
   }
 
   @Override
-  public void backTick(World w, Tick t) {
+  public void backTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot undo tick while in game over state!");
   }
 
   @Override
-  public void restoreGame(World world, WorldSave save) {
+  public void restoreGame(World world, GameMemento save) {
     throw new IllegalStateException("Cannot restore save game while in game over state!");
   }
 
   @Override
-  public WorldSave generateSaveData(World w) {
+  public GameMemento generateSaveData(World w) {
     throw new IllegalStateException("Cannot save game when in game over state!");
   }
 

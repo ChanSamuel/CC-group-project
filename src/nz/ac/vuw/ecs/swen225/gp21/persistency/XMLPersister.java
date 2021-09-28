@@ -8,66 +8,69 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-// TODO: 24/09/2021
 /**
+ * This class provides functionality for mapping java objects to XML file format.
  *
+ * @author Lucy Goodwin
  */
 public class XMLPersister {
 
-    // TODO: 24/09/2021
     /**
-     *
+     * The XmlMapper that will be used to persist.
      */
     private XmlMapper xmlMapper;
 
-    // TODO: 24/09/2021
     /**
+     * Constructor for an XmlPersister object.
      *
-     * @param xmlMapper
+     * @param xmlMapper to persist with
      */
-    public XMLPersister(XmlMapper xmlMapper) {
+    public XMLPersister(XmlMapper xmlMapper) throws PersistException {
+        if (xmlMapper==null) throw new PersistException("Cannot persist without a valid mapper");
         this.xmlMapper = xmlMapper;
     }
 
     /**
-     * Method for loading from XML
+     * Method for loading from XML.
+     *
      * @param is input stream
-     * @return
-     * @throws PersistException
+     * @return value loaded
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> T load(InputStream is, Class<T> valueType) throws PersistException {
+        if (is==null) throw new PersistException("IO Error while loading game");
+        if (valueType==null) throw new PersistException("Error loading game");
+
         try {
             return xmlMapper.readValue(is, valueType);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Mapping problem while loading xml file");
         } catch (JsonParseException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Parsing problem while loading xml file");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("File reading problem while loading xml file");
         }
     }
 
     /**
-     * Method for saving to XML
-     * @param file
-     * @param value
-     * @throws PersistException
+     * Method for saving to XML.
+     *
+     * @param file to save value to
+     * @param value to save to file
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> void save(File file, T value) throws PersistException {
+        if (file==null) throw new PersistException("IO Error while saving game");
+        if (value==null) throw new PersistException("Error saving game");
+
         try {
             xmlMapper.writeValue(file, value);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Mapping problem while saving xml file");
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Problem writing xml to file");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("File writing problem while saving xml file");
         }
     }
 }

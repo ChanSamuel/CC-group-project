@@ -1,9 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 
 import java.io.File;
@@ -11,26 +9,27 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: 24/09/2021
 /**
+ * TODO
  *
+ * @author Lucy Goodwin
  */
 public class LevelHandler {
 
     /**
      * XMLMapper object with specific settings for mapping levels.
      */
-    private static XmlMapper xmlMapper = new XmlMapper();;
+    private static final XmlMapper xmlMapper = new XmlMapper();
 
     /**
      * List of integers that represent the levels that are defined and can be loaded
      */
-    private static List<Integer> levelsThatExist = Arrays.asList(1); // todo add as we have levels
+    private static final List<Integer> levelsThatExist = Arrays.asList(1); // todo add as we have levels
 
     /**
      * LevelMemento that represents level one todo update to relevant info
      */
-    private static LevelMemento levelOne = new LevelMemento(16, 16, 1,
+    private static final LevelMemento levelOne = new LevelMemento(16, 16,
     "################"
     + "#..........#...#"
     + "#..........#.g.#"
@@ -78,6 +77,8 @@ public class LevelHandler {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void loadLevel(int levelNumber, Domain domain) throws PersistException {
+        if (domain==null) throw new PersistException("Error loading level " + levelNumber);
+
         Level levelToLoad = getLevel(levelNumber);
         domain.loadLevelData(levelToLoad);
 
@@ -94,90 +95,152 @@ public class LevelHandler {
     }
 
     /**
-     * Helper method todo finish doc
-     * @param levelNumber
-     * @return
-     * @throws PersistException
-     */
-    public static Level getLevel(int levelNumber) throws PersistException {
-        if (!levelsThatExist.contains(levelNumber)) {
-            throw new PersistException("Level " + levelNumber + " does not exist");
-        }
-
-        XMLPersister parser = new XMLPersister(new XmlMapper());
-        InputStream is = LevelHandler.class.getResourceAsStream
-                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
-
-        LevelMemento levelMemento = parser.load(is, LevelMemento.class);
-        return levelMemento.toLevel();
-    }
-
-    /**
      * Saves level one LevelMemento field to an XML
-     * @throws PersistException
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
-    public static void saveLevelOne() throws PersistException {
-        XMLPersister parser = new XMLPersister(new XmlMapper());
+    public static void saveLevelOne(XmlMapper mapper) throws PersistException {
+        if (mapper==null) throw new PersistException("Error saving level 1");
+
+        XMLPersister parser = new XMLPersister(mapper);
         parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml"), levelOne);
     }
 
     /**
      * Saves level two LevelMemento field to an XML
-     * @throws PersistException
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
-    public static void saveLevelTwo() throws PersistException {
-// TODO: 24/09/2021
-//        XMLParser parser = new XMLParser(new XmlMapper());
+    public static void saveLevelTwo(XmlMapper mapper) throws PersistException {
+        if (mapper==null) throw new PersistException("Error saving level 2");
+
+//          TODO:
+//        XMLPersister parser = new XMLPersister(mapper);
 //        parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level2.xml"), levelTwo);
     }
-}
 
-// TODO: 24/09/2021 Add more JavaDoc?
-/**
- * Captures a Level state so it can be written to an XML. Only used by the LevelHandler class.
- */
-class LevelMemento {
-    private int rows, cols, levelNumber;
-    private String terrainLayout, entityLayout, info;
+    /**
+     * Converts a LevelMemento into a Level. Since LevelMemento is an inner class, an Object type object is accepted as
+     * the parameter and cast into a LevelMemento is it is an instance of one.
+     * @param o object should be a LevelMemento
+     * @return Level object
+     * @throws PersistException that will provide an informative message that should be shown to the user
+     */
+    public static Level mementoToLevel(Object o) throws PersistException {
+        if (!(o instanceof LevelMemento)) {
+            throw new PersistException("Object must be a LevelMemento");
+        }
+        // Now I know it is a level memento object I can cast it to one
+        LevelMemento toConvert = (LevelMemento) o;
+        return new Level(
+                toConvert.getRows(),
+                toConvert.getCols(),
+                toConvert.getTerrainLayout(),
+                toConvert.getEntityLayout(),
+                toConvert.getInfo());
+        }
 
-    public LevelMemento(int rows, int cols, int levelNumber, String terrainLayout, String entityLayout, String info) {
-        this.rows = rows;
-        this.cols = cols;
-        this.levelNumber = levelNumber;
-        this.terrainLayout = terrainLayout;
-        this.entityLayout = entityLayout;
-        this.info = info;
+    /**
+     * Helper method for loading level. Loads and returns a level (number given as parameter) if it exists.
+     * @param levelNumber which level to load
+     * @return that will provide an informative message that should be shown to the user
+     * @throws PersistException that will provide an informative message that should be shown to the user
+     */
+    private static Level getLevel(int levelNumber) throws PersistException {
+        if (!levelsThatExist.contains(levelNumber)) {
+            throw new PersistException("Level " + levelNumber + " does not exist");
+        }
+
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        InputStream is = LevelHandler.class.getResourceAsStream
+                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml");
+
+        LevelMemento levelMemento = parser.load(is, LevelMemento.class);
+        return mementoToLevel(levelMemento);
     }
 
-    private LevelMemento() {}
+    /**
+     * Captures a Level state so it can be written to an XML file. Only used by the LevelHandler class.
+     */
+    static class LevelMemento {
 
-    public Level toLevel() {
-        // TODO: 24/09/2021
-        //   Do I need to add checks here? even though only I can call this class?
-        return new Level(this.rows, this.cols, this.terrainLayout, this.entityLayout, info);
-    }
+        /**
+         * Captures the rows and columns of a level's board.
+         */
+        private int rows, cols;
 
-    public int getRows() {
-        return rows;
-    }
+        /**
+         * Captures the terrain and entities that are on the levels board.
+         */
+        private String terrainLayout, entityLayout;
 
-    public int getCols() {
-        return cols;
-    }
+        /**
+         * Captures what information is shown to the user when the level's info tile is activated.
+         */
+        private String info;
 
-    public int getLevelNumber() {
-        return levelNumber;
-    }
+        /**
+         * Constructor for a Level Memento which captures a level.
+         * @param rows number of rows in levels board
+         * @param cols number of cols in levels board
+         * @param terrainLayout the terrain of the level board
+         * @param entityLayout the entities in the levels board
+         * @param info the info for the levels info tile
+         */
+        public LevelMemento(int rows, int cols, String terrainLayout, String entityLayout, String info) {
+            this.rows = rows;
+            this.cols = cols;
+            this.terrainLayout = terrainLayout;
+            this.entityLayout = entityLayout;
+            this.info = info;
+        }
 
-    public String getTerrainLayout() {
-        return terrainLayout;
-    }
+        /**
+         * Default constructor to allow for object to be parsed from an XML.
+         */
+        private LevelMemento() {}
 
-    public String getEntityLayout() {
-        return entityLayout;
-    }
+        /**
+         * Getter for rows field.
+         *
+         * @return rows
+         */
+        public int getRows() {
+            return rows;
+        }
 
-    public String getInfo() {
-        return info;
+        /**
+         * Getter for cols field.
+         *
+         * @return cols
+         */
+        public int getCols() {
+            return cols;
+        }
+
+        /**
+         * Getter for terrain field.
+         *
+         * @return terrains
+         */
+        public String getTerrainLayout() {
+            return terrainLayout;
+        }
+
+        /**
+         * Getter for entities field.
+         *
+         * @return entities
+         */
+        public String getEntityLayout() {
+            return entityLayout;
+        }
+
+        /**
+         * Getter for info field.
+         *
+         * @return info for info tile
+         */
+        public String getInfo() {
+            return info;
+        }
     }
 }

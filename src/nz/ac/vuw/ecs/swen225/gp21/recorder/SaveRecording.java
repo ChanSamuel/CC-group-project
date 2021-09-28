@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import nz.ac.vuw.ecs.swen225.gp21.app.Persister;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
  * This class saves a list of game states to an xml file in the form of a Recording object.
@@ -25,8 +26,8 @@ public class SaveRecording {
             throw new PersistException("Attempting to save recording with no level");
         }
         try{
-            Persister cp = new Persister(null, null);
-            cp.saveRecording(file, recording);
+            XMLPersister p = new XMLPersister();
+            p.save(file, recording);
         }
         catch(Exception e){
             throw new PersistException(e.getMessage());

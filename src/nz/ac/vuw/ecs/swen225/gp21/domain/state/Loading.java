@@ -3,14 +3,14 @@ package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 import nz.ac.vuw.ecs.swen225.gp21.domain.ArrayBoard;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.State;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.domain.WorldSave;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
 /**
  * The loading state represents a world that is not initialized and cannot
@@ -75,7 +75,7 @@ public class Loading implements State {
   }
 
   @Override
-  public Tick update(World w, double elapsedTime) {
+  public void update(World w, double elapsedTime) {
     throw new IllegalStateException("Cannot simulate world while world is loading!");
   }
 
@@ -142,22 +142,55 @@ public class Loading implements State {
   }
 
   @Override
-  public void forwardTick(World w, Tick t) {
+  public void forwardTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot apply tick while game is loading!");
   }
 
   @Override
-  public void backTick(World w, Tick t) {
+  public void backTick(World w, GameEvent e) {
     throw new IllegalStateException("Cannot apply tick while game is loading!");
   }
 
   @Override
-  public void restoreGame(World world, WorldSave save) {
-    // TODO implement me!
+  public void restoreGame(World world, GameMemento save) {
+    // check for valid parameters
+    checkParams(save);
+    // write update field and total treasure field
+    world.updates = save.getUpdates();
+    world.totalTreasure = save.getTotalTreasure();
+    // create new board {rows, cols, terrain}
+    world.setBoard(new ArrayBoard(save, world));
+    // add game objects to the board and world
+    for (int index = 0; index < save.getGameObjects().size(); index++) {
+      this.addObject(world, save.getGameObjects().get(index),
+          save.getGameObjectLocations().get(index));
+    }
+    // set state?
+
+    // check total treasure == chips collected + remaining in level
+    assert (world.totalTreasure == world.getPlayer().treasureCollected
+        + world.getBoard().getRemainingChips());
+    throw new RuntimeException("Method not implemented yet!");
+  }
+
+  private void checkParams(GameMemento save) {
+    // check terrain count == row * col
+    if (save.getRows() * save.getCols() != save.getTerrains().size()) {
+      throw new IllegalArgumentException("The save says there should be: row(" + save.getRows()
+          + ") * col(" + save.getCols() + ") = " + (save.getRows() * save.getRows())
+          + " tiles, but it provided " + save.getTerrains().size() + " tiles.");
+    }
+    // check loc == gameobject count
+    if (save.getGameObjects().size() != save.getGameObjectLocations().size()) {
+      throw new IllegalArgumentException(
+          "Number of game objects is not consistent with the number of object locations => locs:"
+              + save.getGameObjectLocations().size() + " GOs:" + save.getGameObjects().size());
+    }
+    return;
   }
 
   @Override
-  public WorldSave generateSaveData(World w) {
+  public GameMemento generateSaveData(World w) {
     throw new IllegalStateException("Cannot generate save data while game is running!");
   }
 }

@@ -6,26 +6,26 @@ import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 
 /**
- * A wrapper class for saving a recording. Contains the list of ticks and the level.
+ * A wrapper class for saving a recording. Contains the list of updates and the level.
  * 
  * @author Peter Liley
  */
 public class Recording {
-    private final List<Tick> ticks;
+    private final List<GameUpdate> updates;
     private final int level;
 
-    public Recording(List<Tick> ticks, int level) {
-        this.ticks = ticks;
+    public Recording(List<GameUpdate> updates, int level) {
+        this.updates = updates;
         this.level = level;
     }
 
     /**
-     * Get list of ticks in recording.
+     * Get list of updates in recording.
      * 
-     * @return list of ticks in recording
+     * @return list of updates in recording
      */
-    public List<Tick> getTicks() {
-        return ticks;
+    public List<GameUpdate> getUpdates() {
+        return updates;
     }
 
     /**
@@ -42,7 +42,7 @@ public class Recording {
         final int prime = 31;
         int result = 1;
         result = prime * result + level;
-        result = prime * result + ((ticks == null) ? 0 : ticks.hashCode());
+        result = prime * result + ((updates == null) ? 0 : updates.hashCode());
         return result;
     }
 
@@ -57,10 +57,10 @@ public class Recording {
         Recording other = (Recording) obj;
         if (level != other.level)
             return false;
-        if (ticks == null) {
-            if (other.ticks != null)
+        if (updates == null) {
+            if (other.updates != null)
                 return false;
-        } else if (!ticks.equals(other.ticks))
+        } else if (!updates.equals(other.updates))
             return false;
         return true;
     }
