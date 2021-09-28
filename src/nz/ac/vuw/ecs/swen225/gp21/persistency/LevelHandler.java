@@ -96,7 +96,7 @@ public class LevelHandler {
      * @return that will provide an informative message that should be shown to the user
      * @throws PersistException
      */
-    public static Level getLevel(int levelNumber) throws PersistException {
+    private static Level getLevel(int levelNumber) throws PersistException {
         if (!levelsThatExist.contains(levelNumber)) {
             throw new PersistException("Level " + levelNumber + " does not exist");
         }
