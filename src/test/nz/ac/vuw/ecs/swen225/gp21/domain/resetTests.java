@@ -1,13 +1,8 @@
 package test.nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
