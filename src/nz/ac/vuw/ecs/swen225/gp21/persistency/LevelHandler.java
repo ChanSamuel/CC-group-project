@@ -113,8 +113,8 @@ public class LevelHandler {
      * Saves level one LevelMemento field to an XML
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
-    public static void saveLevelOne() throws PersistException {
-        XMLPersister parser = new XMLPersister(xmlMapper);
+    public static void saveLevelOne(XmlMapper mapper) throws PersistException {
+        XMLPersister parser = new XMLPersister(mapper);
         parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml"), levelOne);
     }
 
@@ -122,9 +122,9 @@ public class LevelHandler {
      * Saves level two LevelMemento field to an XML
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
-    public static void saveLevelTwo() throws PersistException {
+    public static void saveLevelTwo(XmlMapper mapper) throws PersistException {
 //          TODO:
-//        XMLParser parser = new XMLParser(new XmlMapper());
+//        XMLPersister parser = new XMLPersister(mapper);
 //        parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level2.xml"), levelTwo);
     }
 
