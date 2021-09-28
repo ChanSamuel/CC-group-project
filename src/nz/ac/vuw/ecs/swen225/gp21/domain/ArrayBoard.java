@@ -69,7 +69,7 @@ public class ArrayBoard implements Board {
     this.world = w;
     this.rows = save.getRows();
     this.columns = save.getCols();
-    this.isExitOpen = save.getb();
+    this.isExitOpen = save.getIsExitOpen();
     this.board = new Tile[rows][columns];
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < columns; col++) {
