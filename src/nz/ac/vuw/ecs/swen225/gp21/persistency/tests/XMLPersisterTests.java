@@ -9,21 +9,17 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
 import nz.ac.vuw.ecs.swen225.gp21.persistency.XMLPersister;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import junit.framework.TestCase;
 
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -71,7 +67,42 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testLoadWithJsonMappingException() throws IOException {
+    public void testPersistNullMapper() {
+        PersistException exception = assertThrows(PersistException.class, ()->{new XMLPersister(null);});
+        assertEquals("Cannot persist without a valid mapper", exception.getMessage());
+    }
+
+    @Test
+    public void testLoadNullFileStream() throws PersistException {
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.load(null, String.class);});
+        assertEquals("IO Error while loading game", exception.getMessage());
+    }
+
+    @Test
+    public void testSaveNullFile() throws PersistException {
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.save(null, "Anything");});
+        assertEquals("IO Error while saving game", exception.getMessage());
+    }
+
+    @Test
+    public void testLoadNullClassValue() throws PersistException {
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, null);});
+        assertEquals("Error loading game", exception.getMessage());
+    }
+
+    @Test
+    public void testSaveNullValue() throws PersistException {
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, null);});
+        assertEquals("Error saving game", exception.getMessage());
+    }
+
+
+    @Test
+    public void testLoadWithJsonMappingException() throws IOException, PersistException {
         doThrow(JsonMappingException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
@@ -79,7 +110,7 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testLoadWithJsonParseException() throws IOException {
+    public void testLoadWithJsonParseException() throws IOException, PersistException {
         doThrow(JsonParseException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
@@ -87,7 +118,7 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testLoadWithIOException() throws IOException {
+    public void testLoadWithIOException() throws IOException, PersistException {
         doThrow(IOException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
@@ -95,7 +126,7 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testSaveWithJsonMappingException() throws IOException {
+    public void testSaveWithJsonMappingException() throws IOException, PersistException {
         doThrow(JsonMappingException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});
@@ -103,7 +134,7 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testSaveWithJsonGenerationException() throws IOException {
+    public void testSaveWithJsonGenerationException() throws IOException, PersistException {
         doThrow(JsonGenerationException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});
@@ -111,7 +142,7 @@ public class XMLPersisterTests extends TestCase {
     }
 
     @Test
-    public void testSaveWithIOException() throws IOException {
+    public void testSaveWithIOException() throws IOException, PersistException {
         doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});

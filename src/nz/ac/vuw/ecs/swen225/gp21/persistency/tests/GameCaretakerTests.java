@@ -26,6 +26,12 @@ public class GameCaretakerTests {
     Domain domain;
 
     @Test
+    public void testNullGameCaretaker() throws PersistException {
+        PersistException exception = assertThrows(PersistException.class, ()->{new GameCaretaker(null);});
+        assertEquals("Cannot persist a null game", exception.getMessage());
+    }
+
+    @Test
     public void testLoadGameOk() throws PersistException {
         String path = "src/nz/ac/vuw/ecs/swen225/gp21/persistency/tests/memento_test.xml";
         File savedGame = new File(path);
@@ -70,6 +76,14 @@ public class GameCaretakerTests {
     @Test
     public void saveNonXmlGame() throws PersistException {
         File nonXml = new File("nonXml.txt");
+        GameCaretaker gameCaretaker = new GameCaretaker(domain);
+        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
+        assertEquals("File to save a game to must be a .xml file.", exception.getMessage());
+    }
+
+    @Test
+    public void saveNonXmlGame2() throws PersistException {
+        File nonXml = new File("nonXml");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
         assertEquals("File to save a game to must be a .xml file.", exception.getMessage());

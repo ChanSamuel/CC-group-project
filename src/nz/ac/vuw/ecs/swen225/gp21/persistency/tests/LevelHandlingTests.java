@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -109,5 +110,23 @@ public class LevelHandlingTests {
 //    @Test fixme
     public void saveLevel2XML() throws PersistException {
         LevelHandler.saveLevelTwo(new XmlMapper());
+    }
+
+    @Test
+    public void testLoadLevelNullDomain() throws PersistException {
+        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.loadLevel(1, null);});
+        assertEquals("Error loading level 1", exception.getMessage());
+    }
+
+    @Test
+    public void saveLevel1NullMapper() throws PersistException {
+        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevelOne(null);});
+        assertEquals("Error saving level 1", exception.getMessage());
+    }
+
+    @Test
+    public void saveLevel2NullMapper() throws PersistException {
+        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevelTwo(null);});
+        assertEquals("Error saving level 2", exception.getMessage());
     }
 }

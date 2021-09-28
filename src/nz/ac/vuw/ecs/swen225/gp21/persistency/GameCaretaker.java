@@ -152,7 +152,6 @@ public class GameCaretaker {
      * @return boolean (true if file does not end in '.xml')
      */
     private static boolean notXMLFile(File file) {
-        assert(file!=null);
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
         // if there is no '.' in the filename then immediately return true
