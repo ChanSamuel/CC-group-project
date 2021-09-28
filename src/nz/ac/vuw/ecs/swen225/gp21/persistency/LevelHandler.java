@@ -9,9 +9,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: 24/09/2021
 /**
- *
+ * TODO
  */
 public class LevelHandler {
 
@@ -28,7 +27,7 @@ public class LevelHandler {
     /**
      * LevelMemento that represents level one todo update to relevant info
      */
-    private static final LevelMemento levelOne = new LevelMemento(16, 16, 1,
+    private static final LevelMemento levelOne = new LevelMemento(16, 16,
     "################"
     + "#..........#...#"
     + "#..........#.g.#"
@@ -104,10 +103,10 @@ public class LevelHandler {
 
         XMLPersister parser = new XMLPersister(xmlMapper);
         InputStream is = LevelHandler.class.getResourceAsStream
-                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml"); //fixme?
+                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml");
 
         LevelMemento levelMemento = parser.load(is, LevelMemento.class);
-        return levelMemento.toLevel();
+        return mementoToLevel(levelMemento);
     }
 
     /**
@@ -124,58 +123,107 @@ public class LevelHandler {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void saveLevelTwo() throws PersistException {
-// TODO: 24/09/2021
+//          TODO:
 //        XMLParser parser = new XMLParser(new XmlMapper());
 //        parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level2.xml"), levelTwo);
     }
-}
 
-// TODO: 24/09/2021 Add more JavaDoc?
-/**
- * Captures a Level state so it can be written to an XML. Only used by the LevelHandler class.
- */
-class LevelMemento {
-    private int rows, cols, levelNumber;
-    private String terrainLayout, entityLayout, info;
+    /**
+     * todo
+     * @param o object should be a LevelMemento
+     * @return Level object
+     * @throws PersistException
+     */
+    public static Level mementoToLevel(Object o) throws PersistException {
+        if ((o==null) || !(o instanceof LevelMemento)) {
+            throw new PersistException("Object must be a LevelMemento");
+        }
+        // Now I know it is a level memento object I can cast it to one
+        LevelMemento toConvert = (LevelMemento) o;
 
-    public LevelMemento(int rows, int cols, int levelNumber, String terrainLayout, String entityLayout, String info) {
-        this.rows = rows;
-        this.cols = cols;
-        this.levelNumber = levelNumber;
-        this.terrainLayout = terrainLayout;
-        this.entityLayout = entityLayout;
-        this.info = info;
-    }
+        return new Level(
+                toConvert.getRows(),
+                toConvert.getCols(),
+                toConvert.getTerrainLayout(),
+                toConvert.getEntityLayout(),
+                toConvert.getInfo());
+        }
 
-    private LevelMemento() {}
+    /**
+     * Captures a Level state so it can be written to an XML. Only used by the LevelHandler class.
+     * todo
+     */
+    static class LevelMemento {
 
-    public Level toLevel() {
-        // TODO: 24/09/2021
-        //   Do I need to add checks here? even though only I can call this class?
-        return new Level(this.rows, this.cols, this.terrainLayout, this.entityLayout, info);
-    }
+        /**
+         * todo
+         */
+        private int rows, cols;
 
-    public int getRows() {
-        return rows;
-    }
+        /**
+         * todo
+         */
+        private String terrainLayout, entityLayout, info;
 
-    public int getCols() {
-        return cols;
-    }
+        /**
+         * todo
+         * @param rows
+         * @param cols
+         * @param terrainLayout
+         * @param entityLayout
+         * @param info
+         */
+        public LevelMemento(int rows, int cols, String terrainLayout, String entityLayout, String info) {
+            this.rows = rows;
+            this.cols = cols;
+            this.terrainLayout = terrainLayout;
+            this.entityLayout = entityLayout;
+            this.info = info;
+        }
 
-    public int getLevelNumber() {
-        return levelNumber;
-    }
+        /**
+         * todo
+         */
+        private LevelMemento() {}
 
-    public String getTerrainLayout() {
-        return terrainLayout;
-    }
+        /**
+         * todo
+         * @return
+         */
+        public int getRows() {
+            return rows;
+        }
 
-    public String getEntityLayout() {
-        return entityLayout;
-    }
+        /**
+         * todo
+         * @return
+         */
+        public int getCols() {
+            return cols;
+        }
 
-    public String getInfo() {
-        return info;
+        /**
+         * todo
+         * @return
+         */
+        public String getTerrainLayout() {
+            return terrainLayout;
+        }
+
+        /**
+         * todo
+         * @return
+         */
+        public String getEntityLayout() {
+            return entityLayout;
+        }
+
+        /**
+         * todo
+         * @return
+         */
+        public String getInfo() {
+            return info;
+        }
     }
 }
