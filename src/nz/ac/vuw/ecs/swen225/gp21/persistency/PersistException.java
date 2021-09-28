@@ -6,7 +6,7 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency;
  * @author Lucy Goodwin
  */
 public class PersistException extends Exception {
-    public PersistException(String message) {
+    protected PersistException(String message) {
         super(message);
     }
 }
