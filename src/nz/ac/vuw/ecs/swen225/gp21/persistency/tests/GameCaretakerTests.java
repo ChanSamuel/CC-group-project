@@ -1,26 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
 /**
  * These tests test the functionality of the LevelHandling class.
@@ -30,20 +22,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class GameCaretakerTests {
 
-//    @Rule
-//    public ExpectedException exceptionRule = ExpectedException.none();
-
     @Mock
     Domain domain;
 
-    private static File savedGame;
-    static {
-        savedGame = null;
-        // todo save a real game!!!!!!!!!!!!
-    }
-
     @Test
     public void testLoadGameOk() throws PersistException {
+        String path = "src/nz/ac/vuw/ecs/swen225/gp21/persistency/tests/memento_test.xml";
+        File savedGame = new File(path);
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         doNothing().when(domain).restoreGame(any(GameMemento.class));
         doNothing().when(domain).doneLoading();
@@ -51,7 +36,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadNullGame() {
+    public void testLoadNullGame() throws PersistException {
         File nullFile = null;
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nullFile);});
@@ -59,7 +44,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadGameNonXml() {
+    public void testLoadGameNonXml() throws PersistException {
         File nonXml = new File("nonXml.txt");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nonXml);});
@@ -67,7 +52,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadGameFileNotFoundException() {
+    public void testLoadGameFileNotFoundException() throws PersistException {
         File nonExistXml = new File("thisDoesNotExist.xml");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nonExistXml);});
@@ -75,7 +60,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void saveNullGame() {
+    public void saveNullGame() throws PersistException {
         File nullFile = null;
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nullFile);});
@@ -83,7 +68,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void saveNonXmlGame() {
+    public void saveNonXmlGame() throws PersistException {
         File nonXml = new File("nonXml.txt");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});

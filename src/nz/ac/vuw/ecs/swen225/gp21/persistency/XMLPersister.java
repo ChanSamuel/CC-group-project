@@ -37,6 +37,11 @@ public class XMLPersister {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> T load(InputStream is, Class<T> valueType) throws PersistException {
+
+        if (xmlMapper==null) throw new PersistException("Error with mapper while loading game");
+        if (is==null) throw new PersistException("IO Error while loading game");
+        if (valueType==null) throw new PersistException("Error loading game");
+
         try {
             return xmlMapper.readValue(is, valueType);
         } catch (JsonMappingException e) {
@@ -56,6 +61,11 @@ public class XMLPersister {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> void save(File file, T value) throws PersistException {
+
+        if (xmlMapper==null) throw new PersistException("Error with mapper while saving game");
+        if (file==null) throw new PersistException("IO Error while saving game");
+        if (value==null) throw new PersistException("Error saving game");
+
         try {
             xmlMapper.writeValue(file, value);
         } catch (JsonMappingException e) {

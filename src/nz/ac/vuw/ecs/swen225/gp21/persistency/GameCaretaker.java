@@ -81,7 +81,8 @@ public class GameCaretaker {
      * Constructor for a Game Caretaker, takes a domain object as the originator
      * @param domain the game will be captured from this Domain and/or restored to this Domain
      */
-    public GameCaretaker(Domain domain) {
+    public GameCaretaker(Domain domain) throws PersistException {
+        if (domain==null) throw new PersistException("Cannot persist a null game");
         this.domain = domain;
     }
 
@@ -124,6 +125,7 @@ public class GameCaretaker {
      * @throws PersistException with information to be shown to the user
      */
     public GameMemento getMemento(FileInputStream fs) throws PersistException {
+        //todo check file stream not null
         XMLPersister parser = new XMLPersister(xmlMapper);
         return parser.load(fs, GameMemento.class);
     }

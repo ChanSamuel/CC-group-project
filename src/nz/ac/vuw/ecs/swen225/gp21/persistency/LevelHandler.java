@@ -77,6 +77,8 @@ public class LevelHandler {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void loadLevel(int levelNumber, Domain domain) throws PersistException {
+        if (domain==null) throw new PersistException("Error loading level " + levelNumber);
+
         Level levelToLoad = getLevel(levelNumber);
         domain.loadLevelData(levelToLoad);
 
@@ -97,6 +99,8 @@ public class LevelHandler {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void saveLevelOne(XmlMapper mapper) throws PersistException {
+        if (mapper==null) throw new PersistException("Error saving level 1");
+
         XMLPersister parser = new XMLPersister(mapper);
         parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level1.xml"), levelOne);
     }
@@ -106,6 +110,8 @@ public class LevelHandler {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static void saveLevelTwo(XmlMapper mapper) throws PersistException {
+        if (mapper==null) throw new PersistException("Error saving level 2");
+
 //          TODO:
 //        XMLPersister parser = new XMLPersister(mapper);
 //        parser.save(new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level2.xml"), levelTwo);
