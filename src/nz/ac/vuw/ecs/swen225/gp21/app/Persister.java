@@ -13,13 +13,13 @@ import nz.ac.vuw.ecs.swen225.gp21.recorder.Recording;
  * @author Sam
  *
  */
-public class ConcretePersister {
+public class Persister {
 	
 	private LevelHandler handler;
 	
 	private GameCaretaker caretaker;
 	
-	public ConcretePersister(LevelHandler lh, GameCaretaker gc) {
+	public Persister(LevelHandler lh, GameCaretaker gc) {
 		this.handler = lh;
 		this.caretaker = gc;
 	}

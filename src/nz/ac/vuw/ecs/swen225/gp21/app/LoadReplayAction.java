@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
-public class LoadReplayAction implements Action {
+public class LoadReplayAction implements Action, StartAction {
 
 	
 	File f; 
@@ -43,7 +43,7 @@ public class LoadReplayAction implements Action {
 		int levelNumber = control.recorder.getLevel();
 		
 		try {
-			ConcretePersister.loadLevel(levelNumber, control.world);
+			Persister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
 			control.warning("Something went wrong when persisting the level:\n" + e.getMessage());
 			return;
@@ -70,8 +70,8 @@ public class LoadReplayAction implements Action {
 			return;
 		}
 		
+		control.gLoop.setToInitialPlayState();
 		control.gLoop.setIsReplay(true);
-		control.gLoop.setIsPlaying(true);
 		control.world.setState(new Replaying());
 	}
 

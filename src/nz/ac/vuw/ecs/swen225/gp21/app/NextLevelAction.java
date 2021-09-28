@@ -8,7 +8,8 @@ public class NextLevelAction implements Action {
 
 	@Override
 	public void execute(Controller control) {
-		control.gLoop.setIsPlaying(false);
+		// Assume we are in the replay state temporarily.
+		control.gLoop.setToMenuState();
 		
 		// Depending on the level, issue the corresponding action to move to that level.
 		if (control.levelNumber == 0) { // On test level

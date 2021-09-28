@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-public class MoveUpAction implements Action {
+public class MoveUpAction implements Action, MovementAction {
 
 	@Override
 	public void execute(Controller control) {

@@ -13,7 +13,7 @@ public class ExitToMenuAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		control.gLoop.setIsPlaying(false);
+		control.gLoop.setToMenuState();
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {

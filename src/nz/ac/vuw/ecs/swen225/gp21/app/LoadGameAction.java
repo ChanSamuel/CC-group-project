@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
-public class LoadGameAction implements Action {
+public class LoadGameAction implements Action, StartAction {
 
 	
 	File f;
@@ -45,9 +45,7 @@ public class LoadGameAction implements Action {
 			return;
 		}
 		
-		control.gLoop.setIsPlaying(true);
-		control.gLoop.setIsReplay(false);
-		control.gLoop.setAutoPlay(false);
+		control.gLoop.setToInitialPlayState();
 	}
 
 	@Override
