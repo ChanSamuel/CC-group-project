@@ -19,6 +19,11 @@ public class GameMemento {
     int rows, cols, updates, totalTreasure;
 
     /**
+     *
+     */
+    boolean isExitOpen;
+
+    /**
      * Current state of the game to be captured.
      */
     State currentState;
@@ -61,10 +66,11 @@ public class GameMemento {
      * @param updates  number of updates in the game to be captured
      * @param currentState state of the game
      * @param totalTreasure number of total treasure in the game to be captured
+     * @param isExitOpen boolean of whether the board has been opened
      */
     public GameMemento(int rows, int cols, List<GameObject> gameObjects, List<Coord> gameObjectLocations,
                        List<MovementController> gameObjectMoveControllers, List<Terrain> terrains, int updates,
-                       State currentState, int totalTreasure)
+                       State currentState, int totalTreasure, boolean isExitOpen)
     {
         this.rows = rows;
         this.cols = cols;
@@ -75,6 +81,7 @@ public class GameMemento {
         this.updates = updates;
         this.currentState = currentState;
         this.totalTreasure = totalTreasure;
+        this.isExitOpen = isExitOpen;
     }
 
     /**
@@ -146,6 +153,15 @@ public class GameMemento {
      */
     public State getCurrentState() {
         return currentState;
+    }
+
+    /**
+     * Getter for isExitOpen field.
+     *
+     * @return boolean
+     */
+    public boolean isExitOpen() {
+        return isExitOpen;
     }
 
     /**
