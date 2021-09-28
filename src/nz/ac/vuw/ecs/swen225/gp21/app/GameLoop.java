@@ -1,11 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Queue;
 
 import javax.swing.SwingUtilities;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.GameUpdate;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 /**
@@ -107,8 +107,18 @@ public class GameLoop implements Runnable {
 					
 					if (isAutoPlay) { // Here, we assume that auto play is true only when replay is true.
 						
-						Tick t = control.recorder.nextTick();
-						control.world.forwardTick(t);
+						List<GameUpdate> gameUpdates = control.recorder.next();
+						for (int i = 0; i < gameUpdates.size(); i++) {
+							
+							GameUpdateProxy gup = null;
+							if (gameUpdates.get(i) instanceof GameUpdateProxy) {
+								gup = (GameUpdateProxy) gameUpdates.get(i);
+							} else {
+								throw new Error("Other GameUpdate instance type not supported!");
+							}
+							
+							control.world.forwardTick(gup.getGameEvent());
+						}
 						
 						// Update the renderer.
 						updateRenderer();
@@ -121,20 +131,11 @@ public class GameLoop implements Runnable {
 					} else {
 						// Update the world.
 						if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-						Tick t = control.world.update(elapsedTime);
+						control.world.update(elapsedTime);
 						updatedTime = System.currentTimeMillis();
 						
 						// Update the renderer.
 						updateRenderer();
-						
-						// Recorder things here.
-						try {
-							control.recorder.addTick(t);
-						} catch (RecorderException e) {
-							control.warning("Something went wrong when adding a tick to the recorder:\n"
-											+ e.getMessage());
-						}
-						
 					}
 					
 					if (t1 != -1) { // If we are not on the first tick.

@@ -15,7 +15,13 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 public class LoadRecording {
 
     public static Recording load(InputStream is) throws RecorderException {
-        XMLPersister p = new XMLPersister(new XmlMapper());
+        XMLPersister p = null;
+		try {
+			p = new XMLPersister(new XmlMapper());
+		} catch (PersistException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try{
             return p.load(is, Recording.class);
         } catch (PersistException e){

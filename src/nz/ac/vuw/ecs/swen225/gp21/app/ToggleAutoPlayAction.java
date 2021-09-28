@@ -16,7 +16,6 @@ public class ToggleAutoPlayAction implements Action {
 		} 
 		
 		boolean a = control.gLoop.getIsAutoPlay();
-		control.recorder.setAutoReplayRunning(!a);
 		control.gLoop.setAutoPlay(!a);
 	}
 

@@ -23,14 +23,14 @@ public class SaveRecording {
      */
     public static void save(File file, Recording recording) throws PersistException {
         if(recording.getLevel() < 1){
-            throw new PersistException("Attempting to save recording with no level");
+            throw new Error();
         }
         try{
-            XMLPersister p = new XMLPersister();
+            XMLPersister p = new XMLPersister(null);
             p.save(file, recording);
         }
         catch(Exception e){
-            throw new PersistException(e.getMessage());
+            throw new Error(e);
         }
     }
     

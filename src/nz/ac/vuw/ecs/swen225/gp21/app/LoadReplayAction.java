@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.awt.CardLayout;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
@@ -34,10 +36,12 @@ public class LoadReplayAction implements Action, StartAction {
 		}
 		
 		try {
-			control.recorder.load(f);
+			control.recorder.load(new FileInputStream(f));
 		} catch (RecorderException e1) {
 			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
 			return;
+		} catch (FileNotFoundException e) {
+			throw new Error("File was not found, but file should always exist!:\n" + e.getMessage());
 		}
 		
 		int levelNumber = control.recorder.getLevel();

@@ -8,12 +8,15 @@ import java.util.Queue;
 import java.util.Scanner;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.LevelHandler;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.SoundType;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
@@ -145,10 +148,25 @@ public abstract class Controller {
 			public void objectPushed() {
 				Controller.this.objectPushed();
 			}
+
+			@Override
+			public void eventOccured(GameEvent e) {
+				// Add the event to the recorder via a proxy object.
+				try {
+					recorder.add(new GameUpdateProxy(e));
+				} catch (RecorderException re) {
+					warning("Something went wrong when adding a tick to the recorder:\n"
+									+ re.getMessage());
+				}
+			}
 			
 		};
 		
-		persister = new Persister(new LevelHandler(), new GameCaretaker(world));
+		try {
+			persister = new Persister(new LevelHandler(), new GameCaretaker(world));
+		} catch (PersistException e) {
+			throw new Error("Failed to initalise the Controller because:\n"+ e.getMessage(), e);
+		}
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);

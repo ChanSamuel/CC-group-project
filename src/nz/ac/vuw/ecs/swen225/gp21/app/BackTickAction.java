@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import java.util.List;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.GameUpdate;
 
 public class BackTickAction implements Action, AdvanceTickAction {
 
@@ -22,8 +23,20 @@ public class BackTickAction implements Action, AdvanceTickAction {
 			control.warning("Can't manually do next tick during autoplay");
 			return;
 		}
-		Tick t = control.recorder.prevTick();
-		control.world.backTick(t);
+		
+		List<GameUpdate> gameUpdates = control.recorder.prev();
+		for (int i = 0; i < gameUpdates.size(); i++) {
+			
+			GameUpdateProxy gup = null;
+			if (gameUpdates.get(i) instanceof GameUpdateProxy) {
+				gup = (GameUpdateProxy) gameUpdates.get(i);
+			} else {
+				throw new Error("Other GameUpdate instance type not supported!");
+			}
+			
+			control.world.backTick(gup.getGameEvent());
+		}
+		
 	}
 
 	@Override
