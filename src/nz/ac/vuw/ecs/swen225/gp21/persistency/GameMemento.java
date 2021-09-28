@@ -160,7 +160,7 @@ public class GameMemento {
      *
      * @return boolean
      */
-    public boolean isExitOpen() {
+    public boolean getIsExitOpen() {
         return isExitOpen;
     }
 
