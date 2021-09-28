@@ -113,7 +113,6 @@ public class GameCaretaker {
         try {
             return new FileInputStream(fileToLoad);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             throw new PersistException("Game loading failed, please try again.");
         }
     }
