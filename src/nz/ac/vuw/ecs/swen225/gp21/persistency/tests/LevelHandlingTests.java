@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
@@ -12,9 +14,13 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 
 /**
  * These tests test the functionality of the LevelHandling class
@@ -26,7 +32,7 @@ public class LevelHandlingTests {
     Domain domain;
 
     @Mock
-    XMLPersister parser;
+    private XmlMapper xmlMapper;
 
     @Captor
     ArgumentCaptor<Level> levelCaptor;
@@ -34,8 +40,8 @@ public class LevelHandlingTests {
     @Captor
     ArgumentCaptor<Object> levelMementoCaptor;
 
-//    @Rule
-//    public ExpectedException exceptionRule = ExpectedException.none();
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void loadLevel1() throws PersistException {
@@ -47,40 +53,59 @@ public class LevelHandlingTests {
         assertEquals(16, level1Capture.rows);
     }
 
-    @Test
+//    @Test fixme
     public void loadLevel2() throws PersistException {
-        // todo test as I did for level 1
+        doNothing().when(domain).loadLevelData(levelCaptor.capture());
+        doNothing().when(domain).doneLoading();
+        LevelHandler.loadLevel(2, domain);
+        Level level2Capture = levelCaptor.getValue();
+        // todo add some assertions
     }
 
     @Test
     public void loadLevel0() throws PersistException {
-        // todo expect a persist exception
-        // capture exception message
+        exceptionRule.expect(PersistException.class);
+        LevelHandler.loadLevel(0, domain);
     }
 
     @Test
-    public void saveLevelCaptureMemento() {
-        // call save level but capture the memento
-        // call mementoToLevel method with it
+    public void saveLevel1CaptureMemento() throws PersistException, IOException {
+        doNothing().when(xmlMapper).writeValue(any(File.class), levelMementoCaptor.capture());
+        LevelHandler.saveLevelOne(xmlMapper);
+        Object memento1 = levelMementoCaptor.getValue();
+        Level level1 = LevelHandler.mementoToLevel(memento1);
+        assertEquals(16, level1.rows);
+        assertEquals(16, level1.columns);
+    }
+
+//    @Test fixme
+    public void saveLevel2CaptureMemento() throws PersistException, IOException {
+        doNothing().when(xmlMapper).writeValue(any(File.class), levelMementoCaptor.capture());
+        LevelHandler.saveLevelTwo(xmlMapper);
+        Object memento2 = levelMementoCaptor.getValue();
+        Level level2 = LevelHandler.mementoToLevel(memento2);
+        // todo add some assertions
     }
 
     @Test
-    public void nullMementoToLevel() {
-        // todo expect exception
-        // try convert null to level
+    public void nullMementoToLevel() throws PersistException {
+        exceptionRule.expect(PersistException.class);
+        LevelHandler.mementoToLevel(null);
     }
 
     @Test
-    public void notMementoToLevel() {
-        // todo expect exception
-        // try convert string (or something !memento) to level
+    public void notMementoToLevel() throws PersistException {
+        exceptionRule.expect(PersistException.class);
+        LevelHandler.mementoToLevel("Lorem ipsum");
     }
 
-    private void saveLevel1XML() throws PersistException {
-        LevelHandler.saveLevelOne();
+    @Test
+    public void saveLevel1XML() throws PersistException {
+        LevelHandler.saveLevelOne(new XmlMapper());
     }
 
-    private void saveLevel2XML() throws PersistException {
-        LevelHandler.saveLevelTwo();
+//    @Test fixme
+    public void saveLevel2XML() throws PersistException {
+        LevelHandler.saveLevelTwo(new XmlMapper());
     }
 }
