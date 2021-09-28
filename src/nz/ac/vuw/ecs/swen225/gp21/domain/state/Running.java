@@ -1,8 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
-import java.util.*; //TODO temp addition
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord; //TODO temp addition
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;

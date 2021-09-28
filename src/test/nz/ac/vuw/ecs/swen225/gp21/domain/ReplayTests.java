@@ -71,14 +71,12 @@ class ReplayTests {
   void testTickGeneration() {
     boolean passed = true;
     try {
-      List<Tick> ticks = new LinkedList<>();
       World w = new TestWorld();
       w.loadLevelData(testLevel);
       w.doneLoading();
-      ticks.add(w.update(200));
+      w.update(200);
       w.moveChipDown();
-      ticks.add(w.update(200));
-
+      w.update(200);
       String expected = "Game is: Running\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 5 Chip Chip's Invetory: []\n"
@@ -102,20 +100,12 @@ class ReplayTests {
   void testTickReplay() {
     boolean passed = true;
     try {
-      List<Tick> ticks = new LinkedList<>();
       World w = new TestWorld();
       w.loadLevelData(testLevel);
       w.doneLoading();
-      ticks.add(w.update(200));
+      w.update(200);
       w.moveChipDown();
-      ticks.add(w.update(200));
-
-      // END OF PLAYER INPUTS
-      // There are no more ticks coming. <- this 100% should be the replay
-      // modules job of managing
-
-      ticks.get(ticks.size() - 1).isFinalTick = true; // (Note, replaying currently doesn't inspect
-                                                      // this field)
+      w.update(200);
       // NOTE: This raises an interesting question:
       // Should I be able to save and exit the game,
       // then replay that partially completed game?
@@ -159,18 +149,17 @@ class ReplayTests {
       // This is not good enough, because our plan
       // was to load the initial level conditions
       // the go forward through the ticks.
-      assertFalse(ticks.get(0).didPlayerMove());
-      assertTrue(ticks.get(1).didPlayerMove());
-      w.backTick(ticks.get(1));
-      w.backTick(ticks.get(0));
+      TestWorld testWor = (TestWorld) w;
+      w.backTick(testWor.events.get(1));
+      w.backTick(testWor.events.get(0));
       assertEquals(expectedTwo, w.toString());
       // try to roll the replay forward
-      w.forwardTick(ticks.get(0));
-      w.forwardTick(ticks.get(1));
+      w.forwardTick(testWor.events.get(0));
+      w.forwardTick(testWor.events.get(1));
       assertEquals(expectedThree, w.toString());
       // and run it back one last time
-      w.backTick(ticks.get(1));
-      w.backTick(ticks.get(0));
+      w.backTick(testWor.events.get(1));
+      w.backTick(testWor.events.get(0));
       assertEquals(expectedTwo, w.toString());
     } catch (Exception s) {
       s.printStackTrace();
@@ -186,7 +175,6 @@ class ReplayTests {
   void testReplayDifferentWorld() {
     boolean passed = true;
     try {
-      List<Tick> ticks = new ArrayList<>();
       World first = new TestWorld();
       first.loadLevelData(testLevel);
       first.doneLoading();
@@ -197,19 +185,22 @@ class ReplayTests {
 
       first.moveChipDown();
       first.moveChipDown();
-      ticks.add(first.update(200));
-      ticks.add(first.update(200));
-      ticks.add(first.update(200));
-      ticks.get(ticks.size() - 1).isFinalTick = true;
+      first.update(200);
+      first.update(200);
+      first.update(200);
 
+      ((TestWorld) second).events = List.copyOf(((TestWorld) first).events);
       first = null;
       System.gc();
 
       second.setState(new Replaying());
 
-      second.forwardTick(ticks.get(0));
-      second.forwardTick(ticks.get(1));
-      second.forwardTick(ticks.get(2));
+      TestWorld test = (TestWorld) second;
+
+      second.forwardTick(test.events.get(0));
+      second.forwardTick(test.events.get(1));
+      second.forwardTick(test.events.get(2));
+      second.forwardTick(test.events.get(3));
 
       String expectedOne = "Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
           + "EMPTY\n" + "All entities: \n"
@@ -222,9 +213,10 @@ class ReplayTests {
 
       assertEquals(expectedOne, second.toString());
 
-      second.backTick(ticks.get(2));
-      second.backTick(ticks.get(1));
-      second.backTick(ticks.get(0));
+      second.backTick(test.events.get(3));
+      second.backTick(test.events.get(2));
+      second.backTick(test.events.get(1));
+      second.backTick(test.events.get(0));
 
       String expectedTwo = "Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n"
           + "EMPTY\n" + "All entities: \n"
