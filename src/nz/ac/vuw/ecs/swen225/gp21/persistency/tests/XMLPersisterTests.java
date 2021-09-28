@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 
@@ -36,13 +39,13 @@ public class XMLPersisterTests extends TestCase {
     private File file;
 
     @Mock
-    private FileInputStream inputStream;
+    private Object object;
+
+    @Mock
+    private FileInputStream fileInputStream;
 
     @Captor
     ArgumentCaptor<String> stringArgumentCaptor;
-
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void testLoadOkay() throws IOException, PersistException {
@@ -50,10 +53,10 @@ public class XMLPersisterTests extends TestCase {
         // FIXME
 
         String toReturn = "Returned String";
-        when(xmlMapper.readValue(any(File.class), String.class)).thenReturn(toReturn);
+        when(xmlMapper.readValue(any(FileInputStream.class), String.class)).thenReturn(toReturn);
 
         XMLPersister parser = new XMLPersister(xmlMapper);
-        String returned = parser.load(inputStream, String.class);
+        String returned = parser.load(fileInputStream, String.class);
 
         assertEquals(toReturn, returned);
     }
@@ -72,54 +75,64 @@ public class XMLPersisterTests extends TestCase {
 
     @Test
     public void testLoadWithJsonMappingException() {
-
         // TODO
-        //  Am I able to capture the message of the exception thrown
-        //  Can I use a try/catch or something?
-
-        // PersistException("Mapping problem while loading xml file");
+        //  expected = PersistException("Mapping problem while loading xml file");
     }
 
     @Test
     public void testLoadWithJsonParseException() {
         // TODO
-
-        // PersistException("Parsing problem while loading xml file");
+        //  expected =  PersistException("Parsing problem while loading xml file");
     }
 
     @Test
     public void testLoadWithIOException() {
         // TODO
-
-        // PersistException("File reading problem while loading xml file");
+        //  PersistException("File reading problem while loading xml file");
     }
 
     @Test
-    public void testSaveWithJsonMappingException() {
-        // TODO
+    public void testSaveWithJsonMappingException() throws IOException {
+        doThrow(JsonMappingException.class).when(xmlMapper).writeValue(any(File.class), any());
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        String errorMsg = "Not correct";
 
-        // PersistException("Mapping problem while saving xml file");
+        try {
+            parser.save(file, object);
+        } catch (PersistException e) {
+            errorMsg = e.getMessage();
+        }
+
+        assertEquals("Mapping problem while saving xml file", errorMsg);
     }
 
     @Test
-    public void testSaveWithJsonGenerationException() {
-        // TODO
+    public void testSaveWithJsonGenerationException() throws IOException {
+        doThrow(JsonGenerationException.class).when(xmlMapper).writeValue(any(File.class), any());
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        String errorMsg = "Not correct";
 
-//        PersistException("Problem writing xml to file");
+        try {
+            parser.save(file, object);
+        } catch (PersistException e) {
+            errorMsg = e.getMessage();
+        }
+
+        assertEquals("Problem writing xml to file", errorMsg);
     }
 
     @Test
-    public void testSaveWithIOException() {
-        // TODO
+    public void testSaveWithIOException() throws IOException {
+        doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        String errorMsg = "Not correct";
 
-        // PersistException("File writing problem while saving xml file");
+        try {
+            parser.save(file, object);
+        } catch (PersistException e) {
+            errorMsg = e.getMessage();
+        }
 
-// fixme
-//        exceptionRule.expect(PersistException.class);
-//        String testString = "Lorem ipsum";
-//        File f = new File("test.xml");
-//        XMLPersister parser = new XMLPersister(xmlMapper);
-//        doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
-//        parser.save(any(File.class), testString);
+        assertEquals("File writing problem while saving xml file", errorMsg);
     }
 }

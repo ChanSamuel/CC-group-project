@@ -12,9 +12,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -32,43 +29,58 @@ public class LevelHandlingTests {
     XMLPersister parser;
 
     @Captor
-    ArgumentCaptor<Level> levelArgumentCaptor;
+    ArgumentCaptor<Level> levelCaptor;
 
     @Captor
     ArgumentCaptor<Object> levelMementoCaptor;
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
+//    @Rule
+//    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void loadSaveLevel1() throws PersistException {
-        saveLevel1();
-        loadLevel1();
+    public void loadLevel1() throws PersistException {
+        doNothing().when(domain).loadLevelData(levelCaptor.capture());
+        doNothing().when(domain).doneLoading();
+        LevelHandler.loadLevel(1, domain);
+        Level level1Capture = levelCaptor.getValue();
+        assertEquals(16, level1Capture.columns);
+        assertEquals(16, level1Capture.rows);
     }
 
-    //@Test fixme
-    public void loadSaveLevel2() throws PersistException {
-        saveLevel2();
-        loadLevel2();
+    @Test
+    public void loadLevel2() throws PersistException {
+        // todo test as I did for level 1
     }
 
-    private void saveLevel1() throws PersistException {
+    @Test
+    public void loadLevel0() throws PersistException {
+        // todo expect a persist exception
+        // capture exception message
+    }
+
+    @Test
+    public void saveLevelCaptureMemento() {
+        // call save level but capture the memento
+        // call mementoToLevel method with it
+    }
+
+    @Test
+    public void nullMementoToLevel() {
+        // todo expect exception
+        // try convert null to level
+    }
+
+    @Test
+    public void notMementoToLevel() {
+        // todo expect exception
+        // try convert string (or something !memento) to level
+    }
+
+    private void saveLevel1XML() throws PersistException {
         LevelHandler.saveLevelOne();
     }
 
-    private void saveLevel2() throws PersistException {
+    private void saveLevel2XML() throws PersistException {
         LevelHandler.saveLevelTwo();
     }
-
-    private void loadLevel1() throws PersistException {
-        Level l1 = LevelHandler.getLevel(1);
-        assertEquals(16, l1.columns);
-        assertEquals(16, l1.rows);
-    }
-    private void loadLevel2() throws PersistException {
-        Level l1 = LevelHandler.getLevel(2);
-        //assertEquals(16, l1.columns); todo
-        //assertEquals(16, l1.rows); todo
-    }
-
 }
