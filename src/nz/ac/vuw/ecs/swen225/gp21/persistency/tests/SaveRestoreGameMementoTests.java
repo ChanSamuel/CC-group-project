@@ -28,9 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * These tests test whether a game state can be saved and restored successfully
+ *
+ * @author Lucy Goodwin
  */
 public class SaveRestoreGameMementoTests {
 
@@ -124,7 +127,7 @@ public class SaveRestoreGameMementoTests {
     }
 
     @Test
-    public void saveLoadWorldWithCaretaker() throws PersistException, FileNotFoundException {
+    public void saveLoadWorldWithCaretaker() throws PersistException {
         File f = new File("memento_save_with_caretaker.xml");
         Domain domain = new TestWorld2() {
             @Override
@@ -133,9 +136,14 @@ public class SaveRestoreGameMementoTests {
             }
         };
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        gameCaretaker.saveGame(f);
-        GameMemento loadedMemento = gameCaretaker.getMemento(new FileInputStream(f));
-        assertTrue(sameAsTest(loadedMemento));
+        try {
+            gameCaretaker.saveGame(f);
+            FileInputStream stream = new FileInputStream(f);
+            GameMemento loadedMemento = gameCaretaker.getMemento(stream);
+            assertTrue(sameAsTest(loadedMemento));
+        } catch (IOException e) {
+            fail();
+        }
     }
 
     private boolean sameAsTest(GameMemento loaded) {

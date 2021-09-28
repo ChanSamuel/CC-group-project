@@ -9,7 +9,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import java.util.List;
 
 /**
- * TODO
+ * TODO Fill in doc when I've written some report
+ *
+ * @author Lucy Goodwin
  */
 public class GameMemento {
 
@@ -19,7 +21,7 @@ public class GameMemento {
     int rows, cols, updates, totalTreasure;
 
     /**
-     *
+     * Whether the boards exit has been opened from the game to be captured.
      */
     boolean isExitOpen;
 

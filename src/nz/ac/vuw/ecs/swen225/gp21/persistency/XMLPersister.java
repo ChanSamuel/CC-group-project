@@ -8,32 +8,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-// TODO: 24/09/2021
 /**
+ * This class provides functionality for mapping java objects to XML file format.
  *
+ * @author Lucy Goodwin
  */
 public class XMLPersister {
 
-    // TODO: 24/09/2021
     /**
-     *
+     * The XmlMapper that will be used to persist.
      */
     private XmlMapper xmlMapper;
 
-    // TODO: 24/09/2021
     /**
+     * Constructor for an XmlPersister object.
      *
-     * @param xmlMapper
+     * @param xmlMapper to persist with
      */
     public XMLPersister(XmlMapper xmlMapper) {
         this.xmlMapper = xmlMapper;
     }
 
     /**
-     * Method for loading from XML
+     * Method for loading from XML.
+     *
      * @param is input stream
-     * @return
-     * @throws PersistException
+     * @return value loaded
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> T load(InputStream is, Class<T> valueType) throws PersistException {
         try {
@@ -48,10 +49,11 @@ public class XMLPersister {
     }
 
     /**
-     * Method for saving to XML
-     * @param file
-     * @param value
-     * @throws PersistException
+     * Method for saving to XML.
+     *
+     * @param file to save value to
+     * @param value to save to file
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> void save(File file, T value) throws PersistException {
         try {

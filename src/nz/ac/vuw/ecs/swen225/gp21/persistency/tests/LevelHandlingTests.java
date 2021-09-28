@@ -23,7 +23,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
 /**
- * These tests test the functionality of the LevelHandling class
+ * These tests test the functionality of the LevelHandling class.
+ *
+ * @author Lucy Goodwin
  */
 @RunWith(MockitoJUnitRunner.class)
 public class LevelHandlingTests {

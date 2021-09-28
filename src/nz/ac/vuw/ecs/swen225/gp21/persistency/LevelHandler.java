@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * TODO
+ *
+ * @author Lucy Goodwin
  */
 public class LevelHandler {
 
@@ -91,25 +93,6 @@ public class LevelHandler {
     }
 
     /**
-     * Helper method todo finish doc
-     * @param levelNumber which level to load
-     * @return that will provide an informative message that should be shown to the user
-     * @throws PersistException
-     */
-    private static Level getLevel(int levelNumber) throws PersistException {
-        if (!levelsThatExist.contains(levelNumber)) {
-            throw new PersistException("Level " + levelNumber + " does not exist");
-        }
-
-        XMLPersister parser = new XMLPersister(xmlMapper);
-        InputStream is = LevelHandler.class.getResourceAsStream
-                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml");
-
-        LevelMemento levelMemento = parser.load(is, LevelMemento.class);
-        return mementoToLevel(levelMemento);
-    }
-
-    /**
      * Saves level one LevelMemento field to an XML
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
@@ -129,18 +112,18 @@ public class LevelHandler {
     }
 
     /**
-     * todo
+     * Converts a LevelMemento into a Level. Since LevelMemento is an inner class, an Object type object is accepted as
+     * the parameter and cast into a LevelMemento is it is an instance of one.
      * @param o object should be a LevelMemento
      * @return Level object
-     * @throws PersistException
+     * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public static Level mementoToLevel(Object o) throws PersistException {
-        if ((o==null) || !(o instanceof LevelMemento)) {
+        if (!(o instanceof LevelMemento)) {
             throw new PersistException("Object must be a LevelMemento");
         }
         // Now I know it is a level memento object I can cast it to one
         LevelMemento toConvert = (LevelMemento) o;
-
         return new Level(
                 toConvert.getRows(),
                 toConvert.getCols(),
@@ -150,28 +133,51 @@ public class LevelHandler {
         }
 
     /**
-     * Captures a Level state so it can be written to an XML. Only used by the LevelHandler class.
-     * todo
+     * Helper method for loading level. Loads and returns a level (number given as parameter) if it exists.
+     * @param levelNumber which level to load
+     * @return that will provide an informative message that should be shown to the user
+     * @throws PersistException that will provide an informative message that should be shown to the user
+     */
+    private static Level getLevel(int levelNumber) throws PersistException {
+        if (!levelsThatExist.contains(levelNumber)) {
+            throw new PersistException("Level " + levelNumber + " does not exist");
+        }
+
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        InputStream is = LevelHandler.class.getResourceAsStream
+                ("/nz/ac/vuw/ecs/swen225/gp21/persistency/levels/level" + levelNumber + ".xml");
+
+        LevelMemento levelMemento = parser.load(is, LevelMemento.class);
+        return mementoToLevel(levelMemento);
+    }
+
+    /**
+     * Captures a Level state so it can be written to an XML file. Only used by the LevelHandler class.
      */
     static class LevelMemento {
 
         /**
-         * todo
+         * Captures the rows and columns of a level's board.
          */
         private int rows, cols;
 
         /**
-         * todo
+         * Captures the terrain and entities that are on the levels board.
          */
-        private String terrainLayout, entityLayout, info;
+        private String terrainLayout, entityLayout;
 
         /**
-         * todo
-         * @param rows
-         * @param cols
-         * @param terrainLayout
-         * @param entityLayout
-         * @param info
+         * Captures what information is shown to the user when the level's info tile is activated.
+         */
+        private String info;
+
+        /**
+         * Constructor for a Level Memento which captures a level.
+         * @param rows number of rows in levels board
+         * @param cols number of cols in levels board
+         * @param terrainLayout the terrain of the level board
+         * @param entityLayout the entities in the levels board
+         * @param info the info for the levels info tile
          */
         public LevelMemento(int rows, int cols, String terrainLayout, String entityLayout, String info) {
             this.rows = rows;
@@ -182,45 +188,50 @@ public class LevelHandler {
         }
 
         /**
-         * todo
+         * Default constructor to allow for object to be parsed from an XML.
          */
         private LevelMemento() {}
 
         /**
-         * todo
-         * @return
+         * Getter for rows field.
+         *
+         * @return rows
          */
         public int getRows() {
             return rows;
         }
 
         /**
-         * todo
-         * @return
+         * Getter for cols field.
+         *
+         * @return cols
          */
         public int getCols() {
             return cols;
         }
 
         /**
-         * todo
-         * @return
+         * Getter for terrain field.
+         *
+         * @return terrains
          */
         public String getTerrainLayout() {
             return terrainLayout;
         }
 
         /**
-         * todo
-         * @return
+         * Getter for entities field.
+         *
+         * @return entities
          */
         public String getEntityLayout() {
             return entityLayout;
         }
 
         /**
-         * todo
-         * @return
+         * Getter for info field.
+         *
+         * @return info for info tile
          */
         public String getInfo() {
             return info;

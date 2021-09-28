@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
  *  Caretaker holds Mementos
  *  Mementos are world save
  *  Memento is a capture of the originator which is the Domain
+ *
+ * @author Lucy Goodwin
  */
 public class GameCaretaker {
 
@@ -97,13 +99,12 @@ public class GameCaretaker {
         }
         FileInputStream fs = getFileInputStream(fileToLoad);
         GameMemento memento = getMemento(fs);
-        // TODO
-        //  domain.load(memento)
-        //  domain.doneLoading
+        domain.restoreGame(memento);
+        domain.doneLoading();
     }
 
     /**
-     * Helper method for... todo elaborate
+     * Helper method for loading games that returns a file stream of a given file.
      * @param fileToLoad xml file to be loaded
      * @return FileInput stream of the given file
      * @throws PersistException with information to be shown to the user
@@ -118,8 +119,7 @@ public class GameCaretaker {
     }
 
     /**
-     * Helper method for.... todo elaborate
-     * Means I can test...
+     * Helper method for restoring a game.
      * @param fs FileInputStream to load memento from
      * @return Memento from FileInputStream
      * @throws PersistException with information to be shown to the user
