@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
@@ -14,6 +16,7 @@ import org.junit.runner.RunWith;
 import junit.framework.TestCase;
 
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -22,11 +25,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * These tests test the XmlPersister class
+ * These tests test the XmlPersister class.
+ *
  * @author Lucy Goodwin
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -49,90 +54,66 @@ public class XMLPersisterTests extends TestCase {
 
     @Test
     public void testLoadOkay() throws IOException, PersistException {
-
-        // FIXME
-
-        String toReturn = "Returned String";
-        when(xmlMapper.readValue(any(FileInputStream.class), String.class)).thenReturn(toReturn);
-
+        when(xmlMapper.readValue(any(FileInputStream.class), any(Class.class))).thenReturn("Returned String");
         XMLPersister parser = new XMLPersister(xmlMapper);
         String returned = parser.load(fileInputStream, String.class);
-
-        assertEquals(toReturn, returned);
+        assertEquals("Returned String", returned);
     }
 
     @Test
     public void testSaveOkay() throws IOException, PersistException {
-        String testString = "Lorem ipsum";
         doNothing().when(xmlMapper).writeValue(any(File.class), stringArgumentCaptor.capture());
-
         XMLPersister parser = new XMLPersister(xmlMapper);
-        parser.save(file, testString);
-
+        parser.save(file, "Lorem ipsum");
         String stringCall = stringArgumentCaptor.getValue();
         assertEquals("Lorem ipsum", stringCall);
     }
 
     @Test
-    public void testLoadWithJsonMappingException() {
-        // TODO
-        //  expected = PersistException("Mapping problem while loading xml file");
+    public void testLoadWithJsonMappingException() throws IOException {
+        doThrow(JsonMappingException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
+        assertEquals("Mapping problem while loading xml file", exception.getMessage());
     }
 
     @Test
-    public void testLoadWithJsonParseException() {
-        // TODO
-        //  expected =  PersistException("Parsing problem while loading xml file");
+    public void testLoadWithJsonParseException() throws IOException {
+        doThrow(JsonParseException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
+        assertEquals("Parsing problem while loading xml file", exception.getMessage());
     }
 
     @Test
-    public void testLoadWithIOException() {
-        // TODO
-        //  PersistException("File reading problem while loading xml file");
+    public void testLoadWithIOException() throws IOException {
+        doThrow(IOException.class).when(xmlMapper).readValue(any(FileInputStream.class), any(Class.class));
+        XMLPersister parser = new XMLPersister(xmlMapper);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, String.class);});
+        assertEquals("File reading problem while loading xml file", exception.getMessage());
     }
 
     @Test
     public void testSaveWithJsonMappingException() throws IOException {
         doThrow(JsonMappingException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
-        String errorMsg = "Not correct";
-
-        try {
-            parser.save(file, object);
-        } catch (PersistException e) {
-            errorMsg = e.getMessage();
-        }
-
-        assertEquals("Mapping problem while saving xml file", errorMsg);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});
+        assertEquals("Mapping problem while saving xml file", exception.getMessage());
     }
 
     @Test
     public void testSaveWithJsonGenerationException() throws IOException {
         doThrow(JsonGenerationException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
-        String errorMsg = "Not correct";
-
-        try {
-            parser.save(file, object);
-        } catch (PersistException e) {
-            errorMsg = e.getMessage();
-        }
-
-        assertEquals("Problem writing xml to file", errorMsg);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});
+        assertEquals("Problem writing xml to file", exception.getMessage());
     }
 
     @Test
     public void testSaveWithIOException() throws IOException {
         doThrow(IOException.class).when(xmlMapper).writeValue(any(File.class), any());
         XMLPersister parser = new XMLPersister(xmlMapper);
-        String errorMsg = "Not correct";
-
-        try {
-            parser.save(file, object);
-        } catch (PersistException e) {
-            errorMsg = e.getMessage();
-        }
-
-        assertEquals("File writing problem while saving xml file", errorMsg);
+        PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, object);});
+        assertEquals("File writing problem while saving xml file", exception.getMessage());
     }
 }

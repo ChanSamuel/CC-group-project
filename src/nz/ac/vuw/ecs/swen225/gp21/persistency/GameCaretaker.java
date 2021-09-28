@@ -95,7 +95,7 @@ public class GameCaretaker {
      */
     public void loadGame(File fileToLoad) throws PersistException {
         if ((fileToLoad==null) || notXMLFile(fileToLoad)) {
-            throw new PersistException("File to save a game to must be a .xml file.");
+            throw new PersistException("File to load a game to must be a .xml file.");
         }
         FileInputStream fs = getFileInputStream(fileToLoad);
         GameMemento memento = getMemento(fs);
@@ -153,10 +153,8 @@ public class GameCaretaker {
         assert(file!=null);
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
-
         // if there is no '.' in the filename then immediately return true
         if (dotIndex == -1) return true;
-
         // otherwise return whether the filename doesn't end in 'xml'
         return !(fileName.substring(dotIndex + 1).equals("xml"));
     }
