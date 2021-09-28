@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import nz.ac.vuw.ecs.swen225.gp21.app.DisplayHelpAction;
 import nz.ac.vuw.ecs.swen225.gp21.app.NextLevelAction;
 import nz.ac.vuw.ecs.swen225.gp21.app.PlayerLostAction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
@@ -76,7 +77,7 @@ public class GUIController extends GUI {
 		
 		// Menu bar exit to menu button action
 		frame.fileExitToMenu.addActionListener((ae) -> {
-			 this.exitToMenu();
+			this.exitToMenu();
 			 
 			// Disable buttons which involve saving when we go back to main menu.
 			frame.fileExitSave.setEnabled(false);

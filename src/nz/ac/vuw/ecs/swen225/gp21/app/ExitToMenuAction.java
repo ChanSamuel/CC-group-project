@@ -14,6 +14,7 @@ public class ExitToMenuAction implements Action {
 	public void execute(Controller control) {
 		
 		control.gLoop.setToMenuState();
+		control.clearInventory();
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {

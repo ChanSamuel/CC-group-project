@@ -445,6 +445,14 @@ public abstract class Controller {
 	}
 	
 	/**
+	 * Display a help message.
+	 * @param msg : the message.
+	 */
+	public void displayHelpMessage(String msg) {
+		issue(new DisplayHelpAction(msg));
+	}
+	
+	/**
 	 * Exits to main menu.
 	 * For FuzzController, this will simply move into the menu state, where only loading actions can
 	 * be performed.

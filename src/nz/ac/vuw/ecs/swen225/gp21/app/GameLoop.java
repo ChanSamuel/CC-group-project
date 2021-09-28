@@ -155,9 +155,10 @@ public class GameLoop implements Runnable {
 					pollAction(true);
 				}
 			} else {
-				// If other modules can't be updated yet, then only execute an action if it is a start action.
+				// If other modules can't be updated yet, then only execute an action if it is a start action
+				// or help action.
 				Action topAct = actions.peek();
-				boolean c = topAct instanceof StartAction;
+				boolean c = topAct instanceof StartAction || topAct instanceof DisplayHelpAction;
 				
 				pollAction(c);
 				
