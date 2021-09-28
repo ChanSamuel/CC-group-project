@@ -39,14 +39,11 @@ public class XMLPersister {
         try {
             return xmlMapper.readValue(is, valueType);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Mapping problem while loading xml file");
         } catch (JsonParseException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Parsing problem while loading xml file");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("File reading problem while loading xml file");
         }
     }
 
@@ -60,14 +57,11 @@ public class XMLPersister {
         try {
             xmlMapper.writeValue(file, value);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Mapping problem while saving xml file");
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("Problem writing xml to file");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new PersistException(""); // FIXME: 24/09/2021
+            throw new PersistException("File writing problem while saving xml file");
         }
     }
 }
