@@ -29,7 +29,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SaveGameMementoTests {
+/**
+ * These tests test whether a game state can be saved and restored successfully
+ */
+public class SaveRestoreGameMementoTests {
 
     /**
      * GameMemento object for testing.
@@ -53,7 +56,7 @@ public class SaveGameMementoTests {
         terrains.add(Teleporter.makeInstance(new Coord(0,0)));
 
         testMemento = new GameMemento(2, 2, gameObjects, gameObjectLocations, gameObjectMoveControllers,
-                terrains, 6, new Running(), 7);
+                terrains, 6, new Running(), 7, true);
     }
 
     /**
@@ -148,47 +151,26 @@ public class SaveGameMementoTests {
                 && loaded.getGameObjectMoveControllers().get(0).toString().contains("PlayerController")
                 && loaded.getTerrains().get(0).toString().equals("Key tile Green")
                 && loaded.getTerrains().get(1).toString().equals("Door  Green")
-                && loaded.getTerrains().get(2).toString().equals("Teleporter");
+                && loaded.getTerrains().get(2).toString().equals("Teleporter")
+                && loaded.getIsExitOpen()==true;
     }
+
+    static class TestWorld2 extends World {
+        public void collectedChip() {}
+        public void openedDoor() {}
+        public void enteredExit() {}
+        public void enteredInfo(String msg) {}
+        public void leftInfo() {}
+        public void playerLost() {}
+        public void playerGainedItem(Item item) {}
+        public void playerConsumedItem(Item item) {}
+        public void objectTeleported() {}
+        public void objectPushed() {}
+        public void eventOccured(GameEvent e) { }
+        public String toString() {
+            return super.toString();
+        }
+    }
+
 }
 
-class TestWorld2 extends World {
-    @Override
-    public void collectedChip() {}
-
-    @Override
-    public void openedDoor() {}
-
-    @Override
-    public void enteredExit() {}
-
-    @Override
-    public void enteredInfo(String msg) {}
-
-    @Override
-    public void leftInfo() {}
-
-    @Override
-    public void playerLost() {}
-
-    @Override
-    public void playerGainedItem(Item item) {}
-
-    @Override
-    public void playerConsumedItem(Item item) {}
-
-    @Override
-    public void objectTeleported() {}
-
-    @Override
-    public void objectPushed() {}
-
-    @Override
-    public void eventOccured(GameEvent e) {
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-}

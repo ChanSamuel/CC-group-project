@@ -4,7 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 import org.junit.Rule;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -19,6 +19,9 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
+/**
+ * These tests test the functionality of the LevelHandling class
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class LevelHandlingTests {
 
@@ -35,29 +38,37 @@ public class LevelHandlingTests {
     ArgumentCaptor<Object> levelMementoCaptor;
 
     @Rule
-    ExpectedException exceptionRule = ExpectedException.none();
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void saveLevel1() throws PersistException {
+    public void loadSaveLevel1() throws PersistException {
+        saveLevel1();
+        loadLevel1();
+    }
+
+    //@Test fixme
+    public void loadSaveLevel2() throws PersistException {
+        saveLevel2();
+        loadLevel2();
+    }
+
+    private void saveLevel1() throws PersistException {
         LevelHandler.saveLevelOne();
-
-// FIXME: 24/09/2021
-
-//        doNothing().when(parser).save(any(File.class), levelMementoCaptor);
-//        Level levelCaptured = ((LevelMemento)levelMementoCaptor.getValue()).toLevel();
     }
 
-    @Test
-    public void loadLevel1() throws FileNotFoundException, PersistException {
-
-        Level levelOne = LevelHandler.getLevel(1);
-        assertEquals(16, levelOne.rows);
-
-// FIXME: 24/09/2021 
-//        doNothing().when(domain).loadLevelData(levelArgumentCaptor.capture());
-//        doNothing().when(domain).doneLoading();
-//        LevelHandler.loadLevel(1, domain);
-//        Level levelCapture = levelArgumentCaptor.getValue();
-        
+    private void saveLevel2() throws PersistException {
+        LevelHandler.saveLevelTwo();
     }
+
+    private void loadLevel1() throws PersistException {
+        Level l1 = LevelHandler.getLevel(1);
+        assertEquals(16, l1.columns);
+        assertEquals(16, l1.rows);
+    }
+    private void loadLevel2() throws PersistException {
+        Level l1 = LevelHandler.getLevel(2);
+        //assertEquals(16, l1.columns); todo
+        //assertEquals(16, l1.rows); todo
+    }
+
 }
