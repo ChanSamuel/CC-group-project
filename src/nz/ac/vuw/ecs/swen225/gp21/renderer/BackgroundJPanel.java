@@ -23,51 +23,19 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
  */
 @SuppressWarnings("serial")
 class BackgroundJPanel extends JPanel {
-	/**
-	 * The board
-	 */
-	Board board;
-	/**
-	 * The tiles image
-	 */
-	BufferedImage tileImage;
-	/**
-	 * The teleporter image
-	 */
+	private Board board;
+	private BufferedImage tileImage;
 	private BufferedImage telePorterImage;
-	/**
-	 * The exit lock image
-	 */
-	private BufferedImage exitLockImage;
-	/**
-	 * The exit tile image
-	 */
 	private BufferedImage exitTileImage;
-	/**
-	 * The one way east image
-	 */
 	private BufferedImage oneWayEastImage;
-	/**
-	 * The one way west image
-	 */
 	private BufferedImage oneWayWestImage;
-	/**
-	 * The one way north image
-	 */
 	private BufferedImage oneWayNorthImage;
-	/**
-	 * The one way south image
-	 */
 	private BufferedImage oneWaySouthImage;
+	private BufferedImage infoImage;
 	/**
-	 * The padding
+	 * The padding for one way tiles
 	 */
 	private final int PADDING = 10;
-	/**
-	 * The info image
-	 */
-	private BufferedImage infoImage;
-	private boolean drawCurrentPanel;
 	private static volatile BackgroundJPanel backgroundJPanel = null;
 
 	/**
