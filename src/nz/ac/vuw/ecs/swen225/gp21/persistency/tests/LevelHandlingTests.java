@@ -1,8 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.*;
 import org.junit.Rule;
@@ -21,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 
 /**
  * These tests test the functionality of the LevelHandling class.
@@ -43,6 +43,9 @@ public class LevelHandlingTests {
     @Captor
     ArgumentCaptor<Object> levelMementoCaptor;
 
+    @Captor
+    ArgumentCaptor<GameObject> gameObjectCaptor;
+
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
@@ -56,13 +59,18 @@ public class LevelHandlingTests {
         assertEquals(16, level1Capture.rows);
     }
 
-//    @Test fixme
+    @Test
     public void loadLevel2() throws PersistException {
         doNothing().when(domain).loadLevelData(levelCaptor.capture());
+        doNothing().when(domain).addGameObject(gameObjectCaptor.capture(), any(Coord.class));
         doNothing().when(domain).doneLoading();
         LevelHandler.loadLevel(2, domain);
         Level level2Capture = levelCaptor.getValue();
-        // todo add some assertions
+        // assertEquals(16, level2Capture.columns); todo assert some things
+
+        GameObject secondActor = gameObjectCaptor.getValue();
+        assertEquals('D', secondActor.boardChar());
+        assertEquals("Dragon", secondActor.getName());
     }
 
     @Test
@@ -72,22 +80,13 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void saveLevel1CaptureMemento() throws PersistException, IOException {
+    public void saveLevelsCaptureMemento() throws PersistException, IOException {
         doNothing().when(xmlMapper).writeValue(any(File.class), levelMementoCaptor.capture());
-        LevelHandler.saveLevelOne(xmlMapper);
+        LevelHandler.saveLevels(xmlMapper);
         Object memento1 = levelMementoCaptor.getValue();
         Level level1 = LevelHandler.mementoToLevel(memento1);
         assertEquals(16, level1.rows);
         assertEquals(16, level1.columns);
-    }
-
-//    @Test fixme
-    public void saveLevel2CaptureMemento() throws PersistException, IOException {
-        doNothing().when(xmlMapper).writeValue(any(File.class), levelMementoCaptor.capture());
-        LevelHandler.saveLevelTwo(xmlMapper);
-        Object memento2 = levelMementoCaptor.getValue();
-        Level level2 = LevelHandler.mementoToLevel(memento2);
-        // todo add some assertions
     }
 
     @Test
@@ -103,13 +102,8 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void saveLevel1XML() throws PersistException {
-        LevelHandler.saveLevelOne(new XmlMapper());
-    }
-
-//    @Test fixme
-    public void saveLevel2XML() throws PersistException {
-        LevelHandler.saveLevelTwo(new XmlMapper());
+    public void saveLevelsXML() throws PersistException {
+        LevelHandler.saveLevels(new XmlMapper());
     }
 
     @Test
@@ -119,14 +113,8 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void saveLevel1NullMapper() throws PersistException {
-        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevelOne(null);});
-        assertEquals("Error saving level 1", exception.getMessage());
-    }
-
-    @Test
-    public void saveLevel2NullMapper() throws PersistException {
-        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevelTwo(null);});
-        assertEquals("Error saving level 2", exception.getMessage());
+    public void saveLevelsNullMapper() throws PersistException {
+        PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevels(null);});
+        assertEquals("Error saving levels", exception.getMessage());
     }
 }

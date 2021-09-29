@@ -2,8 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;

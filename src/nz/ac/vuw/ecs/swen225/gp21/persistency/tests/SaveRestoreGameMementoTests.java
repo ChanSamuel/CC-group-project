@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,12 +122,15 @@ public class SaveRestoreGameMementoTests {
         File f = new File("memento_save_with_persister.xml");
         XMLPersister persister = new XMLPersister(xmlMapper);
         persister.save(f, testMemento);
-        GameMemento loadedMemento = xmlMapper.readValue(new FileInputStream(f), GameMemento.class);
+        GameMemento loadedMemento;
+        try (FileInputStream fis = new FileInputStream(f)) {
+            loadedMemento = xmlMapper.readValue(fis, GameMemento.class);
+        }
         assertTrue(sameAsTest(loadedMemento));
     }
 
     @Test
-    public void saveLoadWorldWithCaretaker() throws PersistException {
+    public void saveLoadWorldWithCaretaker() throws PersistException, IOException {
         File f = new File("memento_save_with_caretaker.xml");
         Domain domain = new TestWorld2() {
             @Override
@@ -135,18 +139,18 @@ public class SaveRestoreGameMementoTests {
             }
         };
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        try {
             gameCaretaker.saveGame(f);
-            FileInputStream stream = new FileInputStream(f);
-            GameMemento loadedMemento = gameCaretaker.getMemento(stream);
-            assertTrue(sameAsTest(loadedMemento));
-        } catch (IOException e) {
-            fail();
+        GameMemento loadedMemento;
+        try (FileInputStream stream = new FileInputStream(f)) {
+            loadedMemento = gameCaretaker.getMemento(stream);
         }
+        assertTrue(sameAsTest(loadedMemento));
+
     }
 
     private boolean sameAsTest(GameMemento loaded) {
-        return loaded.getRows() == 2
+        return  loaded != null
+                && loaded.getRows() == 2
                 && loaded.getCols() == 2
                 && loaded.getUpdates() == 6
                 && loaded.getTotalTreasure() == 7
