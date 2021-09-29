@@ -12,7 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 
 /**
  * a temp JFrame for playing with maze
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
 public class WorldJFrame extends JFrame{
