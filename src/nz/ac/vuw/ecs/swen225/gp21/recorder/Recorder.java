@@ -14,6 +14,7 @@ public class Recorder {
     private int level;
     private List<GameUpdate> updates;
     private int pointer;
+    private boolean loadedGame = false;
 
     public Recorder(){
         this.pointer = 0;
@@ -24,6 +25,7 @@ public class Recorder {
      * Adds one update to the list of stored updates
      */
     public void add(GameUpdate update) throws RecorderException {
+        if(loadedGame) throw new RecorderException("Cannot add ticks to a pre-recorded game. Use clear() to remove a loaded game.");
         if(updateValid(update)) updates.add(update);
         else throw new RecorderException("null tick added");
     }
@@ -33,8 +35,10 @@ public class Recorder {
      * Returned as a list to allow for 'simultaneous' actions 
      * (e.g. player pushes a box, so player and box both move)
      * @return next command, or no command if user has reached the end of the recording
+     * @throws RecorderException
      */
-    public List<GameUpdate> next(){
+    public List<GameUpdate> next() throws RecorderException{
+        if(!loadedGame) throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
         List<GameUpdate> l = new LinkedList<>();
         if(pointer < updates.size()-1) pointer++;
         else return l; // return empty list if reached last command
@@ -56,8 +60,10 @@ public class Recorder {
      * Returned as a list to allow for 'simultaneous' actions 
      * (e.g. player pushes a box, so player and box both move)
      * @return prev command, or no command if user has reached the start of the recording
+     * @throws RecorderException
      */
-    public List<GameUpdate> prev(){
+    public List<GameUpdate> prev() throws RecorderException{
+        if(!loadedGame) throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
         List<GameUpdate> l = new LinkedList<>();
         if(pointer > 0) pointer--;
         else return l; // return empty list if reached first command
@@ -88,7 +94,8 @@ public class Recorder {
     }
 
     /**
-     * Returns a loaded 
+     * Sets the current Recorder's fields to represent a recorded game.
+     * Once a game is loaded, the next() and prev() methods can be used to navigate the game
      * 
      * @return A list of all game states in loaded recording
      * @throws RecorderException
@@ -98,10 +105,20 @@ public class Recorder {
         updates = r.getUpdates();
         level = r.getLevel();
         pointer = 0;
+        loadedGame = true;
     }
 
     /**
-     * Sets the leve to which the current recorder object refers.
+     * Clears the command list and resets the pointer to index 0
+     */
+    public void clear(){
+        updates.clear();
+        pointer = 0;
+        loadedGame = false;
+    }
+
+    /**
+     * Sets the level to which the current recorder object refers.
      * 
      * @param level
      * @return true if level input is valid (i.e. >1)
