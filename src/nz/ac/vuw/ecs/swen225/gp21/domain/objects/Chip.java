@@ -97,7 +97,9 @@ public class Chip extends GameObject {
    */
   public void addItem(Item item) {
     this.inventory.add(item);
-    currentTile.board.getWorld().playerGainedItem(item);
+    if (currentTile != null) {
+      currentTile.board.getWorld().playerGainedItem(item);
+    }
   }
 
   /**
@@ -117,7 +119,9 @@ public class Chip extends GameObject {
    */
   public void removeItem(Item item) {
     this.inventory.remove(item);
-    currentTile.board.getWorld().playerConsumedItem(item);
+    if (currentTile != null) {
+      currentTile.board.getWorld().playerConsumedItem(item);
+    }
   }
 
   @Override
