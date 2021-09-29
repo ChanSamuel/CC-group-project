@@ -46,7 +46,10 @@ class ChangingElementsJPanel extends JPanel {
 	private ChangingElementsJPanel() {
 
 	}
-
+	/**
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * @return the static instance of this class
+	 */
 	public static ChangingElementsJPanel getInstance() {
 		if(changingElementsJPanel==null) {
 			synchronized (ChangingElementsJPanel.class) {

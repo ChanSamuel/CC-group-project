@@ -3,15 +3,11 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JComponent;
 
-import net.bytebuddy.description.modifier.SynchronizationState;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
@@ -23,9 +19,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 /**
  * This is the door JComponent, update when door unlocked.
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
+@SuppressWarnings("serial")
 public class DoorJComponent extends JComponent {
 	protected MainJPanel mainJPanel;
 	private BufferedImage doorsImage;
@@ -38,13 +35,13 @@ public class DoorJComponent extends JComponent {
 	private static volatile DoorJComponent doorJComponent=null;
 
 	/**
-	 * The constructor
+	 * The constructor, Use singleton pattern so set constructor to private, then it won't get initialized by other classes.
 	 */
 	private DoorJComponent() {
-		
 	}
 	/**
 	 * Init the JPanel
+	 * @param mainJPanel the main JPanel which holds all the data from other modules.
 	 */
 	void init(MainJPanel mainJPanel) {
 		this.mainJPanel = mainJPanel;
@@ -67,7 +64,8 @@ public class DoorJComponent extends JComponent {
 		}
 	}
 	/**
-	 * Get the instance of this class
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * @return the static instance of this class
 	 */
 	public static DoorJComponent getInstance() {
 		if(doorJComponent==null) {
@@ -92,10 +90,7 @@ public class DoorJComponent extends JComponent {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
-		// set the board.
-		Board board = mainJPanel.getBoard();
 		// iterating through the board, draw image based on Tile's terrain type.
 		for(Coord coord:doorMap.keySet()) {
 			int i = coord.getColumn();
@@ -112,6 +107,14 @@ public class DoorJComponent extends JComponent {
 		}
 		drawDoor(g,currentTerrain,offSet,currentI,currentJ);
 	}
+	/**
+	 * The method for draw a door
+	 * @param g the graphics
+	 * @param terrain current terrain
+	 * @param offset offset of the door
+	 * @param i the door's row
+	 * @param j the door's col
+	 */
 	private void drawDoor(Graphics g, Terrain terrain, int offset,int i,int j) {
 		if (terrain instanceof SilverDoor) {
 			// draw silver Door
@@ -139,7 +142,7 @@ public class DoorJComponent extends JComponent {
 
 /**
  * This is a subclass used for implement the door animation.
- * @author mengli
+ * @author limeng7 300525081
  *
  */
 class DoorMoving extends Thread {
