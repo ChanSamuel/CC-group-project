@@ -89,4 +89,7 @@ public abstract class Monster extends GameObject {
   public String toString() {
     return super.toString() + "Monster";
   }
+
+  @Override
+  public abstract GameObject clone();
 }
