@@ -41,7 +41,7 @@ public final class Info implements Terrain {
   /**
    * The message that is displayed by this tile.
    */
-  private final String message;
+  private String message;
 
   /**
    * Change the Info terrain instance.
@@ -86,6 +86,15 @@ public final class Info implements Terrain {
   @Override
   public String toString() {
     return "Info tile: " + message;
+  }
+
+  /**
+   * Get the message that the info tile holds.
+   *
+   * @return the message
+   */
+  public String getMessage() {
+    return message;
   }
 
 }
