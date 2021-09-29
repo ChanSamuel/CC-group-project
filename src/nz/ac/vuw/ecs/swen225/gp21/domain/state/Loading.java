@@ -164,11 +164,8 @@ public class Loading implements State {
     // create new board {rows, cols, terrain}
     world.setBoard(new ArrayBoard(save, world));
     // add game objects to the board and world
-    save.getGameObjects().stream().forEach(e -> {
-      e.setTile(null);
-    });
     for (int index = 0; index < save.getGameObjects().size(); index++) {
-      this.addObject(world, save.getGameObjects().get(index),
+      this.addObject(world, save.getGameObjects().get(index).clone(),
           save.getGameObjectLocations().get(index));
     }
     // set state?
