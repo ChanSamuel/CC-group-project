@@ -94,9 +94,9 @@ class BackgroundJPanel extends JPanel {
 	/**
 	 * Set the board
 	 */
-	void init(Board board) {
+	void init(MainJPanel mainJPanel) {
 		// ----------------Set the board.------------------------------------
-		this.board = board;
+		this.board = mainJPanel.getBoard();
 		// ---------------Set the properties of this JPanel------------------
 		setLayout(null);
 		setBounds(0, 0, this.board.getWidth() * WorldJPanel.TILE_WIDTH,

@@ -66,16 +66,16 @@ class ChangingElementsJPanel extends JPanel {
 	/**
 	 * initialize this JPanel
 	 */
-	void init(WorldJPanel worldJPanel) {
+	void init(MainJPanel mainJPanel) {
 		// set panel properties
 		setLayout(null);
-		setBounds(0, 0, worldJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
-				worldJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0, mainJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
+				mainJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		// initialize images
 		initImages();
 		// set the board.
-		this.board = worldJPanel.getBoard();
+		this.board = mainJPanel.getBoard();
 	}
 
 	/**

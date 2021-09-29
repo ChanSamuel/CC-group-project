@@ -131,7 +131,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = BackgroundJPanel.getInstance();
-		backgroundJPanel.init(board);
+		backgroundJPanel.init(this);
 		// The doors JComponent
 		this.doorJComponent = DoorJComponent.getInstance();
 		doorJComponent.init(this);
