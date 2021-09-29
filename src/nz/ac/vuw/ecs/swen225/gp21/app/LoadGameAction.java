@@ -28,6 +28,9 @@ public class LoadGameAction implements Action, StartAction {
 			return;
 		}
 		
+		// Reset the current recording.
+		control.recorder.clear();
+		
 		try {
 			SwingUtilities.invokeAndWait(() -> {
 				control.renderer.init(control.world, 1);

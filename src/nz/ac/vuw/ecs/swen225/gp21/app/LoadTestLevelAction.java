@@ -49,6 +49,9 @@ public class LoadTestLevelAction implements Action, StartAction {
 		control.world.loadLevelData(testLevel);
 		control.world.doneLoading();
 		
+		// Reset the current recording.
+		control.recorder.clear();
+		
 		try {
 			SwingUtilities.invokeAndWait(() -> {
 				control.renderer.gameStopped();

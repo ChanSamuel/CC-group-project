@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 import java.util.List;
 
 import nz.ac.vuw.ecs.swen225.gp21.recorder.GameUpdate;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 public class AutoTickAction implements Action {
 
@@ -14,7 +15,15 @@ public class AutoTickAction implements Action {
 			return;
 		}
 		
-		List<GameUpdate> gameUpdates = control.recorder.next();
+		List<GameUpdate> gameUpdates = null;
+		
+		try {
+			gameUpdates = control.recorder.next();
+		} catch (RecorderException e) {
+			control.warning("Stepping forward through replay failed because:\n" + e.getMessage());
+			return;
+		}
+		
 		long replayTime = -1;
 		for (int i = 0; i < gameUpdates.size(); i++) {
 			
@@ -47,7 +56,15 @@ public class AutoTickAction implements Action {
 			return;
 		}
 		
-		List<GameUpdate> gameUpdates = control.recorder.next();
+		List<GameUpdate> gameUpdates = null;
+		
+		try {
+			gameUpdates = control.recorder.next();
+		} catch (RecorderException e) {
+			control.warning("Stepping forward through replay failed because:\n" + e.getMessage());
+			return;
+		}
+		
 		long replayTime = -1;
 		for (int i = 0; i < gameUpdates.size(); i++) {
 			

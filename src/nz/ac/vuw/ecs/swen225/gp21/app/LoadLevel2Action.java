@@ -27,6 +27,9 @@ public class LoadLevel2Action implements Action, StartAction {
 			return;
 		}
 		
+		// Reset the current recording.
+		control.recorder.clear();
+		
 		if (control.world.getDomainState() instanceof Loading) {
 			control.world.doneLoading();
 		}

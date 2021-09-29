@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.GameUpdate;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 public class ForwardTickAction implements Action, AdvanceTickAction {
 	
@@ -23,7 +24,15 @@ public class ForwardTickAction implements Action, AdvanceTickAction {
 			return;
 		}
 		
-		List<GameUpdate> gameUpdates = control.recorder.next();
+		List<GameUpdate> gameUpdates = null;
+		
+		try {
+			gameUpdates = control.recorder.next();
+		} catch (RecorderException e) {
+			control.warning("Stepping forward through replay failed because:\n" + e.getMessage());
+			return;
+		}
+		
 		for (int i = 0; i < gameUpdates.size(); i++) {
 			
 			GameUpdateProxy gup = null;

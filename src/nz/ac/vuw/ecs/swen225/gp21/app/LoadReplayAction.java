@@ -35,6 +35,9 @@ public class LoadReplayAction implements Action, StartAction {
 			control.world.setState(new Loading());
 		}
 		
+		// Reset the current recording.
+		control.recorder.clear();
+		
 		try {
 			control.recorder.load(new FileInputStream(f));
 		} catch (RecorderException e1) {
