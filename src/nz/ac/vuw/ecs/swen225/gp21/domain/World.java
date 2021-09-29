@@ -140,10 +140,11 @@ public abstract class World implements Domain {
   @Override
   public void doneLoading() {
     if (!(worldState instanceof Loading)) {
-      throw new IllegalStateException("Cannot finish loading when not in loading state!");
+      throw new UnsupportedOperationException("Cannot finish loading when not in loading state!");
     }
     if (board == null) {
-      throw new IllegalStateException("doneLoading was called, but no level data was loaded!");
+      throw new UnsupportedOperationException(
+          "doneLoading was called, but no level data was loaded!");
     }
     this.worldState = new Running();
   }

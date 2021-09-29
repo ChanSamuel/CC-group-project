@@ -1,8 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.state;
 
-import java.util.*; //TODO temp addition
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Coord; //TODO temp addition
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
@@ -32,7 +33,7 @@ public final class Running implements State {
    */
   private void worldCheck(World w) {
     if (w == null) {
-      throw new RuntimeException("World is null!");
+      throw new IllegalArgumentException("World is null!");
     }
   }
 
@@ -144,6 +145,7 @@ public final class Running implements State {
 
   @Override
   public GameMemento generateSaveData(World w) {
+    this.worldCheck(w);
 
     List<Terrain> terr = new ArrayList<>();
     for (int row = 0; row < w.getBoardHeight(); row++) {
@@ -151,8 +153,13 @@ public final class Running implements State {
         terr.add(w.getBoard().getTileAt(new Coord(row, col)).getTerrain());
       }
     }
+    // clone all the game objects
+    List<GameObject> response = new ArrayList<>();
+    w.getEntities().stream().forEach(o -> {
+      response.add(o.clone());
+    });
 
-    return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), w.getEntities(),
+    return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), response,
         w.getEntities().stream().map(GameObject::getTile).map(t -> {
           return t.location;
         }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(), w.totalTreasure,

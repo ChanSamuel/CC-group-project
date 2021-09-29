@@ -6,11 +6,18 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author sansonbenj 300482847
  *
  */
-public interface Item {
+public interface Item extends Cloneable {
   /**
    * Get the colour of this item.
    *
    * @return the colour of this item
    */
   public String getColour();
+
+  /**
+   * Clone an item.
+   *
+   * @return a deep copy of the item.
+   */
+  public Item clone();
 }

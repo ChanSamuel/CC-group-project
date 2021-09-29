@@ -1,16 +1,12 @@
 package test.nz.ac.vuw.ecs.swen225.gp21.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
-
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 
@@ -52,7 +48,6 @@ class resetTests {
   void testUndoTreasure() {
     System.out.println("TEST ONE!");
     Domain domain = new TestWorld();
-    List<Tick> ticks = new ArrayList<>();
     domain.loadLevelData(testLevel);
     domain.doneLoading();
     domain.moveChipDown();
@@ -66,18 +61,21 @@ class resetTests {
     domain.moveChipDown();
     domain.moveChipDown();
     for (int sims = 0; sims < 11; sims++) {
-      ticks.add(domain.update(200));
+      domain.update(200);
     }
-    ticks.get(ticks.size() - 1).isFinalTick = true;
     System.out.println(domain.toString());
-    domain = new TestWorld();
+
+    TestWorld newWor = new TestWorld();
+    newWor.events = ((TestWorld) domain).events;
+
+    domain = newWor;
     domain.loadLevelData(testLevel);
     domain.doneLoading();
     domain.setState(new Replaying());
     System.out.println(domain.toString());
 
-    for (int tick = 0; tick < ticks.size(); tick++) {
-      domain.forwardTick(ticks.get(tick));
+    for (GameEvent e : newWor.events) {
+      domain.forwardTick(e);
     }
 
     assertEquals("Game is: Replaying\n" + "Is game over? -> false\n" + "PlayerQueue: \n" + "EMPTY\n"
@@ -88,8 +86,9 @@ class resetTests {
         + "5|#|#|#|#|#|#|#|#|#|#|\n", domain.toString());
     System.out.println(domain.toString());
 
-    for (int tick = ticks.size() - 1; tick != -1; tick--) {
-      domain.backTick(ticks.get(tick));
+    Collections.reverse(newWor.events);
+    for (GameEvent e : newWor.events) {
+      domain.backTick(e);
     }
 
     System.out.println(domain.toString());
@@ -109,26 +108,27 @@ class resetTests {
   @Test
   void testUndoDoor() {
     System.out.println("TEST TWO!");
-    List<Tick> ticks = new ArrayList<>();
     Domain d = new TestWorld();
     d.loadLevelData(testLevel);
     d.doneLoading();
     for (int move = 0; move < 10; move++) {
       d.moveChipRight();
-      ticks.add(d.update(200));
+      d.update(200);
     }
-    ticks.get(ticks.size() - 1).isFinalTick = true;
     System.out.println(d.toString());
     d.setState(new Loading());
     d.loadLevelData(testLevel);
     d.setState(new Replaying());
+
     System.out.println(d.toString());
-    for (int tick = 0; tick < ticks.size(); tick++) {
-      d.forwardTick(ticks.get(tick));
+    for (GameEvent e : ((TestWorld) d).events) {
+      d.forwardTick(e);
     }
+
     System.out.println(d.toString());
-    for (int tick = ticks.size() - 1; tick != -1; tick--) {
-      d.backTick(ticks.get(tick));
+    Collections.reverse(((TestWorld) d).events);
+    for (GameEvent e : ((TestWorld) d).events) {
+      d.backTick(e);
     }
     System.out.println(d.toString());
     System.out.println("TEST TWO COMPLETE");
@@ -139,7 +139,7 @@ class resetTests {
         + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
         + "5|#|#|#|#|#|#|#|#|#|#|\n";
     assertEquals(expected, d.toString());
-    System.out.println(ticks);
+    System.out.println(((TestWorld) d).events);
   }
 
   /**
@@ -148,28 +148,27 @@ class resetTests {
   @Test
   void testTeleportUndo() {
     System.out.println("TEST THREE!");
-    List<Tick> ticks = new ArrayList<>();
     Domain d = new TestWorld();
     d.loadLevelData(testLevel);
     d.doneLoading();
     for (int move = 0; move < 4; move++) {
       d.moveChipDown();
-      ticks.add(d.update(200));
+      d.update(200);
     }
     d.moveChipRight();
-    ticks.add(d.update(200));
-    ticks.get(ticks.size() - 1).isFinalTick = true;
+    d.update(200);
     System.out.println(d.toString());
     d.setState(new Loading());
     d.loadLevelData(testLevel);
     d.setState(new Replaying());
     System.out.println(d.toString());
-    for (int tick = 0; tick < ticks.size(); tick++) {
-      d.forwardTick(ticks.get(tick));
+    for (GameEvent e : ((TestWorld) d).events) {
+      d.forwardTick(e);
     }
     System.out.println(d.toString());
-    for (int tick = ticks.size() - 1; tick != -1; tick--) {
-      d.backTick(ticks.get(tick));
+    Collections.reverse(((TestWorld) d).events);
+    for (GameEvent e : ((TestWorld) d).events) {
+      d.backTick(e);
     }
     System.out.println(d.toString());
     System.out.println("TEST THREE COMPLETE");
@@ -180,7 +179,7 @@ class resetTests {
         + "2|_|_|_|_|_|c|c|_|_|_|\n" + "3|_|_|_|_|_|_|_|_|#|X|\n" + "4|_|O|_|_|_|O|c|_|#|e|\n"
         + "5|#|#|#|#|#|#|#|#|#|#|\n";
     assertEquals(expected, d.toString());
-    System.out.println(ticks);
+    System.out.println(((TestWorld) d).events);
   }
 
 }

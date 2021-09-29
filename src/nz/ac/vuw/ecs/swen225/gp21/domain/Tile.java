@@ -41,6 +41,15 @@ public final class Tile {
   }
 
   /**
+   * Create a dummy Tile for testing.
+   */
+  public Tile() {
+    this.board = null;
+    this.terrain = null;
+    this.location = null;
+  }
+
+  /**
    * Helper for replays Just set the occupier reference. This is called on the
    * tile at beforePos
    *

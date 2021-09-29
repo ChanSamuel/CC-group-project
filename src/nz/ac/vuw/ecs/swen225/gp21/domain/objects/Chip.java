@@ -19,7 +19,7 @@ public class Chip extends GameObject {
   /**
    * The number of items chip can fit in their inventory.
    */
-  public static int INVETORY_SIZE = 8;
+  public static int INVENTORY_SIZE = 8;
   /**
    * The number of treasure Chip has collected.
    */
@@ -27,7 +27,7 @@ public class Chip extends GameObject {
   /**
    * The items in Chips inventory.
    */
-  List<Item> invetory;
+  List<Item> inventory;
 
   /**
    * Create a new Chip.
@@ -36,7 +36,22 @@ public class Chip extends GameObject {
     // I don't know how to make the chip input stream
     super(new PlayerController(), Direction.NORTH, null, null);
     treasureCollected = 0;
-    invetory = new ArrayList<Item>(INVETORY_SIZE);
+    inventory = new ArrayList<Item>(INVENTORY_SIZE);
+  }
+
+  /**
+   * Cloning constructor. Make a deep copy of chip.
+   *
+   * @param chip the chip we are cloning from
+   */
+  private Chip(Chip chip) {
+    super(new PlayerController(), Direction.NORTH, null, null);
+    treasureCollected = chip.treasureCollected;
+    this.inventory = new ArrayList<>(INVENTORY_SIZE);
+    chip.inventory.stream().forEach(i -> {
+      this.inventory.add(i.clone());
+    });
+    this.currentTile = null;
   }
 
   @Override
@@ -81,8 +96,10 @@ public class Chip extends GameObject {
    * @param item the item chip picked up
    */
   public void addItem(Item item) {
-    this.invetory.add(item);
-    currentTile.board.getWorld().playerGainedItem(item);
+    this.inventory.add(item);
+    if (currentTile != null) {
+      currentTile.board.getWorld().playerGainedItem(item);
+    }
   }
 
   /**
@@ -92,7 +109,7 @@ public class Chip extends GameObject {
    * @return true if the item is in Chip's inventory
    */
   public boolean hasItem(Item item) {
-    return this.invetory.contains(item);
+    return this.inventory.contains(item);
   }
 
   /**
@@ -101,8 +118,10 @@ public class Chip extends GameObject {
    * @param item item to remove
    */
   public void removeItem(Item item) {
-    this.invetory.remove(item);
-    currentTile.board.getWorld().playerConsumedItem(item);
+    this.inventory.remove(item);
+    if (currentTile != null) {
+      currentTile.board.getWorld().playerConsumedItem(item);
+    }
   }
 
   @Override
@@ -128,11 +147,16 @@ public class Chip extends GameObject {
   private String printInvetory() {
     StringBuilder answer = new StringBuilder();
     answer.append(" Chip's Invetory: [");
-    for (Item i : invetory) {
+    for (Item i : inventory) {
       answer.append(i + ", ");
     }
     answer.append("]");
     return answer.toString();
+  }
+
+  @Override
+  public GameObject clone() {
+    return new Chip(this);
   }
 
 }

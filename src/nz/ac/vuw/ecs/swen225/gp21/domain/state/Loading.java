@@ -153,6 +153,9 @@ public class Loading implements State {
 
   @Override
   public void restoreGame(World world, GameMemento save) {
+    if (world == null) {
+      throw new IllegalArgumentException("World should not be null");
+    }
     // check for valid parameters
     checkParams(save);
     // write update field and total treasure field
@@ -161,6 +164,9 @@ public class Loading implements State {
     // create new board {rows, cols, terrain}
     world.setBoard(new ArrayBoard(save, world));
     // add game objects to the board and world
+    save.getGameObjects().stream().forEach(e -> {
+      e.setTile(null);
+    });
     for (int index = 0; index < save.getGameObjects().size(); index++) {
       this.addObject(world, save.getGameObjects().get(index),
           save.getGameObjectLocations().get(index));
@@ -170,10 +176,12 @@ public class Loading implements State {
     // check total treasure == chips collected + remaining in level
     assert (world.totalTreasure == world.getPlayer().treasureCollected
         + world.getBoard().getRemainingChips());
-    throw new RuntimeException("Method not implemented yet!");
   }
 
   private void checkParams(GameMemento save) {
+    if (save == null) {
+      throw new IllegalArgumentException("Save should not be null");
+    }
     // check terrain count == row * col
     if (save.getRows() * save.getCols() != save.getTerrains().size()) {
       throw new IllegalArgumentException("The save says there should be: row(" + save.getRows()

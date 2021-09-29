@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 
 /**
@@ -10,6 +12,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
  *
  */
 public final class TestWorld extends World {
+
+  /**
+   * Record events here for testing.
+   */
+  public List<GameEvent> events = new ArrayList<>();
+
   /**
    * Create a new test world. World is uninitialized Expect test world to be
    * loaded properly.
@@ -79,6 +87,7 @@ public final class TestWorld extends World {
   @Override
   public void eventOccured(GameEvent e) {
     System.out.println("Captured event: " + e);
+    this.events.add(e);
   }
 
   @Override
