@@ -87,7 +87,7 @@ public class GUIFrame extends JFrame {
 		
 		String controlsMsg = "Movement = arrow keys or WASD\n"
 							+ "Exit to menu = Ctrl + E\n"
-							+ "Load a previous game = Ctrl + X\n"
+							+ "Load a previous game = Ctrl + R\n"
 							+ "Exit program without save = Ctrl + X\n"
 							+ "Save then exit program = Ctrl + S\n"
 							+ "Save current game state = Ctrl + U\n"
