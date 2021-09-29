@@ -82,4 +82,9 @@ public final class UnmodifiableBoard implements Board {
     return actual.isExitOpen();
   }
 
+  @Override
+  public String toString() {
+    return actual.toString();
+  }
+
 }
