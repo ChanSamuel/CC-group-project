@@ -11,7 +11,7 @@ import java.io.InputStream;
  *
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-public abstract class GameObject {
+public abstract class GameObject implements Cloneable {
   /**
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
@@ -161,5 +161,8 @@ public abstract class GameObject {
     return "GameObject: " + getClass().getSimpleName() + " facing->" + dir + " at->"
         + (currentTile == null ? "No location" : currentTile.location);
   }
+
+  @Override
+  public abstract GameObject clone();
 
 }
