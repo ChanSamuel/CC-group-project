@@ -166,7 +166,8 @@ public class GameCaretaker {
             throw new PersistException("File to save a game to must be a .xml file.");
         }
         XMLPersister parser = new XMLPersister(xmlMapper);
-        parser.save(fileToSave, domain.generateSaveData());
+        GameMemento gameMemento = domain.generateSaveData();
+        parser.save(fileToSave, gameMemento);
     }
 
 }
