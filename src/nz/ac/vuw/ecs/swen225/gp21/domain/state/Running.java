@@ -152,8 +152,13 @@ public final class Running implements State {
         terr.add(w.getBoard().getTileAt(new Coord(row, col)).getTerrain());
       }
     }
+    // clone all the game objects
+    List<GameObject> response = new ArrayList<>();
+    w.getEntities().stream().forEach(o -> {
+      response.add(o.clone());
+    });
 
-    return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), w.getEntities(),
+    return new GameMemento(w.getBoardHeight(), w.getBoardWidth(), response,
         w.getEntities().stream().map(GameObject::getTile).map(t -> {
           return t.location;
         }).collect(Collectors.toList()), null, terr, w.updates, w.getDomainState(), w.totalTreasure,
