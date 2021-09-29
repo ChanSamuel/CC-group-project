@@ -40,7 +40,7 @@ public final class RandomMovement implements MovementController {
    *                  will move each second
    */
   public RandomMovement(double frequency) {
-    if (frequency < 0) {
+    if (frequency <= 0) {
       throw new IllegalArgumentException(
           "the frequency of random movements must be positive: " + frequency);
     }

@@ -1,6 +1,6 @@
 package test.nz.ac.vuw.ecs.swen225.gp21.domain;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -176,6 +176,54 @@ class RandomMoveTest {
     int moves = ((TestWorld) domain).events.size();
     System.out.println("There were " + moves + " moves made by the generic object");
     assertTrue(moves == 1);
+  }
+
+  @Test
+  void tryBadParamInput() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      Domain domain = new TestWorld(); // make the test domain
+      domain.loadLevelData(testLevel); // and add an anonymous GameObject that moves 10 times per
+                                       // second
+      domain.addGameObject(new GameObject(new RandomMovement(0), null, null) {
+
+        @Override
+        public boolean canEntityGoOnTile(GameObject entity) {
+          return false;
+        }
+
+        @Override
+        public void entityEnteredTile(GameObject entity) {
+          throw new RuntimeException(
+              "Entity entered onto tile with object that cannot be stepped on");
+        }
+
+        @Override
+        public void update(double elapsedTime, World w) {
+          this.controller.update(w, this, elapsedTime).execute(w);
+        }
+
+        @Override
+        public String getName() {
+          return "GenericObject";
+        }
+
+        @Override
+        public String toString() {
+          return "Generic Object [ " + (getTile() != null ? getTile().location : "No location")
+              + " ]";
+        }
+
+        @Override
+        public char boardChar() {
+          return '&';
+        }
+
+        @Override
+        public GameObject clone() {
+          return this;
+        }
+      }, new Coord(4, 4));
+    });
   }
 
 }
