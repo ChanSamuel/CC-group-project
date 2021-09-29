@@ -25,4 +25,9 @@ public final class PlayerController implements MovementController {
     return c;
   }
 
+  @Override
+  public MovementController Clone() {
+    return new PlayerController();
+  }
+
 }

@@ -49,6 +49,11 @@ public final class RandomMovement implements MovementController {
     this.timeToNextMove = (1.0 / frequency) * 1000.0;
   }
 
+  private RandomMovement(RandomMovement randomMovement) {
+    this.frequency = randomMovement.frequency;
+    this.timeToNextMove = randomMovement.timeToNextMove;
+  }
+
   @Override
   public Command update(World w, GameObject o, double elapsedTime) {
     timeToNextMove -= elapsedTime;
@@ -81,5 +86,10 @@ public final class RandomMovement implements MovementController {
     } else { // TODO needs testing
       return new MoveRight(o);
     }
+  }
+
+  @Override
+  public MovementController Clone() {
+    return new RandomMovement(this);
   }
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  *
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-public interface MovementController {
+public interface MovementController extends Cloneable {
   /**
    * Generate the command that the object this controller represents wants to do.
    * NOTE: If your movement controller decides to do nothing, it should append a
@@ -28,4 +28,11 @@ public interface MovementController {
    * @return the command the gameObject wants to perform
    */
   public Command update(World w, GameObject o, double elapsedTime);
+
+  /**
+   * Clone the movement controller to enable deep clones of GameObjects.
+   *
+   * @return a clone of the movement controller
+   */
+  public MovementController Clone();
 }
