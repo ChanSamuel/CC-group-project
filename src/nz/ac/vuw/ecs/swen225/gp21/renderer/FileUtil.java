@@ -19,7 +19,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class FileUtil {
 	/**
-	 * Make this tool class's constructor private
+	 * Set this tool class's constructor private
 	 */
 	private FileUtil() {
 		
@@ -70,6 +70,8 @@ public class FileUtil {
 	}
 	/**
 	 * A method for returning a gif.
+	 * @param path the filepath
+	 * @return an image
 	 */
 	static Image getGIF(String path) {
 		URL url = getURL("images",path);
