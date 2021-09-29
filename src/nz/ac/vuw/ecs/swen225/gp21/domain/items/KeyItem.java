@@ -58,4 +58,9 @@ public final class KeyItem implements Item {
     return Objects.equals(color, other.color);
   }
 
+  @Override
+  public Item clone() {
+    return new KeyItem(new String(this.color));
+  }
+
 }

@@ -40,7 +40,7 @@ public class Chip extends GameObject {
   }
 
   /**
-   * Cloning constructor.
+   * Cloning constructor. Make a deep copy of chip.
    *
    * @param chip the chip we are cloning from
    */
@@ -48,6 +48,10 @@ public class Chip extends GameObject {
     super(new PlayerController(), Direction.NORTH, null, null);
     treasureCollected = chip.treasureCollected;
     this.inventory = new ArrayList<>(INVENTORY_SIZE);
+    chip.inventory.stream().forEach(i -> {
+      this.inventory.add(i.clone());
+    });
+    this.currentTile = null;
   }
 
   @Override

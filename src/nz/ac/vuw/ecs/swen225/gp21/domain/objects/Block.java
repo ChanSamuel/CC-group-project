@@ -23,6 +23,16 @@ public final class Block extends GameObject {
     super(new NoMovement(), null, null);
   }
 
+  /**
+   * Create a deep copy of a block.
+   *
+   * @param block the block being cloned
+   */
+  private Block(Block block) {
+    super(new NoMovement(), null, null);
+    this.currentTile = null;
+  }
+
   @Override
   public boolean canEntityGoOnTile(GameObject entity) {
     if (entity instanceof Chip) { // Only chip can enter the tile the block is on
@@ -105,4 +115,10 @@ public final class Block extends GameObject {
   public String toString() {
     return super.toString() + " " + getClass().getSimpleName();
   }
+
+  @Override
+  public GameObject clone() {
+    return new Block(this);
+  }
+
 }
