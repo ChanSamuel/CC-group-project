@@ -25,7 +25,7 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	private Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
-	private static WrapperJPanel wrapperJPanel = new WrapperJPanel();
+	private static volatile WrapperJPanel wrapperJPanel = null;
 	/**
 	 * Constructor of WrapperJPanel
 	 * @param domain
@@ -53,6 +53,13 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	 * Get the instance of WrapperJPanel class
 	 */
 	public static WrapperJPanel getInstance() {
+		if(wrapperJPanel==null) {
+			synchronized (WrapperJPanel.class) {
+				if(wrapperJPanel==null) {
+					wrapperJPanel = new WrapperJPanel();
+				}
+			}
+		}
 		return wrapperJPanel;
 	}
 
