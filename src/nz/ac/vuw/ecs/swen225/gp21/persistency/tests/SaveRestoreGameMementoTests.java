@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import nz.ac.vuw.ecs.swen225.gp21.app.Main;
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
@@ -57,6 +58,7 @@ public class SaveRestoreGameMementoTests {
         terrains.add(GreenKey.getInstance());
         terrains.add(GreenDoor.getInstance());
         terrains.add(Teleporter.makeInstance(new Coord(0,0)));
+        terrains.add(Info.getInstance());
 
         testMemento = new GameMemento(2, 2, gameObjects, gameObjectLocations, gameObjectMoveControllers,
                 terrains, 6, new Running(), 7, true);
@@ -102,6 +104,12 @@ public class SaveRestoreGameMementoTests {
                 new NamedType(Wall.class, "Wall")
         );
         xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
+    }
+
+
+    @Test
+    public void saveRealDomain() {
+
     }
 
     @Test
