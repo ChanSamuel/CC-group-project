@@ -14,34 +14,42 @@ class LevelTests {
     // test invalid args 3x
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(-1, -1, "", "", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(10, -1, "", "", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(0, 10, "", "", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(3, 3, "...", "..", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(10, 10, ".", ".", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(1, 1, " ", ".", "null");
+      l.addGameObject(null, null);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
       Level l = new Level(1, 1, ".", " ", "null");
+      l.addGameObject(null, null);
     });
 
     assertDoesNotThrow(() -> {
       Level l = new Level(1, 1, ".", ".", "null");
+      l.addGameObject(null, null);
     });
   }
 
