@@ -207,7 +207,7 @@ public class WorldJPanel extends JPanel {
 	/**
 	 * Get chap's current location
 	 */
-	Coord getChapCoord() {
+	Coord getHeroCoord() {
 		return domain.getPlayerLocation();
 	}
 
@@ -216,7 +216,7 @@ public class WorldJPanel extends JPanel {
 	 * 
 	 * @param domain
 	 */
-	public void redraw(Domain domain) {
+	void redraw(Domain domain) {
 		if (this.playerCoord.getColumn() != this.domain.getPlayerLocation().getColumn()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
 			this.playerCoord = this.domain.getPlayerLocation();
@@ -227,7 +227,7 @@ public class WorldJPanel extends JPanel {
 		}
 	}
 
-	public void setLevel(int level) {
+	void setLevel(int level) {
 		this.level = level;
 	}
 
@@ -235,7 +235,7 @@ public class WorldJPanel extends JPanel {
 	 * Play sound effect, this method should be called when event such as pick up a
 	 * chip, pick up a key, open the door etc.
 	 */
-	public static void playSound(SoundType soundType) {
+	static void playSound(SoundType soundType) {
 		try {
 			
 				switch (soundType) {
