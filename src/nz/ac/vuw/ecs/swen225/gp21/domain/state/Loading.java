@@ -170,7 +170,6 @@ public class Loading implements State {
     // check total treasure == chips collected + remaining in level
     assert (world.totalTreasure == world.getPlayer().treasureCollected
         + world.getBoard().getRemainingChips());
-    throw new RuntimeException("Method not implemented yet!");
   }
 
   private void checkParams(GameMemento save) {
