@@ -50,7 +50,7 @@ public class LevelHandlingTests {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void loadLevel1() throws PersistException {
+    public void testLoadLevel1Ok() throws PersistException {
         doNothing().when(domain).loadLevelData(levelCaptor.capture());
         doNothing().when(domain).doneLoading();
         LevelHandler.loadLevel(1, domain);
@@ -60,13 +60,13 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void loadLevel2() throws PersistException {
+    public void testLoadLevel2Ok() throws PersistException {
         doNothing().when(domain).loadLevelData(levelCaptor.capture());
         doNothing().when(domain).addGameObject(gameObjectCaptor.capture(), any(Coord.class));
         doNothing().when(domain).doneLoading();
         LevelHandler.loadLevel(2, domain);
         Level level2Capture = levelCaptor.getValue();
-        // assertEquals(16, level2Capture.columns); todo assert some things
+        //assertEquals(16, level2Capture.columns); // todo assert some things
 
         GameObject secondActor = gameObjectCaptor.getValue();
         assertEquals('D', secondActor.boardChar());
@@ -74,13 +74,13 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void loadLevel0() throws PersistException {
+    public void testLoadLevel0ThrowsException() throws PersistException {
         exceptionRule.expect(PersistException.class);
         LevelHandler.loadLevel(0, domain);
     }
 
     @Test
-    public void saveLevelsCaptureMemento() throws PersistException, IOException {
+    public void testSaveLevelsOk() throws PersistException, IOException {
         doNothing().when(xmlMapper).writeValue(any(File.class), levelMementoCaptor.capture());
         LevelHandler.saveLevels(xmlMapper);
         Object memento1 = levelMementoCaptor.getValue();
@@ -90,30 +90,30 @@ public class LevelHandlingTests {
     }
 
     @Test
-    public void nullMementoToLevel() throws PersistException {
+    public void testNullMementoToLevelThrowsException() throws PersistException {
         exceptionRule.expect(PersistException.class);
         LevelHandler.mementoToLevel(null);
     }
 
     @Test
-    public void notMementoToLevel() throws PersistException {
+    public void testNonMementoToLevelThrowsException() throws PersistException {
         exceptionRule.expect(PersistException.class);
         LevelHandler.mementoToLevel("Lorem ipsum");
     }
 
     @Test
-    public void saveLevelsXML() throws PersistException {
+    public void testSaveLevelsXMLOk() throws PersistException {
         LevelHandler.saveLevels(new XmlMapper());
     }
 
     @Test
-    public void testLoadLevelNullDomain() throws PersistException {
+    public void testLoadLevelNullDomainThrowsException() throws PersistException {
         PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.loadLevel(1, null);});
         assertEquals("Error loading level 1", exception.getMessage());
     }
 
     @Test
-    public void saveLevelsNullMapper() throws PersistException {
+    public void testSaveLevelsNullMapperThrowsException() throws PersistException {
         PersistException exception = assertThrows(PersistException.class, ()->{LevelHandler.saveLevels(null);});
         assertEquals("Error saving levels", exception.getMessage());
     }

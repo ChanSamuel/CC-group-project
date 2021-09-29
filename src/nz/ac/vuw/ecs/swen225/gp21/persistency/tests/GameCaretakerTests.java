@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,7 +27,7 @@ public class GameCaretakerTests {
     Domain domain;
 
     @Test
-    public void testNullGameCaretaker() throws PersistException {
+    public void testNullDomainThrowsException() throws PersistException {
         PersistException exception = assertThrows(PersistException.class, ()->{new GameCaretaker(null);});
         assertEquals("Cannot persist a null game", exception.getMessage());
     }
@@ -42,7 +43,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadNullGame() throws PersistException {
+    public void testLoadNullGameThrowsException() throws PersistException {
         File nullFile = null;
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nullFile);});
@@ -50,7 +51,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadGameNonXml() throws PersistException {
+    public void testLoadNonXmlGameThrowsException() throws PersistException {
         File nonXml = new File("nonXml.txt");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nonXml);});
@@ -58,7 +59,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void testLoadGameFileNotFoundException() throws PersistException {
+    public void testLoadGameFileNotFoundExceptionThrowsPersistException() throws PersistException {
         File nonExistXml = new File("thisDoesNotExist.xml");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.loadGame(nonExistXml);});
@@ -66,7 +67,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void saveNullGame() throws PersistException {
+    public void saveNullGameThrowsException() throws PersistException {
         File nullFile = null;
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nullFile);});
@@ -74,7 +75,7 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void saveNonXmlGame() throws PersistException {
+    public void saveNonXmlGameThrowsException() throws PersistException {
         File nonXml = new File("nonXml.txt");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
@@ -82,10 +83,17 @@ public class GameCaretakerTests {
     }
 
     @Test
-    public void saveNonXmlGame2() throws PersistException {
+    public void saveNonXmlGame2ThrowsException() throws PersistException {
         File nonXml = new File("nonXml");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
         PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
         assertEquals("File to save a game to must be a .xml file.", exception.getMessage());
+    }
+
+    @Test
+    public void testGetMementoNulLFilestreamThrowsException() throws PersistException {
+        GameCaretaker gameCaretaker = new GameCaretaker(domain);
+        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.getMemento(null);});
+        assertEquals("Loading game failed", exception.getMessage());
     }
 }

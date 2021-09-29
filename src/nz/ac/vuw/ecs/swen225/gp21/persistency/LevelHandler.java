@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -45,7 +47,11 @@ public class LevelHandler {
         domain.loadLevelData(levelToLoad);
 
         if (levelNumber == 2) {
-            domain.addGameObject(getSecondActor(), new Coord(1,1)); // FIXME use correct coordinate
+            try {
+                domain.addGameObject(getSecondActor(), new Coord(1, 1)); // FIXME use correct coordinate
+            } catch (Exception e) {
+                throw new PersistException("Error loading logic for level 2 actor");
+            }
         }
 
         domain.doneLoading();
@@ -53,28 +59,25 @@ public class LevelHandler {
 
     /**
      * TODO
+     *
      * @return
      * @throws PersistException
      */
-    private static GameObject getSecondActor() throws PersistException {
+    private static GameObject getSecondActor() throws PersistException, MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         File jarFile = new File("levels/level2.jar");
         String className = "Dragon";
-        try {
-            URL fileURL = jarFile.toURI().toURL();
-            String jarURL = "jar:" + fileURL + "!/";
-            URL urls[] = {new URL(jarURL)};
-            URLClassLoader ucl = new URLClassLoader(urls);
-            Class clazz = Class.forName(className, false, ucl);
+        URL fileURL = jarFile.toURI().toURL();
+        String jarURL = "jar:" + fileURL + "!/";
+        URL[] urls = {new URL(jarURL)};
+        URLClassLoader ucl = new URLClassLoader(urls);
+        Class clazz = Class.forName(className, false, ucl);
+        GameCaretaker.registerMapperSubtype(clazz, clazz.getName());
 
-            InputStream leftStream = ucl.getResourceAsStream("dragon_left.gif");
-            InputStream rightStream = ucl.getResourceAsStream("dragon_right.gif");
+        InputStream leftStream = ucl.getResourceAsStream("dragon_left.gif");
+        InputStream rightStream = ucl.getResourceAsStream("dragon_right.gif");
 
-            return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
-                    .newInstance(leftStream, rightStream);
-
-        } catch (Exception e) {
-            throw new PersistException("Error loading logic for level 2 actor");
-        }
+        return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
+                .newInstance(leftStream, rightStream);
     }
 
     /**

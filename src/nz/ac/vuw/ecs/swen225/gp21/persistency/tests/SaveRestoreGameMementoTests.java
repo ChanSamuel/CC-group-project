@@ -68,31 +68,19 @@ public class SaveRestoreGameMementoTests {
     private static final XmlMapper xmlMapper;
     static {
         xmlMapper = new XmlMapper();
-
-        // Register GameObject subtypes
         xmlMapper.registerSubtypes(
                 new NamedType(Chip.class, "Chip"),
                 new NamedType(Block.class, "Block"),
-                new NamedType(Monster.class, "Monster")
-        );
+                new NamedType(Monster.class, "Monster"),
 
-        // Register MovementController subtypes
-        xmlMapper.registerSubtypes(
                 new NamedType(NoMovement.class, "NoMovement"),
                 new NamedType(PlayerController.class, "PlayerController"),
-                new NamedType(RandomMovement.class, "RandomMovement")
-        );
+                new NamedType(RandomMovement.class, "RandomMovement"),
 
-        // Register State subtypes
-        xmlMapper.registerSubtypes(
                 new NamedType(Running.class, "Running"),
                 new NamedType(GameOver.class, "GameOver"),
                 new NamedType(Loading.class, "Loading"),
-                new NamedType(Replaying.class, "Replaying")
-        );
-
-        // Register Terrain subtypes
-        xmlMapper.registerSubtypes(
+                new NamedType(Replaying.class, "Replaying"),
                 new NamedType(CopperDoor.class, "CopperDoor"),
                 new NamedType(CopperKey.class, "CopperKey"),
                 new NamedType(ExitLock.class, "ExitLock"),
@@ -113,12 +101,11 @@ public class SaveRestoreGameMementoTests {
                 new NamedType(Treasure.class, "Treasure"),
                 new NamedType(Wall.class, "Wall")
         );
-
         xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
     }
 
     @Test
-    public void saveLoadWorldWithPersister() throws PersistException, IOException {
+    public void saveLoadWorldOkWithPersister() throws PersistException, IOException {
         File f = new File("memento_save_with_persister.xml");
         XMLPersister persister = new XMLPersister(xmlMapper);
         persister.save(f, testMemento);
@@ -130,22 +117,35 @@ public class SaveRestoreGameMementoTests {
     }
 
     @Test
-    public void saveLoadWorldWithCaretaker() throws PersistException, IOException {
+    public void saveLoadWorldOkWithCaretaker() throws PersistException, IOException {
         File f = new File("memento_save_with_caretaker.xml");
-        Domain domain = new TestWorld2() {
-            @Override
-            public GameMemento generateSaveData() {
-                return testMemento;
-            }
-        };
+
+        Domain domain = new World() {
+                public void collectedChip() {}
+                public void openedDoor() {}
+                public void enteredExit() {}
+                public void enteredInfo(String msg) {}
+                public void leftInfo() {}
+                public void playerLost() {}
+                public void playerGainedItem(Item item) {}
+                public void playerConsumedItem(Item item) {}
+                public void objectTeleported() {}
+                public void objectPushed() {}
+                public void eventOccured(GameEvent e) { }
+                public String toString() {
+                    return super.toString();
+                }
+                @Override
+                public GameMemento generateSaveData() { return testMemento;}
+            };
+
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-            gameCaretaker.saveGame(f);
+        gameCaretaker.saveGame(f);
         GameMemento loadedMemento;
         try (FileInputStream stream = new FileInputStream(f)) {
             loadedMemento = gameCaretaker.getMemento(stream);
         }
         assertTrue(sameAsTest(loadedMemento));
-
     }
 
     private boolean sameAsTest(GameMemento loaded) {
@@ -165,23 +165,5 @@ public class SaveRestoreGameMementoTests {
                 && loaded.getTerrains().get(2).toString().equals("Teleporter")
                 && loaded.getIsExitOpen()==true;
     }
-
-    static class TestWorld2 extends World {
-        public void collectedChip() {}
-        public void openedDoor() {}
-        public void enteredExit() {}
-        public void enteredInfo(String msg) {}
-        public void leftInfo() {}
-        public void playerLost() {}
-        public void playerGainedItem(Item item) {}
-        public void playerConsumedItem(Item item) {}
-        public void objectTeleported() {}
-        public void objectPushed() {}
-        public void eventOccured(GameEvent e) { }
-        public String toString() {
-            return super.toString();
-        }
-    }
-
 }
 

@@ -103,6 +103,10 @@ public class GameCaretaker {
         return !(fileName.substring(dotIndex + 1).equals("xml"));
     }
 
+    public static void registerMapperSubtype(Class clazz, String name) {
+        xmlMapper.registerSubtypes(new NamedType(clazz, name));
+    }
+
     /**
      * This method is called by App when the user wants to load a saved game.
      * Loads a previously saved Domain (in an XML file) into a given Domain object.
