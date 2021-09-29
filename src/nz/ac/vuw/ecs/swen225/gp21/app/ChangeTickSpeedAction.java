@@ -29,8 +29,7 @@ public class ChangeTickSpeedAction implements Action {
 			return;
 		}
 		
-		int tps = (int) (((double) GameLoop.BASE_TPS / multiplier) + 0.5);
-		control.gLoop.setTps(tps);
+		control.gLoop.setSpeedMult(multiplier);
 	}
 
 	@Override

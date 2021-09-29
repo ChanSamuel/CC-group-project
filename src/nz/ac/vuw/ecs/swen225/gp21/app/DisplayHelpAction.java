@@ -1,5 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 public class DisplayHelpAction implements Action {
 
 	

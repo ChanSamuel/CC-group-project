@@ -59,10 +59,19 @@ public class GameLoop implements Runnable {
 	private volatile boolean isReplay;
 	
 	/**
-	 * The number of ticks (iterations through the game loop) each second.
+	 * The multiplier of the base speed.
 	 */
-	private volatile int tps = BASE_TPS;
+	private volatile double speedMult = 1;
 	
+	/**
+	 * The time the current replay occured at.
+	 */
+	private long currentEventTime = -1;
+	
+	/**
+	 * The time the previous replay event occured at.
+	 */
+	private long previousEventTime = -1;
 	/**
 	 * Construct the GameLoop.
 	 * Doesn't actually run until you call run().
@@ -107,23 +116,14 @@ public class GameLoop implements Runnable {
 					
 					if (isAutoPlay) { // Here, we assume that auto play is true only when replay is true.
 						
-						List<GameUpdate> gameUpdates = control.recorder.next();
-						for (int i = 0; i < gameUpdates.size(); i++) {
-							
-							GameUpdateProxy gup = null;
-							if (gameUpdates.get(i) instanceof GameUpdateProxy) {
-								gup = (GameUpdateProxy) gameUpdates.get(i);
-							} else {
-								throw new Error("Other GameUpdate instance type not supported!");
-							}
-							
-							control.world.forwardTick(gup.getGameEvent());
-						}
+						AutoTickAction.executeStatic(control);
 						
 						// Update the renderer.
 						updateRenderer();
 						
 					} else if (isReplay) {
+						
+						// Don't need to do anything else, because the actions will handle this.
 						
 						// Update the renderer.
 						updateRenderer();
@@ -142,7 +142,7 @@ public class GameLoop implements Runnable {
 						long t2 = System.currentTimeMillis() - t1; // The time since last timer update.
 						
 						// Calculate the time left using formula : timeLeft - elapsed.
-						this.timeLeft = this.timeLeft - ((double)t2 / 1000);
+						this.timeLeft = this.timeLeft - ((double) t2 / 1000);
 						updateTimer();
 						
 						// Set the last updated time to just now.
@@ -167,9 +167,28 @@ public class GameLoop implements Runnable {
 				
 			}
 			
-			// Finally, wait for the remainder time of the 40ms (or however much) since start has not occured.
+			// Finally, wait for the remainder time of the 40ms (or however much).
+			// The formula is different depending if we are in autoplay or not.
 			try {
-				long delay = tps - (System.currentTimeMillis() - start);
+				long delay = -1;
+				
+				// If in auto-play and a previous replay event exists
+				if (isAutoPlay && this.previousEventTime != -1) {
+					
+					// Formula here is: 
+					// Let deltaE = difference in event timestamps
+					// Let deltaT = difference in current time and last update.
+					// Let speedMult = how many times faster to playback at.
+					// delay = (deltaE - deltaT) / speedMult
+					long deltaE = this.currentEventTime - this.previousEventTime;
+					long deltaT = System.currentTimeMillis() - start;
+					delay = deltaE - deltaT;
+					delay = (int) (((double) delay / speedMult) + 0.5);
+					
+				} else {
+					delay = BASE_TPS - (System.currentTimeMillis() - start);
+				}
+				
 				if (delay > 0) {
 					Thread.sleep(delay);
 				}
@@ -230,10 +249,6 @@ public class GameLoop implements Runnable {
 		this.isPlaying = p;
 	}
 	
-	void setTps(int t) {
-		this.tps = t;
-	}
-	
 	void setAutoPlay(boolean a) {
 		if (a && !this.isReplay) return; // Don't set to true if we aren't in replay yet.
 		this.isAutoPlay = a;
@@ -253,10 +268,6 @@ public class GameLoop implements Runnable {
 		return this.isPlaying;
 	}
 	
-	int getTps() {
-		return tps;
-	}
-	
 	boolean getIsAutoPlay() {
 		return this.isAutoPlay;
 	}
@@ -273,6 +284,15 @@ public class GameLoop implements Runnable {
 		this.timeLeft = time;
 	}
 	
+	void setReplayTime(long t) {
+		this.previousEventTime = this.currentEventTime;
+		this.currentEventTime = t;
+	}
+	
+	void setSpeedMult(double m) {
+		this.speedMult = m;
+	}
+	
 	/**
 	 * Sets all the parameters for the state at the very beginning of play.
 	 * Does not set the any level related parameters, these must be set by the caller.
@@ -283,7 +303,9 @@ public class GameLoop implements Runnable {
 		this.isPaused = false;
 		this.isPlaying = true;
 		this.t1 = System.currentTimeMillis();
-		this.tps = BASE_TPS;
+		this.currentEventTime = -1;
+		this.previousEventTime = -1;
+		this.speedMult = 1;
 	}
 	
 	/**
@@ -295,7 +317,9 @@ public class GameLoop implements Runnable {
 		this.isPaused = false;
 		this.isPlaying = false;
 		this.t1 = -1;
-		this.tps = BASE_TPS;
+		this.currentEventTime = -1;
+		this.previousEventTime = -1;
+		this.speedMult = 1;
 	}
 
 }
