@@ -4,20 +4,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.JPanel;
+
+import javax.swing.JComponent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * The hero chap and block's JPanel
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
 //NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 
-//the JPanel it location on will also update, that's not ideal here because 
-//chap is a gif, so chap will keep updating which lead to its parent JPanel keep repaint().
-class ChapJPanel extends JPanel {
+//the JPanel it location on will also update, that's not ideal here.
+class ChapJComponent extends JComponent {
 	/**
 	 * Chap's image face left
 	 */
@@ -45,11 +45,11 @@ class ChapJPanel extends JPanel {
 	/**
 	 * The instance of ChapJPanel
 	 */
-	private volatile static ChapJPanel chapJPanel = null;
+	private volatile static ChapJComponent chapJPanel = null;
 	/**
 	 * Constructor for chap
 	 */
-	private ChapJPanel() {
+	private ChapJComponent() {
 
 	}
 	/**
@@ -77,11 +77,11 @@ class ChapJPanel extends JPanel {
 	/**
 	 * Return the instance of this class
 	 */
-	public static ChapJPanel getInstance() {
+	public static ChapJComponent getInstance() {
 		if(chapJPanel==null) {
-			synchronized (ChapJPanel.class) {
+			synchronized (ChapJComponent.class) {
 				if(chapJPanel==null) {
-					chapJPanel = new ChapJPanel();
+					chapJPanel = new ChapJComponent();
 				}
 			}
 		}

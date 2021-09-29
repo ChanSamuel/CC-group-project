@@ -53,7 +53,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	/**
 	 * The chap JPanel
 	 */
-	private ChapJPanel chapJPanel;
+	private ChapJComponent chapJPanel;
 	/**
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
@@ -139,7 +139,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		this.changingElementsJPanel = ChangingElementsJPanel.getInstance();
 		changingElementsJPanel.init(this);
 		// The chap JPanel
-		this.chapJPanel = ChapJPanel.getInstance();
+		this.chapJPanel = ChapJComponent.getInstance();
 		this.chapJPanel.init(this);
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
