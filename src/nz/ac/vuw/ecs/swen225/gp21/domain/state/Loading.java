@@ -153,6 +153,9 @@ public class Loading implements State {
 
   @Override
   public void restoreGame(World world, GameMemento save) {
+    if (world == null) {
+      throw new IllegalArgumentException("World should not be null");
+    }
     // check for valid parameters
     checkParams(save);
     // write update field and total treasure field
@@ -176,6 +179,9 @@ public class Loading implements State {
   }
 
   private void checkParams(GameMemento save) {
+    if (save == null) {
+      throw new IllegalArgumentException("Save should not be null");
+    }
     // check terrain count == row * col
     if (save.getRows() * save.getCols() != save.getTerrains().size()) {
       throw new IllegalArgumentException("The save says there should be: row(" + save.getRows()

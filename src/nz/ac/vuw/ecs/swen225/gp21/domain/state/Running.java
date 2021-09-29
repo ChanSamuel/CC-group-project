@@ -33,7 +33,7 @@ public final class Running implements State {
    */
   private void worldCheck(World w) {
     if (w == null) {
-      throw new RuntimeException("World is null!");
+      throw new IllegalArgumentException("World is null!");
     }
   }
 
@@ -145,6 +145,7 @@ public final class Running implements State {
 
   @Override
   public GameMemento generateSaveData(World w) {
+    this.worldCheck(w);
 
     List<Terrain> terr = new ArrayList<>();
     for (int row = 0; row < w.getBoardHeight(); row++) {
