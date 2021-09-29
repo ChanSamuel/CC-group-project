@@ -41,9 +41,10 @@ public abstract class GameObject implements Cloneable {
    * to package-private, might need to be changed later? how will persistence
    * module load in new GameObjects?
    *
-   * @param c         The movement controller component that controls this object
-   * @param pathLeft  The file path used to render the GameObject facing Left
-   * @param pathRight The file path used to render the GameObject facing right
+   * @param c           The movement controller component that controls this
+   *                    object
+   * @param leftStream  Stream to enable drawing the GameObject facing left
+   * @param rightStream Stream to enable drawing the GameObject facing right
    */
   protected GameObject(MovementController c, InputStream leftStream, InputStream rightStream) {
     this.controller = c;
@@ -55,12 +56,11 @@ public abstract class GameObject implements Cloneable {
   /**
    * Create a new GameObject with a direction.
    *
-   * @param c         The movement controller component that controls this object
-   * @param d         The direction this object has
-   * @param pathLeft  The file path to the resource that draws the object facing
-   *                  left
-   * @param pathRight The file path to the resource that draws the object facing
-   *                  right
+   * @param c           The movement controller component that controls this
+   *                    object
+   * @param d           The direction this object has
+   * @param leftStream  Stream to enable drawing the GameObject facing left
+   * @param rightStream Stream to enable drawing the GameObject facing right
    */
   protected GameObject(MovementController c, Direction d, InputStream leftStream,
       InputStream rightStream) {
