@@ -106,15 +106,9 @@ public class SaveRestoreGameMementoTests {
         xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
     }
 
-
-    @Test
-    public void saveRealDomain() {
-
-    }
-
     @Test
     public void saveLoadWorldOkWithPersister() throws PersistException, IOException {
-        File f = new File("memento_save_with_persister.xml");
+        File f = new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/tests/memento_save_with_persister_test.xml");
         XMLPersister persister = new XMLPersister(xmlMapper);
         persister.save(f, testMemento);
         GameMemento loadedMemento;
@@ -126,7 +120,7 @@ public class SaveRestoreGameMementoTests {
 
     @Test
     public void saveLoadWorldOkWithCaretaker() throws PersistException, IOException {
-        File f = new File("memento_save_with_caretaker.xml");
+        File f = new File("src/nz/ac/vuw/ecs/swen225/gp21/persistency/tests/memento_save_with_caretaker_test.xml");
 
         Domain domain = new World() {
                 public void collectedChip() {}

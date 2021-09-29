@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -71,6 +71,8 @@ public class LevelHandlingTests {
         GameObject secondActor = gameObjectCaptor.getValue();
         assertEquals('D', secondActor.boardChar());
         assertEquals("Dragon", secondActor.getName());
+        assertNotNull(secondActor.leftStream);
+        assertNotNull(secondActor.rightStream);
     }
 
     @Test
