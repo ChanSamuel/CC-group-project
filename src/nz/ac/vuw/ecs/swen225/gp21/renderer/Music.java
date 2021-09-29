@@ -82,6 +82,7 @@ class Music {
 	}
 	/**
 	 * Modify the volumn
+	 * @param value positive number means up the volumn, negative means down the volumn
 	 */
 	void modifyVolumn(int value) {
 		//make sure value within range

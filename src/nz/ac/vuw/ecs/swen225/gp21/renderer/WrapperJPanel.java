@@ -1,8 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -14,9 +12,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 /**
  * This is the JPanel used for the implementation of focus area
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
+@SuppressWarnings("serial")
 public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	public static final int FOCUS_AREA_ROWS = 9;
 	public static final int FOCUS_AREA_COLS = 9;
@@ -27,15 +26,13 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	private BufferedImage tileImage;
 	private static volatile WrapperJPanel wrapperJPanel = null;
 	/**
-	 * Constructor of WrapperJPanel
-	 * @param domain
+	 * The constructor, Use singleton pattern so set constructor to private, then it
+	 * won't get initialized by other classes.
 	 */
 	private WrapperJPanel() {
 		worldJPanel = WorldJPanel.getInstance();
 		add(worldJPanel);
 		setFocusable(true);
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension screen = tk.getScreenSize();
 		setLayout(null);
 		setBounds(0, 0, WIDTH, HEIGHT);
 		setVisible(true);
@@ -50,7 +47,9 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 		}
 	}
 	/**
-	 * Get the instance of WrapperJPanel class
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * 
+	 * @return the static instance of this class
 	 */
 	public static WrapperJPanel getInstance() {
 		if(wrapperJPanel==null) {
@@ -67,14 +66,11 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	// -------------------The Key listeners------------------------------
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -126,7 +122,9 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 		}
 	}
 	/**
-	 * Play sound effect, this method should be called when event such as pick up a chip, pick up a key, open the door etc. 
+	 * Play sound effect, this method should be called when event such as pick up a
+	 * chip, pick up a key, open the door etc.
+	 * @param soundtype an enum, refers to current event.
 	 */
 	public static void playSound(SoundType soundtype) {
 		WorldJPanel.playSound(soundtype);
