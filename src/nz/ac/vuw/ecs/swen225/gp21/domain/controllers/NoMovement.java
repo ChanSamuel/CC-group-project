@@ -20,4 +20,9 @@ public class NoMovement implements MovementController {
     return response;
   }
 
+  @Override
+  public MovementController Clone() {
+    return new NoMovement();
+  }
+
 }
