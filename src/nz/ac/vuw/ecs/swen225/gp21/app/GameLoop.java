@@ -1,11 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Queue;
 
 import javax.swing.SwingUtilities;
-
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.GameUpdate;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
 /**
@@ -29,6 +29,16 @@ public class GameLoop implements Runnable {
 	private Controller control;
 	
 	/**
+	 * The time left to play the game.
+	 */
+	private volatile double timeLeft;
+	
+	/**
+	 * The time since last timer update.
+	 */
+	private volatile long t1;
+	
+	/**
 	 * Boolean indicating if the game is paused or not.
 	 */
 	private volatile boolean isPaused;
@@ -49,10 +59,19 @@ public class GameLoop implements Runnable {
 	private volatile boolean isReplay;
 	
 	/**
-	 * The number of ticks (iterations through the game loop) each second.
+	 * The multiplier of the base speed.
 	 */
-	private volatile int tps = BASE_TPS;
+	private volatile double speedMult = 1;
 	
+	/**
+	 * The time the current replay occured at.
+	 */
+	private long currentEventTime = -1;
+	
+	/**
+	 * The time the previous replay event occured at.
+	 */
+	private long previousEventTime = -1;
 	/**
 	 * Construct the GameLoop.
 	 * Doesn't actually run until you call run().
@@ -71,6 +90,7 @@ public class GameLoop implements Runnable {
 	@Override
 	public void run() {
 		long updatedTime = -1;
+		t1 = -1; // The time at last update.
 		long elapsedTime = 0;
 		
 		while (true) {
@@ -79,27 +99,31 @@ public class GameLoop implements Runnable {
 			// First, check if other modules can be updated.
 			if (isPlaying) {
 				if (isPaused) {
-					// Poll something from the queue if it's there but don't execute unless it's a resume.
+					// Poll something from the queue if it's there but don't execute 
+					// if it's a forward/back tick, or movement.
 					
 					Action a = actions.peek();
-					boolean cond = a instanceof TogglePauseAction;
+					boolean cond = !(a instanceof AdvanceTickAction) && !(a instanceof MovementAction);
 					pollAction(cond);
 					
 					// Update the renderer (even though nothing happens, we still do this so that it doesn't
 					// give a black screen upon resizing the window).
 					updateRenderer();
 					
+					t1 = System.currentTimeMillis();
+					
 				} else { // Otherwise, proceed normally.
 					
 					if (isAutoPlay) { // Here, we assume that auto play is true only when replay is true.
 						
-						Tick t = control.recorder.nextTick();
-						control.world.forwardTick(t);
+						AutoTickAction.executeStatic(control);
 						
 						// Update the renderer.
 						updateRenderer();
 						
 					} else if (isReplay) {
+						
+						// Don't need to do anything else, because the actions will handle this.
 						
 						// Update the renderer.
 						updateRenderer();
@@ -107,39 +131,64 @@ public class GameLoop implements Runnable {
 					} else {
 						// Update the world.
 						if (updatedTime != -1) {elapsedTime = System.currentTimeMillis() - updatedTime;}
-						Tick t = control.world.update(elapsedTime);
+						control.world.update(elapsedTime);
 						updatedTime = System.currentTimeMillis();
 						
 						// Update the renderer.
 						updateRenderer();
+					}
+					
+					if (t1 != -1) { // If we are not on the first tick.
+						long t2 = System.currentTimeMillis() - t1; // The time since last timer update.
 						
-						// Recorder things here.
-						try {
-							control.recorder.addTick(t);
-						} catch (RecorderException e) {
-							control.warning("Something went wrong when adding a tick to the recorder:\n"
-											+ e.getMessage());
-						}
+						// Calculate the time left using formula : timeLeft - elapsed.
+						this.timeLeft = this.timeLeft - ((double) t2 / 1000);
+						updateTimer();
 						
+						// Set the last updated time to just now.
+						t1 = System.currentTimeMillis();
+						
+					} else {
+						t1 = System.currentTimeMillis();
 					}
 					
 					// Poll an action from the queue if it's there.
 					pollAction(true);
 				}
 			} else {
-				// If other modules can't be updated yet, then only execute an action if it is a start action.
+				// If other modules can't be updated yet, then only execute an action if it is a start action
+				// or help action.
 				Action topAct = actions.peek();
-				boolean c = topAct instanceof StartAction || topAct instanceof NewGameAction || 
-						topAct instanceof LoadGameAction || topAct instanceof LoadLevel1Action || 
-						topAct instanceof LoadTestLevelAction || topAct instanceof LoadLevel2Action || 
-						topAct instanceof LoadReplayAction;
+				boolean c = topAct instanceof StartAction || topAct instanceof DisplayHelpAction;
 				
 				pollAction(c);
+				
+				t1 = System.currentTimeMillis();
+				
 			}
 			
-			// Finally, wait for the remainder time of the 40ms (or however much) since start has not occured.
+			// Finally, wait for the remainder time of the 40ms (or however much).
+			// The formula is different depending if we are in autoplay or not.
 			try {
-				long delay = tps - (System.currentTimeMillis() - start);
+				long delay = -1;
+				
+				// If in auto-play and a previous replay event exists
+				if (isAutoPlay && this.previousEventTime != -1) {
+					
+					// Formula here is: 
+					// Let deltaE = difference in event timestamps
+					// Let deltaT = difference in current time and last update.
+					// Let speedMult = how many times faster to playback at.
+					// delay = (deltaE - deltaT) / speedMult
+					long deltaE = this.currentEventTime - this.previousEventTime;
+					long deltaT = System.currentTimeMillis() - start;
+					delay = deltaE - deltaT;
+					delay = (int) (((double) delay / speedMult) + 0.5);
+					
+				} else {
+					delay = BASE_TPS - (System.currentTimeMillis() - start);
+				}
+				
 				if (delay > 0) {
 					Thread.sleep(delay);
 				}
@@ -160,7 +209,6 @@ public class GameLoop implements Runnable {
 		Action a = actions.poll();
 		if (canExecute) {
 			a.execute(control);
-			//System.out.println("Performed action " + a.actionName());
 		}
 	}
 	
@@ -176,10 +224,21 @@ public class GameLoop implements Runnable {
 		}
 	}
 	
+	private void updateTimer() {
+		int timeSecs = (int) (this.timeLeft + 0.5); // Time left in seconds.
+		if (this.timeLeft > 0d) {
+			UpdateTimerAction.execute(control, timeSecs);
+		} else {
+			new TimeOutAction().execute(control);
+		}
+	}
+	
 	
 	/*
+	 * ***********************************************
 	 * Setters to write to the GameLoop.
 	 * These should only be used by Action instances.
+	 * ***********************************************
 	 */
 	
 	void setPause(boolean p) {
@@ -190,10 +249,6 @@ public class GameLoop implements Runnable {
 		this.isPlaying = p;
 	}
 	
-	void setTps(int t) {
-		this.tps = t;
-	}
-	
 	void setAutoPlay(boolean a) {
 		if (a && !this.isReplay) return; // Don't set to true if we aren't in replay yet.
 		this.isAutoPlay = a;
@@ -201,7 +256,7 @@ public class GameLoop implements Runnable {
 	
 	void setIsReplay(boolean r) {
 		this.isReplay = r;
-		// Precondition to ensure auto play is only ever true when replay is true.
+		// Postcondition to ensure auto play is only ever true when replay is true.
 		if (!r) this.isAutoPlay = false;
 	}
 	
@@ -213,16 +268,58 @@ public class GameLoop implements Runnable {
 		return this.isPlaying;
 	}
 	
-	int getTps() {
-		return tps;
-	}
-	
 	boolean getIsAutoPlay() {
 		return this.isAutoPlay;
 	}
 	
 	boolean getIsReplay() {
 		return this.isReplay;
+	}
+	
+	/**
+	 * Set the amount of time that the player starts with to play through the level.
+	 * @param time : time in seconds.
+	 */
+	void setLevelStartTime(int time) {
+		this.timeLeft = time;
+	}
+	
+	void setReplayTime(long t) {
+		this.previousEventTime = this.currentEventTime;
+		this.currentEventTime = t;
+	}
+	
+	void setSpeedMult(double m) {
+		this.speedMult = m;
+	}
+	
+	/**
+	 * Sets all the parameters for the state at the very beginning of play.
+	 * Does not set the any level related parameters, these must be set by the caller.
+	 */
+	void setToInitialPlayState() {
+		this.isAutoPlay = false;
+		this.isReplay = false;
+		this.isPaused = false;
+		this.isPlaying = true;
+		this.t1 = System.currentTimeMillis();
+		this.currentEventTime = -1;
+		this.previousEventTime = -1;
+		this.speedMult = 1;
+	}
+	
+	/**
+	 * Sets all the parameters for the state during a menu.
+	 */
+	void setToMenuState() {
+		this.isAutoPlay = false;
+		this.isReplay = false;
+		this.isPaused = false;
+		this.isPlaying = false;
+		this.t1 = -1;
+		this.currentEventTime = -1;
+		this.previousEventTime = -1;
+		this.speedMult = 1;
 	}
 
 }

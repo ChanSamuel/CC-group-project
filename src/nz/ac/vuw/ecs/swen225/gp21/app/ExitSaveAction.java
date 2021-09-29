@@ -23,7 +23,7 @@ public class ExitSaveAction implements Action{
 		
 		try {
 			control.report("Attempting to save " + saveFile.getPath() + "\nPress 'OK' and wait.");
-			control.persister.saveCurrentGame(saveFile, control.world);
+			control.persister.saveCurrentGame(saveFile);
 		} catch (PersistException e) {
 			control.warning(e.getMessage());
 			return;

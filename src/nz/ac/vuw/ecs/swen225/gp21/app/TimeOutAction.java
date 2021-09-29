@@ -1,10 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-public class PlayerLostAction implements Action {
-
+public class TimeOutAction implements Action {
+	
 	@Override
 	public void execute(Controller control) {
-		control.report("You have lost! Retrying the level...");
+		control.warning("You ran out of time! Replaying the level now.");
 		control.clearInventory();
 		if (control.levelNumber == 0) new LoadTestLevelAction().execute(control);
 		else if (control.levelNumber == 1) new LoadLevel1Action().execute(control);
@@ -16,7 +16,7 @@ public class PlayerLostAction implements Action {
 
 	@Override
 	public String actionName() {
-		return "PlayerLostAction";
+		return "TimeOutAction";
 	}
 
 }

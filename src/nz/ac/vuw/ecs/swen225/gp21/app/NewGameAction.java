@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-public class NewGameAction implements Action {
+public class NewGameAction implements Action, StartAction {
 
 	private static final String[] levels = {"Level 1", "Level 2", "TEST LEVEL"};
 	String levelChoice;
@@ -13,11 +13,11 @@ public class NewGameAction implements Action {
 	public void execute(Controller control) {
 		
 		if (levelChoice.equals(levels[0])) {
-			control.loadLevel1();
+			new LoadLevel1Action().execute(control);
 		} else if (levelChoice.equals(levels[1])) {
-			control.loadLevel2();
+			new LoadLevel2Action().execute(control);
 		} else if (levelChoice.equals(levels[2])) {
-			control.loadTestLevel();
+			new LoadTestLevelAction().execute(control);
 		} else {
 			control.warning("Level not recognised!");
 		}

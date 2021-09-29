@@ -8,12 +8,15 @@ import java.util.Queue;
 import java.util.Scanner;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.ConcretePersister;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.Persister;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.LevelHandler;
+import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
+import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.SoundType;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WorldJPanel;
 import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
@@ -38,11 +41,6 @@ public abstract class Controller {
 	private Queue<Action> actions;
 	
 	/**
-	 * The last issued Action which was not valid.
-	 */
-	private Queue<Action> failedActions;
-	
-	/**
 	 * The entrypoint into the rendering module.
 	 */
 	protected WrapperJPanel renderer;
@@ -63,6 +61,9 @@ public abstract class Controller {
 	 */
 	protected int levelNumber = 1;
 	
+	/**
+	 * The inventory of the player. Pretty much just contains keys.
+	 */
 	protected List<Item> inventory = new ArrayList<Item>();
 	
 	/**
@@ -93,90 +94,79 @@ public abstract class Controller {
 	public Controller() {
 		// First, construct all the objects, then open the new thread.
 		actions = new ArrayDeque<Action>();
-		failedActions = new ArrayDeque<Action>();
-		renderer = new WrapperJPanel();
-		persister = new ConcretePersister();
+		renderer = WrapperJPanel.getInstance();
 		recorder = new Recorder();
 		
 		world = new World() {
 
 			@Override
 			public void enteredExit() {
-				WrapperJPanel.playSound(SoundType.ENTER_EXIT);
-				issue(new NextLevelAction());
+				Controller.this.enteredExit();
 			}
 
 			@Override
 			public void enteredInfo(String msg) {
-				WrapperJPanel.playSound(SoundType.SHOW_INFO);
-				report(msg);
+				Controller.this.enteredInfo(msg);
 			}
 
 			@Override
 			public void leftInfo() {
-				// Do nothing...
+				Controller.this.leftInfo();
 			}
 
 			@Override
 			public void playerLost() {
-				WrapperJPanel.playSound(SoundType.GAME_OVER);
-				issue(new PlayerLostAction());
+				Controller.this.playerLost();
 			}
 
 			@Override
 			public void playerGainedItem(Item item) {
-				inventory.add(item);
-				String s = "";
-				for (int i = 0; i < inventory.size(); i++) {
-					if (i == inventory.size() - 1) {
-						s += inventory.get(i).toString();
-					} else {
-						s += inventory.get(i).toString() + ", ";
-					}
-				}
-				WrapperJPanel.playSound(SoundType.PICK_UP_A_KEY);
-				inform("You have gained a " + item.getColour() + " " + item.toString() + ".\n" + 
-						"Your current inventory is:\n" + s);
+				Controller.this.playerGainedItem(item);
 			}
 
 			@Override
 			public void playerConsumedItem(Item item) {
-				inventory.remove(item);
-				String s = "";
-				for (int i = 0; i < inventory.size(); i++) {
-					if (i == inventory.size() - 1) {
-						s += inventory.get(i).toString();
-					} else {
-						s += inventory.get(i).toString() + ", ";
-					}
-				}
-				inform("You have consumed a " + item.getColour() + " " + item.toString() + ".\n" + 
-						"Your current inventory is:\n" + s);
+				Controller.this.playerConsumedItem(item);
 			}
 
 			@Override
 			public void openedDoor() {
-				WrapperJPanel.playSound(SoundType.DOOR_OPEN);
+				Controller.this.openedDoor();
 			}
 
 			@Override
 			public void collectedChip() {
-				WrapperJPanel.playSound(SoundType.PICK_UP_A_CHIP);
-				inform("Remaining Chips: " + (this.totalTreasure - playerEntity.treasureCollected));
+				Controller.this.collectedChip(this.totalTreasure - playerEntity.treasureCollected);
 			}
 
 			@Override
 			public void objectTeleported() {
-				WrapperJPanel.playSound(SoundType.TELEPORT);
-				
+				Controller.this.objectTeleported();
 			}
 
 			@Override
 			public void objectPushed() {
-				WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
+				Controller.this.objectPushed();
+			}
+
+			@Override
+			public void eventOccured(GameEvent e) {
+				// Add the event to the recorder via a proxy object.
+				try {
+					recorder.add(new GameUpdateProxy(e));
+				} catch (RecorderException re) {
+					warning("Something went wrong when adding a tick to the recorder:\n"
+									+ re.getMessage());
+				}
 			}
 			
 		};
+		
+		try {
+			persister = new Persister(new LevelHandler(), new GameCaretaker(world));
+		} catch (PersistException e) {
+			throw new Error("Failed to initalise the Controller because:\n"+ e.getMessage(), e);
+		}
 		
 		// Open the thread and start it.
 		gLoop = new GameLoop(actions, this);
@@ -209,11 +199,51 @@ public abstract class Controller {
 	 */
 	protected abstract void inform(String message);
 	
-	/**
-	 * Requests back focus for the key listener.
-	 * For Fuzz controller, this should do nothing.
+	
+	/* ****************************************************
+	 * METHODS WHICH ARE CALLED BY THE WORLD IMPLEMENTATION
+	 * ****************************************************
 	 */
-	protected abstract void requestFocus();
+	
+	/**
+	 * The method to be invoked when chap enters the exit tile.
+	 */
+	protected abstract void enteredExit();
+	
+	protected abstract void enteredInfo(String msg);
+
+	protected void leftInfo() {
+		// Do nothing...
+	}
+
+	protected abstract void playerLost();
+
+	protected abstract void playerGainedItem(Item item);
+
+	protected abstract void playerConsumedItem(Item item);
+
+	protected abstract void openedDoor();
+
+	protected abstract void collectedChip(int remainingChips);
+
+	protected abstract void objectTeleported();
+	
+	protected abstract void objectPushed();
+	
+	/* ************************
+	 * OTHER NOTIFYING METHODS.
+	 * ************************
+	 */
+	
+	protected abstract void updateTimerOperation(int timeLeft);
+	
+	protected abstract void pauseOperation();
+	
+	void clearInventory() {
+		this.inventory.clear();
+	}
+	
+	
 	
 	/* *********************************************
 	 * METHODS FOR ACTIONS THE CONTROLLER CAN ISSUE.
@@ -227,18 +257,11 @@ public abstract class Controller {
 	 * @param a : the Action that should be issued.
 	 * 
 	 */
-	private void issue(Action a) {
+	protected void issue(Action a) {
+		if (this.actions.size() >= 1000) { // Stop issuing actions once 1000 are queued up.
+			return;
+		}
 		this.actions.add(a);
-	}
-	
-	/**
-	 * Returns the last failing Action that was issued.
-	 * This is an Action which was issued, processed, then failed due to it being invalid some way.
-	 * Currently does nothing.
-	 * @return last failing action
-	 */
-	public Action getLastFailedAction() {
-		return this.failedActions.peek();
 	}
 	
 	/**
@@ -275,6 +298,7 @@ public abstract class Controller {
 	
 	/**
 	 * Exits the game without saving.
+	 * This method performs a hard System.exit(...) which will close all threads upon invocation.
 	 */
 	public void exit() {
 		System.exit(0);
@@ -319,11 +343,19 @@ public abstract class Controller {
 	}
 	
 	/**
-	 * Pauses the game loop and sets the Controller to refuse all Actions other than another TogglePauseAction.
+	 * Pauses the game loop and sets the Controller to refuse all Actions other than a resume.
 	 * Resumes the game loop if already paused.
 	 */
 	public void togglePause() {
 		issue(new TogglePauseAction());
+	}
+	
+	public void pauseGame() {
+		issue(new PauseGameAction());
+	}
+	
+	public void resumeGame() {
+		issue(new ResumeGameAction());
 	}
 	
 	/**
@@ -431,23 +463,21 @@ public abstract class Controller {
 	}
 	
 	/**
+	 * Display a help message.
+	 * @param msg : the message.
+	 */
+	public void displayHelpMessage(String msg) {
+		issue(new DisplayHelpAction(msg));
+	}
+	
+	/**
 	 * Exits to main menu.
-	 * For FuzzController, this won't do anything.
+	 * For FuzzController, this will simply move into the menu state, where only loading actions can
+	 * be performed.
 	 */
 	protected void exitToMenu() {
 		issue(new ExitToMenuAction());
 	}
-	
-	/**
-	 * Add a failed action as the last failed action.
-	 * This method is should only be used internally by classes like GameLoop.
-	 * This method should be used whenever an action fails.
-	 * @param a
-	 */
-	void addFailedAction(Action a) {
-		this.failedActions.add(a);
-	}
-	
 	
 	
 }

@@ -14,6 +14,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -25,7 +27,11 @@ public class GamePage extends JPanel implements Page {
 	GamePageBackground background = new GamePageBackground();
 	JPanel controlPanel = new JPanel();
 	JPanel infoPanel = new JPanel();
+	JPanel timerPanel = new JPanel();
 	ReplayPanel replayPanel = new ReplayPanel();
+	JLabel timeLeftLabel = new JLabel("60");
+	JTextArea textArea = new JTextArea(15, 17);
+	JScrollPane scrollPane = new JScrollPane(textArea); 
 	
 	public GamePage(WrapperJPanel renderer) {
 		setLayout(new GridBagLayout());
@@ -41,7 +47,6 @@ public class GamePage extends JPanel implements Page {
 		gbc.gridx = 0;
 		add(renderer, gbc);
 		
-		
 		gbc.gridx = 1;
 		gbc.ipadx = 5;
 		gbc.ipady = 0;
@@ -50,13 +55,20 @@ public class GamePage extends JPanel implements Page {
 		
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
 		controlPanel.add(replayPanel);
+		controlPanel.add(timerPanel);
 		controlPanel.add(infoPanel);
 		
 		replayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		timerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+		timerPanel.add(timeLeftLabel);
+		timeLeftLabel.setFont(timeLeftLabel.getFont().deriveFont(45f));
 		
+		infoPanel.add(scrollPane);
+		textArea.setEditable(false);
+		
+		Border panelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		controlPanel.setBorder(panelBorder);
 		
 	}

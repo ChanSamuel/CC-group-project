@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
-public class LoadTestLevelAction implements Action {
+public class LoadTestLevelAction implements Action, StartAction {
 
 	@Override
 	public void execute(Controller control) {
@@ -55,7 +55,11 @@ public class LoadTestLevelAction implements Action {
 				
 				control.renderer.init(control.world, 1);
 				if (control instanceof GUIController) {
-					JFrame frame = ((GUIController) control).getFrame();
+					
+					GUIController gui = (GUIController) control;
+					gui.clearTextPanel();
+					
+					JFrame frame = gui.getFrame();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
 					cl.show(frame.getContentPane(), "Game page");
 				}
@@ -67,9 +71,8 @@ public class LoadTestLevelAction implements Action {
 		}
 		
 		control.levelNumber = 0;
-		control.gLoop.setIsPlaying(true);
-		control.gLoop.setIsReplay(false);
-		control.gLoop.setAutoPlay(false);
+		control.gLoop.setLevelStartTime(60);
+		control.gLoop.setToInitialPlayState();
 		
 	}
 

@@ -2,17 +2,21 @@ package nz.ac.vuw.ecs.swen225.gp21.app;
 
 import java.awt.CardLayout;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
-public class LoadReplayAction implements Action {
+public class LoadReplayAction implements Action, StartAction {
 
 	
 	File f; 
@@ -27,19 +31,30 @@ public class LoadReplayAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
+		if (control.world.getDomainState() instanceof Running) {
+			control.world.setState(new Loading());
+		}
+		
 		try {
-			control.recorder.load(f);
+			control.recorder.load(new FileInputStream(f));
 		} catch (RecorderException e1) {
 			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
 			return;
+		} catch (FileNotFoundException e) {
+			throw new Error("File was not found, but file should always exist!:\n" + e.getMessage());
 		}
+		
 		int levelNumber = control.recorder.getLevel();
 		
 		try {
-			control.persister.loadLevel(levelNumber, control.world);
+			Persister.loadLevel(levelNumber, control.world);
 		} catch (PersistException e) {
 			control.warning("Something went wrong when persisting the level:\n" + e.getMessage());
 			return;
+		}
+		
+		if (control.world.getDomainState() instanceof Loading) {
+			control.world.doneLoading();
 		}
 		
 		try {
@@ -59,8 +74,8 @@ public class LoadReplayAction implements Action {
 			return;
 		}
 		
+		control.gLoop.setToInitialPlayState();
 		control.gLoop.setIsReplay(true);
-		control.gLoop.setIsPlaying(true);
 		control.world.setState(new Replaying());
 	}
 

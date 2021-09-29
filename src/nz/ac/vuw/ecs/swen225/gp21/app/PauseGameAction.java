@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-public class TogglePauseAction implements Action {
+public class PauseGameAction implements Action {
 
 	@Override
 	public void execute(Controller control) {
@@ -10,16 +10,14 @@ public class TogglePauseAction implements Action {
 			return;
 		}
 		
-		boolean p = control.gLoop.getIsPaused();
-		control.gLoop.setPause(!p);
-		if (!p) {
-			control.pauseOperation();
-		}
+		control.gLoop.setPause(true);
+		control.pauseOperation();
+		
 	}
 
 	@Override
 	public String actionName() {
-		return "TogglePauseAction";
+		return "PauseGameAction";
 	}
 
 }
