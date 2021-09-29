@@ -4,17 +4,19 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
-import nz.ac.vuw.ecs.swen225.gp21.domain.*;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.*;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
+import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 
 /**
  * This is the JPanel which holds all the elements which can move, such as
  * key,treasure.door This will update when chap moves.
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
+@SuppressWarnings("serial")
 class ChangingElementsJPanel extends JPanel {
 	/**
 	 * The board object.
@@ -33,21 +35,14 @@ class ChangingElementsJPanel extends JPanel {
 	 */
 	private BufferedImage blockImage;
 	/**
-	 * The dooors image.
-	 */
-	private BufferedImage doorsImage;
-	/**
 	 * The exit lock image
 	 */
 	private BufferedImage exitLockImage;
 	private volatile static ChangingElementsJPanel changingElementsJPanel = null;
 
 	/**
-	 * The constructor
-	 * 
-	 * @param worldJPanel the parent JPanel
+	 * The constructor, Use singleton pattern so set constructor to private, then it won't get initialized by other classes.
 	 */
-
 	private ChangingElementsJPanel() {
 
 	}
@@ -65,6 +60,7 @@ class ChangingElementsJPanel extends JPanel {
 
 	/**
 	 * initialize this JPanel
+	 * @param mainJPanel the mainJPanel
 	 */
 	void init(MainJPanel mainJPanel) {
 		// set panel properties
@@ -84,7 +80,6 @@ class ChangingElementsJPanel extends JPanel {
 	void initImages() {
 		try {
 			this.keysImage = FileUtil.getBufferedImage("keys.png");
-			this.doorsImage = FileUtil.getBufferedImage("door.png");
 			this.exitLockImage = FileUtil.getBufferedImage("exitLock2.png");
 			this.treasureImage = FileUtil.getBufferedImage("treasure.png");
 			this.blockImage = FileUtil.getBufferedImage("block.png");

@@ -11,11 +11,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
- * This is the backgound JPanel which draws the tiles and walls, exit tiles,
- * exit locks and teleporter. This panel won't repaint() when chap moves.;
- * 
+ * This is the backgound JPanel which draws the tiles, walls, teleporter, exit tile, 
+ * oneway and info.
  * @author limeng7 300525081
- *
  */
 @SuppressWarnings("serial")
 class BackgroundJPanel extends JPanel {
@@ -35,7 +33,7 @@ class BackgroundJPanel extends JPanel {
 	private static volatile BackgroundJPanel backgroundJPanel = null;
 
 	/**
-	 * The constructor, set to private so it won't get initialized.
+	 * The constructor, Use singleton pattern so set constructor to private, then it won't get initialized by other classes.
 	 */
 	private BackgroundJPanel() {
 
