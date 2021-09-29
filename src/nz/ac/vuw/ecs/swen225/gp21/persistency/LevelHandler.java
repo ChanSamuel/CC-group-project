@@ -48,7 +48,7 @@ public class LevelHandler {
 
         if (levelNumber == 2) {
             try {
-                domain.addGameObject(getSecondActor(), new Coord(1, 1)); // FIXME use correct coordinate
+                domain.addGameObject(getSecondActor(), new Coord(10, 7)); // FIXME use correct coordinate
             } catch (Exception e) {
                 throw new PersistException("Error loading logic for level 2 actor");
             }
@@ -73,7 +73,7 @@ public class LevelHandler {
         Class clazz = Class.forName(className, false, ucl);
         GameCaretaker.registerMapperSubtype(clazz, clazz.getName());
 
-        InputStream leftStream = ucl.getResourceAsStream("dragon_left.gif");
+        InputStream leftStream = ucl.getResourceAsStream("dragon_left.GIF");
         InputStream rightStream = ucl.getResourceAsStream("dragon_right.gif");
 
         return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
