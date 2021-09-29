@@ -27,6 +27,12 @@ public final class Info implements Terrain {
   }
 
   /**
+   * Default constructor for level saving.
+   */
+  public Info() {
+  }
+
+  /**
    * make an info tile.
    *
    * @param message message this tile provides to the player.
