@@ -58,7 +58,7 @@ public class WorldJPanel extends JPanel {
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
 	 */
-	private ChangingElementsJPanel changingTerrainJPanel;
+	private ChangingElementsJPanel changingElementsJPanel;
 	/**
 	 * The current game level
 	 */
@@ -129,7 +129,8 @@ public class WorldJPanel extends JPanel {
 		this.doorJComponent = DoorJComponent.getInstance();
 		doorJComponent.init(this);
 		// The changingTerrain JPanel
-		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
+		this.changingElementsJPanel = ChangingElementsJPanel.getInstance();
+		changingElementsJPanel.init(this);
 		// The chap JPanel
 		this.chapJPanel = ChapJPanel.getInstance();
 		this.chapJPanel.init(this);
@@ -140,7 +141,7 @@ public class WorldJPanel extends JPanel {
 		// arrange the layer, smaller index on top.
 		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
-		lp.add(changingTerrainJPanel, index++);
+		lp.add(changingElementsJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
 		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
@@ -170,7 +171,7 @@ public class WorldJPanel extends JPanel {
 		// update chap's location
 		this.chapJPanel.repaint();
 		// repaint the changingTerrainJPanel.
-		this.changingTerrainJPanel.repaint();
+		this.changingElementsJPanel.repaint();
 		// repaint the doorJComponent.
 		this.doorJComponent.repaint();
 	}
