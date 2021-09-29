@@ -67,7 +67,7 @@ public class WorldJPanel extends JPanel {
 	private DoorJComponent doorJComponent;
 	Music level1Music;
 	Music level2Music;
-	private static WorldJPanel worldJPanel = new WorldJPanel();
+	private static volatile WorldJPanel worldJPanel = null;
 	/**
 	 * Constructor
 	 */
@@ -77,6 +77,13 @@ public class WorldJPanel extends JPanel {
 	 * Get instance
 	 */
 	public static WorldJPanel getInstance() {
+		if(worldJPanel==null) {
+			synchronized (WorldJPanel.class) {
+				if(worldJPanel==null) {
+					worldJPanel = new WorldJPanel();
+				}
+			}
+		}
 		return worldJPanel;
 	}
 	/**
