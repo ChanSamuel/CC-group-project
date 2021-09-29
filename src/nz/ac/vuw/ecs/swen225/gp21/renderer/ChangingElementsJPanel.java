@@ -99,7 +99,7 @@ class ChangingElementsJPanel extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		// NOTE add below would result in strange behavior.
+		// NOTE Don't use super, it would result in strange behavior.
 //		super.paintComponent(g);
 //		System.out.println("Draw the changingTerrain JPanel");
 		// iterating through the board, draw image based on Tile's terrain type.
@@ -107,37 +107,37 @@ class ChangingElementsJPanel extends JPanel {
 			for (int j = 0; j < board.getHeight(); j++) {
 				Terrain terrain = board.getTileAt(new Coord(j, i)).getTerrain();
 				Object object = board.getTileAt(new Coord(j, i)).getOccupier();
-				if (terrain instanceof Treasure) {
-					// draw the treasure
-//					System.out.println("draw treasure here");
-//					System.out.println("i: "+i);
-//					System.out.println("j: "+j);
+				switch(terrain.getClass().getSimpleName()) {
+				case "Treasure":
 					g.drawImage(treasureImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof SilverKey) {
-					// draw silver key
+					break;
+				case "SilverKey":
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 0, 0, 80, 80, this);
-				} else if (terrain instanceof GoldKey) {
-					// draw gold key
+					break;
+				case "GoldKey":
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 80, 0, 80 + 80, 80, this);
-				} else if (terrain instanceof GreenKey) {
-					// draw green key
+					break;
+				case "GreenKey":
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 160, 0, 160 + 80, 80, this);
-				} else if (terrain instanceof CopperKey) {
-					// draw copper key
+					break;
+				case "CopperKey":
 					g.drawImage(keysImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 240, 0, 240 + 80, 80, this);
-				} else if (terrain instanceof ExitLock) {
-					// draw the exit lock
+					break;
+				case "ExitLock":
 					g.drawImage(this.exitLockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+					break;
+				default:
+					break;
 				}
 				if (object instanceof Block) {
 					// draw block
