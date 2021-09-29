@@ -92,6 +92,11 @@ class RandomMoveTest {
       public char boardChar() {
         return '&';
       }
+
+      @Override
+      public GameObject clone() {
+        return this;
+      }
     }, new Coord(4, 4));
 
     domain.doneLoading();
@@ -150,6 +155,11 @@ class RandomMoveTest {
       @Override
       public char boardChar() {
         return '&';
+      }
+
+      @Override
+      public GameObject clone() {
+        return this;
       }
     }, new Coord(4, 4));
 
