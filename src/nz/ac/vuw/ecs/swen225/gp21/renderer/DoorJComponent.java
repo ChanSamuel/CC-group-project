@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JComponent;
 
+import net.bytebuddy.description.modifier.SynchronizationState;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
@@ -34,7 +35,7 @@ public class DoorJComponent extends JComponent {
 	protected int offSet;
 	protected boolean currentRunning;
 	protected Terrain currentTerrain = null;
-	private static DoorJComponent doorJComponent= new DoorJComponent();
+	private static volatile DoorJComponent doorJComponent=null;
 
 	/**
 	 * The constructor
@@ -69,6 +70,13 @@ public class DoorJComponent extends JComponent {
 	 * Get the instance of this class
 	 */
 	public static DoorJComponent getInstance() {
+		if(doorJComponent==null) {
+			synchronized(DoorJComponent.class) {
+				if(doorJComponent==null) {
+					doorJComponent = new DoorJComponent();
+				}
+			}
+		}
 		return doorJComponent;
 	}
 	/**
