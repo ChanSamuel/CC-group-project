@@ -3,16 +3,11 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JComponent;
 
-import net.bytebuddy.description.modifier.SynchronizationState;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldDoor;
@@ -23,34 +18,39 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 /**
  * This is the door JComponent, update when door unlocked.
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
+@SuppressWarnings("serial")
 public class DoorJComponent extends JComponent {
 	protected MainJPanel mainJPanel;
-	private BufferedImage doorsImage;
-	protected Map<Coord,Terrain> doorMap;
+	protected BufferedImage doorsImage;
+	protected Map<Coord, Terrain> doorMap;
 	protected int currentI;
 	protected int currentJ;
 	protected int offSet;
 	protected boolean currentRunning;
 	protected Terrain currentTerrain = null;
-	private static volatile DoorJComponent doorJComponent=null;
+	private static volatile DoorJComponent doorJComponent = null;
 
 	/**
-	 * The constructor
+	 * The constructor, Use singleton pattern so set constructor to private, then it
+	 * won't get initialized by other classes.
 	 */
 	private DoorJComponent() {
-		
 	}
+
 	/**
 	 * Init the JPanel
+	 * @param mainJPanel the main JPanel which holds all the data from other
+	 *                   modules.
 	 */
 	void init(MainJPanel mainJPanel) {
 		this.mainJPanel = mainJPanel;
 		setVisible(true);
 		setOpaque(false);
-		setBounds(0, 0,this.mainJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.mainJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0, this.mainJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
+				this.mainJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
 		try {
 			this.doorsImage = FileUtil.getBufferedImage("door.png");
 		} catch (IOException e) {
@@ -60,25 +60,30 @@ public class DoorJComponent extends JComponent {
 		for (int i = 0; i < mainJPanel.getBoard().getWidth(); i++) {
 			for (int j = 0; j < mainJPanel.getBoard().getHeight(); j++) {
 				Terrain terrain = mainJPanel.getBoard().getTileAt(new Coord(j, i)).getTerrain();
-				if (terrain instanceof SilverDoor||terrain instanceof GoldDoor||terrain instanceof GreenDoor||terrain instanceof CopperDoor){
-					doorMap.put(new Coord(j,i),terrain);
+				if (terrain instanceof SilverDoor || terrain instanceof GoldDoor || terrain instanceof GreenDoor
+						|| terrain instanceof CopperDoor) {
+					doorMap.put(new Coord(j, i), terrain);
 				}
 			}
 		}
 	}
+
 	/**
-	 * Get the instance of this class
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * 
+	 * @return the static instance of this class
 	 */
 	public static DoorJComponent getInstance() {
-		if(doorJComponent==null) {
-			synchronized(DoorJComponent.class) {
-				if(doorJComponent==null) {
+		if (doorJComponent == null) {
+			synchronized (DoorJComponent.class) {
+				if (doorJComponent == null) {
 					doorJComponent = new DoorJComponent();
 				}
 			}
 		}
 		return doorJComponent;
 	}
+
 	/**
 	 * start the door open animation
 	 */
@@ -86,60 +91,72 @@ public class DoorJComponent extends JComponent {
 		DoorMoving dm = new DoorMoving(this);
 		dm.start();
 	}
-	
+
 	/**
 	 * Override the paintJComponent method
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
-		// set the board.
-		Board board = mainJPanel.getBoard();
 		// iterating through the board, draw image based on Tile's terrain type.
-		for(Coord coord:doorMap.keySet()) {
+		for (Coord coord : doorMap.keySet()) {
 			int i = coord.getColumn();
 			int j = coord.getRow();
-			if(this.mainJPanel.getHeroCoord().getColumn()==i&&this.mainJPanel.getHeroCoord().getRow()==j&&doorMap.containsKey(coord)) {
+			if (this.mainJPanel.getHeroCoord().getColumn() == i && this.mainJPanel.getHeroCoord().getRow() == j
+					&& doorMap.containsKey(coord)) {
 				System.out.println("chap stands on silver door");
 				currentI = coord.getColumn();
 				currentJ = coord.getRow();
-				currentTerrain  = doorMap.get(coord);
+				currentTerrain = doorMap.get(coord);
 				this.doorMap.remove(coord);
-				if(!this.currentRunning) doorOpen();
+				if (!this.currentRunning)
+					doorOpen();
 			}
-			drawDoor(g,doorMap.get(coord),0,i,j);
+			drawDoor(g, doorMap.get(coord), 0, i, j);
 		}
-		drawDoor(g,currentTerrain,offSet,currentI,currentJ);
+		drawDoor(g, currentTerrain, offSet, currentI, currentJ);
 	}
-	private void drawDoor(Graphics g, Terrain terrain, int offset,int i,int j) {
-		if (terrain instanceof SilverDoor) {
-			// draw silver Door
+
+	/**
+	 * The method for draw a door
+	 * @param g       the graphics
+	 * @param terrain current terrain
+	 * @param offset  offset of the door
+	 * @param i       the door's row
+	 * @param j       the door's col
+	 */
+	private void drawDoor(Graphics g, Terrain terrain, int offset, int i, int j) {
+		if(terrain==null) return;
+		switch (terrain.getClass().getSimpleName()) {
+		case "SilverDoor":
 			g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 					WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 0, 32+offset, 32, this);
-		} else if (terrain instanceof GoldDoor) {
-			// draw gold Door
+					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 0, 32 + offset, 32, this);
+			break;
+		case "GoldDoor":
 			g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 					WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 32, 32+offset, 32 + 32, this);
-		} else if (terrain instanceof GreenDoor) {
-			// draw green Door
+					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 32, 32 + offset, 32 + 32, this);
+			break;
+		case "GreenDoor":
 			g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 					WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 64, 32+offset, 64 + 32, this);
-		} else if (terrain instanceof CopperDoor) {
-			// draw copper Door
+					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 64, 32 + offset, 64 + 32, this);
+			break;
+		case "CopperDoor":
 			g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 					WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
-					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 96, 32+offset, 96 + 32, this);
+					WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, offset, 96, 32 + offset, 96 + 32, this);
+			break;
+		default:
+			break;
 		}
 	}
 }
 
 /**
  * This is a subclass used for implement the door animation.
- * @author mengli
+ * @author limeng7 300525081
  *
  */
 class DoorMoving extends Thread {
@@ -149,7 +166,7 @@ class DoorMoving extends Thread {
 	}
 	@Override
 	public void run() {
-		while(this.doorJComponent.offSet<128) {
+		while(this.doorJComponent.offSet<this.doorJComponent.doorsImage.getWidth()) {
 //			System.out.println("Current offset: "+this.doorJComponent.offSet);
 			this.doorJComponent.currentRunning = true;
 			this.doorJComponent.offSet+=32;
@@ -157,7 +174,6 @@ class DoorMoving extends Thread {
 			try {
 				sleep(80);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

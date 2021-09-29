@@ -14,12 +14,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * This is a utility class used for load files, such as images and musics
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
 public class FileUtil {
 	/**
-	 * Make this tool class's constructor private
+	 * Set this tool class's constructor private
 	 */
 	private FileUtil() {
 		
@@ -70,6 +70,8 @@ public class FileUtil {
 	}
 	/**
 	 * A method for returning a gif.
+	 * @param path the filepath
+	 * @return an image
 	 */
 	static Image getGIF(String path) {
 		URL url = getURL("images",path);

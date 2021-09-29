@@ -4,89 +4,74 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.JPanel;
+
+import javax.swing.JComponent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
  * The hero chap and block's JPanel
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
+@SuppressWarnings("serial")
 //NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 
-//the JPanel it location on will also update, that's not ideal here because 
-//chap is a gif, so chap will keep updating which lead to its parent JPanel keep repaint().
-class ChapJPanel extends JPanel {
-	/**
-	 * Chap's image face left
-	 */
+//the JPanel it location on will also update, that's not ideal here.
+class ChapJComponent extends JComponent {
 	private BufferedImage chapImageLeft;
-	/**
-	 * Chap's image face right
-	 */
 	private BufferedImage chapImageRight;
-	/**
-	 * Chap's current image
-	 */
 	private Image chapImage;
-	/**
-	 * Chap's coordinates
-	 */
 	private Coord coord;
-	/**
-	 * Chap's direction
-	 */
 	private Direction dir;
-	/**
-	 * The mainJPanel
-	 */
 	private MainJPanel mainJPanel;
+	private volatile static ChapJComponent chapJPanel = null;
+
 	/**
-	 * The instance of ChapJPanel
+	 * The constructor, Use singleton pattern so set constructor to private, then it
+	 * won't get initialized by other classes.
 	 */
-	private volatile static ChapJPanel chapJPanel = null;
-	/**
-	 * Constructor for chap
-	 */
-	private ChapJPanel() {
+	private ChapJComponent() {
 
 	}
+
 	/**
-	 * get the instance of this class
-	 */
-	/**
-	 * init this JPanel
+	 * Initialize this JPanel
+	 * 
+	 * @param mainJPanel
 	 */
 	public void init(MainJPanel mainJPanel) {
-		// -------------Set the coord and dir-----------------------------
+		// Set the coord and dir
 		this.mainJPanel = mainJPanel;
 		this.coord = mainJPanel.getHeroCoord();
 		this.dir = mainJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
-
-		// -------------Set the properties of this JPanel----------------
+		// Set the properties of this JPanel
 		setBounds(0, 0, mainJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
 				mainJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		setOpaque(false);
-		// -------------Initialize the images-----------------------------
+		// Initialize the images
 		initImages();
 		// default direction set as left.
 		chapImage = chapImageLeft;
 	}
+
 	/**
-	 * Return the instance of this class
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * 
+	 * @return the static instance of this class
 	 */
-	public static ChapJPanel getInstance() {
-		if(chapJPanel==null) {
-			synchronized (ChapJPanel.class) {
-				if(chapJPanel==null) {
-					chapJPanel = new ChapJPanel();
+	public static ChapJComponent getInstance() {
+		if (chapJPanel == null) {
+			synchronized (ChapJComponent.class) {
+				if (chapJPanel == null) {
+					chapJPanel = new ChapJComponent();
 				}
 			}
 		}
 		return chapJPanel;
 	}
+
 	/**
 	 * initialize the image
 	 */
@@ -101,7 +86,6 @@ class ChapJPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-
 
 	/**
 	 * Override the paint method of chap
@@ -124,6 +108,7 @@ class ChapJPanel extends JPanel {
 		// that's doesn't matter.
 //		System.out.println("Chap's current col: "+coord.getCol());
 //		System.out.println("Chap's current row: "+coord.getRow());
-		g.drawImage(chapImage, coord.getColumn() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT, WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
+		g.drawImage(chapImage, coord.getColumn() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
+				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
 	}
 }

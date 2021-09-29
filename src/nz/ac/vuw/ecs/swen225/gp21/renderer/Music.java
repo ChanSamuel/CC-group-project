@@ -13,7 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 /**
  * This is the music class responsible for the music play and pause in game.
  * can load wav format music, mp3 not supported.
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
 class Music {
@@ -82,6 +82,7 @@ class Music {
 	}
 	/**
 	 * Modify the volumn
+	 * @param value positive number means up the volumn, negative means down the volumn
 	 */
 	void modifyVolumn(int value) {
 		//make sure value within range

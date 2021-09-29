@@ -8,103 +8,68 @@ import javax.swing.JPanel;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Teleporter;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.ExitTile;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
 /**
- * This is the backgound JPanel which draws the tiles and walls, exit tiles,
- * exit locks and teleporter. This panel won't repaint() when chap moves.;
- * 
- * @author mengli 300525081
- *
+ * This is the backgound JPanel which draws the tiles, walls, teleporter, exit tile, 
+ * oneway and info.
+ * @author limeng7 300525081
  */
 @SuppressWarnings("serial")
 class BackgroundJPanel extends JPanel {
-	/**
-	 * The board
-	 */
-	Board board;
-	/**
-	 * The tiles image
-	 */
-	BufferedImage tileImage;
-	/**
-	 * The teleporter image
-	 */
+	private Board board;
+	private BufferedImage tileImage;
 	private BufferedImage telePorterImage;
-	/**
-	 * The exit lock image
-	 */
-	private BufferedImage exitLockImage;
-	/**
-	 * The exit tile image
-	 */
 	private BufferedImage exitTileImage;
-	/**
-	 * The one way east image
-	 */
 	private BufferedImage oneWayEastImage;
-	/**
-	 * The one way west image
-	 */
 	private BufferedImage oneWayWestImage;
-	/**
-	 * The one way north image
-	 */
 	private BufferedImage oneWayNorthImage;
-	/**
-	 * The one way south image
-	 */
 	private BufferedImage oneWaySouthImage;
+	private BufferedImage infoImage;
 	/**
-	 * The padding
+	 * The padding for one way tiles
 	 */
 	private final int PADDING = 10;
-	/**
-	 * The info image
-	 */
-	private BufferedImage infoImage;
-	private boolean drawCurrentPanel;
 	private static volatile BackgroundJPanel backgroundJPanel = null;
 
 	/**
-	 * The constructor Take the board list as parameter to create the backgound.
-	 * 
-	 * @param board the board.
+	 * The constructor, Use singleton pattern so set constructor to private, then it won't get initialized by other classes.
 	 */
 	private BackgroundJPanel() {
-		
+
 	}
+	
 	/**
-	 * Get the instance
+	 * Get the instance of this class, use thread safe lazy initialization.
+	 * @return the static instance of this class
 	 */
 	public static BackgroundJPanel getInstance() {
-		if(backgroundJPanel==null) {
-			synchronized(BackgroundJPanel.class) {
-				if(backgroundJPanel==null) {
+		if (backgroundJPanel == null) {
+			synchronized (BackgroundJPanel.class) {
+				if (backgroundJPanel == null) {
 					backgroundJPanel = new BackgroundJPanel();
 				}
 			}
 		}
 		return backgroundJPanel;
 	}
+	
 	/**
 	 * Set the board
+	 * @param mainJPanel the main JPanel which holds all the data from other modules.
 	 */
 	void init(MainJPanel mainJPanel) {
-		// ----------------Set the board.------------------------------------
+		// Set the board
 		this.board = mainJPanel.getBoard();
-		// ---------------Set the properties of this JPanel------------------
+		//Set the properties of this JPanel
 		setLayout(null);
 		setBounds(0, 0, this.board.getWidth() * WorldJPanel.TILE_WIDTH,
 				this.board.getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
-		// ---------------Initialize images----------------------------------
+		//Initialize images
 		initImages();
 	}
+
 	/**
 	 * initialize the pictures
 	 */
@@ -123,9 +88,6 @@ class BackgroundJPanel extends JPanel {
 		}
 	}
 
-	/**
-	 * Override the paint method, for drawing the board.
-	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		// iterating through the board, draw image based on Tile's terrain type.
@@ -138,43 +100,46 @@ class BackgroundJPanel extends JPanel {
 				g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 						WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 						WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 383, 30, 383 + 62, 30 + 62, this);
-				// draw the wall
-				if (terrain instanceof Wall) {
+				switch (terrain.getClass().getSimpleName()){
+				case "Wall":
 					g.drawImage(tileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH * i + WorldJPanel.TILE_WIDTH,
 							WorldJPanel.TILE_HEIGHT * j + WorldJPanel.TILE_HEIGHT, 320, 30, 320 + 62, 30 + 62, this);
-				} else if (terrain instanceof Teleporter) {
-					// draw the teleporter
+					break;
+				case "Teleporter":
 					g.drawImage(this.telePorterImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof Info) {
-					// draw the info
+					break;
+				case "Info":
 					g.drawImage(this.infoImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
-				} else if (terrain instanceof OneWayEast) {
-					// draw the one way east
+					break;
+				case "OneWayEast":
 					g.drawImage(this.oneWayEastImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
 							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
 							WorldJPanel.TILE_HEIGHT - PADDING, null);
-				} else if (terrain instanceof OneWayWest) {
-					// draw the one way west
+					break;
+				case "OneWayWest":
 					g.drawImage(this.oneWayWestImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
 							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
 							WorldJPanel.TILE_HEIGHT - PADDING, null);
-				} else if (terrain instanceof OneWaySouth) {
-					// draw the one way south
-					g.drawImage(this.oneWaySouthImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
-							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
-							WorldJPanel.TILE_HEIGHT - PADDING, null);
-				} else if (terrain instanceof OneWayNorth) {
-					// draw the one way north
+					break;
+				case "OneWayNorth":
 					g.drawImage(this.oneWayNorthImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
 							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
 							WorldJPanel.TILE_HEIGHT - PADDING, null);
-				} else if (terrain instanceof ExitTile) {
-					// draw the exit tile
+					break;
+				case "OneWaySouth":
+					g.drawImage(this.oneWaySouthImage, WorldJPanel.TILE_WIDTH * i + PADDING / 2,
+							WorldJPanel.TILE_HEIGHT * j + PADDING / 2, WorldJPanel.TILE_WIDTH - PADDING,
+							WorldJPanel.TILE_HEIGHT - PADDING, null);
+					break;
+				case "ExitTile":
 					g.drawImage(this.exitTileImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+					break;
+				default:
+					break;
 				}
 			}
 		}
