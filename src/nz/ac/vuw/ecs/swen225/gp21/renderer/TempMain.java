@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 import javax.swing.SwingUtilities;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
@@ -122,6 +123,12 @@ public class TempMain {
 					@Override
 					public void objectPushed() {
 							WrapperJPanel.playSound(SoundType.PUSH_BLOCK);
+					}
+
+					@Override
+					public void eventOccured(GameEvent e) {
+						// TODO Auto-generated method stub
+						
 					}
 				};
 				domain.loadLevelData(testLevel);
