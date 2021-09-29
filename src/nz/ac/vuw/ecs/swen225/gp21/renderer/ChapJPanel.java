@@ -45,7 +45,7 @@ class ChapJPanel extends JPanel {
 	/**
 	 * The instance of ChapJPanel
 	 */
-	private static ChapJPanel chapJPanel = new ChapJPanel();
+	private volatile static ChapJPanel chapJPanel = null;
 	/**
 	 * Constructor for chap
 	 */
@@ -78,6 +78,13 @@ class ChapJPanel extends JPanel {
 	 * Return the instance of this class
 	 */
 	public static ChapJPanel getInstance() {
+		if(chapJPanel==null) {
+			synchronized (ChapJPanel.class) {
+				if(chapJPanel==null) {
+					chapJPanel = new ChapJPanel();
+				}
+			}
+		}
 		return chapJPanel;
 	}
 	/**
