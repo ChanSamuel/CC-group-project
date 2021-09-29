@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JComponent;
 
+import net.bytebuddy.description.modifier.SynchronizationState;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
@@ -26,7 +27,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
  *
  */
 public class DoorJComponent extends JComponent {
-	protected WorldJPanel worldJPanel;
+	protected MainJPanel mainJPanel;
 	private BufferedImage doorsImage;
 	protected Map<Coord,Terrain> doorMap;
 	protected int currentI;
@@ -34,7 +35,7 @@ public class DoorJComponent extends JComponent {
 	protected int offSet;
 	protected boolean currentRunning;
 	protected Terrain currentTerrain = null;
-	private static DoorJComponent doorJComponent= new DoorJComponent();
+	private static volatile DoorJComponent doorJComponent=null;
 
 	/**
 	 * The constructor
@@ -45,20 +46,20 @@ public class DoorJComponent extends JComponent {
 	/**
 	 * Init the JPanel
 	 */
-	void init(WorldJPanel worldJPanel) {
-		this.worldJPanel = worldJPanel;
+	void init(MainJPanel mainJPanel) {
+		this.mainJPanel = mainJPanel;
 		setVisible(true);
 		setOpaque(false);
-		setBounds(0, 0,this.worldJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.worldJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0,this.mainJPanel.getBoard().getWidth()*WorldJPanel.TILE_WIDTH, this.mainJPanel.getBoard().getHeight()*WorldJPanel.TILE_HEIGHT);
 		try {
 			this.doorsImage = FileUtil.getBufferedImage("door.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		doorMap = new ConcurrentHashMap<>();
-		for (int i = 0; i < worldJPanel.getBoard().getWidth(); i++) {
-			for (int j = 0; j < worldJPanel.getBoard().getHeight(); j++) {
-				Terrain terrain = worldJPanel.getBoard().getTileAt(new Coord(j, i)).getTerrain();
+		for (int i = 0; i < mainJPanel.getBoard().getWidth(); i++) {
+			for (int j = 0; j < mainJPanel.getBoard().getHeight(); j++) {
+				Terrain terrain = mainJPanel.getBoard().getTileAt(new Coord(j, i)).getTerrain();
 				if (terrain instanceof SilverDoor||terrain instanceof GoldDoor||terrain instanceof GreenDoor||terrain instanceof CopperDoor){
 					doorMap.put(new Coord(j,i),terrain);
 				}
@@ -69,6 +70,13 @@ public class DoorJComponent extends JComponent {
 	 * Get the instance of this class
 	 */
 	public static DoorJComponent getInstance() {
+		if(doorJComponent==null) {
+			synchronized(DoorJComponent.class) {
+				if(doorJComponent==null) {
+					doorJComponent = new DoorJComponent();
+				}
+			}
+		}
 		return doorJComponent;
 	}
 	/**
@@ -87,12 +95,12 @@ public class DoorJComponent extends JComponent {
 		
 		super.paintComponent(g);
 		// set the board.
-		Board board = worldJPanel.getBoard();
+		Board board = mainJPanel.getBoard();
 		// iterating through the board, draw image based on Tile's terrain type.
 		for(Coord coord:doorMap.keySet()) {
 			int i = coord.getColumn();
 			int j = coord.getRow();
-			if(this.worldJPanel.playerCoord.getColumn()==i&&this.worldJPanel.playerCoord.getRow()==j&&doorMap.containsKey(coord)) {
+			if(this.mainJPanel.getHeroCoord().getColumn()==i&&this.mainJPanel.getHeroCoord().getRow()==j&&doorMap.containsKey(coord)) {
 				System.out.println("chap stands on silver door");
 				currentI = coord.getColumn();
 				currentJ = coord.getRow();

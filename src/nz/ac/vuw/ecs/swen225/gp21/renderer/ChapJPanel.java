@@ -39,13 +39,13 @@ class ChapJPanel extends JPanel {
 	 */
 	private Direction dir;
 	/**
-	 * The worldJPanel
+	 * The mainJPanel
 	 */
-	private WorldJPanel worldJPanel;
+	private MainJPanel mainJPanel;
 	/**
 	 * The instance of ChapJPanel
 	 */
-	private static ChapJPanel chapJPanel = new ChapJPanel();
+	private volatile static ChapJPanel chapJPanel = null;
 	/**
 	 * Constructor for chap
 	 */
@@ -58,15 +58,15 @@ class ChapJPanel extends JPanel {
 	/**
 	 * init this JPanel
 	 */
-	public void init(WorldJPanel worldJPanel) {
+	public void init(MainJPanel mainJPanel) {
 		// -------------Set the coord and dir-----------------------------
-		this.worldJPanel = worldJPanel;
-		this.coord = worldJPanel.getChapCoord();
-		this.dir = worldJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
+		this.mainJPanel = mainJPanel;
+		this.coord = mainJPanel.getHeroCoord();
+		this.dir = mainJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
 
 		// -------------Set the properties of this JPanel----------------
-		setBounds(0, 0, this.worldJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
-				this.worldJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
+		setBounds(0, 0, mainJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
+				mainJPanel.getBoard().getHeight() * WorldJPanel.TILE_HEIGHT);
 		setVisible(true);
 		setOpaque(false);
 		// -------------Initialize the images-----------------------------
@@ -78,6 +78,13 @@ class ChapJPanel extends JPanel {
 	 * Return the instance of this class
 	 */
 	public static ChapJPanel getInstance() {
+		if(chapJPanel==null) {
+			synchronized (ChapJPanel.class) {
+				if(chapJPanel==null) {
+					chapJPanel = new ChapJPanel();
+				}
+			}
+		}
 		return chapJPanel;
 	}
 	/**
@@ -104,8 +111,8 @@ class ChapJPanel extends JPanel {
 //		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		// update the coord and dir.
-		this.coord = worldJPanel.getChapCoord();
-		this.dir = worldJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
+		this.coord = mainJPanel.getHeroCoord();
+		this.dir = mainJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
 		if (dir == Direction.WEST) {

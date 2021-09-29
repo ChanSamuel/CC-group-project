@@ -14,10 +14,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  * The worldJPanel provides the main interface of the renderer package, for
  * other modules to interact with.
  * 
- * @author mengli 300525081
+ * @author limeng7 300525081
  *
  */
-public class WorldJPanel extends JPanel {
+public class WorldJPanel extends JPanel implements MainJPanel {
 	/**
 	 * tile width
 	 */
@@ -58,7 +58,7 @@ public class WorldJPanel extends JPanel {
 	 * The changingTerrainJPanel, this is the JPanel holding those changing terrain
 	 * types.
 	 */
-	private ChangingElementsJPanel changingTerrainJPanel;
+	private ChangingElementsJPanel changingElementsJPanel;
 	/**
 	 * The current game level
 	 */
@@ -67,7 +67,7 @@ public class WorldJPanel extends JPanel {
 	private DoorJComponent doorJComponent;
 	Music level1Music;
 	Music level2Music;
-	private static WorldJPanel worldJPanel = new WorldJPanel();
+	private static volatile WorldJPanel worldJPanel = null;
 	/**
 	 * Constructor
 	 */
@@ -77,6 +77,13 @@ public class WorldJPanel extends JPanel {
 	 * Get instance
 	 */
 	public static WorldJPanel getInstance() {
+		if(worldJPanel==null) {
+			synchronized (WorldJPanel.class) {
+				if(worldJPanel==null) {
+					worldJPanel = new WorldJPanel();
+				}
+			}
+		}
 		return worldJPanel;
 	}
 	/**
@@ -124,12 +131,13 @@ public class WorldJPanel extends JPanel {
 		// ------- Start creating elements on this JPanel-------
 		// The background JPanel
 		BackgroundJPanel backgroundJPanel = BackgroundJPanel.getInstance();
-		backgroundJPanel.init(board);
+		backgroundJPanel.init(this);
 		// The doors JComponent
 		this.doorJComponent = DoorJComponent.getInstance();
 		doorJComponent.init(this);
 		// The changingTerrain JPanel
-		this.changingTerrainJPanel = new ChangingElementsJPanel(this);
+		this.changingElementsJPanel = ChangingElementsJPanel.getInstance();
+		changingElementsJPanel.init(this);
 		// The chap JPanel
 		this.chapJPanel = ChapJPanel.getInstance();
 		this.chapJPanel.init(this);
@@ -140,17 +148,15 @@ public class WorldJPanel extends JPanel {
 		// arrange the layer, smaller index on top.
 		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
-		lp.add(changingTerrainJPanel, index++);
+		lp.add(changingElementsJPanel, index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
 		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 		// add this JPanel to worldJPanel.
 		add(lp);
 	}
-	/**
-	 * called when game stopped.
-	 */
-	void gameStopped() {
+	@Override
+	public void gameStopped() {
 		if (level1Music != null) {
 			level1Music.stop();
 		} else if (level2Music != null) {
@@ -158,10 +164,8 @@ public class WorldJPanel extends JPanel {
 		}
 	}
 
-	/**
-	 * update the panel, once chap moves
-	 */
-	void updateJPanel() {
+	@Override
+	public void updateJPanel() {
 		// ---------check if domain and level have been set----------------
 		if (domain == null || level == -1)
 			throw new RuntimeException("Please set domain and level");
@@ -170,7 +174,7 @@ public class WorldJPanel extends JPanel {
 		// update chap's location
 		this.chapJPanel.repaint();
 		// repaint the changingTerrainJPanel.
-		this.changingTerrainJPanel.repaint();
+		this.changingElementsJPanel.repaint();
 		// repaint the doorJComponent.
 		this.doorJComponent.repaint();
 	}
@@ -189,25 +193,17 @@ public class WorldJPanel extends JPanel {
 	}
 
 	// -----------------The getters-------------------------------------
-	/**
-	 * Get the board
-	 */
-	Board getBoard() {
+	@Override
+	public Board getBoard() {
 		return this.board;
 	}
 
-	/**
-	 * Get chap's current location
-	 */
-	Coord getChapCoord() {
+	@Override
+	public Coord getHeroCoord() {
 		return domain.getPlayerLocation();
 	}
 
-	/**
-	 * Redraw the maze if chap moves.
-	 * 
-	 * @param domain
-	 */
+	@Override
 	public void redraw(Domain domain) {
 		if (this.playerCoord.getColumn() != this.domain.getPlayerLocation().getColumn()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
@@ -218,16 +214,16 @@ public class WorldJPanel extends JPanel {
 			this.playerMoved = false;
 		}
 	}
-
+	
+	@Override
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
 	/**
 	 * Play sound effect, this method should be called when event such as pick up a
 	 * chip, pick up a key, open the door etc.
 	 */
-	public static void playSound(SoundType soundType) {
+	static void playSound(SoundType soundType) {
 		try {
 			
 				switch (soundType) {
