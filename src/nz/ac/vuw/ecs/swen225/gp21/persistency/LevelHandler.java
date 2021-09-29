@@ -7,6 +7,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -43,7 +45,7 @@ public class LevelHandler {
         domain.loadLevelData(levelToLoad);
 
         if (levelNumber == 2) {
-            domain.addGameObject(getSecondActor(), new Coord(1,1));
+            domain.addGameObject(getSecondActor(), new Coord(1,1)); // FIXME use correct coordinate
         }
 
         domain.doneLoading();
@@ -120,13 +122,15 @@ public class LevelHandler {
         if (!levelsThatExist.contains(levelNumber)) {
             throw new PersistException("Level " + levelNumber + " does not exist");
         }
-
-        XMLPersister parser = new XMLPersister(xmlMapper);
-        InputStream is = LevelHandler.class.getResourceAsStream
-                ("levels/level" + levelNumber + ".xml");
-
-        LevelMemento levelMemento = parser.load(is, LevelMemento.class);
-        return mementoToLevel(levelMemento);
+        try {
+            XMLPersister parser = new XMLPersister(xmlMapper);
+            File file = new File("levels/level" + levelNumber + ".xml");
+            FileInputStream fileStream = new FileInputStream(file);
+            LevelMemento levelMemento = parser.load(fileStream, LevelMemento.class);
+            return mementoToLevel(levelMemento);
+        } catch (FileNotFoundException e) {
+            throw new PersistException("");
+        }
     }
 
 }

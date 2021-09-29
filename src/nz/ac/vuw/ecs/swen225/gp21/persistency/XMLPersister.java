@@ -38,8 +38,8 @@ public class XMLPersister {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> T load(InputStream is, Class<T> valueType) throws PersistException {
-        if (is==null) throw new PersistException("IO Error while loading game");
-        if (valueType==null) throw new PersistException("Error loading game");
+        if (is==null) throw new PersistException("IO Error while loading xml");
+        if (valueType==null) throw new PersistException("Error loading xml");
 
         try {
             return xmlMapper.readValue(is, valueType);
@@ -60,8 +60,8 @@ public class XMLPersister {
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
     public <T> void save(File file, T value) throws PersistException {
-        if (file==null) throw new PersistException("IO Error while saving game");
-        if (value==null) throw new PersistException("Error saving game");
+        if (file==null) throw new PersistException("IO Error while saving xml");
+        if (value==null) throw new PersistException("Error saving xml");
 
         try {
             xmlMapper.writeValue(file, value);

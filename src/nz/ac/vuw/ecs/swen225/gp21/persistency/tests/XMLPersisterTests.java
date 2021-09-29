@@ -74,28 +74,28 @@ public class XMLPersisterTests extends TestCase {
     public void testLoadNullFileStream() throws PersistException {
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.load(null, String.class);});
-        assertEquals("IO Error while loading game", exception.getMessage());
+        assertEquals("IO Error while loading xml", exception.getMessage());
     }
 
     @Test
     public void testSaveNullFile() throws PersistException {
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.save(null, "Anything");});
-        assertEquals("IO Error while saving game", exception.getMessage());
+        assertEquals("IO Error while saving xml", exception.getMessage());
     }
 
     @Test
     public void testLoadNullClassValue() throws PersistException {
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.load(fileInputStream, null);});
-        assertEquals("Error loading game", exception.getMessage());
+        assertEquals("Error loading xml", exception.getMessage());
     }
 
     @Test
     public void testSaveNullValue() throws PersistException {
         XMLPersister parser = new XMLPersister(xmlMapper);
         PersistException exception = assertThrows(PersistException.class, ()->{parser.save(file, null);});
-        assertEquals("Error saving game", exception.getMessage());
+        assertEquals("Error saving xml", exception.getMessage());
     }
 
 
