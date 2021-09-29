@@ -68,7 +68,7 @@ class BackgroundJPanel extends JPanel {
 	 */
 	private BufferedImage infoImage;
 	private boolean drawCurrentPanel;
-	private static BackgroundJPanel backgroundJPanel = new BackgroundJPanel();
+	private static volatile BackgroundJPanel backgroundJPanel = null;
 
 	/**
 	 * The constructor Take the board list as parameter to create the backgound.
@@ -82,6 +82,13 @@ class BackgroundJPanel extends JPanel {
 	 * Get the instance
 	 */
 	public static BackgroundJPanel getInstance() {
+		if(backgroundJPanel==null) {
+			synchronized(BackgroundJPanel.class) {
+				if(backgroundJPanel==null) {
+					backgroundJPanel = new BackgroundJPanel();
+				}
+			}
+		}
 		return backgroundJPanel;
 	}
 	/**
