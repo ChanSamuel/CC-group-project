@@ -5,7 +5,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
-import org.mockito.InOrder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +14,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO
+ * This class handles the functionality of handling levels in the game - including loading the plug-in second actor.
+ * It can load and save levels by capturing the state of a level in a LevelMemento and calling the XmlPersister class
+ * to persist LevelMementos to XML files.
  *
  * @author Lucy Goodwin
  */
@@ -37,9 +37,9 @@ public class LevelHandler {
     private static final List<Integer> levelsThatExist = Arrays.asList(1, 2);
 
     /**
-     * todo
+     * Array that holds the rendering information for a second actor. It gets populated when the plug in jar is loaded.
      */
-    protected static InputStream[] inputStreams = new InputStream[2];
+    protected static final InputStream[] inputStreams = new InputStream[2];
 
     /**
      * Loads level (determined by which level number) into a given domain.
