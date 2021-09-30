@@ -12,6 +12,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
 
+/**
+ * This is the monsterJComponent JPanel draws the second actor
+ * @author limeng7 300565081
+ */
 @SuppressWarnings("serial")
 public class MonsterJComponent extends JComponent {
 	private MainJPanel mainJPanel;

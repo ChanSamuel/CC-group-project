@@ -16,13 +16,7 @@ import javax.sound.sampled.LineUnavailableException;
  *
  */
 class Music {
-	/**
-	 * The audio input stream
-	 */
 	private AudioInputStream ais;
-	/**
-	 * The audio clip
-	 */
 	private Clip clip;
 	private long clipTime;
 	private MyLineListener myLineListener;

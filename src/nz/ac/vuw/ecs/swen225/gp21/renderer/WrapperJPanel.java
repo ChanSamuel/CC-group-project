@@ -15,9 +15,21 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  */
 @SuppressWarnings("serial")
 public class WrapperJPanel extends JPanel implements Renderer {
+	/**
+	 * The rows of focus area
+	 */
 	public static final int FOCUS_AREA_ROWS = 9;
+	/**
+	 * The cols of focus area
+	 */
 	public static final int FOCUS_AREA_COLS = 9;
+	/**
+	 * Width of the maze
+	 */
 	public static final int WIDTH = WorldJPanel.TILE_WIDTH * FOCUS_AREA_COLS;
+	/**
+	 * Height of the maze
+	 */
 	public static final int HEIGHT = WorldJPanel.TILE_HEIGHT * FOCUS_AREA_ROWS;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
@@ -35,6 +47,9 @@ public class WrapperJPanel extends JPanel implements Renderer {
 		setVisible(true);
 		initImage();
 	}
+	/***
+	 * init all the images.
+	 */
 	private void initImage() {
 		try {
 			this.tileImage = FileUtil.getBufferedImage("tiles.png");
