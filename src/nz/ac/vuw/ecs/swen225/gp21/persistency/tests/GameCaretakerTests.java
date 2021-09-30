@@ -68,9 +68,8 @@ public class GameCaretakerTests {
 
     @Test
     public void saveNullGameThrowsException() throws PersistException {
-        File nullFile = null;
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nullFile);});
+        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(null, 1, 10);});
         assertEquals("File to save a game to must be a .xml file.", exception.getMessage());
     }
 
@@ -78,7 +77,7 @@ public class GameCaretakerTests {
     public void saveNonXmlGameThrowsException() throws PersistException {
         File nonXml = new File("nonXml.txt");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
+        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml, 1, 10);});
         assertEquals("File to save a game to must be a .xml file.", exception.getMessage());
     }
 
@@ -86,7 +85,7 @@ public class GameCaretakerTests {
     public void saveNonXmlGame2ThrowsException() throws PersistException {
         File nonXml = new File("nonXml");
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml);});
+        PersistException exception = assertThrows(PersistException.class, ()->{gameCaretaker.saveGame(nonXml, 1, 10);});
         assertEquals("File to save a game to must be a .xml file.", exception.getMessage());
     }
 
