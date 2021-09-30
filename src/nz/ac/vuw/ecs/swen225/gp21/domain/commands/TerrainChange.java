@@ -17,15 +17,15 @@ public final class TerrainChange extends GenericEvent implements Command {
   /**
    * Store the location where the change occurred.
    */
-  private final Coord location;
+  private Coord location;
   /**
    * Store the terrain before the change.
    */
-  private final Terrain before;
+  private Terrain before;
   /**
    * Store the terrain after the change.
    */
-  private final Terrain after;
+  private Terrain after;
 
   /**
    * Create a new store of a terrain change.
@@ -40,6 +40,12 @@ public final class TerrainChange extends GenericEvent implements Command {
     this.location = location;
     this.before = before;
     this.after = after;
+  }
+
+  /**
+   * Default constructor for saving.
+   */
+  public TerrainChange() {
   }
 
   @Override
@@ -60,6 +66,33 @@ public final class TerrainChange extends GenericEvent implements Command {
   @Override
   public void undoEvent(World w) {
     this.undo(w);
+  }
+
+  /**
+   * Get the location the change happened at.
+   *
+   * @return the location
+   */
+  public Coord getLocation() {
+    return location;
+  }
+
+  /**
+   * Get the terrain before the change.
+   *
+   * @return the before
+   */
+  public Terrain getBefore() {
+    return before;
+  }
+
+  /**
+   * Get the terrain after the change.
+   *
+   * @return the after
+   */
+  public Terrain getAfter() {
+    return after;
   }
 
   @Override

@@ -20,23 +20,23 @@ public final class DirectMove extends GenericEvent implements Command {
   /**
    * Direction object was facing before the move.
    */
-  private final Direction beforeDir;
+  private Direction beforeDir;
   /**
    * Direction object was facing after the move.
    */
-  private final Direction afterDir;
+  private Direction afterDir;
   /**
    * The position of the game object before the move.
    */
-  private final Coord beforePos;
+  private Coord beforePos;
   /**
    * Position of the gameObject after the move.
    */
-  private final Coord afterPos;
+  private Coord afterPos;
   /**
    * The terrain of the tile at afterPos BEFORE the move was applied.
    */
-  private final Terrain beforeTerrain;
+  private Terrain beforeTerrain;
 
   /**
    * Create a new direct move command. It needs to store all in the information
@@ -57,6 +57,12 @@ public final class DirectMove extends GenericEvent implements Command {
     this.beforeTerrain = beforeTerrain;
     this.afterPos = moved.getTile().location;
     this.afterDir = moved.dir;
+  }
+
+  /**
+   * default constructor for saving.
+   */
+  public DirectMove() {
   }
 
   /**
@@ -98,6 +104,51 @@ public final class DirectMove extends GenericEvent implements Command {
   @Override
   public void undoEvent(World w) {
     this.undo(w);
+  }
+
+  /**
+   * Get the direction before the move.
+   *
+   * @return the beforeDir
+   */
+  public Direction getBeforeDir() {
+    return beforeDir;
+  }
+
+  /**
+   * Get the direction after the move.
+   *
+   * @return the afterDir
+   */
+  public Direction getAfterDir() {
+    return afterDir;
+  }
+
+  /**
+   * Get the position of the object before the move.
+   *
+   * @return the beforePos
+   */
+  public Coord getBeforePos() {
+    return beforePos;
+  }
+
+  /**
+   * Get the position of the object after the move.
+   *
+   * @return the afterPos
+   */
+  public Coord getAfterPos() {
+    return afterPos;
+  }
+
+  /**
+   * Get the before terrain.
+   *
+   * @return the beforeTerrain
+   */
+  public Terrain getBeforeTerrain() {
+    return beforeTerrain;
   }
 
   @Override

@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Generic event stores all the GameEvent information that is not related to
  * performing or undoing the action.
@@ -7,16 +9,17 @@ package nz.ac.vuw.ecs.swen225.gp21.domain;
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public abstract class GenericEvent implements GameEvent {
 
   /**
    * The time that this GameEvent was created.
    */
-  protected final long timeStamp;
+  protected long timeStamp;
   /**
    * The number of the update that generated this GameEvent.
    */
-  protected final int updateIndex;
+  protected int updateIndex;
 
   /**
    * Create a generic update. Encapsulates all the non-event-specific information
@@ -27,6 +30,12 @@ public abstract class GenericEvent implements GameEvent {
   public GenericEvent(int updateIndex) {
     this.updateIndex = updateIndex;
     this.timeStamp = System.currentTimeMillis();
+  }
+
+  /**
+   * Default constructor for saving.
+   */
+  public GenericEvent() {
   }
 
   @Override
