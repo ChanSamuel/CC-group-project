@@ -49,9 +49,13 @@ public class Chip extends GameObject {
     super(chip.controller.clone(), chip.dir, null, null);
     treasureCollected = chip.treasureCollected;
     this.inventory = new ArrayList<>(INVENTORY_SIZE);
-    chip.inventory.stream().forEach(i -> {
-      this.inventory.add(i.clone());
-    });
+    if (chip.inventory != null) {
+      chip.inventory.stream().forEach(i -> {
+        this.inventory.add(i.clone());
+      });
+    } else {
+      System.out.println("Loaded chip has no inventory, assuming it is empty!");
+    }
     this.currentTile = null;
   }
 
