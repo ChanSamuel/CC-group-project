@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 
 /**
  * Represents a list of commands that constitute a game.
@@ -88,12 +89,13 @@ public class Recorder {
     /**
      * Saves a recording to disk using the Persistency's saving process.
      * @param saveFile The file to save the recording to.
+     * @param mapper the given XmlMapper for Persister to use
      * @throws RecorderException
      */
-    public void save(File saveFile) throws RecorderException{
+    public void save(File saveFile, XmlMapper mapper) throws RecorderException{
         Recording r = new Recording(updates, level);
         try{
-            SaveRecording.save(saveFile, r);
+            SaveRecording.save(saveFile, r, mapper);
         } catch (RecorderException e) {
             throw new RecorderException(e.getMessage());
         }
@@ -102,11 +104,12 @@ public class Recorder {
     /**
      * Sets the current Recorder's fields to represent a recorded game.
      * Once a game is loaded, the next() and prev() methods can be used to navigate the game
-     * 
+     * @param mapper the given XmlMapper for Persister to use
+     * @param is the given input stream for Persister to use
      * @throws RecorderException
      */
-    public void load(InputStream is) throws RecorderException{
-        Recording r = LoadRecording.load(is);
+    public void load(InputStream is, XmlMapper mapper) throws RecorderException{
+        Recording r = LoadRecording.load(is, mapper);
         updates = r.getUpdates();
         level = r.getLevel();
         pointer = 0;
