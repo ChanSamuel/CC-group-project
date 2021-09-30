@@ -4,14 +4,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
-import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
-import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
-import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
+import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * This is the JPanel which holds all the elements which can move, such as

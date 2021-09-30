@@ -12,16 +12,17 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
 
+/**
+ * This is the monsterJComponent JPanel draws the second actor
+ * @author limeng7 300565081
+ */
+@SuppressWarnings("serial")
 public class MonsterJComponent extends JComponent {
 	private MainJPanel mainJPanel;
 	private volatile static MonsterJComponent monsterJComponent = null;
 	private Monster monster;
 	private BufferedImage leftDragonImage;
 	private BufferedImage rightDragonImage;
-	/**
-	 * The block image.
-	 */
-	private BufferedImage blockImage;
 	/**
 	 * The constructor, Use singleton pattern so set constructor to private, then it
 	 * won't get initialized by other classes.
@@ -43,7 +44,10 @@ public class MonsterJComponent extends JComponent {
 		}
 		return monsterJComponent;
 	}
-
+	/**
+	 * initialize this JPanel
+	 * @param mainJPanel
+	 */
 	public void init(MainJPanel mainJPanel) {
 		if(mainJPanel.getLevel()==1)return;
 		this.mainJPanel = mainJPanel;
