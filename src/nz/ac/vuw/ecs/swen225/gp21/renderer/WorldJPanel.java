@@ -228,6 +228,9 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 				case GAME_START:
 					new Music(FileUtil.getAudioStream("GAME_START.wav")).start();
 					break;
+				case GAME_OVER:
+					new Music(FileUtil.getAudioStream("GAME_OVER.wav")).start();
+					break;
 				case DOOR_OPEN:
 					new Music(FileUtil.getAudioStream("DOOR_OPEN.wav")).start();
 					break;
