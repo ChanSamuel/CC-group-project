@@ -143,27 +143,23 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	}
 	@Override
 	public void gameStopped() {
-		if (level1Music != null) {
+		if (level==1) {
 			level1Music.stop();
-		}
-		if (level2Music != null) {
+		}else if (level==2) {
 			level2Music.stop();
 		}
 	}
 
 	@Override
 	public void gamePaused() {
-		if (level1Music != null) {
-			
+		if (level==1) {
 			level1Music.pause();
-		}
-		if (level2Music != null) {
+		}else if (level==2) {
 			level2Music.pause();
 		}
 	}
 	@Override
 	public void gameResumed() {
-		System.out.println("Game resumed");
 		if(level==1) {
 			level1Music.resume();
 		}else if(level==2) {
