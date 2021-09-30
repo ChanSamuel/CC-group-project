@@ -1,11 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Interface to represent events that can happen in the game.
  *
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface GameEvent {
   /**
    * Get the update this event was generated in. i.e. the second update, the first
