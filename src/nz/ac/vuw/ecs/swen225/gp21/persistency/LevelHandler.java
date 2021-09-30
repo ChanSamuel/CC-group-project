@@ -48,7 +48,7 @@ public class LevelHandler {
 
         if (levelNumber == 2) {
             try {
-                domain.addGameObject(getSecondActor(), new Coord(5, 7)); // FIXME use correct coordinate
+                domain.addGameObject(getSecondActor(), new Coord(4, 23)); // FIXME use correct coordinate
             } catch (Exception e) {
                 throw new PersistException("Error loading logic for level 2 actor");
             }

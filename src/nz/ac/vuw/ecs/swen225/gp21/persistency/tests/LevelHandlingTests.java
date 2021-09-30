@@ -87,8 +87,8 @@ public class LevelHandlingTests {
         LevelHandler.saveLevels(xmlMapper);
         Object memento1 = levelMementoCaptor.getValue();
         Level level1 = LevelHandler.mementoToLevel(memento1);
-        assertEquals(16, level1.rows);
-        assertEquals(16, level1.columns);
+        assertEquals(13, level1.rows);
+        assertEquals(28, level1.columns);
     }
 
     @Test
