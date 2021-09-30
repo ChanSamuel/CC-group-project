@@ -87,16 +87,16 @@ public class MonsterJComponent extends JComponent {
 //				System.out.println("draw dragon left col= " + monster.currentTile.location.getColumn() + "row = "
 //						+ monster.currentTile.location.getRow());
 				g.drawImage(leftDragonImage,
-						WorldJPanel.TILE_WIDTH * monster.currentTile.location.getColumn(),
-						WorldJPanel.TILE_HEIGHT * monster.currentTile.location.getRow(), WorldJPanel.TILE_WIDTH,
+						WorldJPanel.TILE_WIDTH * monster.getTile().location.getColumn(),
+						WorldJPanel.TILE_HEIGHT * monster.getTile().location.getRow(), WorldJPanel.TILE_WIDTH,
 						WorldJPanel.TILE_HEIGHT, null);
 			
 		} else if (monster.dir == Direction.EAST||monster.dir == Direction.SOUTH) {
 //				System.out.println("draw dragon right col= " + monster.currentTile.location.getColumn() + "row = "
 //						+ monster.currentTile.location.getRow());
 				g.drawImage(rightDragonImage,
-						WorldJPanel.TILE_WIDTH * monster.currentTile.location.getColumn(),
-						WorldJPanel.TILE_HEIGHT * monster.currentTile.location.getRow(), WorldJPanel.TILE_WIDTH,
+						WorldJPanel.TILE_WIDTH * monster.getTile().location.getColumn(),
+						WorldJPanel.TILE_HEIGHT * monster.getTile().location.getRow(), WorldJPanel.TILE_WIDTH,
 						WorldJPanel.TILE_HEIGHT, null);
 			
 		}
