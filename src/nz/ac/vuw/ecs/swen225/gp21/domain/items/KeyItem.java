@@ -14,7 +14,7 @@ public final class KeyItem implements Item {
   /**
    * The color of this key.
    */
-  final String color;
+  String color;
 
   /**
    * Create a new key item.
@@ -26,6 +26,12 @@ public final class KeyItem implements Item {
       throw new IllegalArgumentException("Key must have a color!");
     }
     this.color = c;
+  }
+
+  /**
+   * Make a key with default field.
+   */
+  public KeyItem() {
   }
 
   @Override
