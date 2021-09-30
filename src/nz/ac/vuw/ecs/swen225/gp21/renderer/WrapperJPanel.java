@@ -146,4 +146,13 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 	public void gameStopped() {
 		worldJPanel.gameStopped();
 	}
+	@Override
+	public void gameResumed() {
+		worldJPanel.gameResumed();
+	}
+	@Override
+	public void gamePaused() {
+		worldJPanel.gamePaused();
+		
+	}
 }

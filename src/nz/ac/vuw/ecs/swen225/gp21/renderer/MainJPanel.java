@@ -17,10 +17,20 @@ public interface MainJPanel {
 	 */
 	public void init(Domain domain, int level);
 	/**
-	 * This is the method been called when game stopped.
+	 * This is the method been called when game stopped
 	 * It will stop the music currently playing.
 	 */
 	public void gameStopped();
+	/**
+	 * This is the method been called when game paused
+	 * It will stop the music currently playing.
+	 */
+	void gamePaused();
+	/**
+	 * This is the method been called when game resumed.
+	 * It will resume the music from last place where it stopped
+	 */
+	public void gameResumed();
 	/**
 	 * Repaint all the changed JPanels.
 	 */
@@ -51,4 +61,5 @@ public interface MainJPanel {
 	 * @return the level
 	 */
 	public int getLevel();
+	
 }

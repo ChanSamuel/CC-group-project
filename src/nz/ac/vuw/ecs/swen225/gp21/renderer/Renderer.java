@@ -14,9 +14,17 @@ public interface Renderer {
 	 */
 	public void init(Domain domain,int level);
 	/**
-	 * Inform renderer that game stopped
+	 * Inform renderer that game stopped/paused.
 	 */
 	public void gameStopped();
+	/**
+	 * Inform renderer that game paused.
+	 */
+	public void gamePaused();
+	/**
+	 * Inform renderer that game resumed.
+	 */
+	public void gameResumed();
 	/**
 	 * Redraw the world
 	 * @param domain 
