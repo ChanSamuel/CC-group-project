@@ -2,9 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp21.recorder;
 
 import java.util.List;
 
-// GET RID OF THIS 
-import nz.ac.vuw.ecs.swen225.gp21.domain.Tick;
-
 /**
  * A wrapper class for saving a recording. Contains the list of updates and the level.
  * 
