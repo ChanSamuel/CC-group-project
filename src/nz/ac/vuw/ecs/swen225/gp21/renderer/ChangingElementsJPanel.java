@@ -3,11 +3,14 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
+import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
 
 /**
  * This is the JPanel which holds all the elements which can move, such as
@@ -141,7 +144,24 @@ class ChangingElementsJPanel extends JPanel {
 					// draw block
 					g.drawImage(blockImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
 							WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+				}else if(object instanceof Monster&&((Monster) object).leftStream!=null) {
+					try {
+						g.drawImage(ImageIO.read(((Monster) object).leftStream), WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+								WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(object instanceof Monster&&((Monster) object).rightStream!=null) {
+					try {
+						g.drawImage(ImageIO.read(((Monster) object).rightStream), WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
+								WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				
 			}
 		}
 	}
