@@ -14,6 +14,12 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
  */
 public class LoadRecording {
 
+     /**
+      * Loads a recording from a file using Persistency's xmlPersister.
+      * @param is input stream of saved file
+      * @return Relevant recording
+      * @throws RecorderException
+      */
     public static Recording load(InputStream is) throws RecorderException {
         XMLPersister p = new XMLPersister(new XmlMapper());
         try{

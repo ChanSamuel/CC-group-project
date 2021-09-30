@@ -19,7 +19,7 @@ public class SaveRecording {
      * Transfers a Recording object to the Persistency package for encoding and saving.
      * @param file
      * @param recording
-     * @throws PersistException
+     * @throws RecorderException
      */
     public static void save(File file, Recording recording) throws PersistException {
         if(recording.getLevel() < 1){
@@ -29,7 +29,7 @@ public class SaveRecording {
             XMLPersister p = new XMLPersister(new XmlMapper());
             p.save(file, recording);
         }
-        catch(Exception e){
+        catch(PersistException e){
             throw new RecorderException(e.getMessage());
         }
     }
