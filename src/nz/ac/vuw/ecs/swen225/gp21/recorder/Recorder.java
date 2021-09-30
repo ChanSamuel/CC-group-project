@@ -94,7 +94,7 @@ public class Recorder {
         Recording r = new Recording(updates, level);
         try{
             SaveRecording.save(saveFile, r);
-        } catch (PersistException e) {
+        } catch (RecorderException e) {
             throw new RecorderException(e.getMessage());
         }
     }
