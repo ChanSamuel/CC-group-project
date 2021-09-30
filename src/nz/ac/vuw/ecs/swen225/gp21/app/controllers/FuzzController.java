@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.app.controllers;
 
+import java.util.List;
+
 import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 
@@ -47,12 +49,12 @@ public class FuzzController extends Controller {
 	}
 
 	@Override
-	protected void playerGainedItem(Item item) {
+	protected void playerGainedItem(List<Item> playerInventory, Item item) {
 		report("GAINED " + item.toString());
 	}
 
 	@Override
-	protected void playerConsumedItem(Item item) {
+	protected void playerConsumedItem(List<Item> playerInventory, Item item) {
 		report("CONSUMED + " + item.toString());
 	}
 

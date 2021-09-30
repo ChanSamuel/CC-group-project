@@ -62,6 +62,7 @@ public class LoadReplayAction implements Action, StartAction {
 		
 		try {
 			SwingUtilities.invokeAndWait(() -> {
+				control.renderer.gameStopped();
 				control.renderer.init(control.world, levelNumber);
 				if (control instanceof GUIController) {
 					JFrame frame = ((GUIController) control).getFrame();

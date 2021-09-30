@@ -276,6 +276,10 @@ public class GameLoop implements Runnable {
 		return this.isReplay;
 	}
 	
+	int getTimeLeft() {
+		return (int)(this.timeLeft + 0.5);
+	}
+	
 	/**
 	 * Set the amount of time that the player starts with to play through the level.
 	 * @param time : time in seconds.

@@ -51,11 +51,6 @@ public abstract class Controller {
 	protected Persister persister;
 	
 	/**
-	 * The time left in the level in seconds
-	 */
-	protected int timeLeft = 60;
-	
-	/**
 	 * The level number.
 	 * 0 For the test level, 1 for level 1, 2 for level 2.
 	 */
@@ -121,12 +116,12 @@ public abstract class Controller {
 
 			@Override
 			public void playerGainedItem(Item item) {
-				Controller.this.playerGainedItem(item);
+				Controller.this.playerGainedItem(this.playerEntity.getInventory(), item);
 			}
 
 			@Override
 			public void playerConsumedItem(Item item) {
-				Controller.this.playerConsumedItem(item);
+				Controller.this.playerConsumedItem(this.playerEntity.getInventory(), item);
 			}
 
 			@Override
@@ -218,9 +213,9 @@ public abstract class Controller {
 
 	protected abstract void playerLost();
 
-	protected abstract void playerGainedItem(Item item);
+	protected abstract void playerGainedItem(List<Item> playerInventory, Item item);
 
-	protected abstract void playerConsumedItem(Item item);
+	protected abstract void playerConsumedItem(List<Item> playerInventory, Item item);
 
 	protected abstract void openedDoor();
 

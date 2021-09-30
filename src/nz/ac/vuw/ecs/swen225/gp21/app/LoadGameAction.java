@@ -28,8 +28,9 @@ public class LoadGameAction implements Action, StartAction {
 			control.world.setState(new Loading());
 		}
 		
+		int[] levelAndTime = null;
 		try {
-			control.persister.loadGame(f);
+			levelAndTime = control.persister.loadGame(f);
 		} catch (Exception e) {
 			control.warning("Something went wrong when loading a previously saved game:\n"+ e.getMessage());
 			return;
@@ -38,9 +39,13 @@ public class LoadGameAction implements Action, StartAction {
 		// Reset the current recording.
 		control.recorder.clear();
 		
+		control.levelNumber = levelAndTime[0];
+		int timeLeft = levelAndTime[1];
+		
 		try {
 			SwingUtilities.invokeAndWait(() -> {
-				control.renderer.init(control.world, 1);
+				control.renderer.gameStopped();
+				control.renderer.init(control.world, control.levelNumber);
 				if (control instanceof GUIController) {
 					JFrame frame = ((GUIController) control).getFrame();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
@@ -56,6 +61,7 @@ public class LoadGameAction implements Action, StartAction {
 		}
 		
 		control.gLoop.setToInitialPlayState();
+		control.gLoop.setLevelStartTime(timeLeft);
 	}
 
 	@Override

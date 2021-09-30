@@ -27,44 +27,28 @@ public class Persister {
 	/**
 	 * Save a game with persistency.
 	 * @param saveFile
+	 * @param level 
+	 * @param timeLeft 
 	 * @throws PersistException
 	 */
-	public void saveCurrentGame(File saveFile) throws PersistException {
-		caretaker.saveGame(saveFile);
+	public void saveCurrentGame(File saveFile, int level, int timeLeft) throws PersistException {
+		caretaker.saveGame(saveFile, level, timeLeft);
 	}
 
 	/**
 	 * Load a game with persistency.
 	 * @param f
+	 * @return an int array containing the level at index 0, and time at index 1.
 	 * @throws PersistException
 	 */
-	public void loadGame(File f) throws PersistException {
-		caretaker.loadGame(f);
+	public int[] loadGame(File f) throws PersistException {
+		int[] levelAndTime = caretaker.loadGame(f);
+		return levelAndTime;
 	}
 
 	public static void loadLevel(int i, Domain world) throws PersistException {
 		LevelHandler.loadLevel(i, world);
 		
 	}
-	
-	/**
-	 * DUMMY METHOD FOR TESTING.
-	 * @param fileToLoad
-	 * @return null
-	 * @throws PersistException
-	 */
-	public Recording getRecording(File fileToLoad) throws PersistException{
-		return null;
-	}
-
-	/**
-	 * DUMMY METHOD FOR TESTING.
-	 * @param file
-	 * @param recording
-	 */
-	public void saveRecording(File file, Recording recording) {
-		
-	}
-	
 	
 }

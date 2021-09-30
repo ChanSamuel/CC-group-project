@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -265,8 +267,8 @@ public class GUIController extends GUI {
 	}
 
 	@Override
-	protected void playerGainedItem(Item item) {
-		inventory.add(item);
+	protected void playerGainedItem(List<Item> playerInventory, Item item) {
+		List<Item> inventory = playerInventory;
 		String s = "";
 		for (int i = 0; i < inventory.size(); i++) {
 			if (i == inventory.size() - 1) {
@@ -281,7 +283,8 @@ public class GUIController extends GUI {
 	}
 	
 	@Override
-	protected void playerConsumedItem(Item item) {
+	protected void playerConsumedItem(List<Item> playerInventory, Item item) {
+		List<Item> inventory = playerInventory;
 		inventory.remove(item);
 		String s = "";
 		for (int i = 0; i < inventory.size(); i++) {
