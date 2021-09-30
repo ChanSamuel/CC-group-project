@@ -5,18 +5,18 @@ public class ToggleAutoPlayAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			control.warning("Cannot toggle autoplay unless playing a game");
 			return;
 		}
 		
-		if (!control.gLoop.getIsReplay()) {
+		if (!control.gameLoop.getIsReplay()) {
 			control.warning("Cannot toggle autoplay unless in replay.");
 			return;
 		} 
 		
-		boolean a = control.gLoop.getIsAutoPlay();
-		control.gLoop.setAutoPlay(!a);
+		boolean a = control.gameLoop.getIsAutoPlay();
+		control.gameLoop.setAutoPlay(!a);
 	}
 
 	@Override

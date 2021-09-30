@@ -10,8 +10,8 @@ public class AutoTickAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsAutoPlay() || !control.gLoop.getIsReplay() || 
-				!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsAutoPlay() || !control.gameLoop.getIsReplay() || 
+				!control.gameLoop.getIsPlaying()) {
 			return;
 		}
 		
@@ -39,7 +39,7 @@ public class AutoTickAction implements Action {
 		}
 		
 		if (gameUpdates.size() > 0) {
-			control.gLoop.setReplayTime(replayTime);
+			control.gameLoop.setReplayTime(replayTime);
 		}
 		
 	}
@@ -51,8 +51,8 @@ public class AutoTickAction implements Action {
 	 */
 	public static void executeStatic(Controller control) {
 		
-		if (!control.gLoop.getIsAutoPlay() || !control.gLoop.getIsReplay() || 
-				!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsAutoPlay() || !control.gameLoop.getIsReplay() || 
+				!control.gameLoop.getIsPlaying()) {
 			return;
 		}
 		
@@ -80,7 +80,7 @@ public class AutoTickAction implements Action {
 		}
 		
 		if (gameUpdates.size() > 0) {
-			control.gLoop.setReplayTime(replayTime);
+			control.gameLoop.setReplayTime(replayTime);
 		}
 	}
 

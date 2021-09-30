@@ -15,7 +15,7 @@ public class ExitSaveAction implements Action{
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			control.warning("Save failed because you aren't playing a game.\n If you would like to exit,"
 					+ " use the Exit button.");
 			return;
@@ -23,7 +23,7 @@ public class ExitSaveAction implements Action{
 		
 		try {
 			control.report("Attempting to save " + saveFile.getPath() + "\nPress 'OK' and wait.");
-			control.persister.saveCurrentGame(saveFile, control.levelNumber, control.gLoop.getTimeLeft());
+			control.persister.saveCurrentGame(saveFile, control.levelNumber, control.gameLoop.getTimeLeft());
 		} catch (PersistException e) {
 			control.warning(e.getMessage());
 			return;

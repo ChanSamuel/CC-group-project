@@ -74,8 +74,8 @@ public class LoadTestLevelAction implements Action, StartAction {
 		}
 		
 		control.levelNumber = 0;
-		control.gLoop.setLevelStartTime(60);
-		control.gLoop.setToInitialPlayState();
+		control.gameLoop.setLevelStartTime(60);
+		control.gameLoop.setToInitialPlayState();
 		
 	}
 

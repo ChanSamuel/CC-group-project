@@ -13,7 +13,7 @@ public class ExitToMenuAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		control.gLoop.setToMenuState();
+		control.gameLoop.setToMenuState();
 		control.clearInventory();
 		
 		try {

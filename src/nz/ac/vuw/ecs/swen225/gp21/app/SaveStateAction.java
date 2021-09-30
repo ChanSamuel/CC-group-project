@@ -16,13 +16,13 @@ public class SaveStateAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			control.warning("Cannot save unless a game is being played.");
 			return;
 		}
 		
 		try {
-			control.persister.saveCurrentGame(saveFile, control.levelNumber, control.gLoop.getTimeLeft());
+			control.persister.saveCurrentGame(saveFile, control.levelNumber, control.gameLoop.getTimeLeft());
 		} catch (PersistException e) {
 			control.warning("Something went wrong when persisting the state:\n" + e.getMessage());
 			return;

@@ -78,8 +78,8 @@ public class LoadReplayAction implements Action, StartAction {
 			return;
 		}
 		
-		control.gLoop.setToInitialPlayState();
-		control.gLoop.setIsReplay(true);
+		control.gameLoop.setToInitialPlayState();
+		control.gameLoop.setIsReplay(true);
 		control.world.setState(new Replaying());
 	}
 

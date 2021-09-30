@@ -5,13 +5,13 @@ public class ResumeGameAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			// Don't do anything if not playing a game yet.
 			return;
 		}
 		
 		control.renderer.gameResumed();
-		control.gLoop.setPause(false);
+		control.gameLoop.setPause(false);
 	}
 
 	@Override

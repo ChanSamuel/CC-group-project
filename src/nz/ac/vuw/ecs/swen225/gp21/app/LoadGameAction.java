@@ -53,15 +53,13 @@ public class LoadGameAction implements Action, StartAction {
 				}
 			});
 		} catch (InvocationTargetException e) {
-			control.warning("Renderer intialisation interrputed");
-			return;
+		  throw new Error("Renderer intialisation interrputed:\n" + e.getMessage(), e);
 		} catch (InterruptedException e) {
-			control.warning("Renderer intialisation interrputed");
-			return;
+		  throw new Error("Renderer intialisation interrputed:\n" + e.getMessage(), e);
 		}
 		
-		control.gLoop.setToInitialPlayState();
-		control.gLoop.setLevelStartTime(timeLeft);
+		control.gameLoop.setToInitialPlayState();
+		control.gameLoop.setLevelStartTime(timeLeft);
 	}
 
 	@Override

@@ -5,13 +5,13 @@ public class PauseGameAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			// Don't do anything if not playing a game yet.
 			return;
 		}
 		
 		control.renderer.gamePaused();
-		control.gLoop.setPause(true);
+		control.gameLoop.setPause(true);
 		control.pauseOperation();
 		
 	}

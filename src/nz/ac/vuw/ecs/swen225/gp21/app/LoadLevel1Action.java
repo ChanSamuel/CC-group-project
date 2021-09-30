@@ -58,8 +58,8 @@ public class LoadLevel1Action implements Action, StartAction {
 		}
 		
 		control.levelNumber = 1;
-		control.gLoop.setLevelStartTime(60);
-		control.gLoop.setToInitialPlayState();
+		control.gameLoop.setLevelStartTime(60);
+		control.gameLoop.setToInitialPlayState();
 	}
 
 	@Override

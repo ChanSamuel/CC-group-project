@@ -5,13 +5,13 @@ public class TogglePauseAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			// Don't do anything if not playing a game yet.
 			return;
 		}
 		
-		boolean p = control.gLoop.getIsPaused();
-		control.gLoop.setPause(!p);
+		boolean p = control.gameLoop.getIsPaused();
+		control.gameLoop.setPause(!p);
 		if (!p) {
             control.renderer.gamePaused();
             control.pauseOperation();

@@ -11,12 +11,12 @@ public class ChangeTickSpeedAction implements Action {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			control.warning("Cannot change tick speed unless playing a game");
 			return;
 		}
 		
-		if (!control.gLoop.getIsReplay()) {
+		if (!control.gameLoop.getIsReplay()) {
 			control.warning("Cannot change tick speed unless in replay.");
 			return;
 		}
@@ -29,7 +29,7 @@ public class ChangeTickSpeedAction implements Action {
 			return;
 		}
 		
-		control.gLoop.setSpeedMult(multiplier);
+		control.gameLoop.setSpeedMult(multiplier);
 	}
 
 	@Override

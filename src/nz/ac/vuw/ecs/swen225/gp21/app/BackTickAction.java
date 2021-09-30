@@ -10,17 +10,17 @@ public class BackTickAction implements Action, AdvanceTickAction {
 	@Override
 	public void execute(Controller control) {
 		
-		if (!control.gLoop.getIsPlaying()) {
+		if (!control.gameLoop.getIsPlaying()) {
 			control.warning("Cannot step through replay unless playing a game");
 			return;
 		}
 		
-		if (!control.gLoop.getIsReplay()) {
+		if (!control.gameLoop.getIsReplay()) {
 			control.warning("Cannot step through replay when not in replay.");
 			return;
 		}
 		
-		if (control.gLoop.getIsAutoPlay()) {
+		if (control.gameLoop.getIsAutoPlay()) {
 			control.warning("Can't manually do next tick during autoplay");
 			return;
 		}
