@@ -79,17 +79,15 @@ public class LevelHandler {
      * @throws IllegalAccessException if instantiation of the second actor fails
      */
     protected static GameObject getSecondActor() throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        File jarFile = new File("levels/level2.jar");
-        String className = "Dragon";
-        URL fileURL = jarFile.toURI().toURL();
+        URL fileURL = (new File("levels/level2.jar")).toURI().toURL();
         String jarURL = "jar:" + fileURL + "!/";
         URL[] urls = {new URL(jarURL)};
-        URLClassLoader ucl = new URLClassLoader(urls);
-        Class clazz = Class.forName(className, false, ucl);
+        URLClassLoader classLoader = new URLClassLoader(urls);
+        Class clazz = Class.forName("Dragon", false, classLoader);
         GameCaretaker.registerMapperSubtype(clazz, clazz.getName());
 
-        inputStreams[0] = ucl.getResourceAsStream("dragon_left.GIF");
-        inputStreams[1] = ucl.getResourceAsStream("dragon_right.gif");
+        inputStreams[0] = classLoader.getResourceAsStream("dragon_left.GIF");
+        inputStreams[1] = classLoader.getResourceAsStream("dragon_right.gif");
 
         return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
                 .newInstance(inputStreams[0], inputStreams[1]);
