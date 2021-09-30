@@ -83,7 +83,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 			if (this.level == 1) {
 				level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
 				// modify volumn, positive means increase, negative means decrease.
-				level1Music.modifyVolumn(-5);
+				level1Music.modifyVolumn(1);
 				// start background music
 				level1Music.start();
 				// loop background music
