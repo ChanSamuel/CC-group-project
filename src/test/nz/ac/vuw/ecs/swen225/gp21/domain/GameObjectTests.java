@@ -15,6 +15,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
 
+/**
+ * Test the functionality of the game object type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class GameObjectTests {
 
   @Test

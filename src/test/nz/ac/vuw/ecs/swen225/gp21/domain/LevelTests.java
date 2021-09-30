@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 
+/**
+ * Test the level type works as expected.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class LevelTests {
 
   @Test

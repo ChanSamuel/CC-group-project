@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.GameOver;
 
+/**
+ * Test the world type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class WorldTests {
 
   @Test

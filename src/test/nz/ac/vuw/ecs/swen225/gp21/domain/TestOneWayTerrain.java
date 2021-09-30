@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 
+/**
+ * Test the one way tile type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class TestOneWayTerrain {
 
   Level testLevel;

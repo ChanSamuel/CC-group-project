@@ -11,6 +11,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Running;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.GameMemento;
 
+/**
+ * Test the state type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class StateTests {
 
   Level testLevel;

@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 
+/**
+ * Test the item type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class ItemTest {
 
   @Test

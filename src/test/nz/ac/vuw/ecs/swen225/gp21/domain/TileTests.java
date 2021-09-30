@@ -12,6 +12,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
+/**
+ * Test the tile type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class TileTests {
 
   Level testLevel;

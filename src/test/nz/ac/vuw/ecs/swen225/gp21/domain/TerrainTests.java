@@ -9,6 +9,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 
+/**
+ * Test the terrain type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class TerrainTests {
 
   @Test
