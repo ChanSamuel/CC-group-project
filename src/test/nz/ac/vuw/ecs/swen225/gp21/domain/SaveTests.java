@@ -54,23 +54,23 @@ class SaveTests {
    */
   @Test
   void testDoubleSave() {
-//    assertDoesNotThrow(() -> {
-//      TestWorld w1 = new TestWorld();
-//
-//      w1.loadLevelData(testLevel);
-//      w1.doneLoading();
-//      GameMemento m1 = w1.generateSaveData();
-//
-//      w1.setState(new Loading());
-//      w1.restoreGame(m1);
-//      w1.doneLoading();
-//
-//      GameMemento m2 = w1.generateSaveData();
-//
-//      w1.setState(new Loading());
-//      w1.restoreGame(m2);
-//      w1.doneLoading();
-//    });
+    assertDoesNotThrow(() -> {
+      TestWorld w1 = new TestWorld();
+
+      w1.loadLevelData(testLevel);
+      w1.doneLoading();
+      GameMemento m1 = w1.generateSaveData();
+
+      w1.setState(new Loading());
+      w1.restoreGame(m1);
+      w1.doneLoading();
+
+      GameMemento m2 = w1.generateSaveData();
+
+      w1.setState(new Loading());
+      w1.restoreGame(m2);
+      w1.doneLoading();
+    });
   }
 
 }
