@@ -20,14 +20,11 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 
 /**
- * TODO
- * Caretaker holds Mementos
- * Mementos are world save
- * Memento is a capture of the originator which is the Domain
+ * This class knows 'when' and 'why' to capture and restore a Domain's state (as a GameMemento).
+ * It holds a Domain (originator) and captures/restores its state as a GameMemento when the app
+ * calls to save or restore a game.
  *
  * @author Lucy Goodwin
  */
@@ -38,6 +35,10 @@ public class GameCaretaker {
      */
     private static final XmlMapper xmlMapper;
 
+    /**
+     * The static XmlMapper for this class is registered with all of the subtypes inside the Domain module.
+     * This is necessary to be able to use the XmlPersister class.
+     */
     static {
         xmlMapper = new XmlMapper();
         xmlMapper.registerSubtypes(
@@ -80,12 +81,13 @@ public class GameCaretaker {
     }
 
     /**
-     * The Originator... todo add some more info...
+     * The originator for the memento design pattern.
+     * Can produce a snap shot (GameMemento) of its own state, which is accessed through its generateSaveData() method.
      */
     private final Domain domain;
 
     /**
-     * Constructor for a Game Caretaker, takes a domain object as the originator
+     * Constructor for a Game Caretaker, takes a domain object as the originator.
      *
      * @param domain the game will be captured from this Domain and/or restored to this Domain
      */
@@ -122,8 +124,9 @@ public class GameCaretaker {
 
     /**
      * This method is called by App when the user wants to load a saved game.
-     * Loads a previously saved Domain (in an XML file) into a given Domain object.
-     * todo explain - load from a memento (world save)
+     * It calls on the XmlPersister class to restore a GameMemento object from an XML file. It then passes the
+     * GameMemento to the Domain (originator) to be restored. This method returns metadata to the app regarding
+     * the level and time left in the game.
      *
      * @param fileToLoad needs to be a .xml file
      * @return an array containing the level number at index 0 and the time left at index 1
@@ -136,6 +139,7 @@ public class GameCaretaker {
         FileInputStream fs = getFileInputStream(fileToLoad);
         GameMemento memento = getMemento(fs);
 
+        // Cannot persist a javas InputStream so have to manually populate this if loading level two
         if (memento.getLevelNumber()==2) {
             for (GameObject go: memento.gameObjects) {
                 if (go instanceof Monster) {
@@ -181,11 +185,13 @@ public class GameCaretaker {
 
     /**
      * This method is called by the App module when the user wants to save a current game.
-     * This method writes an XML file representing a Domain object that is holding the current game state.
-     *      * todo explain save a memento of originator (world save)
+     * This method calls on the Domain (originator) to generate a GameMemento which captures the state of the current
+     * game. This method adds metadata from the app regarding the level being played and the time left in the game.
+     * This method calls on the XmlPersister class to persist the GameMemento as an XML file.
+     *
      * @param fileToSave should be an .xml file
-     * @param level
-     * @param timeLeft
+     * @param level the number of the level currently being played
+     * @param timeLeft the amount of seconds left in the game currently being played
      * @throws PersistException The message of the exception shown should be shown in a pop-up message to the user
      */
     public void saveGame(File fileToSave, int level, int timeLeft) throws PersistException {

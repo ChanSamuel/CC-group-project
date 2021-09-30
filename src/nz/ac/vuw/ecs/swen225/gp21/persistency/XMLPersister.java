@@ -14,7 +14,7 @@ import java.io.InputStream;
  * provide a default constructor and appropriate getters for fields that need to be persisted.
  * Otherwise fields need to be annotated with @JsonIgnore. If objects to be persisted are not
  * concrete types then they need to be annotated with @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
- * and have their subtypes registered to the XmlMapper object. 
+ * and have their subtypes registered to the XmlMapper object.
  *
  * @author Lucy Goodwin
  */
