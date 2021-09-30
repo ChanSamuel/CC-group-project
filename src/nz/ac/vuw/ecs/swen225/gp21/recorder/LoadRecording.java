@@ -17,12 +17,13 @@ public class LoadRecording {
      /**
       * Loads a recording from a file using Persistency's xmlPersister.
       * @param is input stream of saved file
+      * @param mapper the given XmlMapper for Persister to use
       * @return Relevant recording
       * @throws RecorderException
       */
-    public static Recording load(InputStream is) throws RecorderException {
+    public static Recording load(InputStream is, XmlMapper mapper) throws RecorderException {
         try{
-            XMLPersister p = new XMLPersister(new XmlMapper());
+            XMLPersister p = new XMLPersister(mapper);
             return p.load(is, Recording.class);
         } catch (PersistException e){
             throw new RecorderException(e.getMessage());
