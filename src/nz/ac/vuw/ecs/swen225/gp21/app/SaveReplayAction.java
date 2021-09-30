@@ -26,6 +26,7 @@ public class SaveReplayAction implements Action {
 		}
 		
 		try {
+			control.recorder.setLevel(control.levelNumber);
 			control.recorder.save(saveFile);
 		} catch (RecorderException e) {
 			control.warning("Something went wrong with saving the replay:\n" + e.getMessage());

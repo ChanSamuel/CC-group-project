@@ -31,10 +31,6 @@ public class LoadReplayAction implements Action, StartAction {
 	@Override
 	public void execute(Controller control) {
 		
-		if (control.world.getDomainState() instanceof Running) {
-			control.world.setState(new Loading());
-		}
-		
 		// Reset the current recording.
 		control.recorder.clear();
 		
@@ -45,6 +41,10 @@ public class LoadReplayAction implements Action, StartAction {
 			return;
 		} catch (FileNotFoundException e) {
 			throw new Error("File was not found, but file should always exist!:\n" + e.getMessage());
+		}
+		
+		if (control.world.getDomainState() instanceof Running) {
+			control.world.setState(new Loading());
 		}
 		
 		int levelNumber = control.recorder.getLevel();
