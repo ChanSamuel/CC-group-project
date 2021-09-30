@@ -14,7 +14,7 @@ public final class KeyItem implements Item {
   /**
    * The color of this key.
    */
-  String color;
+  String colour;
 
   /**
    * Create a new key item.
@@ -25,7 +25,7 @@ public final class KeyItem implements Item {
     if (c == null || c.isEmpty()) {
       throw new IllegalArgumentException("Key must have a color!");
     }
-    this.color = c;
+    this.colour = c;
   }
 
   /**
@@ -36,17 +36,17 @@ public final class KeyItem implements Item {
 
   @Override
   public String toString() {
-    return "Key: [" + color + "]";
+    return "Key: [" + colour + "]";
   }
 
   @Override
   public String getColour() {
-    return color;
+    return colour;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(color);
+    return Objects.hash(colour);
   }
 
   @Override
@@ -61,12 +61,12 @@ public final class KeyItem implements Item {
       return false;
     }
     KeyItem other = (KeyItem) obj;
-    return Objects.equals(color, other.color);
+    return Objects.equals(colour, other.colour);
   }
 
   @Override
   public Item clone() {
-    return new KeyItem(new String(this.color));
+    return new KeyItem(new String(this.colour));
   }
 
 }
