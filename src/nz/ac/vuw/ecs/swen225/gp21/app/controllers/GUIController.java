@@ -251,7 +251,7 @@ public class GUIController extends GUI {
 
 	@Override
 	protected void inform(String message) {
-		this.gamePage.textArea.append(message + "\n");
+		this.gamePage.textArea.setText(message + "\n");
 		gamePage.textArea.setCaretPosition(gamePage.textArea.getDocument().getLength());
 	}
 	
