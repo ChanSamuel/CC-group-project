@@ -192,7 +192,9 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 
 	@Override
 	public void redraw(Domain domain) {
+		if(level>1) {
 		this.monsterJComponent.repaint();
+		}
 		if (this.playerCoord.getColumn() != this.domain.getPlayerLocation().getColumn()
 				|| this.playerCoord.getRow() != this.domain.getPlayerLocation().getRow()) {
 			this.playerCoord = this.domain.getPlayerLocation();
@@ -268,5 +270,10 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 			e.printStackTrace();
 		}
 
+	}
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return this.level;
 	}
 }
