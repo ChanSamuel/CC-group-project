@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
@@ -44,7 +45,9 @@ public class SaveRestoreGameMementoTests {
     private static final GameMemento testMemento;
     static {
         List<GameObject> gameObjects = new ArrayList<>();
-        gameObjects.add(new Chip());
+        Chip c = new Chip();
+        c.addItem(new KeyItem("Green"));
+        gameObjects.add(c);
         gameObjects.add(new Block());
 
         List<Coord> gameObjectLocations = new ArrayList<>();
@@ -78,6 +81,8 @@ public class SaveRestoreGameMementoTests {
                 new NamedType(Block.class, "Block"),
                 new NamedType(Monster.class, "Monster"),
 
+                new NamedType(KeyItem.class, "KeyItem"),
+
                 new NamedType(NoMovement.class, "NoMovement"),
                 new NamedType(PlayerController.class, "PlayerController"),
                 new NamedType(RandomMovement.class, "RandomMovement"),
@@ -86,6 +91,7 @@ public class SaveRestoreGameMementoTests {
                 new NamedType(GameOver.class, "GameOver"),
                 new NamedType(Loading.class, "Loading"),
                 new NamedType(Replaying.class, "Replaying"),
+
                 new NamedType(CopperDoor.class, "CopperDoor"),
                 new NamedType(CopperKey.class, "CopperKey"),
                 new NamedType(ExitLock.class, "ExitLock"),
@@ -161,6 +167,7 @@ public class SaveRestoreGameMementoTests {
                 && loaded.getTotalTreasure() == 7
                 && loaded.getCurrentState().toString().contains("Running")
                 && loaded.getGameObjects().get(0).getName().equals("Chip")
+                && ((Chip) loaded.getGameObjects().get(0)).getInventory().get(0).getColour().equals("Green")
                 && loaded.getGameObjects().get(1).getName().equals("Block")
                 && loaded.getGameObjectLocations().get(0).toString().equals("Row: 0 Columns: 0")
                 && loaded.getGameObjectLocations().get(1).toString().equals("Row: 0 Columns: 1")

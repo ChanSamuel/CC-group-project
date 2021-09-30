@@ -6,6 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
+import nz.ac.vuw.ecs.swen225.gp21.domain.items.KeyItem;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Block;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Chip;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
@@ -40,6 +41,8 @@ public class GameCaretaker {
                 new NamedType(Chip.class, "Chip"),
                 new NamedType(Block.class, "Block"),
                 new NamedType(Monster.class, "Monster"),
+
+                new NamedType(KeyItem.class, "KeyItem"),
 
                 new NamedType(NoMovement.class, "NoMovement"),
                 new NamedType(PlayerController.class, "PlayerController"),
