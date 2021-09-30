@@ -6,7 +6,7 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency;
 class LevelMemento {
 
     /**
-     * LevelMemento that represents level one todo update to relevant info
+     * LevelMemento that represents level one.
      */
     protected static final LevelMemento levelOne = new LevelMemento(16, 16,
             "################"
@@ -41,11 +41,10 @@ class LevelMemento {
                     + "................"
                     + "................"
                     + "................"
-                    + "................", "Level One information");
+                    + "................", "Welcome to Level One, collect the keys to open all the doors!");
 
     /**
-     * LevelMemento that represents level two
-     * todo - change this. At the moment it is just a copy of level one....
+     * LevelMemento that represents level two.
      */
     protected static final LevelMemento levelTwo = new LevelMemento(13, 28,
             "############################" +

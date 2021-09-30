@@ -37,7 +37,7 @@ public class LevelHandler {
     private static final List<Integer> levelsThatExist = Arrays.asList(1, 2);
 
     /**
-     *
+     * todo
      */
     protected static InputStream[] inputStreams = new InputStream[2];
 
@@ -55,8 +55,8 @@ public class LevelHandler {
 
         if (levelNumber == 2) {
             try {
-                // FIXME update jar class to implement clonable and look at chip class clone method
-                domain.addGameObject(getSecondActor(), new Coord(4, 23)); // FIXME use correct coordinate
+                Coord c = new Coord(4, 23);
+                domain.addGameObject(getSecondActor(), c);
             } catch (Exception e) {
                 throw new PersistException("Error loading logic for level 2 actor");
             }
@@ -66,12 +66,19 @@ public class LevelHandler {
     }
 
     /**
-     * TODO
+     * This method provides functionality for loading the plug in actor into level two.
+     * It loads the 'level2.jar' that is inside the levels folder, and instantiates the .class file
+     * that is inside, and also loads the resources for rendering the second actor.
      *
-     * @return
-     * @throws PersistException
+     * @return GameObject second actor for level 2
+     * @throws MalformedURLException if URL class meets any exceptions
+     * @throws ClassNotFoundException if the class isn't found in the second actor jar
+     * @throws NoSuchMethodException if the constructor isn't found in the second actor class
+     * @throws InvocationTargetException if instantiation of the second actor fails
+     * @throws InstantiationException if instantiation of the second actor fails
+     * @throws IllegalAccessException if instantiation of the second actor fails
      */
-    protected static GameObject getSecondActor() throws PersistException, MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    protected static GameObject getSecondActor() throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         File jarFile = new File("levels/level2.jar");
         String className = "Dragon";
         URL fileURL = jarFile.toURI().toURL();

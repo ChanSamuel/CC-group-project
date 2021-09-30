@@ -64,9 +64,11 @@ public class LevelHandlingTests {
         doNothing().when(domain).loadLevelData(levelCaptor.capture());
         doNothing().when(domain).addGameObject(gameObjectCaptor.capture(), any(Coord.class));
         doNothing().when(domain).doneLoading();
+
         LevelHandler.loadLevel(2, domain);
         Level level2Capture = levelCaptor.getValue();
-        //assertEquals(16, level2Capture.columns); // todo assert some things
+        assertEquals(28, level2Capture.columns);
+        assertEquals(13, level2Capture.rows);
 
         GameObject secondActor = gameObjectCaptor.getValue();
         assertEquals('D', secondActor.boardChar());
