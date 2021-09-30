@@ -34,5 +34,5 @@ public interface MovementController extends Cloneable {
    *
    * @return a clone of the movement controller
    */
-  public MovementController Clone();
+  public MovementController clone();
 }

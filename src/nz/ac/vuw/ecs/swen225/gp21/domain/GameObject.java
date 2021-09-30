@@ -16,12 +16,12 @@ public abstract class GameObject implements Cloneable {
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
-  public final InputStream leftStream;
+  public InputStream leftStream;
   /**
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
-  public final InputStream rightStream;
+  public InputStream rightStream;
   /**
    * The logic that GameObjects use to choose how to move is encapsulated away
    * into a movement controller.
@@ -138,6 +138,24 @@ public abstract class GameObject implements Cloneable {
   @JsonIgnore
   public Tile getTile() {
     return this.currentTile;
+  }
+
+  /**
+   * Set the left stream. Helpful for loading.
+   *
+   * @param leftStream the leftStream to set
+   */
+  public void setLeftStream(InputStream leftStream) {
+    this.leftStream = leftStream;
+  }
+
+  /**
+   * Set the right stream. Helpful for loading.
+   *
+   * @param rightStream the rightStream to set
+   */
+  public void setRightStream(InputStream rightStream) {
+    this.rightStream = rightStream;
   }
 
   /**
