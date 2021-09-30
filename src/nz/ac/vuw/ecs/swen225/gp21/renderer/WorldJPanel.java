@@ -144,7 +144,8 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	public void gameStopped() {
 		if (level1Music != null) {
 			level1Music.stop();
-		} else if (level2Music != null) {
+		}
+		if (level2Music != null) {
 			level2Music.stop();
 		}
 	}
