@@ -21,8 +21,8 @@ public class LoadRecording {
       * @throws RecorderException
       */
     public static Recording load(InputStream is) throws RecorderException {
-        XMLPersister p = new XMLPersister(new XmlMapper());
         try{
+            XMLPersister p = new XMLPersister(new XmlMapper());
             return p.load(is, Recording.class);
         } catch (PersistException e){
             throw new RecorderException(e.getMessage());

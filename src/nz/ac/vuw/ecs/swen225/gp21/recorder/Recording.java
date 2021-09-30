@@ -11,6 +11,11 @@ public class Recording {
     private final List<GameUpdate> updates;
     private final int level;
 
+    /**
+     * Makes a new recording object.
+     * @param updates The list of commands that constitute this recording.
+     * @param level The level to which this recording relates.
+     */
     public Recording(List<GameUpdate> updates, int level) {
         this.updates = updates;
         this.level = level;

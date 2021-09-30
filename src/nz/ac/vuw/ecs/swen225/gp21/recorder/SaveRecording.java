@@ -21,7 +21,7 @@ public class SaveRecording {
      * @param recording
      * @throws RecorderException
      */
-    public static void save(File file, Recording recording) throws PersistException {
+    public static void save(File file, Recording recording) throws RecorderException {
         if(recording.getLevel() < 1){
             throw new RecorderException("Attempting to save recording with no level");
         }

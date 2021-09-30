@@ -16,15 +16,20 @@ public class Recorder {
     private int pointer;
     private boolean loadedGame = false;
 
+    /**
+     * Constructs a new Recorder object.
+     */
     public Recorder(){
         this.pointer = 0;
         updates = new LinkedList<GameUpdate>();
     }
 
     /**
-     * Adds one update to the list of stored updates
+     * Adds one update to the list of stored updates.
+     * @param update The update to add to the recording.
+     * @throws RecorderException
      */
-    public void add(GameUpdate update) throws RecorderException {
+    void add(GameUpdate update) throws RecorderException {
         if(loadedGame) throw new RecorderException("Cannot add ticks to a pre-recorded game. Use clear() to remove a loaded game.");
         if(updateValid(update)) updates.add(update);
         else throw new RecorderException("null tick added");
@@ -82,7 +87,8 @@ public class Recorder {
 
     /**
      * Saves a recording to disk using the Persistency's saving process.
-     * @throws RecorderException if save fails.
+     * @param saveFile The file to save the recording to.
+     * @throws RecorderException
      */
     public void save(File saveFile) throws RecorderException{
         Recording r = new Recording(updates, level);
@@ -97,7 +103,6 @@ public class Recorder {
      * Sets the current Recorder's fields to represent a recorded game.
      * Once a game is loaded, the next() and prev() methods can be used to navigate the game
      * 
-     * @return A list of all game states in loaded recording
      * @throws RecorderException
      */
     public void load(InputStream is) throws RecorderException{
@@ -141,7 +146,9 @@ public class Recorder {
     // ================ PRIVATE METHODS
 
     /**
-     * Returns true if the tick is valid
+     * Returns true if the tick is valid.
+     * @param update The update to be queried.
+     * @return True if tick is valid.
      */
     private boolean updateValid(GameUpdate update) {
         if(update == null) return false;
