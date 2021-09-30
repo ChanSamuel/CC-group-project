@@ -22,6 +22,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	private Board board;
 	private Domain domain;
 	private ChapJComponent chapJPanel;
+	private MonsterJComponent monsterJComponent;
 	private ChangingElementsJPanel changingElementsJPanel;
 	private DoorJComponent doorJComponent;
 	private int level = -1;
@@ -121,6 +122,9 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		// The chap JPanel
 		this.chapJPanel = ChapJComponent.getInstance();
 		this.chapJPanel.init(this);
+		// The monster JPanel
+		this.monsterJComponent= MonsterJComponent.getInstance();
+		this.monsterJComponent.init(this);
 		// ---Create a layered pane and add elements to this pane-------
 		JLayeredPane lp = new JLayeredPane();
 		int index = 1;
@@ -129,6 +133,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
 		lp.add(changingElementsJPanel, index++);
+		lp.add(this.monsterJComponent,index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
 		lp.setBounds(0, 0, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
@@ -157,6 +162,8 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		this.changingElementsJPanel.repaint();
 		// repaint the doorJComponent.
 		this.doorJComponent.repaint();
+		//repaint the monsterJComponent.
+		this.monsterJComponent.repaint();
 	}
 
 	/**
