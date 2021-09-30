@@ -285,7 +285,6 @@ public class GUIController extends GUI {
 	@Override
 	protected void playerConsumedItem(List<Item> playerInventory, Item item) {
 		List<Item> inventory = playerInventory;
-		inventory.remove(item);
 		String s = "";
 		for (int i = 0; i < inventory.size(); i++) {
 			if (i == inventory.size() - 1) {
