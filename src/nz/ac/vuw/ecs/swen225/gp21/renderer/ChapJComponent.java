@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * The hero chap and block's JPanel
+ * The hero chap JComponent
  * 
  * @author limeng7 300525081
  *
