@@ -29,7 +29,7 @@ public class Recorder {
      * @param update The update to add to the recording.
      * @throws RecorderException
      */
-    void add(GameUpdate update) throws RecorderException {
+    public void add(GameUpdate update) throws RecorderException {
         if(loadedGame) throw new RecorderException("Cannot add ticks to a pre-recorded game. Use clear() to remove a loaded game.");
         if(updateValid(update)) updates.add(update);
         else throw new RecorderException("null tick added");
