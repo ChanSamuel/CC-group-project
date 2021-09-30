@@ -62,6 +62,9 @@ public class SaveRestoreGameMementoTests {
 
         testMemento = new GameMemento(2, 2, gameObjects, gameObjectLocations, gameObjectMoveControllers,
                 terrains, 6, new Running(), 7, true);
+
+        testMemento.setTimeLeft(9);
+        testMemento.setLevelNumber(3);
     }
 
     /**
@@ -142,7 +145,7 @@ public class SaveRestoreGameMementoTests {
             };
 
         GameCaretaker gameCaretaker = new GameCaretaker(domain);
-        gameCaretaker.saveGame(f);
+        gameCaretaker.saveGame(f, 3, 9);
         GameMemento loadedMemento;
         try (FileInputStream stream = new FileInputStream(f)) {
             loadedMemento = gameCaretaker.getMemento(stream);
@@ -165,7 +168,9 @@ public class SaveRestoreGameMementoTests {
                 && loaded.getTerrains().get(0).toString().equals("Key tile Green")
                 && loaded.getTerrains().get(1).toString().equals("Door  Green")
                 && loaded.getTerrains().get(2).toString().equals("Teleporter")
-                && loaded.getIsExitOpen()==true;
+                && loaded.getIsExitOpen()==true
+                && loaded.getTimeLeft()==9
+                && loaded.getLevelNumber()==3;
     }
 }
 

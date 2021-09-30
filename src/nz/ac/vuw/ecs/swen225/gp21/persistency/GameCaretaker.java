@@ -113,9 +113,10 @@ public class GameCaretaker {
      * todo explain - load from a memento (world save)
      *
      * @param fileToLoad needs to be a .xml file
+     * @return an array containing the level number at index 0 and the time left at index 1
      * @throws PersistException that will provide an informative message that should be shown to the user
      */
-    public void loadGame(File fileToLoad) throws PersistException {
+    public int[] loadGame(File fileToLoad) throws PersistException {
         if ((fileToLoad == null) || notXMLFile(fileToLoad)) {
             throw new PersistException("File to load a game to must be a .xml file.");
         }
@@ -123,6 +124,7 @@ public class GameCaretaker {
         GameMemento memento = getMemento(fs);
         domain.restoreGame(memento);
         domain.doneLoading();
+        return new int[] {memento.getLevelNumber(), memento.getTimeLeft()};
     }
 
     /**
@@ -153,21 +155,24 @@ public class GameCaretaker {
         return parser.load(fs, GameMemento.class);
     }
 
+
     /**
      * This method is called by the App module when the user wants to save a current game.
      * This method writes an XML file representing a Domain object that is holding the current game state.
-     * todo explain save a memento of originator (world save)
-     *
+     *      * todo explain save a memento of originator (world save)
      * @param fileToSave should be an .xml file
+     * @param level
+     * @param timeLeft
      * @throws PersistException The message of the exception shown should be shown in a pop-up message to the user
      */
-    public void saveGame(File fileToSave) throws PersistException {
+    public void saveGame(File fileToSave, int level, int timeLeft) throws PersistException {
         if ((fileToSave == null) || notXMLFile(fileToSave)) {
             throw new PersistException("File to save a game to must be a .xml file.");
         }
         XMLPersister parser = new XMLPersister(xmlMapper);
         GameMemento gameMemento = domain.generateSaveData();
+        gameMemento.setLevelNumber(level);
+        gameMemento.setTimeLeft(timeLeft);
         parser.save(fileToSave, gameMemento);
     }
-
 }

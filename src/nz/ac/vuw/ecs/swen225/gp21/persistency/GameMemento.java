@@ -21,6 +21,11 @@ public class GameMemento {
     int rows, cols, updates, totalTreasure;
 
     /**
+     * TODO
+     */
+    int levelNumber, timeLeft = 0;
+
+    /**
      * Whether the boards exit has been opened from the game to be captured.
      */
     boolean isExitOpen;
@@ -173,5 +178,37 @@ public class GameMemento {
      */
     public int getTotalTreasure() {
         return totalTreasure;
+    }
+
+    /**
+     * FIXME
+     * @return
+     */
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    /**
+     * FIXME
+     * @return
+     */
+    public int getTimeLeft() {
+        return timeLeft;
+    }
+
+    /**
+     * FIXME
+     * @param levelNumber
+     */
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
+
+    /**
+     * FIXME
+     * @param timeLeft
+     */
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
     }
 }
