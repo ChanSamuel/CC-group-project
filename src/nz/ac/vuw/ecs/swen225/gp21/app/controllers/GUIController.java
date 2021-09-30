@@ -121,10 +121,17 @@ public class GUIController extends GUI {
 	            
 	            this.loadGame(selectedFile);
 	            
+	            // Re-enable save buttons for game page.
+				frame.fileExitSave.setEnabled(true);
+				frame.fileSaveState.setEnabled(true);
+				frame.fileSaveReplay.setEnabled(true);
+	            
 	        } else {
 	            report("Cancelled file selection");
 	        }
 			
+	        
+	        
 		});
 		
 		// Menu bar quit game action
@@ -176,6 +183,11 @@ public class GUIController extends GUI {
 	            
 	            report("Loading " + selectedFile.toPath());
             	this.loadReplay(selectedFile);
+            	
+            	// Re-enable save buttons for game page.
+    			frame.fileExitSave.setEnabled(true);
+    			frame.fileSaveState.setEnabled(true);
+    			frame.fileSaveReplay.setEnabled(true);
 	        } else {
 	            report("Cancelled file selection");
 	        }
