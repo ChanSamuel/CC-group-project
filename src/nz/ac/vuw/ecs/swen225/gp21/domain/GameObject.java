@@ -16,11 +16,13 @@ public abstract class GameObject implements Cloneable {
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
+  @JsonIgnore
   public InputStream leftStream;
   /**
    * The file path to the image used to render this character. Use if the renderer
    * wants to use an image.
    */
+  @JsonIgnore
   public InputStream rightStream;
   /**
    * The logic that GameObjects use to choose how to move is encapsulated away
