@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain.objects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
@@ -96,7 +97,7 @@ public class Chip extends GameObject {
    * @return the inventory
    */
   public List<Item> getInventory() {
-    return inventory;
+    return Collections.unmodifiableList(inventory);
   }
 
   /**
