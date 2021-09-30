@@ -45,7 +45,7 @@ public class Chip extends GameObject {
    * @param chip the chip we are cloning from
    */
   private Chip(Chip chip) {
-    super(chip.controller.Clone(), chip.dir, null, null);
+    super(chip.controller.clone(), chip.dir, null, null);
     treasureCollected = chip.treasureCollected;
     this.inventory = new ArrayList<>(INVENTORY_SIZE);
     chip.inventory.stream().forEach(i -> {

@@ -89,7 +89,7 @@ public final class RandomMovement implements MovementController {
   }
 
   @Override
-  public MovementController Clone() {
+  public MovementController clone() {
     return new RandomMovement(this);
   }
 }
