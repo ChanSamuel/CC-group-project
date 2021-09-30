@@ -46,7 +46,6 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	boolean playerMoved = true;
 	Music level1Music;
 	Music level2Music;
-	private long clipTime;
 	/**
 	 * The constructor, Use singleton pattern so set constructor to private, then it
 	 * won't get initialized by other classes.
@@ -190,8 +189,8 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		if (domain == null)
 			return;
 		// calculate the offset of chap's coord from center of the board.
-		int diffX = TILE_WIDTH * ((WorldJFrame.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getColumn());
-		int diffY = TILE_HEIGHT * ((WorldJFrame.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
+		int diffX = TILE_WIDTH * ((WrapperJPanel.FOCUS_AREA_COLS - 1) / 2 - domain.getPlayerLocation().getColumn());
+		int diffY = TILE_HEIGHT * ((WrapperJPanel.FOCUS_AREA_ROWS - 1) / 2 - domain.getPlayerLocation().getRow());
 		// change the location of panel to place chap in the center.
 		setBounds(diffX, diffY, this.board.getWidth() * TILE_WIDTH, this.board.getHeight() * TILE_HEIGHT);
 	}
@@ -272,7 +271,6 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	}
 	@Override
 	public int getLevel() {
-		// TODO Auto-generated method stub
 		return this.level;
 	}
 }

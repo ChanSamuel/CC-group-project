@@ -1,8 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -16,12 +14,11 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
  *
  */
 @SuppressWarnings("serial")
-public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
+public class WrapperJPanel extends JPanel implements Renderer {
 	public static final int FOCUS_AREA_ROWS = 9;
 	public static final int FOCUS_AREA_COLS = 9;
 	public static final int WIDTH = WorldJPanel.TILE_WIDTH * FOCUS_AREA_COLS;
 	public static final int HEIGHT = WorldJPanel.TILE_HEIGHT * FOCUS_AREA_ROWS;
-	private Domain domain;
 	private WorldJPanel worldJPanel;
 	private BufferedImage tileImage;
 	private static volatile WrapperJPanel wrapperJPanel = null;
@@ -62,54 +59,6 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 		return wrapperJPanel;
 	}
 
-	// TODO Those are TEMP key listeners just for testing GUI.
-	// -------------------The Key listeners------------------------------
-	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		if (domain == null)
-			return;
-		int code = e.getKeyCode();
-		switch (code) {
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
-			domain.moveChipUp();
-			System.out.println("move chap up");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_S:
-		case KeyEvent.VK_DOWN:
-			domain.moveChipDown();
-			System.out.println("move chap down");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_LEFT:
-			domain.moveChipLeft();
-			System.out.println("move chap left");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		case KeyEvent.VK_D:
-		case KeyEvent.VK_RIGHT:
-			domain.moveChipRight();
-			System.out.println("move chap right");
-			System.out.println("chap's location is: " + domain.getPlayerLocation());
-			break;
-		default:
-			break;
-		}
-		domain.update(200);
-		redraw(domain);
-	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		for (int i = 0; i < FOCUS_AREA_COLS; i++) {
@@ -138,7 +87,6 @@ public class WrapperJPanel extends JPanel implements KeyListener, Renderer {
 
 	@Override
 	public void init(Domain domain,int level) {
-		this.domain = domain;
 		worldJPanel.init(domain,level);
 	}
 
