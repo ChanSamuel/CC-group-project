@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 
+/**
+ * These tests are for the coordinate type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class CoordTests {
 
   /**

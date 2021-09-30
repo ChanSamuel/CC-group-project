@@ -175,6 +175,11 @@ public class Loading implements State {
         + world.getBoard().getRemainingChips());
   }
 
+  /**
+   * Check the GameMemento contains valid parameters.
+   *
+   * @param save the memento being checked
+   */
   private void checkParams(GameMemento save) {
     if (save == null) {
       throw new IllegalArgumentException("Save should not be null");

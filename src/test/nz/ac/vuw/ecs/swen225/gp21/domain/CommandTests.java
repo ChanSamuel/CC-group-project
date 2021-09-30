@@ -9,6 +9,12 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.TestWorld;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 
+/**
+ * These tests are for the Command type.
+ *
+ * @author sansonbenj 300482847
+ *
+ */
 class CommandTests {
   Level testLevel;
 
