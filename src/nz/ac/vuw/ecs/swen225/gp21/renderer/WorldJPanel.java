@@ -46,6 +46,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	boolean playerMoved = true;
 	Music level1Music;
 	Music level2Music;
+	private long clipTime;
 	/**
 	 * The constructor, Use singleton pattern so set constructor to private, then it
 	 * won't get initialized by other classes.
@@ -151,6 +152,25 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	}
 
 	@Override
+	public void gamePaused() {
+		if (level1Music != null) {
+			
+			level1Music.pause();
+		}
+		if (level2Music != null) {
+			level2Music.pause();
+		}
+	}
+	@Override
+	public void gameResumed() {
+		System.out.println("Game resumed");
+		if(level==1) {
+			level1Music.resume();
+		}else if(level==2) {
+			level2Music.resume();
+		}
+	}
+	@Override
 	public void updateJPanel() {
 		// ---------check if domain and level have been set----------------
 		if (domain == null || level == -1)
@@ -218,24 +238,6 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	static void playSound(SoundType soundType) {
 		try {
 				switch (soundType) {
-//				case BGM_LEVEL_1:
-//					level1Music = new Music(FileUtil.getAudioStream("music_level1.wav"));
-//					// modify volumn, positive means increase, negative means decrease.
-//					level1Music.modifyVolumn(-5);
-//					// start background music
-//					level1Music.start();
-//					// loop background music
-//					level1Music.loop();
-//					break;
-//				case BGM_LEVEL_2:
-//					level2Music = new Music(FileUtil.getAudioStream("music_level2.wav"));
-//					// modify volumn, positive means increase, negative means decrease.
-//					level2Music.modifyVolumn(-5);
-//					// start background music
-//					level2Music.start();
-//					// loop background music
-//					level2Music.loop();
-//					break;
 				case GAME_START:
 					new Music(FileUtil.getAudioStream("GAME_START.wav")).start();
 					break;
