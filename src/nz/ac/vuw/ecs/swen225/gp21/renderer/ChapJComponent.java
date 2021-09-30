@@ -2,8 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.JComponent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
@@ -19,8 +17,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 //NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 
 //the JPanel it location on will also update, that's not ideal here.
 class ChapJComponent extends JComponent {
-	private BufferedImage chapImageLeft;
-	private BufferedImage chapImageRight;
+	private Image chapImageLeft;
+	private Image chapImageRight;
 	private Image chapImage;
 	private Coord coord;
 	private Direction dir;
@@ -76,15 +74,10 @@ class ChapJComponent extends JComponent {
 	 * initialize the image
 	 */
 	void initImages() {
-		try {
-			// use gif and set background transparent will make the parent panel keep
-			// repaint(), so use image here instead
-			chapImageLeft = FileUtil.getBufferedImage("chap-3-left.gif");
-			chapImageRight = FileUtil.getBufferedImage("chap-3-right.gif");
-		} catch (IOException e) {
-			System.out.println("chap image loading failed");
-			e.printStackTrace();
-		}
+		// use gif and set background transparent will make the parent panel keep
+		// repaint(), so use image here instead
+		chapImageLeft = FileUtil.getGIF("chap-3-left.gif");
+		chapImageRight = FileUtil.getGIF("chap-3-right.gif");
 	}
 
 	/**
