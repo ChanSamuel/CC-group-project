@@ -25,7 +25,7 @@ public final class RandomMovement implements MovementController {
    * controller move per second i.e. if I want to move one tile in one second and
    * ticks happen every 200ms { Game.freq } then freq should be f = 1 / T (second)
    */
-  private final double frequency;
+  private double frequency;
   /**
    * Number of milliseconds before we move again oops, now each entity needs its
    * own movement controller. :P
@@ -49,9 +49,20 @@ public final class RandomMovement implements MovementController {
     this.timeToNextMove = (1.0 / frequency) * 1000.0;
   }
 
+  /**
+   * Create a deep copy of this controller.
+   *
+   * @param randomMovement the controller being copied
+   */
   private RandomMovement(RandomMovement randomMovement) {
     this.frequency = randomMovement.frequency;
     this.timeToNextMove = randomMovement.timeToNextMove;
+  }
+
+  /**
+   * Default movement constructor for saving.
+   */
+  public RandomMovement() {
   }
 
   @Override
@@ -66,6 +77,24 @@ public final class RandomMovement implements MovementController {
     }
     Command response = new NoMove();
     return response;
+  }
+
+  /**
+   * The amount of times this object moves in a second
+   *
+   * @return the frequency of movements.
+   */
+  public double getFrequency() {
+    return frequency;
+  }
+
+  /**
+   * Get number of milliseconds until this object moves again.
+   *
+   * @return milliseconds to next move.
+   */
+  public double getTimeToNextMove() {
+    return timeToNextMove;
   }
 
   /**
