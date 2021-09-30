@@ -5,6 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
+import org.mockito.InOrder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +37,11 @@ public class LevelHandler {
     private static final List<Integer> levelsThatExist = Arrays.asList(1, 2);
 
     /**
+     *
+     */
+    protected static InputStream[] inputStreams = new InputStream[2];
+
+    /**
      * Loads level (determined by which level number) into a given domain.
      *
      * @param levelNumber must be a level that exists
@@ -48,6 +55,7 @@ public class LevelHandler {
 
         if (levelNumber == 2) {
             try {
+                // FIXME update jar class to implement clonable and look at chip class clone method
                 domain.addGameObject(getSecondActor(), new Coord(4, 23)); // FIXME use correct coordinate
             } catch (Exception e) {
                 throw new PersistException("Error loading logic for level 2 actor");
@@ -63,7 +71,7 @@ public class LevelHandler {
      * @return
      * @throws PersistException
      */
-    private static GameObject getSecondActor() throws PersistException, MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    protected static GameObject getSecondActor() throws PersistException, MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         File jarFile = new File("levels/level2.jar");
         String className = "Dragon";
         URL fileURL = jarFile.toURI().toURL();
@@ -73,11 +81,11 @@ public class LevelHandler {
         Class clazz = Class.forName(className, false, ucl);
         GameCaretaker.registerMapperSubtype(clazz, clazz.getName());
 
-        InputStream leftStream = ucl.getResourceAsStream("dragon_left.GIF");
-        InputStream rightStream = ucl.getResourceAsStream("dragon_right.gif");
+        inputStreams[0] = ucl.getResourceAsStream("dragon_left.GIF");
+        inputStreams[1] = ucl.getResourceAsStream("dragon_right.gif");
 
         return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
-                .newInstance(leftStream, rightStream);
+                .newInstance(inputStreams[0], inputStreams[1]);
     }
 
     /**
@@ -132,7 +140,7 @@ public class LevelHandler {
             LevelMemento levelMemento = parser.load(fileStream, LevelMemento.class);
             return mementoToLevel(levelMemento);
         } catch (FileNotFoundException e) {
-            throw new PersistException("");
+            throw new PersistException("Level map not found");
         }
     }
 

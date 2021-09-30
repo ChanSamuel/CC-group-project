@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.RandomMovement;
@@ -19,6 +20,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 
 /**
  * TODO
@@ -89,6 +92,13 @@ public class GameCaretaker {
     public GameCaretaker(Domain domain) throws PersistException {
         if (domain == null) throw new PersistException("Cannot persist a null game");
         this.domain = domain;
+
+        // Because loading a level 2 game requires knowledge of the second actor as a subtype
+        try {
+            LevelHandler.getSecondActor();
+        } catch (Exception e) {
+            throw new PersistException("Cannot persist level 2 data");
+        }
     }
 
     /**
@@ -125,6 +135,16 @@ public class GameCaretaker {
         }
         FileInputStream fs = getFileInputStream(fileToLoad);
         GameMemento memento = getMemento(fs);
+
+        if (memento.getLevelNumber()==2) {
+            for (GameObject go: memento.gameObjects) {
+                if (go instanceof Monster) {
+                    go.setLeftStream(LevelHandler.inputStreams[0]);
+                    go.setRightStream(LevelHandler.inputStreams[1]);
+                }
+            }
+        }
+
         domain.restoreGame(memento);
         domain.doneLoading();
         return new int[] {memento.getLevelNumber(), memento.getTimeLeft()};
