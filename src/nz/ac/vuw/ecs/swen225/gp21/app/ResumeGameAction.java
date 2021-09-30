@@ -10,6 +10,7 @@ public class ResumeGameAction implements Action {
 			return;
 		}
 		
+		control.renderer.gameResumed();
 		control.gLoop.setPause(false);
 	}
 

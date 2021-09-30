@@ -10,6 +10,7 @@ public class PauseGameAction implements Action {
 			return;
 		}
 		
+		control.renderer.gamePaused();
 		control.gLoop.setPause(true);
 		control.pauseOperation();
 		

@@ -13,8 +13,11 @@ public class TogglePauseAction implements Action {
 		boolean p = control.gLoop.getIsPaused();
 		control.gLoop.setPause(!p);
 		if (!p) {
-			control.pauseOperation();
-		}
+            control.renderer.gamePaused();
+            control.pauseOperation();
+        }else {
+            control.renderer.gameResumed();
+        }
 	}
 
 	@Override

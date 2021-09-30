@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
  * @author Sam
  *
  */
-public class GameLoop implements Runnable {
+public final class GameLoop implements Runnable {
 	
 	public static final int BASE_TPS = 40;
 	
