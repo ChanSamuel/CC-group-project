@@ -46,4 +46,9 @@ public interface MainJPanel {
 	 * @param level an int
 	 */
 	public void setLevel(int level);
+	/**
+	 * Get the level of current game
+	 * @return the level
+	 */
+	public int getLevel();
 }
