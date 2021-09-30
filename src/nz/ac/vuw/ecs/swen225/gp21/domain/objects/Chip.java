@@ -91,6 +91,15 @@ public class Chip extends GameObject {
   }
 
   /**
+   * Get the player inventory, helper for app.
+   *
+   * @return the inventory
+   */
+  public List<Item> getInventory() {
+    return inventory;
+  }
+
+  /**
    * This method is called when Chip picks up an item.
    *
    * @param item the item chip picked up

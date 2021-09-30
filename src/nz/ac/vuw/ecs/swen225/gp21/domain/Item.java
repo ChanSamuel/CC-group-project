@@ -1,11 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp21.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Item interface defines the operations an item needs to be able to perform.
  *
  * @author sansonbenj 300482847
  *
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface Item extends Cloneable {
   /**
    * Get the colour of this item.
