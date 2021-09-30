@@ -73,9 +73,6 @@ public class MonsterJComponent extends JComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DragonMove dm = new DragonMove(this);
-		dm.start();
-		
 	}
 
 	@Override
@@ -98,25 +95,7 @@ public class MonsterJComponent extends JComponent {
 						WorldJPanel.TILE_WIDTH * monster.getTile().location.getColumn(),
 						WorldJPanel.TILE_HEIGHT * monster.getTile().location.getRow(), WorldJPanel.TILE_WIDTH,
 						WorldJPanel.TILE_HEIGHT, null);
-			
 		}
+	}
+}
 
-	}
-}
-class DragonMove extends Thread {
-	private MonsterJComponent monsterJComponent;
-	public DragonMove(MonsterJComponent monsterJComponent) {
-		this.monsterJComponent = monsterJComponent;
-	}
-	@Override
-	public void run() {
-		while(true) {
-		this.monsterJComponent.repaint();
-		try {
-			sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		}
-	}
-}
