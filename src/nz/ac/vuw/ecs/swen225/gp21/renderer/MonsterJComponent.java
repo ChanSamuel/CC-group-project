@@ -49,6 +49,7 @@ public class MonsterJComponent extends JComponent {
 	 * @param mainJPanel
 	 */
 	public void init(MainJPanel mainJPanel) {
+		if(mainJPanel.getLevel()==1)return;
 		this.mainJPanel = mainJPanel;
 		// set panel properties
 		setLayout(null);
@@ -63,7 +64,6 @@ public class MonsterJComponent extends JComponent {
 				}
 			}
 		}
-		if (monster ==null) return;
 		InputStream ls = monster.leftStream;
 		try {
 			leftDragonImage = ImageIO.read(ls);
@@ -82,7 +82,6 @@ public class MonsterJComponent extends JComponent {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		if(monster==null) return;
 //		super.paintComponent(g);
 //		System.out.println("draw dragon col= " + monster.currentTile.location.getColumn() + "row = "
 //				+ monster.currentTile.location.getRow());
