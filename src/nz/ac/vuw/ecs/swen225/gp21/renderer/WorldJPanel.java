@@ -133,7 +133,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		// arrange the layer, smaller index on top.
 		lp.add(chapJPanel, index++);
 		lp.add(this.doorJComponent, index++);
-		lp.add(changingElementsJPanel, index++);
+		lp.add(this.changingElementsJPanel, index++);
 		lp.add(this.monsterJComponent,index++);
 		lp.add(backgroundJPanel, 1000);
 		lp.setVisible(true);
