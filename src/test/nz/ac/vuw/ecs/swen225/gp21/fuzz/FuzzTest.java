@@ -15,7 +15,7 @@ public class FuzzTest {
     @Test
     public void test1(){
         fc.newGame(1);
-        doRandomMovement(fc, 10); // 10 seconds of random movement.
+        doRandomMovement(fc, 10 + random.nextInt(5)); // 10 seconds + random length of time.
     }
 
     /**
@@ -25,7 +25,7 @@ public class FuzzTest {
     @Test
     public void test2(){
         fc.newGame(2);
-        doRandomMovement(fc, 20); // 20 seconds of random movement.
+        doRandomMovement(fc, 10 + random.nextInt(5)); // 10 seconds + random length of time.
     }
 
 
@@ -46,5 +46,4 @@ public class FuzzTest {
         }
 
     }
-
 }
