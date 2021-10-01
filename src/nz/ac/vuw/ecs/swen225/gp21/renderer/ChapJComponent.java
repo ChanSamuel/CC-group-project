@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.swing.JComponent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
@@ -19,9 +21,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 //NOTE replace JComponent with JPanel, because if chap is a JComponent, then each time when JComponent update, 
 //the JPanel it location on will also update, that's not ideal here.
 class ChapJComponent extends JComponent {
-	private Image chapImageLeft;
-	private Image chapImageRight;
-	private Image chapImage;
+	private BufferedImage chapImageLeft;
+	private BufferedImage chapImageRight;
+	private BufferedImage chapImage;
 	private Coord coord;
 	private Direction dir;
 	private MainJPanel mainJPanel;
@@ -84,8 +86,13 @@ class ChapJComponent extends JComponent {
 	void initImages() {
 		// use gif and set background transparent will make the parent panel keep
 		// repaint(), so use image here instead
-		chapImageLeft = FileUtil.getGIF("chap-3-left.gif");
-		chapImageRight = FileUtil.getGIF("chap-3-right.gif");
+		try {
+			chapImageLeft = FileUtil.getBufferedImage("chap-3-left.gif");
+			chapImageRight = FileUtil.getBufferedImage("chap-3-right.gif");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -113,6 +120,6 @@ class ChapJComponent extends JComponent {
 //		System.out.println("Chap's current col: "+coord.getCol());
 //		System.out.println("Chap's current row: "+coord.getRow());
 		g.drawImage(chapImage, coord.getColumn() * WorldJPanel.TILE_WIDTH, coord.getRow() * WorldJPanel.TILE_HEIGHT,
-				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, this);
+				WorldJPanel.TILE_WIDTH, WorldJPanel.TILE_HEIGHT, null);
 	}
 }
