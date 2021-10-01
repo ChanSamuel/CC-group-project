@@ -102,6 +102,7 @@ public class DoorJComponent extends JComponent {
 		for (Coord coord : doorMap.keySet()) {
 			int i = coord.getColumn();
 			int j = coord.getRow();
+			if(this.mainJPanel.getHeroCoord()==null) return;
 			if (this.mainJPanel.getHeroCoord().getColumn() == i && this.mainJPanel.getHeroCoord().getRow() == j
 					&& doorMap.containsKey(coord)) {
 				System.out.println("chap stands on silver door");
