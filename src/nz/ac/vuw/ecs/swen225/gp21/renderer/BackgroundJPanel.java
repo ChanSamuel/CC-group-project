@@ -13,6 +13,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 /**
  * This is the backgound JPanel which draws the tiles, walls, teleporter, exit tile, 
  * oneway and info.
+ * it will iterating through tiles of the board, check the terrain type of the tile and 
+ * draw different terrain based on the types.
+ * it was placed on the manager JPanel WorldJPanel, will created and initialized in the init 
+ * method of WorldJPanel.
  * @author limeng7 300525081
  */
 @SuppressWarnings("serial")
@@ -71,7 +75,7 @@ class BackgroundJPanel extends JPanel {
 	}
 
 	/**
-	 * initialize the pictures
+	 * initialize all the pictures
 	 */
 	private void initImages() {
 		try {

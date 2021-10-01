@@ -71,7 +71,7 @@ class ChapJComponent extends JComponent {
 	}
 
 	/**
-	 * initialize the image
+	 * initialize the image, left chap image and right chap image
 	 */
 	void initImages() {
 		// use gif and set background transparent will make the parent panel keep
