@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JComponent;
 
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.CopperDoor;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GoldDoor;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.GreenDoor;
@@ -16,10 +17,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.SilverDoor;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
- * This is the door JComponent, update when door unlocked.
- * it has a inner class DoorMoving which extends Thread used for the door animation.
- * it holds a hashmap which map coord to Terrain, thus only do the animation on the 
- * door where chap stands on.
+ * This is the door JComponent, update when door unlocked. it has a inner class
+ * DoorMoving which extends Thread used for the door animation. it holds a
+ * hashmap which map coord to Terrain, thus only do the animation on the door
+ * where chap stands on.
  * 
  * @author limeng7 300525081
  *
@@ -45,6 +46,7 @@ public class DoorJComponent extends JComponent {
 
 	/**
 	 * Init the JPanel
+	 * 
 	 * @param mainJPanel the main JPanel which holds all the data from other
 	 *                   modules.
 	 */
@@ -96,33 +98,50 @@ public class DoorJComponent extends JComponent {
 	}
 
 	/**
-	 * Override the paintJComponent method, it will draw all the doors 
-	 * first and then draw the door where chap stands on with offset.(for the animation effect)
+	 * Override the paintJComponent method, it will draw all the doors first and
+	 * then draw the door where chap stands on with offset.(for the animation
+	 * effect)
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		// iterating through the board, draw image based on Tile's terrain type.
-		for (Coord coord : doorMap.keySet()) {
-			int i = coord.getColumn();
-			int j = coord.getRow();
-			if(this.mainJPanel.getHeroCoord()==null) return;
-			if (this.mainJPanel.getHeroCoord().getColumn() == i && this.mainJPanel.getHeroCoord().getRow() == j
-					&& doorMap.containsKey(coord)) {
-				currentI = coord.getColumn();
-				currentJ = coord.getRow();
-				currentTerrain = doorMap.get(coord);
-				this.doorMap.remove(coord);
-				if (!this.currentRunning)
-					doorOpen();
+		if (this.mainJPanel.getState() instanceof Replaying) {
+			for (int i = 0; i < mainJPanel.getBoard().getWidth(); i++) {
+				for (int j = 0; j < mainJPanel.getBoard().getHeight(); j++) {
+					{
+						Terrain terrain = mainJPanel.getBoard().getTileAt(new Coord(j, i)).getTerrain();
+						if (terrain instanceof SilverDoor || terrain instanceof GoldDoor || terrain instanceof GreenDoor
+								|| terrain instanceof CopperDoor) {
+							drawDoor(g, terrain, 0, i, j);
+						}
+					}
+				}
 			}
-			drawDoor(g, doorMap.get(coord), 0, i, j);
+		} else {
+			// iterating through the board, draw image based on Tile's terrain type.
+			for (Coord coord : doorMap.keySet()) {
+				int i = coord.getColumn();
+				int j = coord.getRow();
+				if (this.mainJPanel.getHeroCoord() == null)
+					return;
+				if (this.mainJPanel.getHeroCoord().getColumn() == i && this.mainJPanel.getHeroCoord().getRow() == j
+						&& doorMap.containsKey(coord)) {
+					currentI = coord.getColumn();
+					currentJ = coord.getRow();
+					currentTerrain = doorMap.get(coord);
+					this.doorMap.remove(coord);
+					if (!this.currentRunning)
+						doorOpen();
+				}
+				drawDoor(g, doorMap.get(coord), 0, i, j);
+			}
+			drawDoor(g, currentTerrain, offSet, currentI, currentJ);
 		}
-		drawDoor(g, currentTerrain, offSet, currentI, currentJ);
 	}
 
 	/**
 	 * The method for draw a door, draw different doors based on the terrain type.
+	 * 
 	 * @param g       the graphics
 	 * @param terrain current terrain
 	 * @param offset  offset of the door
@@ -130,7 +149,8 @@ public class DoorJComponent extends JComponent {
 	 * @param j       the door's col
 	 */
 	private void drawDoor(Graphics g, Terrain terrain, int offset, int i, int j) {
-		if(terrain==null) return;
+		if (terrain == null)
+			return;
 		switch (terrain.getClass().getSimpleName()) {
 		case "SilverDoor":
 			g.drawImage(doorsImage, WorldJPanel.TILE_WIDTH * i, WorldJPanel.TILE_HEIGHT * j,
@@ -159,22 +179,25 @@ public class DoorJComponent extends JComponent {
 }
 
 /**
- * This is a subclass used for implementing the door animation,
- * it will add 32 to the image offset of the door where chap stands on every 80ms.
+ * This is a subclass used for implementing the door animation, it will add 32
+ * to the image offset of the door where chap stands on every 80ms.
+ * 
  * @author limeng7 300525081
  *
  */
 class DoorMoving extends Thread {
 	private DoorJComponent doorJComponent;
+
 	public DoorMoving(DoorJComponent doorJComponent) {
 		this.doorJComponent = doorJComponent;
 	}
+
 	@Override
 	public void run() {
-		while(this.doorJComponent.offSet<this.doorJComponent.doorsImage.getWidth()) {
+		while (this.doorJComponent.offSet < this.doorJComponent.doorsImage.getWidth()) {
 //			System.out.println("Current offset: "+this.doorJComponent.offSet);
 			this.doorJComponent.currentRunning = true;
-			this.doorJComponent.offSet+=32;
+			this.doorJComponent.offSet += 32;
 			this.doorJComponent.repaint();
 			try {
 				sleep(80);
@@ -183,7 +206,7 @@ class DoorMoving extends Thread {
 			}
 		}
 		this.doorJComponent.currentRunning = false;
-		this.doorJComponent.offSet=0;
+		this.doorJComponent.offSet = 0;
 		this.doorJComponent.currentTerrain = null;
 	}
 }
