@@ -54,6 +54,7 @@ public class MonsterJComponent extends JComponent {
 	 */
 	public void init(MainJPanel mainJPanel) {
 //		if(mainJPanel.getLevel()==1)return;
+		monster=null;
 		this.mainJPanel = mainJPanel;
 		// set panel properties
 		setLayout(null);
