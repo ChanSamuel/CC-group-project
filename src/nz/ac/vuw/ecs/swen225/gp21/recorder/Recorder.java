@@ -37,50 +37,76 @@ public class Recorder {
     }
 
     /**
-     * Get the next command/s in a loaded recording.
-     * Returned as a list to allow for 'simultaneous' actions 
-     * (e.g. player pushes a box, so player and box both move)
-     * @return next command, or no command if user has reached the end of the recording
+     * Get the next command/s in a loaded recording. Returned as a list to allow for
+     * 'simultaneous' actions (e.g. player pushes a box, so player and box both
+     * move)
+     *
+     * @return next command, or no command if user has reached the end of the
+     *         recording
      * @throws RecorderException
-     */
-    public List<GameUpdate> next() throws RecorderException{
-        if(!loadedGame) throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
-        List<GameUpdate> l = new LinkedList<>();
-        if(pointer < updates.size()-1) pointer++;
-        else return l; // return empty list if reached last command
-
-        // make a list of all commands that happened within one update
-        while(pointer < updates.size()-1){
-            l.add(updates.get(pointer));
-            if(updates.get(pointer).getUpdateIndex() == updates.get(pointer+1).getUpdateIndex()){
-                pointer++;
-            }
-            else break;
+    */
+    public List<GameUpdate> next() throws RecorderException {
+        if (!loadedGame) {
+            throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
         }
-
+        List<GameUpdate> l = new LinkedList<>();
+        // check if this is the last update / are there any updates?
+        if (pointer == updates.size() || updates.isEmpty()) {
+            System.out.println("No more ticks to replay." + pointer + "updates size:" + updates.size());
+        return l;
+        }
+        if (pointer < 0) {
+            pointer = 0;
+        }
+        // make a list of all commands that happened within one update
+        while (pointer < updates.size()) {
+            l.add(updates.get(pointer++));
+            if (pointer + 1 >= updates.size()) {
+                break; // avoid out of bounds error
+            }
+            if (updates.get(pointer - 1).getUpdateIndex() != updates.get(pointer).getUpdateIndex()) {
+                // if this event is a part of a different update than we the one we just read,
+                // then exit.
+                break;
+            }
+        }
+        System.out.println("pointer:" + pointer);
         return l;
     }
 
     /**
-     * Get the previous command/s in a loaded recording.
-     * Returned as a list to allow for 'simultaneous' actions 
-     * (e.g. player pushes a box, so player and box both move)
-     * @return prev command, or no command if user has reached the start of the recording
+     * Get the previous command/s in a loaded recording. Returned as a list to allow
+     * for 'simultaneous' actions (e.g. player pushes a box, so player and box both
+     * move)
+     *
+     * @return prev command, or no command if user has reached the start of the
+     *         recording
      * @throws RecorderException
      */
-    public List<GameUpdate> prev() throws RecorderException{
-        if(!loadedGame) throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
+    public List<GameUpdate> prev() throws RecorderException {
+        if (!loadedGame) {
+            throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
+        }
         List<GameUpdate> l = new LinkedList<>();
-        if(pointer > 0) pointer--;
-        else return l; // return empty list if reached first command
-
+        // check if reached first command
+        if (pointer < 0 || updates.isEmpty()) {
+            System.out.println("Can't go back further");
+            return l;
+        }
+        if (pointer >= updates.size()) {
+            pointer = updates.size() - 1;
+        }
         // make a list of all commands that happened within one update
-        while(pointer > 0){
-            l.add(updates.get(pointer));
-            if(updates.get(pointer).getUpdateIndex() == updates.get(pointer-1).getUpdateIndex()){
-                pointer--;
+        while (pointer > -1) {
+            l.add(updates.get(pointer--));
+            if (pointer - 1 < -1) {
+                break; // avoid out of bounds error
             }
-            else break;
+            System.out.println("pointer:" + pointer + " updates size:" + updates.size() + " prev");
+            if (updates.get(pointer + 1).getUpdateIndex() != updates.get(pointer).getUpdateIndex()) {
+                // check that the next update is a part of this update. if it is not, then exit.
+                break;
+            }
         }
         return l;
     }
