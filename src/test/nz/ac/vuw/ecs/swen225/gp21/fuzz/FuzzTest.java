@@ -2,22 +2,27 @@ package test.nz.ac.vuw.ecs.swen225.gp21.fuzz;
 
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.FuzzController;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
-
-import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class FuzzTest {
     private final Random random = new Random();
+    private final FuzzController fc = new FuzzController();
 
     @Test
     public void test1(){
-        FuzzController fc = new FuzzController();
         fc.newGame(1);
+        doRandomMovement(fc, 10); // 10 seconds of random movement.
+    }
+
+    @Test
+    public void test2(){
+        fc.newGame(2);
+        doRandomMovement(fc, 20); // 20 seconds of random movement.
+    }
+
+
+    void doRandomMovement(FuzzController fc, long seconds) {
         long time = System.currentTimeMillis();
-        // System.out.println(time);
-        long seconds = 10;
         while (System.currentTimeMillis() < time + seconds * 1000) {
             switch (random.nextInt(4)) {
                 case 0: fc.moveUp(); break;
@@ -27,14 +32,6 @@ public class FuzzTest {
             }
         }
 
-
-
     }
-
-    @Test
-    public void test2(){
-        return; //pass
-    }
-
 
 }

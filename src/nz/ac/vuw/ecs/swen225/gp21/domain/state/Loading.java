@@ -31,6 +31,7 @@ public class Loading implements State {
   @Override
   public void loadLevel(World w, Level level) {
     w.updates = 0;
+    w.totalTreasure = 0;
     w.getCommandQueue().clear();
     w.getEntities().clear();
     w.setBoard(null);
@@ -158,6 +159,15 @@ public class Loading implements State {
     }
     // check for valid parameters
     checkParams(save);
+    // purge pre-existing game data.
+
+    world.updates = 0;
+    world.totalTreasure = 0;
+    world.getCommandQueue().clear();
+    world.getEntities().clear();
+    world.setBoard(null);
+    System.gc();
+
     // write update field and total treasure field
     world.updates = save.getUpdates();
     world.totalTreasure = save.getTotalTreasure();

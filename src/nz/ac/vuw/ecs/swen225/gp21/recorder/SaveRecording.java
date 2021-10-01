@@ -19,14 +19,15 @@ public class SaveRecording {
      * Transfers a Recording object to the Persistency package for encoding and saving.
      * @param file
      * @param recording
+     * @param mapper the given XmlMapper for Persister to use
      * @throws RecorderException
      */
-    public static void save(File file, Recording recording) throws RecorderException {
+    public static void save(File file, Recording recording, XmlMapper mapper) throws RecorderException {
         if(recording.getLevel() < 1){
             throw new RecorderException("Attempting to save recording with no level");
         }
         try{
-            XMLPersister p = new XMLPersister(new XmlMapper());
+            XMLPersister p = new XMLPersister(mapper);
             p.save(file, recording);
         }
         catch(PersistException e){

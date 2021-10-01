@@ -2,7 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp21.persistency.tests;
 
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import nz.ac.vuw.ecs.swen225.gp21.app.Main;
 import nz.ac.vuw.ecs.swen225.gp21.domain.*;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.NoMovement;
 import nz.ac.vuw.ecs.swen225.gp21.domain.controllers.PlayerController;
@@ -24,13 +23,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * These tests test whether a game state can be saved and restored successfully

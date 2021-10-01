@@ -5,7 +5,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 import nz.ac.vuw.ecs.swen225.gp21.domain.GameObject;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Level;
-import org.mockito.InOrder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +14,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO
+ * This class handles the functionality of handling levels in the game - including loading the plug-in second actor.
+ * It can load and save levels by capturing the state of a level in a LevelMemento and calling the XmlPersister class
+ * to persist LevelMementos to XML files.
  *
  * @author Lucy Goodwin
  */
@@ -37,9 +37,9 @@ public class LevelHandler {
     private static final List<Integer> levelsThatExist = Arrays.asList(1, 2);
 
     /**
-     * todo
+     * Array that holds the rendering information for a second actor. It gets populated when the plug in jar is loaded.
      */
-    protected static InputStream[] inputStreams = new InputStream[2];
+    protected static final InputStream[] inputStreams = new InputStream[2];
 
     /**
      * Loads level (determined by which level number) into a given domain.
@@ -79,17 +79,15 @@ public class LevelHandler {
      * @throws IllegalAccessException if instantiation of the second actor fails
      */
     protected static GameObject getSecondActor() throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        File jarFile = new File("levels/level2.jar");
-        String className = "Dragon";
-        URL fileURL = jarFile.toURI().toURL();
+        URL fileURL = (new File("levels/level2.jar")).toURI().toURL();
         String jarURL = "jar:" + fileURL + "!/";
         URL[] urls = {new URL(jarURL)};
-        URLClassLoader ucl = new URLClassLoader(urls);
-        Class clazz = Class.forName(className, false, ucl);
+        URLClassLoader classLoader = new URLClassLoader(urls);
+        Class clazz = Class.forName("Dragon", false, classLoader);
         GameCaretaker.registerMapperSubtype(clazz, clazz.getName());
 
-        inputStreams[0] = ucl.getResourceAsStream("dragon_left.GIF");
-        inputStreams[1] = ucl.getResourceAsStream("dragon_right.gif");
+        inputStreams[0] = classLoader.getResourceAsStream("dragon_left.GIF");
+        inputStreams[1] = classLoader.getResourceAsStream("dragon_right.gif");
 
         return (GameObject) clazz.getConstructor(InputStream.class, InputStream.class)
                 .newInstance(inputStreams[0], inputStreams[1]);

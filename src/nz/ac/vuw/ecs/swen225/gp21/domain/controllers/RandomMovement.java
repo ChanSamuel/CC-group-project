@@ -80,7 +80,7 @@ public final class RandomMovement implements MovementController {
   }
 
   /**
-   * The amount of times this object moves in a second
+   * The amount of times this object moves in a second.
    *
    * @return the frequency of movements.
    */
