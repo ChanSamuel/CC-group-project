@@ -76,8 +76,8 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 		this.domain = domain;
 		this.level = level;
 		// remove all old JPanels if exit, then revalidate.
-//		this.removeAll();
-//		this.revalidate();
+		this.removeAll();
+		this.revalidate();
 		// ---------Play music of current level---------------------
 		try {
 			if (this.level == 1) {
