@@ -20,6 +20,8 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URLClassLoader;
 
 /**
  * This class knows 'when' and 'why' to capture and restore a Domain's state (as a GameMemento).
@@ -97,7 +99,9 @@ public class GameCaretaker {
 
         // Because loading a level 2 game requires knowledge of the second actor as a subtype
         try {
-            LevelHandler.getSecondActor();
+            URLClassLoader classLoader = LevelHandler.getSecondActorClassLoader();
+            Class clazz = Class.forName("Dragon", false, classLoader);
+            registerMapperSubtype(clazz, clazz.getName());
         } catch (Exception e) {
             throw new PersistException("Cannot persist level 2 data");
         }
@@ -118,6 +122,11 @@ public class GameCaretaker {
         return !(fileName.substring(dotIndex + 1).equals("xml"));
     }
 
+    /**
+     * todo
+     * @param clazz
+     * @param name
+     */
     public static void registerMapperSubtype(Class clazz, String name) {
         xmlMapper.registerSubtypes(new NamedType(clazz, name));
     }
@@ -143,12 +152,18 @@ public class GameCaretaker {
         if (memento.getLevelNumber()==2) {
             for (GameObject go: memento.gameObjects) {
                 if (go instanceof Monster) {
-                    go.setLeftStream(LevelHandler.inputStreams[0]);
-                    go.setRightStream(LevelHandler.inputStreams[1]);
+                    try {
+                        URLClassLoader classLoader = LevelHandler.getSecondActorClassLoader();
+                        Class clazz = Class.forName("Dragon", false, classLoader);
+                        registerMapperSubtype(clazz, clazz.getName());
+                        go.setLeftStream(classLoader.getResourceAsStream("dragon_left.GIF"));
+                        go.setRightStream(classLoader.getResourceAsStream("dragon_right.gif"));
+                    } catch (Exception e) {
+                        throw new PersistException("Cannot render second actor");
+                    }
                 }
             }
         }
-
         domain.restoreGame(memento);
         domain.doneLoading();
         return new int[] {memento.getLevelNumber(), memento.getTimeLeft()};
