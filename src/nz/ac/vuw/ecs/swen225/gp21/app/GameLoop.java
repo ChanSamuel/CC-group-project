@@ -103,15 +103,16 @@ public final class GameLoop implements Runnable {
 
     while (true) {
       long start = System.currentTimeMillis();
-
+      Action nextAction = actions.peek();
+      
       // First, check if other modules can be updated.
       if (isPlaying) {
         if (isPaused) {
           // Poll something from the queue if it's there but don't execute
           // if it's a forward/back tick, or movement.
 
-          Action a = actions.peek();
-          boolean cond = !(a instanceof AdvanceTickAction) && !(a instanceof MovementAction);
+          boolean cond = !(nextAction instanceof AdvanceTickAction) 
+              && !(nextAction instanceof MovementAction);
           pollAction(cond);
 
           // Update the renderer (even though nothing happens, we still do this so that it
@@ -129,6 +130,11 @@ public final class GameLoop implements Runnable {
 
             // Update the renderer.
             updateRenderer();
+            
+            boolean cond = !(nextAction instanceof MovementAction);
+            
+            // Poll an action from the queue if it's there.
+            pollAction(cond);
 
           } else if (isReplay) {
 
@@ -136,6 +142,11 @@ public final class GameLoop implements Runnable {
 
             // Update the renderer.
             updateRenderer();
+            
+            boolean cond = !(nextAction instanceof MovementAction);
+            
+            // Poll an action from the queue if it's there.
+            pollAction(cond);
 
           } else {
             // Update the world.
@@ -147,24 +158,27 @@ public final class GameLoop implements Runnable {
 
             // Update the renderer.
             updateRenderer();
+            
+            // Then, update the timer.
+            if (t1 != -1) { // If we are not on the first tick.
+              long t2 = System.currentTimeMillis() - t1; // The time since last timer update.
+
+              // Calculate the time left using formula : timeLeft - elapsed.
+              this.timeLeft = this.timeLeft - ((double) t2 / 1000);
+              updateTimer();
+
+              // Set the last updated time to just now.
+              t1 = System.currentTimeMillis();
+
+            } else {
+              t1 = System.currentTimeMillis();
+            }
+            
+            // Poll an action from the queue if it's there.
+            pollAction(true);
+            
           }
 
-          if (t1 != -1) { // If we are not on the first tick.
-            long t2 = System.currentTimeMillis() - t1; // The time since last timer update.
-
-            // Calculate the time left using formula : timeLeft - elapsed.
-            this.timeLeft = this.timeLeft - ((double) t2 / 1000);
-            updateTimer();
-
-            // Set the last updated time to just now.
-            t1 = System.currentTimeMillis();
-
-          } else {
-            t1 = System.currentTimeMillis();
-          }
-
-          // Poll an action from the queue if it's there.
-          pollAction(true);
         }
       } else {
         // If other modules can't be updated yet, then only execute an action if it is a

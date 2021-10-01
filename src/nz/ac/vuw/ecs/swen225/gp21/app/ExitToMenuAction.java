@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GuiController;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
 /**
  * An Action which exits to the main menu. For GUIController, this will also
@@ -20,6 +21,7 @@ public class ExitToMenuAction implements Action {
 
     control.gameLoop.setToMenuState();
     control.clearInventory();
+    control.world.setState(new Loading());
 
     try {
       SwingUtilities.invokeAndWait(() -> {
