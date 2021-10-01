@@ -13,35 +13,19 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * This is the JPanel which holds all the elements which can move, such as
- * key,treasure.door This will update when chap moves.
+ * keys,treasures, and exitLock,  This will update when chap moves.
  * 
  * @author limeng7 300525081
  *
  */
 @SuppressWarnings("serial")
 class ChangingElementsJPanel extends JPanel {
-	/**
-	 * The board object.
-	 */
 	private Board board;
-	/**
-	 * The keys image.
-	 */
 	private BufferedImage keysImage;
-	/**
-	 * The treasure image.
-	 */
 	private BufferedImage treasureImage;
-	/**
-	 * The block image.
-	 */
 	private BufferedImage blockImage;
-	/**
-	 * The exit lock image
-	 */
 	private BufferedImage exitLockImage;
 	private volatile static ChangingElementsJPanel changingElementsJPanel = null;
-
 	/**
 	 * The constructor, Use singleton pattern so set constructor to private, then it won't get initialized by other classes.
 	 */
@@ -64,7 +48,8 @@ class ChangingElementsJPanel extends JPanel {
 	}
 
 	/**
-	 * initialize this JPanel
+	 * initialize the changingElementsJPanel,it will set the JPanel properties, 
+	 * initialize images, and set the board.
 	 * @param mainJPanel the mainJPanel
 	 */
 	void init(MainJPanel mainJPanel) {
@@ -81,7 +66,8 @@ class ChangingElementsJPanel extends JPanel {
 	}
 
 	/**
-	 * initialize the images
+	 * initialize the images, keys, exitLock, treasure and block,
+	 * this method got called in init();
 	 */
 	void initImages() {
 		try {
@@ -96,7 +82,7 @@ class ChangingElementsJPanel extends JPanel {
 	}
 
 	/**
-	 * Override the paint method.
+	 * Override the paintComponent method, 
 	 */
 	@Override
 	public void paintComponent(Graphics g) {

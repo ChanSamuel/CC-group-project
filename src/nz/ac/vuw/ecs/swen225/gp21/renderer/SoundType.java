@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 /**
- * A enum for sound type to play
+ * A enum for sound effect type to play, 
  * @author mengli 300525081
  *
  */

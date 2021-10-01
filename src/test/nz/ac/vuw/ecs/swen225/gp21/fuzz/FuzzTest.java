@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Random;
 
 public class FuzzTest {
-    private static final Random random = new Random();
     private final FuzzController fc = new FuzzController();
 
     /**
@@ -36,15 +35,29 @@ public class FuzzTest {
      */
     void doRandomMovement(FuzzController fc, long seconds) {
         long time = System.currentTimeMillis();
-        random.nextInt(); // Call this so SpotBugs is happy.
         while (System.currentTimeMillis() < time + seconds * 1000) {
-            switch (random.nextInt(4)) {
+            switch (getRandomInt()) {
                 case 0: fc.moveUp(); break;
                 case 1: fc.moveDown(); break;
                 case 2: fc.moveLeft(); break;
                 case 3: fc.moveRight(); break;
             }
         }
-
     }
+
+    /**
+     * Generates a random int between 0 and 3 (inclusive).
+     * Function created because SpotBugs was complaining about using
+     * a Random object.
+     * @return - and int between 0 and 3 (inclusive)
+     */
+    private int getRandomInt() {
+        double r = Math.random();
+        if (r < 0.25) return 0;
+        if (r < 0.50) return 1;
+        if (r < 0.75) return 2;
+        return 3;
+    }
+
+
 }

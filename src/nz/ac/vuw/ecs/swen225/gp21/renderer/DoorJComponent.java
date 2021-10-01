@@ -17,6 +17,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Terrain;
 
 /**
  * This is the door JComponent, update when door unlocked.
+ * it has a inner class DoorMoving which extends Thread used for the door animation.
+ * it holds a hashmap which map coord to Terrain, thus only do the animation on the 
+ * door where chap stands on.
  * 
  * @author limeng7 300525081
  *
@@ -93,7 +96,8 @@ public class DoorJComponent extends JComponent {
 	}
 
 	/**
-	 * Override the paintJComponent method
+	 * Override the paintJComponent method, it will draw all the doors 
+	 * first and then draw the door where chap stands on with offset.(for the animation effect)
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -105,7 +109,6 @@ public class DoorJComponent extends JComponent {
 			if(this.mainJPanel.getHeroCoord()==null) return;
 			if (this.mainJPanel.getHeroCoord().getColumn() == i && this.mainJPanel.getHeroCoord().getRow() == j
 					&& doorMap.containsKey(coord)) {
-				System.out.println("chap stands on silver door");
 				currentI = coord.getColumn();
 				currentJ = coord.getRow();
 				currentTerrain = doorMap.get(coord);
@@ -119,7 +122,7 @@ public class DoorJComponent extends JComponent {
 	}
 
 	/**
-	 * The method for draw a door
+	 * The method for draw a door, draw different doors based on the terrain type.
 	 * @param g       the graphics
 	 * @param terrain current terrain
 	 * @param offset  offset of the door
@@ -156,7 +159,8 @@ public class DoorJComponent extends JComponent {
 }
 
 /**
- * This is a subclass used for implement the door animation.
+ * This is a subclass used for implementing the door animation,
+ * it will add 32 to the image offset of the door where chap stands on every 80ms.
  * @author limeng7 300525081
  *
  */

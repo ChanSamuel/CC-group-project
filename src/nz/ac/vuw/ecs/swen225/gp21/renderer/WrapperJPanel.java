@@ -8,7 +8,8 @@ import javax.swing.JPanel;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
 
 /**
- * This is the JPanel used for the implementation of focus area
+ * This is the WrapperJPanel implements Renderer, 
+ * mainly used for the implementation of focus area
  * 
  * @author limeng7 300525081
  *
