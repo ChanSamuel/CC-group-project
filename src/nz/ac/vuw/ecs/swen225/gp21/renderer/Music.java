@@ -11,7 +11,8 @@ import javax.sound.sampled.LineUnavailableException;
 /**
  * This is the music class responsible for the music play and pause in game. can
  * load wav format music, mp3 not supported.
- * 
+ * it offers loop, start, stop(close the clip), pause(just pause, won't close the clip), 
+ * resume and volumn changing functions.
  * @author limeng7 300525081
  *
  */
@@ -32,7 +33,9 @@ class Music {
 	}
 
 	/**
-	 * initialize the music
+	 * initialize the music, add linelistener to the clip, 
+	 * when stop occurs, it will check if it's pause or not,
+	 * if it's not pause(means it's stop), then it will close the clip , otherwise do nothing.
 	 */
 	private void init() {
 		try {

@@ -10,7 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 /**
  * The hero chap JComponent's class, this JComponent will draw the hero chap,
  * it will get repaint every time when chap moves,
- * chap will get draw facing different side based on its direction.
+ * chap will get drawn facing different directions based on its direction.
  * 
  * @author limeng7 300525081
  *
