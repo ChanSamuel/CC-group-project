@@ -127,10 +127,12 @@ public class Recorder {
    */
   public void save(File saveFile, XmlMapper mapper) throws RecorderException {
     Recording r = new Recording(new LinkedList<>(updates), level);
+
     /*
      * try { SaveRecording.save(saveFile, r, mapper); } catch (RecorderException e)
      * { throw new RecorderException(e.getMessage()); }
      */
+
     memRecord = r;
   }
 
