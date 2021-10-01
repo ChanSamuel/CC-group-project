@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Random;
 
 public class FuzzTest {
-    private final Random random = new Random();
+    private static final Random random = new Random();
     private final FuzzController fc = new FuzzController();
 
     /**
