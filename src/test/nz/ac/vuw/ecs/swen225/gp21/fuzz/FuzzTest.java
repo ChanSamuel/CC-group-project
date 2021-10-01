@@ -14,7 +14,6 @@ public class FuzzTest {
      */
     @Test
     public void test1(){
-        random.nextInt(); // Call this so SpotBugs is happy.
         fc.newGame(1);
         doRandomMovement(fc, 10); // 10 seconds.
     }
@@ -25,7 +24,6 @@ public class FuzzTest {
      */
     @Test
     public void test2(){
-        random.nextInt(); // Call this so SpotBugs is happy.
         fc.newGame(2);
         doRandomMovement(fc, 10); // 10 seconds.
     }
@@ -38,6 +36,7 @@ public class FuzzTest {
      */
     void doRandomMovement(FuzzController fc, long seconds) {
         long time = System.currentTimeMillis();
+        random.nextInt(); // Call this so SpotBugs is happy.
         while (System.currentTimeMillis() < time + seconds * 1000) {
             switch (random.nextInt(4)) {
                 case 0: fc.moveUp(); break;
