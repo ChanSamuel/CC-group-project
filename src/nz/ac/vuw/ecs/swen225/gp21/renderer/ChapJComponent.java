@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp21.renderer;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
