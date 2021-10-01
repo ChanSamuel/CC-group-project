@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Replaying;
@@ -20,12 +22,16 @@ public class LoadReplayAction implements Action, StartAction {
 
 	
 	File f; 
+	
+	XmlMapper xmlMapper;
+	
 	/**
 	 * Construct a LoadReplayAction which will load the given file.
 	 * @param f
 	 */
 	public LoadReplayAction(File f) {
 		this.f = f;
+		this.xmlMapper = SaveReplayAction.registerXML();
 	}
 	
 	@Override
@@ -35,7 +41,7 @@ public class LoadReplayAction implements Action, StartAction {
 		control.recorder.clear();
 		
 		try {
-			control.recorder.load(new FileInputStream(f));
+			control.recorder.load(new FileInputStream(f), xmlMapper);
 		} catch (RecorderException e1) {
 			control.warning("Something went wrong when loading the replay:\n" + e1.getMessage());
 			return;

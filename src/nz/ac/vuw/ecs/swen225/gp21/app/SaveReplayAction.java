@@ -45,12 +45,47 @@ public class SaveReplayAction implements Action {
 	
 	public SaveReplayAction(File saveFile) {
 		this.saveFile = saveFile;
+    this.xmlMapper = registerXML();
+	}
+	
+	@Override
+	public void execute(Controller control) {
 		
-		// NEED TO REGISTER SUBTYPES HERE BECAUSE THE RECORDER IS 
-		// UNABLE TO HANDLE THIS BECAUSE OF THE DEPENDENCY 
-		// REQUIREMENTS.
+		if (!control.gameLoop.getIsPlaying()) {
+			control.warning("Cannot save unless a game is being played.");
+			return;
+		}
 		
-    xmlMapper = new XmlMapper();
+		if (control.gameLoop.getIsReplay()) {
+			control.warning("Can't save a replay whilst in a replay.");
+			return;
+		}
+		
+		try {
+			control.recorder.setLevel(control.levelNumber);
+			control.recorder.save(saveFile, xmlMapper);
+		} catch (RecorderException e) {
+			control.warning("Something went wrong with saving the replay:\n" + e.getMessage());
+			return;
+		}
+		
+		control.report("Save successful");
+	}
+
+	@Override
+	public String actionName() {
+		return "SaveReplayAction";
+	}
+	
+	/**
+	 * NEED TO REGISTER SUBTYPES USING THIS BECAUSE THE RECORDER IS 
+   * UNABLE TO HANDLE THIS BECAUSE OF THE DEPENDENCY 
+   * REQUIREMENTS.
+   * 
+	 * @return the XmlMapper with registered types.
+	 */
+	public static XmlMapper registerXML() {
+	  XmlMapper xmlMapper = new XmlMapper();
     xmlMapper.registerSubtypes(
             new NamedType(GameUpdateProxy.class, "UpdateProxy"),
             new NamedType(DirectMove.class, "DirectMove"),
@@ -91,36 +126,7 @@ public class SaveReplayAction implements Action {
             new NamedType(Treasure.class, "Treasure"),
             new NamedType(Wall.class, "Wall"));
       xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
-		
-	}
-	
-	@Override
-	public void execute(Controller control) {
-		
-		if (!control.gameLoop.getIsPlaying()) {
-			control.warning("Cannot save unless a game is being played.");
-			return;
-		}
-		
-		if (control.gameLoop.getIsReplay()) {
-			control.warning("Can't save a replay whilst in a replay.");
-			return;
-		}
-		
-		try {
-			control.recorder.setLevel(control.levelNumber);
-			control.recorder.save(saveFile, xmlMapper);
-		} catch (RecorderException e) {
-			control.warning("Something went wrong with saving the replay:\n" + e.getMessage());
-			return;
-		}
-		
-		control.report("Save successful");
-	}
-
-	@Override
-	public String actionName() {
-		return "SaveReplayAction";
+      return xmlMapper;
 	}
 
 }

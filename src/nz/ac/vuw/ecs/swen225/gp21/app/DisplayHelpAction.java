@@ -1,26 +1,35 @@
 package nz.ac.vuw.ecs.swen225.gp21.app;
 
-import java.lang.reflect.InvocationTargetException;
+/**
+ * Action which display the help message.
 
-import javax.swing.SwingUtilities;
-
+ * @author chansamu1 300545169
+ *
+ */
 public class DisplayHelpAction implements Action {
 
-	
-	private String msg;
-	
-	public DisplayHelpAction(String msg) {
-		this.msg = msg;
-	}
-	
-	@Override
-	public void execute(Controller control) {
-		control.report(msg);
-	}
+  /**
+   * The message to display.
+   */
+  private String msg;
 
-	@Override
-	public String actionName() {
-		return "DisplayHelpAction";
-	}
+  /**
+   * Construct the Action.
+
+   * @param msg : the message to display.
+   */
+  public DisplayHelpAction(String msg) {
+    this.msg = msg;
+  }
+
+  @Override
+  public void execute(Controller control) {
+    control.report(msg);
+  }
+
+  @Override
+  public String actionName() {
+    return "DisplayHelpAction";
+  }
 
 }
