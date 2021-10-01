@@ -49,7 +49,7 @@ public class MonsterJComponent extends JComponent {
 	 * @param mainJPanel
 	 */
 	public void init(MainJPanel mainJPanel) {
-		if(mainJPanel.getLevel()==1)return;
+//		if(mainJPanel.getLevel()==1)return;
 		this.mainJPanel = mainJPanel;
 		// set panel properties
 		setLayout(null);
@@ -63,6 +63,10 @@ public class MonsterJComponent extends JComponent {
 					monster = (Monster) object;
 				}
 			}
+		}
+		if(monster==null) return;
+		if(monster.leftStream==null||monster.rightStream==null) {
+			throw new RuntimeException("inputStream is null");
 		}
 		InputStream ls = monster.leftStream;
 		try {
@@ -78,10 +82,14 @@ public class MonsterJComponent extends JComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(leftDragonImage==null||rightDragonImage==null) {
+			throw new RuntimeException("left dragon image or right dragon image is null");
+		}
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
+		if(monster==null) return;
 //		super.paintComponent(g);
 //		System.out.println("draw dragon col= " + monster.currentTile.location.getColumn() + "row = "
 //				+ monster.currentTile.location.getRow());
