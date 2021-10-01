@@ -23,7 +23,7 @@ class ReplayTests {
     int rows = 10;
     int columns = 10;
     String tiles = "";
-    tiles += "..........";
+    tiles += ".Gg.......";
     tiles += "..........";
     tiles += "..c..1....";
     tiles += "##########";
@@ -81,7 +81,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 5 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|=|_|_|_|_|\n"
           + "6|_|_|_|_|_|_|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -119,7 +119,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 5 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|=|_|_|_|_|\n"
           + "6|_|_|_|_|_|_|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -128,7 +128,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->SOUTH at->Row: 1 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 5 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|C|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|=|_|_|_|_|\n"
           + "6|_|_|_|_|_|_|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -136,7 +136,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->NORTH at->Row: 0 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 1 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|C|_|_|_|_|\n" + "1|_|_|_|_|_|=|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|C|_|_|_|_|\n" + "1|_|_|_|_|_|=|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|_|_|_|_|_|\n"
           + "6|_|_|_|_|_|_|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -206,7 +206,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->SOUTH at->Row: 5 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 6 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|_|_|_|_|_|\n" + "1|_|_|_|_|_|_|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|C|_|_|_|_|\n"
           + "6|_|_|_|_|_|=|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -222,7 +222,7 @@ class ReplayTests {
           + "EMPTY\n" + "All entities: \n"
           + "GameObject: Chip facing->NORTH at->Row: 0 Columns: 5 Chip Chip's Invetory: []\n"
           + "GameObject: Block facing->NONE at->Row: 1 Columns: 5 Block\n" + "\n" + "Board: \n"
-          + "0|_|_|_|_|_|C|_|_|_|_|\n" + "1|_|_|_|_|_|=|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
+          + "0|_|D|k|_|_|C|_|_|_|_|\n" + "1|_|_|_|_|_|=|_|_|_|_|\n" + "2|_|_|c|_|_|O|_|_|_|_|\n"
           + "3|#|#|#|#|#|#|#|#|#|#|\n" + "4|_|_|_|_|_|O|_|_|_|_|\n" + "5|_|_|_|_|_|_|_|_|_|_|\n"
           + "6|_|_|_|_|_|_|_|_|_|_|\n" + "7|_|_|_|_|_|_|_|_|_|_|\n" + "8|_|c|c|_|_|_|_|_|#|X|\n"
           + "9|_|_|_|_|_|_|_|_|#|e|\n";
@@ -251,6 +251,42 @@ class ReplayTests {
     w.update(40);
 
     assertTrue(w.events.size() == 3);
+  }
+
+  @Test
+  void testDoorPutBack() {
+    TestWorld w = new TestWorld();
+    w.loadLevelData(testLevel);
+    w.doneLoading();
+    w.moveChipLeft();
+    w.moveChipLeft();
+    w.moveChipLeft();
+    w.moveChipLeft();
+    w.moveChipLeft();
+    w.update(40);
+    w.update(40);
+    w.update(40);
+    w.update(40);
+    w.update(40);
+    System.out.println(w);
+    w.setState(new Loading());
+    w.loadLevelData(testLevel);
+    w.doneLoading();
+    w.setState(new Replaying());
+    String expected = w.toString();
+    // go forward
+    for (GameEvent e : w.events) {
+      w.forwardTick(e);
+    }
+    System.out.println("stepped forward\n" + w);
+    // go back
+    Collections.reverse(w.events);
+    for (GameEvent e : w.events) {
+      w.backTick(e);
+    }
+    System.out.println("stepped back\n" + w);
+    assertEquals(expected, w.toString());
+
   }
 
 }
