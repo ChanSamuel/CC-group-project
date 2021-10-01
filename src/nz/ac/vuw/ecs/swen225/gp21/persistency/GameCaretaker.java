@@ -123,9 +123,10 @@ public class GameCaretaker {
     }
 
     /**
-     * todo
-     * @param clazz
-     * @param name
+     * Registers a given Class object with the static XmlMapper field.
+     *
+     * @param clazz Class object
+     * @param name name to save to XML
      */
     public static void registerMapperSubtype(Class clazz, String name) {
         xmlMapper.registerSubtypes(new NamedType(clazz, name));
