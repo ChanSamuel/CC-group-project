@@ -26,7 +26,7 @@ public class KeyboardConfigurer {
    * @param control : the GUIController object
    */
   @SuppressWarnings("serial")
-  public static void addListener(JPanel page, GUIController control) {
+  public static void addListener(JPanel page, GuiController control) {
     ActionMap actionMap = page.getActionMap();
 
     actionMap.put("MOVE LEFT", new AbstractAction() {

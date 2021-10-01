@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
 
 /**
@@ -19,7 +18,8 @@ import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
  * @author chansamu1 300545169
  *
  */
-public class GUIFrame extends JFrame {
+@SuppressWarnings("serial")
+public class GuiFrame extends JFrame {
 
   /**
    * The menu bar on the frame.
@@ -85,7 +85,7 @@ public class GUIFrame extends JFrame {
    * @param control : The Controller object.
    * @param pages   : The List of pages that can be possibly displayed.
    */
-  public GUIFrame(Controller control, List<Page> pages) {
+  public GuiFrame(Controller control, List<Page> pages) {
     this.control = control;
 
     menuBar.add(fileMenu);

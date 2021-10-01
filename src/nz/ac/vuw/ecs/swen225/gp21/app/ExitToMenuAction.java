@@ -4,7 +4,7 @@ import java.awt.CardLayout;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GUIController;
+import nz.ac.vuw.ecs.swen225.gp21.app.controllers.GuiController;
 
 /**
  * An Action which exits to the main menu. For GUIController, this will also
@@ -26,8 +26,8 @@ public class ExitToMenuAction implements Action {
 
         control.renderer.gameStopped();
 
-        if (control instanceof GUIController) {
-          JFrame frame = ((GUIController) control).getFrame();
+        if (control instanceof GuiController) {
+          JFrame frame = ((GuiController) control).getFrame();
           CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
           cl.show(frame.getContentPane(), "Home page");
         }

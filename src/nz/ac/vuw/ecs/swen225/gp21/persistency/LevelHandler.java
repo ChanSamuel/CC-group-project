@@ -39,7 +39,7 @@ public class LevelHandler {
     /**
      * Array that holds the rendering information for a second actor. It gets populated when the plug in jar is loaded.
      */
-    protected static final InputStream[] inputStreams = new InputStream[2];
+    protected static InputStream[] inputStreams = new InputStream[2];
 
     /**
      * Loads level (determined by which level number) into a given domain.

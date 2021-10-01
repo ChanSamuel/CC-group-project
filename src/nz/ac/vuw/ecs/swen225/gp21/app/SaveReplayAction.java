@@ -37,96 +37,102 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp21.domain.terrain.Wall;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
 
+/**
+ * The action that is used when trying to save a Replay.
+
+ * @author chansamu1 300545169
+ *
+ */
 public class SaveReplayAction implements Action {
 
-	private File saveFile;
-	
-	private XmlMapper xmlMapper;
-	
-	public SaveReplayAction(File saveFile) {
-		this.saveFile = saveFile;
-    this.xmlMapper = registerXML();
-	}
-	
-	@Override
-	public void execute(Controller control) {
-		
-		if (!control.gameLoop.getIsPlaying()) {
-			control.warning("Cannot save unless a game is being played.");
-			return;
-		}
-		
-		if (control.gameLoop.getIsReplay()) {
-			control.warning("Can't save a replay whilst in a replay.");
-			return;
-		}
-		
-		try {
-			control.recorder.setLevel(control.levelNumber);
-			control.recorder.save(saveFile, xmlMapper);
-		} catch (RecorderException e) {
-			control.warning("Something went wrong with saving the replay:\n" + e.getMessage());
-			return;
-		}
-		
-		control.report("Save successful");
-	}
+  /**
+   * The file to save to.
+   */
+  private File saveFile;
 
-	@Override
-	public String actionName() {
-		return "SaveReplayAction";
-	}
-	
-	/**
-	 * NEED TO REGISTER SUBTYPES USING THIS BECAUSE THE RECORDER IS 
-   * UNABLE TO HANDLE THIS BECAUSE OF THE DEPENDENCY 
-   * REQUIREMENTS.
-   * 
-	 * @return the XmlMapper with registered types.
-	 */
-	public static XmlMapper registerXML() {
-	  XmlMapper xmlMapper = new XmlMapper();
-    xmlMapper.registerSubtypes(
-            new NamedType(GameUpdateProxy.class, "UpdateProxy"),
-            new NamedType(DirectMove.class, "DirectMove"),
-            new NamedType(TerrainChange.class, "TerrainChange"),
-            
-            new NamedType(Chip.class, "Chip"),
-            new NamedType(Block.class, "Block"),
-            new NamedType(Monster.class, "Monster"),
+  /**
+   * The XMLMapper to give to recorder.
+   */
+  private XmlMapper xmlMapper;
 
-            new NamedType(KeyItem.class, "KeyItem"),
+  /**
+   * Construct a SaveReplayAction.
 
-            new NamedType(NoMovement.class, "NoMovement"),
-            new NamedType(PlayerController.class, "PlayerController"),
-            new NamedType(RandomMovement.class, "RandomMovement"),
+   * @param saveFile : the file to save to.
+   */
+  public SaveReplayAction(File saveFile) {
+    this.saveFile = saveFile;
+    this.xmlMapper = registerXml();
+  }
 
-            new NamedType(Running.class, "Running"),
-            new NamedType(GameOver.class, "GameOver"),
-            new NamedType(Loading.class, "Loading"),
-            new NamedType(Replaying.class, "Replaying"),
+  @Override
+  public void execute(Controller control) {
 
-            new NamedType(CopperDoor.class, "CopperDoor"),
-            new NamedType(CopperKey.class, "CopperKey"),
-            new NamedType(ExitLock.class, "ExitLock"),
-            new NamedType(ExitTile.class, "ExitTile"),
-            new NamedType(Free.class, "Free"),
-            new NamedType(GoldDoor.class, "GoldDoor"),
-            new NamedType(GoldKey.class, "GoldKey"),
-            new NamedType(GreenDoor.class, "GreenDoor"),
-            new NamedType(GreenKey.class, "GreenKey"),
-            new NamedType(Info.class, "Info"),
-            new NamedType(OneWayEast.class, "OneWayEast"),
-            new NamedType(OneWayNorth.class, "OneWayNorth"),
-            new NamedType(OneWaySouth.class, "OneWaySouth"),
-            new NamedType(OneWayWest.class, "OneWayWest"),
-            new NamedType(SilverDoor.class, "SilverDoor"),
-            new NamedType(SilverKey.class, "SilverKey"),
-            new NamedType(Teleporter.class, "Teleporter"),
-            new NamedType(Treasure.class, "Treasure"),
-            new NamedType(Wall.class, "Wall"));
-      xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.isRepairingNamespaces", false);
-      return xmlMapper;
-	}
+    if (!control.gameLoop.getIsPlaying()) {
+      control.warning("Cannot save unless a game is being played.");
+      return;
+    }
+
+    if (control.gameLoop.getIsReplay()) {
+      control.warning("Can't save a replay whilst in a replay.");
+      return;
+    }
+
+    try {
+      control.recorder.setLevel(control.levelNumber);
+      control.recorder.save(saveFile, xmlMapper);
+    } catch (RecorderException e) {
+      control.warning("Something went wrong with saving the replay:\n" + e.getMessage());
+      return;
+    }
+
+    control.report("Save successful");
+  }
+
+  @Override
+  public String actionName() {
+    return "SaveReplayAction";
+  }
+
+  /**
+   * NEED TO REGISTER SUBTYPES USING THIS BECAUSE THE RECORDER IS UNABLE TO HANDLE
+   * THIS BECAUSE OF THE DEPENDENCY REQUIREMENTS.
+
+   * @return the XmlMapper with registered types.
+   */
+  public static XmlMapper registerXml() {
+    XmlMapper xmlMapper = new XmlMapper();
+    xmlMapper.registerSubtypes(new NamedType(GameUpdateProxy.class, "UpdateProxy"),
+        new NamedType(DirectMove.class, "DirectMove"), new NamedType(TerrainChange.class,
+            "TerrainChange"),
+
+        new NamedType(Chip.class, "Chip"), new NamedType(Block.class, "Block"),
+        new NamedType(Monster.class, "Monster"),
+
+        new NamedType(KeyItem.class, "KeyItem"),
+
+        new NamedType(NoMovement.class, "NoMovement"),
+        new NamedType(PlayerController.class, "PlayerController"),
+        new NamedType(RandomMovement.class, "RandomMovement"),
+
+        new NamedType(Running.class, "Running"), new NamedType(GameOver.class, "GameOver"),
+        new NamedType(Loading.class, "Loading"), new NamedType(Replaying.class, "Replaying"),
+
+        new NamedType(CopperDoor.class, "CopperDoor"), new NamedType(CopperKey.class, "CopperKey"),
+        new NamedType(ExitLock.class, "ExitLock"), new NamedType(ExitTile.class, "ExitTile"),
+        new NamedType(Free.class, "Free"), new NamedType(GoldDoor.class, "GoldDoor"),
+        new NamedType(GoldKey.class, "GoldKey"), new NamedType(GreenDoor.class, "GreenDoor"),
+        new NamedType(GreenKey.class, "GreenKey"), new NamedType(Info.class, "Info"),
+        new NamedType(OneWayEast.class, "OneWayEast"),
+        new NamedType(OneWayNorth.class, "OneWayNorth"),
+        new NamedType(OneWaySouth.class, "OneWaySouth"),
+        new NamedType(OneWayWest.class, "OneWayWest"),
+        new NamedType(SilverDoor.class, "SilverDoor"), new NamedType(SilverKey.class, "SilverKey"),
+        new NamedType(Teleporter.class, "Teleporter"), new NamedType(Treasure.class, "Treasure"),
+        new NamedType(Wall.class, "Wall"));
+    xmlMapper.getFactory().getXMLOutputFactory().setProperty("javax.xml.stream.is"
+        + "RepairingNamespaces", false);
+    return xmlMapper;
+  }
 
 }

@@ -13,11 +13,11 @@ import nz.ac.vuw.ecs.swen225.gp21.app.Controller;
  * @author chansamu1 300545169
  *
  */
-public abstract class GUI extends Controller {
+public abstract class Gui extends Controller {
   /**
    * The JFrame of the GUI.
    */
-  GUIFrame frame;
+  GuiFrame frame;
 
   /**
    * A JPanel which Contains the Game page components.
@@ -32,7 +32,7 @@ public abstract class GUI extends Controller {
   /**
    * Construct a GUI. Nothing is initialised until run() is called.
    */
-  public GUI() {
+  public Gui() {
     super();
   }
 
@@ -47,7 +47,7 @@ public abstract class GUI extends Controller {
         pages.add(homePage);
         pages.add(gamePage);
 
-        frame = new GUIFrame(this, pages);
+        frame = new GuiFrame(this, pages);
 
       });
     } catch (InvocationTargetException e) {

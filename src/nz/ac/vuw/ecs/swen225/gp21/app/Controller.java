@@ -11,7 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.LevelHandler;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
@@ -26,7 +25,7 @@ import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
  * up their Action as a request which gets handled at the very start of each
  * iteration of the game loop.
  * 
- * <p>The game loop is always started before any user-interface code provided by
+ * <p>The game loop should be started before any user-interface code provided by
  * the subclasses is executed.
 
  * @author chansamu1 300545169
@@ -81,8 +80,9 @@ public abstract class Controller {
    * starts the main game loop. After construction, the Controller can be used to
    * make requests to the game by calling this object's methods.
    * 
-   * <p>The game loop thread is always intialised before any subclass' code is
-   * executed. The reason the thread is started on construction is to prevent
+   * <p>The game loop thread should be always intialised before any subclass' code is
+   * executed (this is done by calling start()).
+   * The reason the thread is started on construction is to prevent
    * subclass code from initialising their Controller implementation before the
    * program is able to pick up actions requested by the subclass Controller.
    */
@@ -157,15 +157,23 @@ public abstract class Controller {
     };
 
     try {
-      persister = new Persister(new LevelHandler(), new GameCaretaker(world));
+      persister = new Persister(new GameCaretaker(world));
     } catch (PersistException e) {
       throw new Error("Failed to initalise the Controller because:\n" + e.getMessage(), e);
     }
-
+    
+    start();
+    
+  }
+  
+  /**
+   * Start the GameLoop thread.
+   */
+  private void start() {
     // Open the thread and start it.
     gameLoop = new GameLoop(actions, this);
     Thread t = new Thread(gameLoop);
-
+    
     t.start();
   }
 

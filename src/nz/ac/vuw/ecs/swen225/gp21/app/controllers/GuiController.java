@@ -25,7 +25,7 @@ import nz.ac.vuw.ecs.swen225.gp21.renderer.WrapperJPanel;
  * @author chansamu1 300545169
  *
  */
-public class GUIController extends GUI {
+public class GuiController extends Gui {
 
   /**
    * The file chooser object. This has the ability to choose existing files and
@@ -37,7 +37,7 @@ public class GUIController extends GUI {
    * Construct the GUIController, the listeners and keyboard are not initialised
    * until run() is called.
    */
-  public GUIController() {
+  public GuiController() {
     super();
   }
 
@@ -240,7 +240,7 @@ public class GUIController extends GUI {
 
   /**
    * Bring up a dialog to inform the user.
-   * 
+
    * @param message : the notification message to display.
    */
   protected void report(String message) {
@@ -251,7 +251,7 @@ public class GUIController extends GUI {
 
   /**
    * Bring up a dialog to warn the user of something.
-   * 
+
    * @param message : the warning message to display.
    */
   protected void warning(String message) {
@@ -302,7 +302,8 @@ public class GUIController extends GUI {
       }
     }
     WrapperJPanel.playSound(SoundType.PICK_UP_A_KEY);
-    inform("You have gained a " + item.getColour() + " Key" + ".\n" + "Your current inventory is:\n" + s);
+    inform("You have gained a " + item.getColour() 
+        + " Key" + ".\n" + "Your current inventory is:\n" + s);
   }
 
   @Override
@@ -318,11 +319,13 @@ public class GUIController extends GUI {
     }
 
     if (inventory.isEmpty()) {
-      inform("You have consumed a " + item.getColour() + " key " + ".\n" + "Your current inventory is empty.");
+      inform("You have consumed a " + item.getColour() + " key " 
+          + ".\n" + "Your current inventory is empty.");
       return;
     }
 
-    inform("You have consumed a " + item.getColour() + " key " + ".\n" + "Your current inventory is:\n" + s);
+    inform("You have consumed a " + item.getColour() + " key " 
+          + ".\n" + "Your current inventory is:\n" + s);
   }
 
   @Override
@@ -384,7 +387,7 @@ public class GUIController extends GUI {
 
   /**
    * Gets the JFrame of this GUI. Not great practice, please forgive me...
-   * 
+
    * @return the JFrame.
    */
   public JFrame getFrame() {
