@@ -9,6 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
 /**
  * The worldJPanel provides the main interface of the renderer package, for
@@ -203,6 +204,7 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 
 	@Override
 	public Coord getHeroCoord() {
+		if(domain.getDomainState() instanceof Loading) return null;
 		return domain.getPlayerLocation();
 	}
 

@@ -85,10 +85,13 @@ class ChapJComponent extends JComponent {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
+		if(this.mainJPanel.getHeroCoord()==null) return;
 //		System.out.println("Draw the chap JPanel");
 		super.paintComponent(g);
 		// update the coord and dir.
 		this.coord = mainJPanel.getHeroCoord();
+		if(mainJPanel.getBoard()==null||mainJPanel.getBoard().getTileAt(this.coord)==null||mainJPanel.getBoard().getTileAt(this.coord).getOccupier()==null)
+			return;
 		this.dir = mainJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// if chap's direction change to WEST OR EAST, change the current chapImage,
 		// otherwise don't change.
