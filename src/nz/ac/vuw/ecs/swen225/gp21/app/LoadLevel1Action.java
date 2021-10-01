@@ -56,11 +56,13 @@ public class LoadLevel1Action implements Action, StartAction {
         }
       });
     } catch (InvocationTargetException e) {
-      control.warning("Renderer intialisation interrputed");
-      return;
+      throw new Error(e.getMessage(), e);
+      //control.warning("Renderer intialisation interrputed");
+      //return;
     } catch (InterruptedException e) {
-      control.warning("Renderer intialisation interrputed");
-      return;
+      throw new Error(e.getMessage(), e);
+      //control.warning("Renderer intialisation interrputed");
+      //return;
     }
 
     control.levelNumber = 1;
