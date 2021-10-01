@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp21.renderer;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 /**
  * This is an interface for the manager JPanel which supposed to hold all the other JPanels.
  * @author limeng7 300525081
@@ -61,5 +62,10 @@ public interface MainJPanel {
 	 * @return the level
 	 */
 	public int getLevel();
+	/**
+	 * Get the game state of current game
+	 * @return the game state
+	 */
+	public State getState();
 	
 }

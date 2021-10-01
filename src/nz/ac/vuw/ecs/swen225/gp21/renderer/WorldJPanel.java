@@ -9,6 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Board;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Domain;
+import nz.ac.vuw.ecs.swen225.gp21.domain.State;
 import nz.ac.vuw.ecs.swen225.gp21.domain.state.Loading;
 
 /**
@@ -291,5 +292,9 @@ public class WorldJPanel extends JPanel implements MainJPanel {
 	@Override
 	public int getLevel() {
 		return this.level;
+	}
+	@Override
+	public State getState() {
+		return this.domain.getDomainState();
 	}
 }
