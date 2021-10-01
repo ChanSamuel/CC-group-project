@@ -236,4 +236,21 @@ class ReplayTests {
     assertTrue(passed);
   }
 
+  @Test
+  void testGeneratedEvents() {
+    TestWorld w = new TestWorld();
+    w.loadLevelData(testLevel);
+    w.doneLoading();
+    w.moveChipLeft();
+    w.moveChipLeft();
+    w.moveChipLeft();
+
+    w.update(40);
+    w.update(40);
+    w.update(40);
+    w.update(40);
+
+    assertTrue(w.events.size() == 3);
+  }
+
 }
