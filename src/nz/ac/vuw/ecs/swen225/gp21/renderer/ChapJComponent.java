@@ -8,7 +8,9 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Coord;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 
 /**
- * The hero chap JComponent
+ * The hero chap JComponent's class, this JComponent will draw the hero chap,
+ * it will get repaint every time when chap moves,
+ * chap will get drawn facing different directions based on its direction.
  * 
  * @author limeng7 300525081
  *
@@ -34,14 +36,20 @@ class ChapJComponent extends JComponent {
 	}
 
 	/**
-	 * Initialize this JPanel
+	 * Initialize this JPanel, set up mainJPanel, chap's coord and dir, 
+	 * set the properties of the JPanel, 
+	 * initialize the images and set the default direction of chap.
 	 * 
 	 * @param mainJPanel
 	 */
 	public void init(MainJPanel mainJPanel) {
 		// Set the coord and dir
+		if(mainJPanel==null) return;
 		this.mainJPanel = mainJPanel;
+		if(mainJPanel.getHeroCoord()==null) return;
 		this.coord = mainJPanel.getHeroCoord();
+		if(mainJPanel.getBoard()==null||mainJPanel.getBoard().getTileAt(this.coord)==null||mainJPanel.getBoard().getTileAt(this.coord).getOccupier()==null)
+			return;
 		this.dir = mainJPanel.getBoard().getTileAt(this.coord).getOccupier().dir;
 		// Set the properties of this JPanel
 		setBounds(0, 0, mainJPanel.getBoard().getWidth() * WorldJPanel.TILE_WIDTH,
@@ -71,7 +79,7 @@ class ChapJComponent extends JComponent {
 	}
 
 	/**
-	 * initialize the image
+	 * initialize the image, left chap image and right chap image
 	 */
 	void initImages() {
 		// use gif and set background transparent will make the parent panel keep

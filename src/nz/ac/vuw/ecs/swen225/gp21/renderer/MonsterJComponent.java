@@ -13,7 +13,10 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.Direction;
 import nz.ac.vuw.ecs.swen225.gp21.domain.objects.Monster;
 
 /**
- * This is the monsterJComponent JPanel draws the second actor
+ * This is the monsterJComponent JPanel draws the second actor, 
+ * it will iterate through all the tiles of the board to find the monster tile, and then 
+ * get the inputstream(left and right) to generate an image of the second actor.
+ * it will got drawn on every update, (unlike other elements, which will only get drawn when chap moves.)
  * @author limeng7 300565081
  */
 @SuppressWarnings("serial")
@@ -45,11 +48,12 @@ public class MonsterJComponent extends JComponent {
 		return monsterJComponent;
 	}
 	/**
-	 * initialize this JPanel
+	 * initialize this JPanel, it will set the panel properties, get the monster object, 
+	 * and read the image from inputstream.
 	 * @param mainJPanel
 	 */
 	public void init(MainJPanel mainJPanel) {
-		if(mainJPanel.getLevel()==1)return;
+//		if(mainJPanel.getLevel()==1)return;
 		this.mainJPanel = mainJPanel;
 		// set panel properties
 		setLayout(null);
@@ -63,6 +67,10 @@ public class MonsterJComponent extends JComponent {
 					monster = (Monster) object;
 				}
 			}
+		}
+		if(monster==null) return;
+		if(monster.leftStream==null||monster.rightStream==null) {
+			throw new RuntimeException("inputStream is null");
 		}
 		InputStream ls = monster.leftStream;
 		try {
@@ -78,10 +86,17 @@ public class MonsterJComponent extends JComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(leftDragonImage==null||rightDragonImage==null) {
+			throw new RuntimeException("left dragon image or right dragon image is null");
+		}
 	}
-
+	/**
+	 * This will draw dragon facing different directions based on the dragon's direction.
+	 * 
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
+		if(monster==null) return;
 //		super.paintComponent(g);
 //		System.out.println("draw dragon col= " + monster.currentTile.location.getColumn() + "row = "
 //				+ monster.currentTile.location.getRow());
