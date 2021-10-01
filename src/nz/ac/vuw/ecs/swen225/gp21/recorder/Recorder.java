@@ -15,7 +15,7 @@ public class Recorder {
   private List<GameUpdate> updates;
   private int pointer;
   private boolean loadedGame = false;
-  static Recording mem;
+   Recording mem;
 
   /**
    * Constructs a new Recorder object.
