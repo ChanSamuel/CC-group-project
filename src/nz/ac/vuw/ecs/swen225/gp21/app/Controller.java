@@ -11,7 +11,6 @@ import nz.ac.vuw.ecs.swen225.gp21.domain.GameEvent;
 import nz.ac.vuw.ecs.swen225.gp21.domain.Item;
 import nz.ac.vuw.ecs.swen225.gp21.domain.World;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.GameCaretaker;
-import nz.ac.vuw.ecs.swen225.gp21.persistency.LevelHandler;
 import nz.ac.vuw.ecs.swen225.gp21.persistency.PersistException;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp21.recorder.RecorderException;
@@ -157,7 +156,7 @@ public abstract class Controller {
     };
 
     try {
-      persister = new Persister(new LevelHandler(), new GameCaretaker(world));
+      persister = new Persister(new GameCaretaker(world));
     } catch (PersistException e) {
       throw new Error("Failed to initalise the Controller because:\n" + e.getMessage(), e);
     }
