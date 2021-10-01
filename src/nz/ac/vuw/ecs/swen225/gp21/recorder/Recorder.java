@@ -94,18 +94,23 @@ public class Recorder {
       throw new RecorderException("Recording not loaded. Load a game to navigate the recording.");
     }
     List<GameUpdate> l = new LinkedList<>();
-    if (pointer > 0) {
-      pointer--;
-    } else {
-      return l; // return empty list if reached first command
+    // check if reached first command
+    if (pointer < 0 || updates.isEmpty()) {
+      System.out.println("Can't go back further");
+      return l;
     }
-
+    if (pointer >= updates.size()) {
+      pointer = updates.size() - 1;
+    }
     // make a list of all commands that happened within one update
-    while (pointer > 0) {
-      l.add(updates.get(pointer));
-      if (updates.get(pointer).getUpdateIndex() == updates.get(pointer - 1).getUpdateIndex()) {
-        pointer--;
-      } else {
+    while (pointer > -1) {
+      l.add(updates.get(pointer--));
+      if (pointer - 1 < -1) {
+        break; // avoid out of bounds error
+      }
+      System.out.println("pointer:" + pointer + " updates size:" + updates.size() + " prev");
+      if (updates.get(pointer + 1).getUpdateIndex() != updates.get(pointer).getUpdateIndex()) {
+        // check that the next update is a part of this update. if it is not, then exit.
         break;
       }
     }
@@ -155,7 +160,7 @@ public class Recorder {
 
   /**
    * Sets the level to which the current recorder object refers.
-   * 
+   *
    * @param level
    * @return true if level input is valid (i.e. >1)
    */
@@ -169,7 +174,7 @@ public class Recorder {
 
   /**
    * Returns the level to which the recording object refers.
-   * 
+   *
    * @return the level to which this recording object refers.
    */
   public int getLevel() {
