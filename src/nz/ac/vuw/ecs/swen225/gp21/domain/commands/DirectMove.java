@@ -75,8 +75,9 @@ public final class DirectMove extends GenericEvent implements Command {
   private GameObject getObjectToMove(World w, Coord c) {
     Tile t = w.getTileAt(c);
     if (!t.isTileOccupied()) {
-      throw new RuntimeException(
-          "Coord: " + c + " is empty! Yet direct move expected it to be occupied!");
+      throw new RuntimeException("Coord: " + c
+          + " is empty! Yet direct move expected it to be occupied! Was trying to move obj at: "
+          + beforePos + " to " + afterPos + "\n\n" + w);
     }
     return t.getOccupier();
   }
